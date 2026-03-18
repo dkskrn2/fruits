@@ -1,0 +1,1723 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>제주 한라봉 - 과일다리</title>
+    <link rel="stylesheet" href="../../styles/design-system.css">
+    <link rel="stylesheet" href="../../styles/components.css">
+    <style>
+        body {
+            padding-bottom: 80px;
+        }
+
+        /* Header */
+        .product-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            max-width: var(--max-width-mobile);
+            margin: 0 auto;
+            height: var(--header-height);
+            background: var(--color-white);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 var(--space-4);
+            z-index: var(--z-sticky);
+            border-bottom: 1px solid var(--color-gray-200);
+            transition: all var(--transition-base);
+        }
+
+        .product-header.transparent {
+            background: transparent;
+            border-bottom: none;
+        }
+
+        .product-header.transparent .header-icon {
+            color: var(--color-white);
+            text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+        }
+
+        .header-icon {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            border-radius: var(--radius-full);
+            background: rgba(255,255,255,0.9);
+        }
+
+        .product-header.transparent .header-icon {
+            background: rgba(0,0,0,0.2);
+        }
+
+        .header-icon:active {
+            transform: scale(0.9);
+        }
+
+        .header-actions {
+            display: flex;
+            gap: var(--space-2);
+        }
+
+        /* Image Gallery */
+        .image-gallery {
+            position: relative;
+            width: 100%;
+            height: 430px;
+            background: var(--color-gray-100);
+            overflow: hidden;
+        }
+
+        .gallery-slider {
+            display: flex;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-slide {
+            min-width: 100%;
+            height: 100%;
+            position: relative;
+        }
+
+        .gallery-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .gallery-indicators {
+            position: absolute;
+            bottom: var(--space-4);
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: var(--space-2);
+            z-index: 10;
+        }
+
+        .gallery-indicator {
+            width: 6px;
+            height: 6px;
+            border-radius: var(--radius-full);
+            background: rgba(255,255,255,0.5);
+            transition: all var(--transition-fast);
+        }
+
+        .gallery-indicator.active {
+            width: 20px;
+            background: var(--color-white);
+        }
+
+        .gallery-badge {
+            position: absolute;
+            top: var(--space-4);
+            left: var(--space-4);
+            padding: var(--space-2) var(--space-3);
+            background: var(--color-error);
+            color: var(--color-white);
+            font-size: var(--font-size-sm);
+            font-weight: var(--font-weight-bold);
+            border-radius: var(--radius-lg);
+            z-index: 10;
+        }
+
+        /* Product Info Section */
+        .product-info {
+            padding: var(--space-5) var(--space-4);
+        }
+
+        .product-category {
+            font-size: var(--font-size-sm);
+            color: var(--color-primary);
+            font-weight: var(--font-weight-medium);
+            margin-bottom: var(--space-2);
+        }
+
+        .product-name {
+            font-size: var(--font-size-2xl);
+            font-weight: var(--font-weight-bold);
+            color: var(--color-gray-900);
+            line-height: var(--line-height-tight);
+            margin-bottom: var(--space-3);
+        }
+
+        .product-desc {
+            font-size: var(--font-size-base);
+            color: var(--color-gray-600);
+            line-height: var(--line-height-relaxed);
+            margin-bottom: var(--space-4);
+        }
+
+        .product-rating {
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+            margin-bottom: var(--space-5);
+        }
+
+        .rating-stars {
+            display: flex;
+            gap: 2px;
+            font-size: 16px;
+        }
+
+        .rating-score {
+            font-size: var(--font-size-base);
+            font-weight: var(--font-weight-semibold);
+            color: var(--color-gray-900);
+        }
+
+        .rating-count {
+            font-size: var(--font-size-sm);
+            color: var(--color-gray-500);
+        }
+
+        /* Brix Indicator */
+        .brix-section {
+            background: linear-gradient(135deg, #FFF3E0 0%, #FFE0B2 100%);
+            padding: var(--space-4);
+            border-radius: var(--radius-xl);
+            margin-bottom: var(--space-5);
+        }
+
+        .brix-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: var(--space-3);
+        }
+
+        .brix-label {
+            font-size: var(--font-size-base);
+            font-weight: var(--font-weight-semibold);
+            color: #E65100;
+        }
+
+        .brix-value {
+            font-size: var(--font-size-xl);
+            font-weight: var(--font-weight-bold);
+            color: #E65100;
+        }
+
+        .brix-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(255,255,255,0.5);
+            border-radius: var(--radius-full);
+            overflow: hidden;
+            margin-bottom: var(--space-2);
+        }
+
+        .brix-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #FF6F00, #FFD93D);
+            border-radius: var(--radius-full);
+            transition: width 1s ease;
+        }
+
+        .brix-desc {
+            font-size: var(--font-size-sm);
+            color: #BF360C;
+            text-align: center;
+        }
+
+        /* Product Meta */
+        .product-meta {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-3);
+            padding: var(--space-4);
+            background: var(--color-gray-50);
+            border-radius: var(--radius-lg);
+            margin-bottom: var(--space-5);
+        }
+
+        .meta-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .meta-label {
+            font-size: var(--font-size-sm);
+            color: var(--color-gray-600);
+        }
+
+        .meta-value {
+            font-size: var(--font-size-base);
+            font-weight: var(--font-weight-medium);
+            color: var(--color-gray-900);
+        }
+
+        /* Price Section */
+        .price-section {
+            padding: var(--space-5) var(--space-4);
+            border-top: 1px solid var(--color-gray-200);
+            border-bottom: 1px solid var(--color-gray-200);
+        }
+
+        .price-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: var(--space-3);
+        }
+
+        .price-label {
+            font-size: var(--font-size-base);
+            color: var(--color-gray-600);
+        }
+
+        .price-original {
+            font-size: var(--font-size-lg);
+            color: var(--color-gray-500);
+            text-decoration: line-through;
+        }
+
+        .price-discount-badge {
+            padding: var(--space-1) var(--space-2);
+            background: var(--color-error);
+            color: var(--color-white);
+            font-size: var(--font-size-base);
+            font-weight: var(--font-weight-bold);
+            border-radius: var(--radius-sm);
+            margin-right: var(--space-2);
+        }
+
+        .price-current {
+            font-size: var(--font-size-3xl);
+            font-weight: var(--font-weight-bold);
+            color: var(--color-gray-900);
+        }
+
+        .price-unit {
+            font-size: var(--font-size-lg);
+            font-weight: var(--font-weight-regular);
+            color: var(--color-gray-600);
+            margin-left: var(--space-1);
+        }
+
+        /* Options Section */
+        .options-section {
+            padding: var(--space-5) var(--space-4);
+        }
+
+        .option-group {
+            margin-bottom: var(--space-5);
+        }
+
+        .option-label {
+            font-size: var(--font-size-base);
+            font-weight: var(--font-weight-semibold);
+            color: var(--color-gray-900);
+            margin-bottom: var(--space-3);
+        }
+
+        .option-buttons {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--space-2);
+        }
+
+        .option-button {
+            padding: var(--space-3);
+            border: 1px solid var(--color-gray-300);
+            border-radius: var(--radius-lg);
+            background: var(--color-white);
+            font-size: var(--font-size-base);
+            font-weight: var(--font-weight-medium);
+            color: var(--color-gray-700);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            text-align: center;
+        }
+
+        .option-button:active {
+            transform: scale(0.97);
+        }
+
+        .option-button.selected {
+            border-color: var(--color-primary);
+            background: var(--color-primary-light);
+            color: var(--color-primary-dark);
+            font-weight: var(--font-weight-bold);
+        }
+
+        .option-price {
+            display: block;
+            font-size: var(--font-size-sm);
+            color: var(--color-gray-600);
+            margin-top: var(--space-1);
+        }
+
+        .option-button.selected .option-price {
+            color: var(--color-primary-dark);
+        }
+
+        /* Quantity Selector */
+        .quantity-selector {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: var(--space-4);
+            background: var(--color-gray-50);
+            border-radius: var(--radius-lg);
+        }
+
+        .quantity-label {
+            font-size: var(--font-size-base);
+            font-weight: var(--font-weight-medium);
+            color: var(--color-gray-900);
+        }
+
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+        }
+
+        .quantity-btn {
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--color-gray-300);
+            border-radius: var(--radius-lg);
+            background: var(--color-white);
+            font-size: 20px;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            user-select: none;
+        }
+
+        .quantity-btn:active {
+            transform: scale(0.9);
+            background: var(--color-gray-100);
+        }
+
+        .quantity-value {
+            min-width: 40px;
+            text-align: center;
+            font-size: var(--font-size-lg);
+            font-weight: var(--font-weight-semibold);
+            color: var(--color-gray-900);
+        }
+
+        /* Delivery Info */
+        .delivery-info {
+            padding: var(--space-4);
+            background: var(--color-primary-light);
+            border-radius: var(--radius-lg);
+            margin-top: var(--space-4);
+        }
+
+        .delivery-row {
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+            margin-bottom: var(--space-2);
+        }
+
+        .delivery-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .delivery-icon {
+            font-size: 20px;
+        }
+
+        .delivery-text {
+            font-size: var(--font-size-sm);
+            color: var(--color-gray-700);
+        }
+
+        .delivery-highlight {
+            font-weight: var(--font-weight-bold);
+            color: var(--color-primary-dark);
+        }
+
+        /* Tabs */
+        .product-tabs {
+            position: sticky;
+            top: var(--header-height);
+            background: var(--color-white);
+            border-bottom: 1px solid var(--color-gray-200);
+            z-index: var(--z-sticky);
+            display: flex;
+            overflow-x: auto;
+        }
+
+        .product-tab {
+            flex: 1;
+            min-width: 80px;
+            padding: var(--space-4);
+            font-size: var(--font-size-base);
+            font-weight: var(--font-weight-medium);
+            color: var(--color-gray-600);
+            background: transparent;
+            border: none;
+            border-bottom: 2px solid transparent;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            white-space: nowrap;
+        }
+
+        .product-tab.active {
+            color: var(--color-primary);
+            border-bottom-color: var(--color-primary);
+        }
+
+        .tab-content {
+            display: none;
+            padding: var(--space-5) var(--space-4);
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Product Detail Content */
+        .detail-section {
+            margin-bottom: var(--space-6);
+        }
+
+        .detail-title {
+            font-size: var(--font-size-lg);
+            font-weight: var(--font-weight-bold);
+            color: var(--color-gray-900);
+            margin-bottom: var(--space-3);
+        }
+
+        .detail-image {
+            width: 100%;
+            border-radius: var(--radius-lg);
+            margin-bottom: var(--space-3);
+        }
+
+        .detail-text {
+            font-size: var(--font-size-base);
+            color: var(--color-gray-700);
+            line-height: var(--line-height-relaxed);
+            margin-bottom: var(--space-3);
+        }
+
+        .detail-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .detail-list li {
+            padding: var(--space-2) 0;
+            padding-left: var(--space-4);
+            position: relative;
+            font-size: var(--font-size-base);
+            color: var(--color-gray-700);
+            line-height: var(--line-height-relaxed);
+        }
+
+        .detail-list li:before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--color-primary);
+            font-weight: var(--font-weight-bold);
+        }
+
+        /* Review Section */
+        .review-summary {
+            display: flex;
+            align-items: center;
+            gap: var(--space-5);
+            padding: var(--space-5);
+            background: var(--color-gray-50);
+            border-radius: var(--radius-lg);
+            margin-bottom: var(--space-5);
+        }
+
+        .review-score-box {
+            text-align: center;
+        }
+
+        .review-score-large {
+            font-size: 48px;
+            font-weight: var(--font-weight-bold);
+            color: var(--color-gray-900);
+            line-height: 1;
+            margin-bottom: var(--space-2);
+        }
+
+        .review-score-stars {
+            font-size: 20px;
+            margin-bottom: var(--space-1);
+        }
+
+        .review-score-count {
+            font-size: var(--font-size-sm);
+            color: var(--color-gray-600);
+        }
+
+        .review-bars {
+            flex: 1;
+        }
+
+        .review-bar-row {
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+            margin-bottom: var(--space-2);
+        }
+
+        .review-bar-label {
+            font-size: var(--font-size-sm);
+            color: var(--color-gray-600);
+            width: 40px;
+        }
+
+        .review-bar-track {
+            flex: 1;
+            height: 6px;
+            background: var(--color-gray-200);
+            border-radius: var(--radius-full);
+            overflow: hidden;
+        }
+
+        .review-bar-fill {
+            height: 100%;
+            background: var(--color-accent);
+            border-radius: var(--radius-full);
+        }
+
+        .review-bar-count {
+            font-size: var(--font-size-sm);
+            color: var(--color-gray-600);
+            width: 30px;
+            text-align: right;
+        }
+
+        .review-card {
+            padding: var(--space-4);
+            border: 1px solid var(--color-gray-200);
+            border-radius: var(--radius-lg);
+            margin-bottom: var(--space-3);
+        }
+
+        .review-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: var(--space-3);
+        }
+
+        .review-user {
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+        }
+
+        .review-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: var(--radius-full);
+            background: var(--color-gray-200);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .review-user-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .review-username {
+            font-size: var(--font-size-base);
+            font-weight: var(--font-weight-semibold);
+            color: var(--color-gray-900);
+        }
+
+        .review-date {
+            font-size: var(--font-size-xs);
+            color: var(--color-gray-500);
+        }
+
+        .review-stars {
+            font-size: 14px;
+        }
+
+        .review-content {
+            font-size: var(--font-size-base);
+            color: var(--color-gray-700);
+            line-height: var(--line-height-relaxed);
+            margin-bottom: var(--space-3);
+        }
+
+        .review-images {
+            display: flex;
+            gap: var(--space-2);
+            overflow-x: auto;
+            margin-bottom: var(--space-3);
+        }
+
+        .review-image {
+            width: 80px;
+            height: 80px;
+            border-radius: var(--radius-lg);
+            object-fit: cover;
+            cursor: pointer;
+        }
+
+        .review-helpful {
+            display: flex;
+            align-items: center;
+            gap: var(--space-1);
+            font-size: var(--font-size-sm);
+            color: var(--color-gray-600);
+        }
+
+        /* Related Products */
+        .related-products {
+            padding: var(--space-5) var(--space-4);
+            background: var(--color-gray-50);
+        }
+
+        .related-title {
+            font-size: var(--font-size-lg);
+            font-weight: var(--font-weight-bold);
+            color: var(--color-gray-900);
+            margin-bottom: var(--space-4);
+        }
+
+        .related-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--space-3);
+        }
+
+        /* Bottom Action Bar */
+        .bottom-action-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            max-width: var(--max-width-mobile);
+            margin: 0 auto;
+            background: var(--color-white);
+            border-top: 1px solid var(--color-gray-200);
+            padding: var(--space-3) var(--space-4);
+            display: flex;
+            gap: var(--space-2);
+            z-index: var(--z-sticky);
+            box-shadow: 0 -4px 12px rgba(0,0,0,0.08);
+        }
+
+        .wishlist-btn {
+            width: 52px;
+            height: 52px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--color-gray-300);
+            border-radius: var(--radius-lg);
+            background: var(--color-white);
+            font-size: 24px;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+
+        .wishlist-btn:active {
+            transform: scale(0.95);
+        }
+
+        .wishlist-btn.active {
+            background: var(--color-error);
+            border-color: var(--color-error);
+            color: var(--color-white);
+        }
+
+        .action-buttons {
+            flex: 1;
+            display: flex;
+            gap: var(--space-2);
+        }
+
+        .btn-buy-now {
+            flex: 1;
+            padding: var(--space-4);
+            border: none;
+            border-radius: var(--radius-lg);
+            background: var(--color-gray-800);
+            color: var(--color-white);
+            font-size: var(--font-size-base);
+            font-weight: var(--font-weight-semibold);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+
+        .btn-buy-now:active {
+            transform: scale(0.98);
+            background: var(--color-gray-900);
+        }
+
+        .btn-add-cart {
+            flex: 1;
+            padding: var(--space-4);
+            border: none;
+            border-radius: var(--radius-lg);
+            background: var(--color-primary);
+            color: var(--color-white);
+            font-size: var(--font-size-base);
+            font-weight: var(--font-weight-semibold);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+
+        .btn-add-cart:active {
+            transform: scale(0.98);
+            background: var(--color-primary-dark);
+        }
+
+        /* Loading Animation */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease;
+        }
+
+        /* Q&A Section */
+        .qna-item {
+            border-bottom: 1px solid var(--color-gray-200);
+            padding: var(--space-4) 0;
+        }
+
+        .qna-question {
+            display: flex;
+            align-items: flex-start;
+            gap: var(--space-2);
+            margin-bottom: var(--space-2);
+        }
+
+        .qna-badge {
+            padding: 2px var(--space-2);
+            background: var(--color-primary-light);
+            color: var(--color-primary-dark);
+            font-size: var(--font-size-xs);
+            font-weight: var(--font-weight-bold);
+            border-radius: var(--radius-sm);
+        }
+
+        .qna-text {
+            flex: 1;
+            font-size: var(--font-size-base);
+            color: var(--color-gray-900);
+            font-weight: var(--font-weight-medium);
+        }
+
+        .qna-answer {
+            padding-left: var(--space-5);
+            font-size: var(--font-size-sm);
+            color: var(--color-gray-600);
+            line-height: var(--line-height-relaxed);
+        }
+
+        .qna-answer-badge {
+            display: inline-block;
+            padding: 2px var(--space-2);
+            background: var(--color-gray-100);
+            color: var(--color-gray-700);
+            font-size: var(--font-size-xs);
+            font-weight: var(--font-weight-bold);
+            border-radius: var(--radius-sm);
+            margin-right: var(--space-1);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="product-header transparent" id="productHeader">
+        <div class="header-icon" onclick="history.back()">←</div>
+        <div class="header-actions">
+            <div class="header-icon">🏠</div>
+            <div class="header-icon">🔍</div>
+        </div>
+    </header>
+
+    <!-- Image Gallery -->
+    <div class="image-gallery">
+        <div class="gallery-badge">30% 할인</div>
+        <div class="gallery-slider" id="gallerySlider">
+            <div class="gallery-slide">
+                <img src="https://images.unsplash.com/photo-1611080626919-7cf5a9dbab5b?w=800&q=80" alt="제주 한라봉 1">
+            </div>
+            <div class="gallery-slide">
+                <img src="https://images.unsplash.com/photo-1557800636-894a64c1696f?w=800&q=80" alt="제주 한라봉 2">
+            </div>
+            <div class="gallery-slide">
+                <img src="https://images.unsplash.com/photo-1582979512210-99b6a53386f9?w=800&q=80" alt="제주 한라봉 3">
+            </div>
+            <div class="gallery-slide">
+                <img src="https://images.unsplash.com/photo-1618897996318-5a901fa6ca71?w=800&q=80" alt="제주 한라봉 4">
+            </div>
+        </div>
+        <div class="gallery-indicators" id="galleryIndicators">
+            <div class="gallery-indicator active"></div>
+            <div class="gallery-indicator"></div>
+            <div class="gallery-indicator"></div>
+            <div class="gallery-indicator"></div>
+        </div>
+    </div>
+
+    <!-- Product Info -->
+    <div class="product-info fade-in">
+        <div class="product-category">감귤류 · 제주 특산물</div>
+        <h1 class="product-name">프리미엄 제주 한라봉</h1>
+        <p class="product-desc">한라산 청정 자연에서 자란 최상급 한라봉입니다. 높은 당도와 풍부한 과즙, 부드러운 식감이 특징입니다.</p>
+
+        <div class="product-rating">
+            <div class="rating-stars">★★★★★</div>
+            <span class="rating-score">4.8</span>
+            <span class="rating-count">(847개 리뷰)</span>
+        </div>
+
+        <!-- Brix Section -->
+        <div class="brix-section">
+            <div class="brix-header">
+                <span class="brix-label">🍊 당도 (Brix)</span>
+                <span class="brix-value">13.5°</span>
+            </div>
+            <div class="brix-bar">
+                <div class="brix-fill" style="width: 90%"></div>
+            </div>
+            <div class="brix-desc">최상급 당도 / 신선도 보장</div>
+        </div>
+
+        <!-- Product Meta -->
+        <div class="product-meta">
+            <div class="meta-row">
+                <span class="meta-label">원산지</span>
+                <span class="meta-value">제주특별자치도 서귀포시</span>
+            </div>
+            <div class="meta-row">
+                <span class="meta-label">생산자</span>
+                <span class="meta-value">제주 한라농원</span>
+            </div>
+            <div class="meta-row">
+                <span class="meta-label">수확시기</span>
+                <span class="meta-value">2026년 1월 ~ 3월</span>
+            </div>
+            <div class="meta-row">
+                <span class="meta-label">보관방법</span>
+                <span class="meta-value">냉장보관 (0~5°C)</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Price Section -->
+    <div class="price-section">
+        <div class="price-row">
+            <span class="price-label">정가</span>
+            <span class="price-original">45,000원</span>
+        </div>
+        <div class="price-row">
+            <div style="display: flex; align-items: center;">
+                <span class="price-discount-badge">30%</span>
+                <span class="price-label">할인가</span>
+            </div>
+            <div>
+                <span class="price-current">31,500</span>
+                <span class="price-unit">원</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Options Section -->
+    <div class="options-section">
+        <div class="option-group">
+            <div class="option-label">중량 선택</div>
+            <div class="option-buttons">
+                <button class="option-button" onclick="selectOption(this, '2kg')">
+                    2kg (6~8개)
+                    <span class="option-price">31,500원</span>
+                </button>
+                <button class="option-button selected" onclick="selectOption(this, '3kg')">
+                    3kg (9~12개)
+                    <span class="option-price">45,000원</span>
+                </button>
+                <button class="option-button" onclick="selectOption(this, '5kg')">
+                    5kg (15~20개)
+                    <span class="option-price">69,000원</span>
+                </button>
+                <button class="option-button" onclick="selectOption(this, '10kg')">
+                    10kg (30~40개)
+                    <span class="option-price">125,000원</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="option-group">
+            <div class="option-label">포장 선택</div>
+            <div class="option-buttons">
+                <button class="option-button selected" onclick="selectOption(this, 'standard')">
+                    기본 포장
+                    <span class="option-price">+0원</span>
+                </button>
+                <button class="option-button" onclick="selectOption(this, 'gift')">
+                    선물 포장
+                    <span class="option-price">+5,000원</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Quantity Selector -->
+        <div class="quantity-selector">
+            <span class="quantity-label">수량</span>
+            <div class="quantity-controls">
+                <div class="quantity-btn" onclick="changeQuantity(-1)">−</div>
+                <span class="quantity-value" id="quantity">1</span>
+                <div class="quantity-btn" onclick="changeQuantity(1)">+</div>
+            </div>
+        </div>
+
+        <!-- Delivery Info -->
+        <div class="delivery-info">
+            <div class="delivery-row">
+                <span class="delivery-icon">🚚</span>
+                <span class="delivery-text">
+                    <span class="delivery-highlight">새벽 배송 가능</span> (오후 7시 이전 주문 시)
+                </span>
+            </div>
+            <div class="delivery-row">
+                <span class="delivery-icon">📦</span>
+                <span class="delivery-text">
+                    <span class="delivery-highlight">무료 배송</span> (5만원 이상 구매 시)
+                </span>
+            </div>
+            <div class="delivery-row">
+                <span class="delivery-icon">❄️</span>
+                <span class="delivery-text">신선도 유지를 위한 아이스팩 포장</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="product-tabs">
+        <button class="product-tab active" onclick="switchTab(0)">상품정보</button>
+        <button class="product-tab" onclick="switchTab(1)">상세정보</button>
+        <button class="product-tab" onclick="switchTab(2)">리뷰 (847)</button>
+        <button class="product-tab" onclick="switchTab(3)">Q&A</button>
+        <button class="product-tab" onclick="switchTab(4)">배송정보</button>
+    </div>
+
+    <!-- Tab Contents -->
+    <div id="tabContent0" class="tab-content active">
+        <div class="detail-section">
+            <h3 class="detail-title">제품 특징</h3>
+            <ul class="detail-list">
+                <li>제주 청정 지역에서 재배된 프리미엄 한라봉</li>
+                <li>당도 13.5° 이상의 최상급 품질</li>
+                <li>껍질이 얇고 과즙이 풍부함</li>
+                <li>비타민C가 풍부하여 면역력 강화에 효과적</li>
+                <li>씨가 없어 먹기 편리함</li>
+                <li>독특한 향과 달콤한 맛</li>
+            </ul>
+        </div>
+
+        <div class="detail-section">
+            <h3 class="detail-title">영양 정보</h3>
+            <div class="product-meta">
+                <div class="meta-row">
+                    <span class="meta-label">열량 (100g 당)</span>
+                    <span class="meta-value">50 kcal</span>
+                </div>
+                <div class="meta-row">
+                    <span class="meta-label">비타민C</span>
+                    <span class="meta-value">40mg (1일 권장량의 40%)</span>
+                </div>
+                <div class="meta-row">
+                    <span class="meta-label">식이섬유</span>
+                    <span class="meta-value">2.3g</span>
+                </div>
+                <div class="meta-row">
+                    <span class="meta-label">당류</span>
+                    <span class="meta-value">11g</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="detail-section">
+            <h3 class="detail-title">보관 및 섭취 방법</h3>
+            <p class="detail-text">
+                구매 후 냉장고에 보관하시면 신선함을 오래 유지할 수 있습니다.
+                섭취 1시간 전에 상온에 두시면 더욱 달콤한 맛을 느끼실 수 있습니다.
+            </p>
+            <ul class="detail-list">
+                <li>냉장 보관 시 2주까지 신선 보관 가능</li>
+                <li>직사광선을 피해 서늘한 곳에 보관</li>
+                <li>씻지 않은 상태로 보관하는 것이 좋음</li>
+                <li>먹기 전 흐르는 물에 깨끗이 씻어주세요</li>
+            </ul>
+        </div>
+    </div>
+
+    <div id="tabContent1" class="tab-content">
+        <div class="detail-section">
+            <img src="https://images.unsplash.com/photo-1547514701-42782101795e?w=800&q=80" alt="상세 이미지 1" class="detail-image">
+            <h3 class="detail-title">제주의 맛, 한라봉</h3>
+            <p class="detail-text">
+                제주 한라산 청정 자연환경에서 자란 한라봉은 일교차가 큰 기후 특성 덕분에
+                당도가 높고 신맛과 단맛의 조화가 완벽합니다. 햇볕을 충분히 받아
+                영양소가 가득하며, 깨끗한 제주의 물로 자라 신선함이 살아있습니다.
+            </p>
+        </div>
+
+        <div class="detail-section">
+            <img src="https://images.unsplash.com/photo-1557800634-7bf3c7305596?w=800&q=80" alt="상세 이미지 2" class="detail-image">
+            <h3 class="detail-title">엄격한 선별 과정</h3>
+            <p class="detail-text">
+                모든 한라봉은 당도 측정과 외관 검사를 거쳐 최상급만을 선별합니다.
+                크기가 균일하고 색이 선명하며, 껍질에 흠집이 없는 제품만을
+                고객님께 전달해 드립니다.
+            </p>
+        </div>
+
+        <div class="detail-section">
+            <img src="https://images.unsplash.com/photo-1590164503778-97cada2d4388?w=800&q=80" alt="상세 이미지 3" class="detail-image">
+            <h3 class="detail-title">신선 배송 시스템</h3>
+            <p class="detail-text">
+                수확 직후 냉장 보관하여 신선도를 유지하며, 아이스팩과 완충재를
+                사용한 안전 포장으로 배송합니다. 새벽 배송 서비스를 통해
+                가장 신선한 상태로 받아보실 수 있습니다.
+            </p>
+        </div>
+    </div>
+
+    <div id="tabContent2" class="tab-content">
+        <!-- Review Summary -->
+        <div class="review-summary">
+            <div class="review-score-box">
+                <div class="review-score-large">4.8</div>
+                <div class="review-score-stars">★★★★★</div>
+                <div class="review-score-count">847개 리뷰</div>
+            </div>
+            <div class="review-bars">
+                <div class="review-bar-row">
+                    <span class="review-bar-label">5점</span>
+                    <div class="review-bar-track">
+                        <div class="review-bar-fill" style="width: 78%"></div>
+                    </div>
+                    <span class="review-bar-count">660</span>
+                </div>
+                <div class="review-bar-row">
+                    <span class="review-bar-label">4점</span>
+                    <div class="review-bar-track">
+                        <div class="review-bar-fill" style="width: 15%"></div>
+                    </div>
+                    <span class="review-bar-count">127</span>
+                </div>
+                <div class="review-bar-row">
+                    <span class="review-bar-label">3점</span>
+                    <div class="review-bar-track">
+                        <div class="review-bar-fill" style="width: 5%"></div>
+                    </div>
+                    <span class="review-bar-count">42</span>
+                </div>
+                <div class="review-bar-row">
+                    <span class="review-bar-label">2점</span>
+                    <div class="review-bar-track">
+                        <div class="review-bar-fill" style="width: 1%"></div>
+                    </div>
+                    <span class="review-bar-count">12</span>
+                </div>
+                <div class="review-bar-row">
+                    <span class="review-bar-label">1점</span>
+                    <div class="review-bar-track">
+                        <div class="review-bar-fill" style="width: 1%"></div>
+                    </div>
+                    <span class="review-bar-count">6</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Review Cards -->
+        <div class="review-card">
+            <div class="review-header">
+                <div class="review-user">
+                    <div class="review-avatar">👩</div>
+                    <div class="review-user-info">
+                        <div class="review-username">김지영</div>
+                        <div class="review-date">2026년 3월 15일</div>
+                    </div>
+                </div>
+                <div class="review-stars">★★★★★</div>
+            </div>
+            <div class="review-content">
+                너무 달고 맛있어요! 한라봉 특유의 향이 진하고 과즙이 정말 풍부합니다.
+                껍질도 얇아서 먹기 편하고, 가족들 모두 맛있게 먹었어요.
+                배송도 빠르고 포장 상태도 완벽했습니다. 다음에 또 주문할게요!
+            </div>
+            <div class="review-images">
+                <img src="https://images.unsplash.com/photo-1557800636-894a64c1696f?w=200&q=80" alt="리뷰 이미지" class="review-image">
+                <img src="https://images.unsplash.com/photo-1582979512210-99b6a53386f9?w=200&q=80" alt="리뷰 이미지" class="review-image">
+            </div>
+            <div class="review-helpful">
+                👍 도움돼요 (124)
+            </div>
+        </div>
+
+        <div class="review-card">
+            <div class="review-header">
+                <div class="review-user">
+                    <div class="review-avatar">🧑</div>
+                    <div class="review-user-info">
+                        <div class="review-username">박민수</div>
+                        <div class="review-date">2026년 3월 12일</div>
+                    </div>
+                </div>
+                <div class="review-stars">★★★★★</div>
+            </div>
+            <div class="review-content">
+                선물용으로 구매했는데 너무 만족스러워요. 크기도 고르고
+                당도도 높아서 받으신 분이 정말 좋아하셨습니다.
+                선물 포장도 깔끔하게 잘 되어있어서 좋았어요. 강력 추천합니다!
+            </div>
+            <div class="review-helpful">
+                👍 도움돼요 (89)
+            </div>
+        </div>
+
+        <div class="review-card">
+            <div class="review-header">
+                <div class="review-user">
+                    <div class="review-avatar">👨</div>
+                    <div class="review-user-info">
+                        <div class="review-username">이준호</div>
+                        <div class="review-date">2026년 3월 10일</div>
+                    </div>
+                </div>
+                <div class="review-stars">★★★★★</div>
+            </div>
+            <div class="review-content">
+                새벽 배송으로 주문했는데 정말 신선한 상태로 도착했어요.
+                한라봉이 이렇게 맛있는 과일인지 처음 알았습니다.
+                당도가 높으면서도 신맛이 적당해서 아이들도 잘 먹네요.
+                재구매 의사 200%입니다!
+            </div>
+            <div class="review-images">
+                <img src="https://images.unsplash.com/photo-1611080626919-7cf5a9dbab5b?w=200&q=80" alt="리뷰 이미지" class="review-image">
+            </div>
+            <div class="review-helpful">
+                👍 도움돼요 (67)
+            </div>
+        </div>
+
+        <div class="review-card">
+            <div class="review-header">
+                <div class="review-user">
+                    <div class="review-avatar">👩</div>
+                    <div class="review-user-info">
+                        <div class="review-username">최서연</div>
+                        <div class="review-date">2026년 3월 8일</div>
+                    </div>
+                </div>
+                <div class="review-stars">★★★★☆</div>
+            </div>
+            <div class="review-content">
+                전반적으로 만족스럽습니다. 대부분 상태가 좋았는데
+                한두 개 정도 약간 무른 게 있었어요. 그래도 맛은 정말 좋았고
+                가격 대비 만족스러웠습니다. 다음엔 더 신선한 걸로 받았으면 좋겠어요.
+            </div>
+            <div class="review-helpful">
+                👍 도움돼요 (43)
+            </div>
+        </div>
+
+        <div class="review-card">
+            <div class="review-header">
+                <div class="review-user">
+                    <div class="review-avatar">👨</div>
+                    <div class="review-user-info">
+                        <div class="review-username">정우진</div>
+                        <div class="review-date">2026년 3월 5일</div>
+                    </div>
+                </div>
+                <div class="review-stars">★★★★★</div>
+            </div>
+            <div class="review-content">
+                매년 한라봉 철이 되면 과일다리에서 구매합니다.
+                믿고 사는 곳이에요. 품질이 항상 일정하고 신선해서 좋아요.
+                특히 이번 한라봉은 당도가 정말 높네요. 10kg 구매했는데
+                금방 동날 것 같아요!
+            </div>
+            <div class="review-helpful">
+                👍 도움돼요 (156)
+            </div>
+        </div>
+
+        <button class="btn btn-outline btn-full" style="margin-top: var(--space-4);">
+            리뷰 더보기 (847개)
+        </button>
+    </div>
+
+    <div id="tabContent3" class="tab-content">
+        <div class="qna-item">
+            <div class="qna-question">
+                <span class="qna-badge">Q</span>
+                <span class="qna-text">당도가 정말 13.5도 이상인가요?</span>
+            </div>
+            <div class="qna-answer">
+                <span class="qna-answer-badge">A</span>
+                네, 출하 전 모든 한라봉의 당도를 측정하여 13.5도 이상인 것만 선별하고 있습니다.
+                당도계로 직접 측정하시면 확인하실 수 있습니다.
+            </div>
+        </div>
+
+        <div class="qna-item">
+            <div class="qna-question">
+                <span class="qna-badge">Q</span>
+                <span class="qna-text">선물 포장은 어떻게 되나요?</span>
+            </div>
+            <div class="qna-answer">
+                <span class="qna-answer-badge">A</span>
+                선물 포장 옵션 선택 시 고급 선물 박스에 포장해 드리며,
+                리본과 감사 메시지 카드를 함께 동봉해 드립니다.
+                추가 요청사항이 있으시면 주문 시 메모란에 작성해 주세요.
+            </div>
+        </div>
+
+        <div class="qna-item">
+            <div class="qna-question">
+                <span class="qna-badge">Q</span>
+                <span class="qna-text">새벽 배송 가능한 지역이 어디인가요?</span>
+            </div>
+            <div class="qna-answer">
+                <span class="qna-answer-badge">A</span>
+                수도권(서울, 인천, 경기) 전역과 일부 광역시에서 새벽 배송이 가능합니다.
+                오후 7시 이전 주문 시 다음날 아침 7시까지 배송됩니다.
+                배송 가능 여부는 주문 시 우편번호로 확인하실 수 있습니다.
+            </div>
+        </div>
+
+        <div class="qna-item">
+            <div class="qna-question">
+                <span class="qna-badge">Q</span>
+                <span class="qna-text">보관 기간은 얼마나 되나요?</span>
+            </div>
+            <div class="qna-answer">
+                <span class="qna-answer-badge">A</span>
+                냉장 보관 시 약 2주 정도 신선하게 보관 가능합니다.
+                직사광선을 피하고 서늘한 곳에 보관하시면 더 오래 보관하실 수 있습니다.
+                가능한 빠른 시일 내에 드시는 것을 권장드립니다.
+            </div>
+        </div>
+
+        <div class="qna-item">
+            <div class="qna-question">
+                <span class="qna-badge">Q</span>
+                <span class="qna-text">크기가 들쭉날쭉하지 않나요?</span>
+            </div>
+            <div class="qna-answer">
+                <span class="qna-answer-badge">A</span>
+                선별 과정에서 크기가 비슷한 것들로 분류하여 포장합니다.
+                자연 그대로의 과일이라 완전히 동일할 수는 없지만,
+                최대한 균일한 크기로 맞춰서 보내드리고 있습니다.
+            </div>
+        </div>
+
+        <button class="btn btn-primary btn-full" style="margin-top: var(--space-5);">
+            문의하기
+        </button>
+    </div>
+
+    <div id="tabContent4" class="tab-content">
+        <div class="detail-section">
+            <h3 class="detail-title">배송 안내</h3>
+            <div class="product-meta">
+                <div class="meta-row">
+                    <span class="meta-label">배송 방법</span>
+                    <span class="meta-value">택배 / 새벽 배송</span>
+                </div>
+                <div class="meta-row">
+                    <span class="meta-label">배송 지역</span>
+                    <span class="meta-value">전국 (제주/도서산간 추가 비용)</span>
+                </div>
+                <div class="meta-row">
+                    <span class="meta-label">배송 비용</span>
+                    <span class="meta-value">3,000원 (5만원 이상 무료)</span>
+                </div>
+                <div class="meta-row">
+                    <span class="meta-label">배송 기간</span>
+                    <span class="meta-value">주문 후 1-2일 소요</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="detail-section">
+            <h3 class="detail-title">교환 및 반품</h3>
+            <p class="detail-text">
+                신선 식품 특성상 단순 변심에 의한 반품은 어려우며,
+                상품에 문제가 있는 경우에만 교환/환불이 가능합니다.
+            </p>
+            <ul class="detail-list">
+                <li>상품 수령 후 24시간 이내 고객센터 연락</li>
+                <li>상품 불량 시 사진 촬영 후 전송</li>
+                <li>확인 후 재발송 또는 전액 환불 처리</li>
+                <li>고객 과실로 인한 훼손 시 반품 불가</li>
+            </ul>
+        </div>
+
+        <div class="detail-section">
+            <h3 class="detail-title">새벽 배송 안내</h3>
+            <p class="detail-text">
+                오후 7시 이전 주문 시 다음날 아침 7시까지 배송됩니다.
+                (수도권 및 일부 광역시 한정)
+            </p>
+            <ul class="detail-list">
+                <li>배송 가능 지역: 서울, 인천, 경기, 부산, 대구 일부</li>
+                <li>배송 시간: 새벽 4시 ~ 7시</li>
+                <li>부재 시 문앞 배송 (도난 주의)</li>
+                <li>새벽 배송 추가 비용: +2,000원</li>
+            </ul>
+        </div>
+
+        <div class="detail-section">
+            <h3 class="detail-title">고객센터</h3>
+            <div class="product-meta">
+                <div class="meta-row">
+                    <span class="meta-label">전화</span>
+                    <span class="meta-value">1588-0000</span>
+                </div>
+                <div class="meta-row">
+                    <span class="meta-label">운영시간</span>
+                    <span class="meta-value">평일 09:00 - 18:00</span>
+                </div>
+                <div class="meta-row">
+                    <span class="meta-label">이메일</span>
+                    <span class="meta-value">support@fruitdari.com</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Related Products -->
+    <div class="related-products">
+        <h2 class="related-title">함께 구매하면 좋은 상품</h2>
+        <div class="related-grid">
+            <div class="product-card">
+                <div class="product-card__image">
+                    <img src="https://images.unsplash.com/photo-1611080626919-7cf5a9dbab5b?w=400&q=80" alt="천혜향">
+                    <div class="product-card__badge">15%</div>
+                </div>
+                <div class="product-card__content">
+                    <div class="product-card__title">제주 천혜향</div>
+                    <div class="product-card__desc">달콤한 향기</div>
+                    <div class="product-card__info">
+                        <span class="product-card__brix">당도 13.2°</span>
+                        <span class="product-card__origin">제주</span>
+                    </div>
+                </div>
+                <div class="product-card__footer">
+                    <div>
+                        <span class="product-card__price">28,900원</span>
+                    </div>
+                    <div class="product-card__action">+</div>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-card__image">
+                    <img src="https://images.unsplash.com/photo-1557800636-894a64c1696f?w=400&q=80" alt="레드향">
+                    <div class="product-card__badge">20%</div>
+                </div>
+                <div class="product-card__content">
+                    <div class="product-card__title">프리미엄 레드향</div>
+                    <div class="product-card__desc">새콤달콤</div>
+                    <div class="product-card__info">
+                        <span class="product-card__brix">당도 12.8°</span>
+                        <span class="product-card__origin">제주</span>
+                    </div>
+                </div>
+                <div class="product-card__footer">
+                    <div>
+                        <span class="product-card__price">32,500원</span>
+                    </div>
+                    <div class="product-card__action">+</div>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-card__image">
+                    <img src="https://images.unsplash.com/photo-1582979512210-99b6a53386f9?w=400&q=80" alt="황금향">
+                </div>
+                <div class="product-card__content">
+                    <div class="product-card__title">제주 황금향</div>
+                    <div class="product-card__desc">황금빛 과육</div>
+                    <div class="product-card__info">
+                        <span class="product-card__brix">당도 13.0°</span>
+                        <span class="product-card__origin">제주</span>
+                    </div>
+                </div>
+                <div class="product-card__footer">
+                    <div>
+                        <span class="product-card__price">35,000원</span>
+                    </div>
+                    <div class="product-card__action">+</div>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-card__image">
+                    <img src="https://images.unsplash.com/photo-1590164503778-97cada2d4388?w=400&q=80" alt="청귤">
+                    <div class="product-card__badge">신상품</div>
+                </div>
+                <div class="product-card__content">
+                    <div class="product-card__title">제주 청귤</div>
+                    <div class="product-card__desc">상큼한 맛</div>
+                    <div class="product-card__info">
+                        <span class="product-card__brix">당도 11.5°</span>
+                        <span class="product-card__origin">제주</span>
+                    </div>
+                </div>
+                <div class="product-card__footer">
+                    <div>
+                        <span class="product-card__price">24,900원</span>
+                    </div>
+                    <div class="product-card__action">+</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Action Bar -->
+    <div class="bottom-action-bar">
+        <button class="wishlist-btn" id="wishlistBtn" onclick="toggleWishlist()">
+            ♡
+        </button>
+        <div class="action-buttons">
+            <button class="btn-buy-now" onclick="buyNow()">바로 구매</button>
+            <button class="btn-add-cart" onclick="addToCart()">장바구니</button>
+        </div>
+    </div>
+
+    <script>
+        // Image Gallery
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.gallery-slide');
+        const indicators = document.querySelectorAll('.gallery-indicator');
+        const slider = document.getElementById('gallerySlider');
+
+        let startX = 0;
+        let currentX = 0;
+        let isDragging = false;
+
+        slider.addEventListener('touchstart', (e) => {
+            startX = e.touches[0].clientX;
+            isDragging = true;
+        });
+
+        slider.addEventListener('touchmove', (e) => {
+            if (!isDragging) return;
+            currentX = e.touches[0].clientX;
+            const diff = currentX - startX;
+            slider.style.transform = `translateX(calc(-${currentSlide * 100}% + ${diff}px))`;
+        });
+
+        slider.addEventListener('touchend', (e) => {
+            if (!isDragging) return;
+            isDragging = false;
+            const diff = currentX - startX;
+
+            if (diff > 50 && currentSlide > 0) {
+                currentSlide--;
+            } else if (diff < -50 && currentSlide < slides.length - 1) {
+                currentSlide++;
+            }
+
+            updateGallery();
+        });
+
+        function updateGallery() {
+            slider.style.transform = `translateX(-${currentSlide * 100}%)`;
+            indicators.forEach((indicator, index) => {
+                indicator.classList.toggle('active', index === currentSlide);
+            });
+        }
+
+        // Header Transparency on Scroll
+        const header = document.getElementById('productHeader');
+        let lastScroll = 0;
+
+        window.addEventListener('scroll', () => {
+            const currentScroll = window.pageYOffset;
+
+            if (currentScroll > 200) {
+                header.classList.remove('transparent');
+            } else {
+                header.classList.add('transparent');
+            }
+
+            lastScroll = currentScroll;
+        });
+
+        // Tab Switching
+        function switchTab(index) {
+            // Update tab buttons
+            const tabs = document.querySelectorAll('.product-tab');
+            tabs.forEach((tab, i) => {
+                tab.classList.toggle('active', i === index);
+            });
+
+            // Update tab contents
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach((content, i) => {
+                content.classList.toggle('active', i === index);
+            });
+
+            // Scroll to tabs
+            document.querySelector('.product-tabs').scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
+
+        // Option Selection
+        function selectOption(element, value) {
+            const siblings = element.parentElement.querySelectorAll('.option-button');
+            siblings.forEach(btn => btn.classList.remove('selected'));
+            element.classList.add('selected');
+        }
+
+        // Quantity Control
+        let quantity = 1;
+
+        function changeQuantity(delta) {
+            const newQuantity = quantity + delta;
+            if (newQuantity >= 1 && newQuantity <= 99) {
+                quantity = newQuantity;
+                document.getElementById('quantity').textContent = quantity;
+            }
+        }
+
+        // Wishlist Toggle
+        let isWishlisted = false;
+
+        function toggleWishlist() {
+            isWishlisted = !isWishlisted;
+            const btn = document.getElementById('wishlistBtn');
+            btn.classList.toggle('active', isWishlisted);
+            btn.textContent = isWishlisted ? '♥' : '♡';
+
+            // Show feedback
+            if (isWishlisted) {
+                showToast('찜 목록에 추가되었습니다');
+            } else {
+                showToast('찜 목록에서 제거되었습니다');
+            }
+        }
+
+        // Add to Cart
+        function addToCart() {
+            showToast('장바구니에 추가되었습니다');
+            // Add animation
+            const btn = event.target;
+            btn.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                btn.style.transform = 'scale(1)';
+            }, 200);
+        }
+
+        // Buy Now
+        function buyNow() {
+            // Navigate to checkout
+            window.location.href = '../order/checkout.html';
+        }
+
+        // Toast Notification
+        function showToast(message) {
+            const toast = document.createElement('div');
+            toast.textContent = message;
+            toast.style.cssText = `
+                position: fixed;
+                bottom: 100px;
+                left: 50%;
+                transform: translateX(-50%);
+                background: rgba(0, 0, 0, 0.8);
+                color: white;
+                padding: 12px 24px;
+                border-radius: 8px;
+                font-size: 14px;
+                z-index: 1000;
+                animation: fadeInOut 2s ease;
+            `;
+
+            document.body.appendChild(toast);
+
+            setTimeout(() => {
+                toast.remove();
+            }, 2000);
+        }
+
+        // Add CSS animation for toast
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes fadeInOut {
+                0% { opacity: 0; transform: translateX(-50%) translateY(20px); }
+                10% { opacity: 1; transform: translateX(-50%) translateY(0); }
+                90% { opacity: 1; transform: translateX(-50%) translateY(0); }
+                100% { opacity: 0; transform: translateX(-50%) translateY(-20px); }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Brix animation on load
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                const brixFill = document.querySelector('.brix-fill');
+                if (brixFill) {
+                    brixFill.style.width = '90%';
+                }
+            }, 500);
+        });
+
+        // Product Card Click Handler
+        document.querySelectorAll('.product-card').forEach(card => {
+            card.addEventListener('click', (e) => {
+                if (!e.target.classList.contains('product-card__action')) {
+                    // Navigate to product detail
+                    console.log('Navigate to product');
+                }
+            });
+        });
+
+        // Add to cart from related products
+        document.querySelectorAll('.product-card__action').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                showToast('상품이 장바구니에 추가되었습니다');
+                btn.style.transform = 'scale(0.8)';
+                setTimeout(() => {
+                    btn.style.transform = 'scale(1)';
+                }, 200);
+            });
+        });
+    </script>
+</body>
+</html>

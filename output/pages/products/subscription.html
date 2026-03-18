@@ -1,0 +1,1212 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>정기배송 - 과일다리</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../styles/design-system.css">
+    <link rel="stylesheet" href="../../styles/components.css">
+    <style>
+        :root {
+            /* 과일다리 Brand Colors */
+            --primary-green: #8BC34A;
+            --dark-green: #689F38;
+            --light-green: #DCEDC8;
+            --accent-yellow: #FFEB3B;
+            --orange: #FF6F00;
+            --red: #F44336;
+            --warm-pink: #FCE4EC;
+            --primary-warm: #FF9800;
+            --primary-peach: #FFB74D;
+            --light-peach: #FFE0B2;
+            --heart-red: #E91E63;
+
+            /* Neutrals */
+            --text-primary: #212121;
+            --text-secondary: #757575;
+            --text-muted: #9E9E9E;
+            --border: #E0E0E0;
+            --bg-gray: #F5F5F5;
+            --bg-white: #FFFFFF;
+
+            /* Shadows */
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.12);
+            --shadow-md: 0 2px 6px rgba(0,0,0,0.16);
+            --shadow-lg: 0 10px 20px rgba(0,0,0,0.19);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        html {
+            background: #e8e8e8;
+            min-height: 100vh;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', -apple-system, sans-serif;
+            color: var(--text-primary);
+            background: var(--bg-gray);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            margin: 0 auto;
+            min-height: 100vh;
+            position: relative;
+            padding-bottom: 60px;
+        }
+
+        /* PC에서 모바일 너비 유지 */
+        @media (min-width: 768px) {
+            body {
+                max-width: 430px;
+                box-shadow: 0 0 50px rgba(0,0,0,0.1);
+            }
+        }
+
+        /* Header */
+        .header {
+            background: var(--bg-white);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            padding: 10px 15px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .header-back {
+            font-size: 24px;
+            cursor: pointer;
+            padding: 5px;
+            margin-left: -5px;
+        }
+
+        .header-title {
+            font-size: 16px;
+            font-weight: 500;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 15px;
+            margin-left: auto;
+        }
+
+        .header-icon {
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        /* Content Area */
+        .content {
+            padding-bottom: 20px;
+        }
+
+        /* Hero Banner */
+        .hero-banner {
+            background: linear-gradient(135deg, var(--primary-green) 0%, var(--dark-green) 100%);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-banner::before {
+            content: '🍎🍊🍇🍓🥝';
+            position: absolute;
+            top: 10px;
+            left: 0;
+            right: 0;
+            font-size: 24px;
+            opacity: 0.2;
+            letter-spacing: 20px;
+        }
+
+        .hero-banner h1 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .hero-banner p {
+            font-size: 16px;
+            opacity: 0.95;
+            margin-bottom: 24px;
+        }
+
+        .hero-benefits {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .hero-benefit {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        /* Section */
+        .section {
+            padding: 24px 15px;
+        }
+
+        .section-white {
+            background: white;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+        }
+
+        .section-subtitle {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+        }
+
+        /* Subscription Plans */
+        .plans-grid {
+            display: grid;
+            gap: 12px;
+        }
+
+        .plan-card {
+            background: white;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .plan-card.selected {
+            border-color: var(--primary-green);
+            background: var(--light-green);
+        }
+
+        .plan-badge {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: var(--primary-green);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .plan-card.selected .plan-badge {
+            background: var(--dark-green);
+        }
+
+        .plan-name {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .plan-desc {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-bottom: 12px;
+        }
+
+        .plan-pricing {
+            display: flex;
+            align-items: baseline;
+            gap: 8px;
+        }
+
+        .plan-discount {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--heart-red);
+        }
+
+        .plan-price {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--primary-green);
+        }
+
+        .plan-original {
+            font-size: 14px;
+            color: var(--text-muted);
+            text-decoration: line-through;
+        }
+
+        /* Delivery Frequency */
+        .frequency-options {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+
+        .frequency-option {
+            background: white;
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            padding: 16px 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .frequency-option.selected {
+            border-color: var(--primary-green);
+            background: var(--light-green);
+        }
+
+        .frequency-icon {
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+
+        .frequency-label {
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        /* Subscription Boxes */
+        .boxes-grid {
+            display: grid;
+            gap: 16px;
+        }
+
+        .box-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .box-card:active {
+            transform: scale(0.98);
+        }
+
+        .box-image {
+            width: 100%;
+            height: 160px;
+            background: linear-gradient(135deg, var(--light-green) 0%, var(--light-peach) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            position: relative;
+        }
+
+        .box-badge {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            background: rgba(255,255,255,0.95);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--primary-green);
+        }
+
+        .box-content {
+            padding: 16px;
+        }
+
+        .box-name {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .box-items {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-bottom: 12px;
+            line-height: 1.5;
+        }
+
+        .box-pricing {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .box-price {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--primary-green);
+        }
+
+        .box-select-btn {
+            background: var(--primary-green);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        /* Price Comparison */
+        .comparison-table {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .comparison-row {
+            display: flex;
+            align-items: center;
+            padding: 16px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .comparison-row:last-child {
+            border-bottom: none;
+        }
+
+        .comparison-row.header {
+            background: var(--light-green);
+            font-weight: 700;
+        }
+
+        .comparison-label {
+            flex: 1;
+            font-size: 14px;
+        }
+
+        .comparison-regular {
+            flex: 1;
+            text-align: center;
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .comparison-subscription {
+            flex: 1;
+            text-align: center;
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--primary-green);
+        }
+
+        /* How It Works Timeline */
+        .timeline {
+            position: relative;
+            padding-left: 40px;
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-bottom: 30px;
+        }
+
+        .timeline-item:last-child {
+            padding-bottom: 0;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -27px;
+            top: 10px;
+            bottom: -20px;
+            width: 2px;
+            background: var(--border);
+        }
+
+        .timeline-item:last-child::before {
+            display: none;
+        }
+
+        .timeline-icon {
+            position: absolute;
+            left: -40px;
+            top: 0;
+            width: 28px;
+            height: 28px;
+            background: var(--primary-green);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+        }
+
+        .timeline-content h3 {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .timeline-content p {
+            font-size: 13px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* Flexibility Banner */
+        .flexibility-banner {
+            background: linear-gradient(135deg, var(--primary-warm) 0%, var(--orange) 100%);
+            color: white;
+            border-radius: 12px;
+            padding: 24px;
+            text-align: center;
+        }
+
+        .flexibility-banner h3 {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+
+        .flexibility-features {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+        }
+
+        .flexibility-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .flexibility-icon {
+            font-size: 32px;
+        }
+
+        .flexibility-label {
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        /* Testimonials */
+        .testimonials-slider {
+            display: flex;
+            gap: 12px;
+            overflow-x: auto;
+            padding-bottom: 10px;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .testimonials-slider::-webkit-scrollbar {
+            height: 6px;
+        }
+
+        .testimonials-slider::-webkit-scrollbar-track {
+            background: var(--bg-gray);
+            border-radius: 3px;
+        }
+
+        .testimonials-slider::-webkit-scrollbar-thumb {
+            background: var(--primary-green);
+            border-radius: 3px;
+        }
+
+        .testimonial-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            min-width: 280px;
+            scroll-snap-align: start;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .testimonial-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .testimonial-avatar {
+            width: 40px;
+            height: 40px;
+            background: var(--light-green);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .testimonial-info h4 {
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 2px;
+        }
+
+        .testimonial-rating {
+            font-size: 12px;
+            color: var(--accent-yellow);
+        }
+
+        .testimonial-text {
+            font-size: 13px;
+            line-height: 1.6;
+            color: var(--text-secondary);
+        }
+
+        /* Bottom CTA */
+        .bottom-cta {
+            position: fixed;
+            bottom: 60px;
+            left: 0;
+            right: 0;
+            background: white;
+            border-top: 1px solid var(--border);
+            padding: 12px 15px;
+            z-index: 99;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        @media (min-width: 768px) {
+            .bottom-cta {
+                left: 50%;
+                transform: translateX(-50%);
+                max-width: 430px;
+            }
+        }
+
+        .cta-price {
+            flex: 1;
+        }
+
+        .cta-label {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-bottom: 2px;
+        }
+
+        .cta-amount {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--primary-green);
+        }
+
+        .cta-button {
+            background: var(--primary-green);
+            color: white;
+            border: none;
+            padding: 14px 32px;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .cta-button:active {
+            background: var(--dark-green);
+        }
+
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 430px;
+            background: white;
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: space-around;
+            padding: 8px 0;
+            z-index: 100;
+        }
+
+        .nav-item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            padding: 4px;
+            color: var(--text-muted);
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .nav-item.active {
+            color: var(--primary-green);
+        }
+
+        .nav-item .icon {
+            font-size: 24px;
+        }
+
+        .nav-item .label {
+            font-size: 11px;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <span class="header-back" onclick="history.back()">←</span>
+        <h1 class="header-title">정기배송</h1>
+        <div class="header-actions">
+            <span class="header-icon">🏠</span>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="content">
+        <!-- Hero Banner -->
+        <section class="hero-banner">
+            <h1>신선한 과일,<br>매주 문앞까지</h1>
+            <p>정기배송으로 더 신선하고 저렴하게</p>
+            <div class="hero-benefits">
+                <div class="hero-benefit">
+                    <span>✓</span>
+                    <span>최대 20% 할인</span>
+                </div>
+                <div class="hero-benefit">
+                    <span>✓</span>
+                    <span>무료배송</span>
+                </div>
+                <div class="hero-benefit">
+                    <span>✓</span>
+                    <span>자유로운 관리</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Subscription Plans -->
+        <section class="section section-white">
+            <h2 class="section-title">구독 플랜 선택</h2>
+            <p class="section-subtitle">더 자주 받을수록 더 많이 절약하세요</p>
+
+            <div class="plans-grid">
+                <div class="plan-card" onclick="selectPlan('weekly')">
+                    <span class="plan-badge">가장 인기</span>
+                    <div class="plan-name">주간 플랜</div>
+                    <div class="plan-desc">매주 1회 배송 / 주 1회 신선함</div>
+                    <div class="plan-pricing">
+                        <span class="plan-discount">20% 할인</span>
+                        <span class="plan-price">32,000원</span>
+                        <span class="plan-original">40,000원</span>
+                    </div>
+                </div>
+
+                <div class="plan-card" onclick="selectPlan('biweekly')">
+                    <span class="plan-badge">추천</span>
+                    <div class="plan-name">격주 플랜</div>
+                    <div class="plan-desc">2주 1회 배송 / 여유로운 선택</div>
+                    <div class="plan-pricing">
+                        <span class="plan-discount">15% 할인</span>
+                        <span class="plan-price">34,000원</span>
+                        <span class="plan-original">40,000원</span>
+                    </div>
+                </div>
+
+                <div class="plan-card" onclick="selectPlan('monthly')">
+                    <div class="plan-name">월간 플랜</div>
+                    <div class="plan-desc">월 1회 배송 / 부담 없는 시작</div>
+                    <div class="plan-pricing">
+                        <span class="plan-discount">10% 할인</span>
+                        <span class="plan-price">36,000원</span>
+                        <span class="plan-original">40,000원</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Delivery Frequency -->
+        <section class="section" style="background: white; padding-top: 0;">
+            <h2 class="section-title">선호 요일 선택</h2>
+            <p class="section-subtitle">배송받을 요일을 선택하세요</p>
+
+            <div class="frequency-options">
+                <div class="frequency-option" onclick="selectDay('mon')">
+                    <div class="frequency-icon">📅</div>
+                    <div class="frequency-label">월요일</div>
+                </div>
+                <div class="frequency-option" onclick="selectDay('wed')">
+                    <div class="frequency-icon">📅</div>
+                    <div class="frequency-label">수요일</div>
+                </div>
+                <div class="frequency-option" onclick="selectDay('fri')">
+                    <div class="frequency-icon">📅</div>
+                    <div class="frequency-label">금요일</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Subscription Box Options -->
+        <section class="section">
+            <h2 class="section-title">구독 박스 선택</h2>
+            <p class="section-subtitle">취향에 맞는 과일 박스를 선택하세요</p>
+
+            <div class="boxes-grid">
+                <!-- Box 1 -->
+                <div class="box-card">
+                    <div class="box-image">
+                        <span class="box-badge">베스트셀러</span>
+                        🍎🍊🍌
+                    </div>
+                    <div class="box-content">
+                        <div class="box-name">프리미엄 믹스 박스</div>
+                        <div class="box-items">사과 3개, 오렌지 4개, 바나나 5개, 키위 4개</div>
+                        <div class="box-pricing">
+                            <span class="box-price">32,000원</span>
+                            <button class="box-select-btn" onclick="selectBox('premium')">선택하기</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Box 2 -->
+                <div class="box-card">
+                    <div class="box-image" style="background: linear-gradient(135deg, #FFE0B2 0%, #FFCCBC 100%);">
+                        <span class="box-badge">신규</span>
+                        🍓🫐🍒
+                    </div>
+                    <div class="box-content">
+                        <div class="box-name">베리 럭셔리 박스</div>
+                        <div class="box-items">딸기 2팩, 블루베리 1팩, 체리 1팩, 라즈베리 1팩</div>
+                        <div class="box-pricing">
+                            <span class="box-price">45,000원</span>
+                            <button class="box-select-btn" onclick="selectBox('berry')">선택하기</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Box 3 -->
+                <div class="box-card">
+                    <div class="box-image" style="background: linear-gradient(135deg, #FFF9C4 0%, #FFF59D 100%);">
+                        🍋🍍🥭
+                    </div>
+                    <div class="box-content">
+                        <div class="box-name">트로피컬 프레시 박스</div>
+                        <div class="box-items">파인애플 1개, 망고 3개, 레몬 5개, 아보카도 2개</div>
+                        <div class="box-pricing">
+                            <span class="box-price">38,000원</span>
+                            <button class="box-select-btn" onclick="selectBox('tropical')">선택하기</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Box 4 -->
+                <div class="box-card">
+                    <div class="box-image" style="background: linear-gradient(135deg, #E1BEE7 0%, #CE93D8 100%);">
+                        🍇🍈🍑
+                    </div>
+                    <div class="box-content">
+                        <div class="box-name">스위트 디저트 박스</div>
+                        <div class="box-items">포도 2송이, 샤인머스캣 1송이, 복숭아 4개, 자두 6개</div>
+                        <div class="box-pricing">
+                            <span class="box-price">42,000원</span>
+                            <button class="box-select-btn" onclick="selectBox('dessert')">선택하기</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Box 5 -->
+                <div class="box-card">
+                    <div class="box-image" style="background: linear-gradient(135deg, #C8E6C9 0%, #A5D6A7 100%);">
+                        🥝🍏🍐
+                    </div>
+                    <div class="box-content">
+                        <div class="box-name">헬시 그린 박스</div>
+                        <div class="box-items">키위 6개, 청사과 4개, 배 3개, 샤인머스캣 1송이</div>
+                        <div class="box-pricing">
+                            <span class="box-price">35,000원</span>
+                            <button class="box-select-btn" onclick="selectBox('green')">선택하기</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Box 6 -->
+                <div class="box-card">
+                    <div class="box-image" style="background: linear-gradient(135deg, #FFCCBC 0%, #FFAB91 100%);">
+                        🍑🍊🥭
+                    </div>
+                    <div class="box-content">
+                        <div class="box-name">비타민 파워 박스</div>
+                        <div class="box-items">오렌지 6개, 자몽 3개, 감귤 10개, 금귤 1팩</div>
+                        <div class="box-pricing">
+                            <span class="box-price">30,000원</span>
+                            <button class="box-select-btn" onclick="selectBox('vitamin')">선택하기</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Box 7 -->
+                <div class="box-card">
+                    <div class="box-image" style="background: linear-gradient(135deg, #F8BBD0 0%, #F48FB1 100%);">
+                        🍓🍑🍒
+                    </div>
+                    <div class="box-content">
+                        <div class="box-name">로맨틱 핑크 박스</div>
+                        <div class="box-items">딸기 3팩, 백도 4개, 체리 2팩, 수박 1통</div>
+                        <div class="box-pricing">
+                            <span class="box-price">48,000원</span>
+                            <button class="box-select-btn" onclick="selectBox('pink')">선택하기</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Box 8 -->
+                <div class="box-card">
+                    <div class="box-image" style="background: linear-gradient(135deg, #FFE082 0%, #FFD54F 100%);">
+                        🍌🍍🥭
+                    </div>
+                    <div class="box-content">
+                        <div class="box-name">패밀리 에너지 박스</div>
+                        <div class="box-items">바나나 2송이, 사과 5개, 배 4개, 감 6개</div>
+                        <div class="box-pricing">
+                            <span class="box-price">28,000원</span>
+                            <button class="box-select-btn" onclick="selectBox('family')">선택하기</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Price Comparison -->
+        <section class="section section-white">
+            <h2 class="section-title">가격 비교</h2>
+            <p class="section-subtitle">정기배송으로 얼마나 절약할 수 있을까요?</p>
+
+            <div class="comparison-table">
+                <div class="comparison-row header">
+                    <div class="comparison-label">항목</div>
+                    <div class="comparison-regular">일반구매</div>
+                    <div class="comparison-subscription">정기배송</div>
+                </div>
+                <div class="comparison-row">
+                    <div class="comparison-label">상품 가격</div>
+                    <div class="comparison-regular">40,000원</div>
+                    <div class="comparison-subscription">32,000원</div>
+                </div>
+                <div class="comparison-row">
+                    <div class="comparison-label">배송비</div>
+                    <div class="comparison-regular">3,000원</div>
+                    <div class="comparison-subscription">무료</div>
+                </div>
+                <div class="comparison-row">
+                    <div class="comparison-label">월 4회 기준</div>
+                    <div class="comparison-regular">172,000원</div>
+                    <div class="comparison-subscription">128,000원</div>
+                </div>
+                <div class="comparison-row">
+                    <div class="comparison-label" style="font-weight: 700; color: var(--heart-red);">월 절약 금액</div>
+                    <div class="comparison-regular"></div>
+                    <div class="comparison-subscription" style="font-size: 18px; color: var(--heart-red);">44,000원</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- How It Works -->
+        <section class="section">
+            <h2 class="section-title">구독 이용방법</h2>
+            <p class="section-subtitle">간편한 4단계로 시작하세요</p>
+
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-icon">1️⃣</div>
+                    <div class="timeline-content">
+                        <h3>구독 플랜 선택</h3>
+                        <p>원하는 배송 주기와 과일 박스를 선택하세요. 언제든지 변경 가능합니다.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-icon">2️⃣</div>
+                    <div class="timeline-content">
+                        <h3>배송 정보 입력</h3>
+                        <p>배송받을 주소와 선호하는 배송 요일을 입력하세요.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-icon">3️⃣</div>
+                    <div class="timeline-content">
+                        <h3>자동 결제 설정</h3>
+                        <p>편리한 자동 결제로 번거로움 없이 신선한 과일을 받아보세요.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-icon">4️⃣</div>
+                    <div class="timeline-content">
+                        <h3>신선한 과일 배송</h3>
+                        <p>선택한 요일에 맞춰 신선한 과일이 문앞까지 배송됩니다.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Flexibility Banner -->
+        <section class="section section-white">
+            <div class="flexibility-banner">
+                <h3>언제든지 자유롭게 관리하세요</h3>
+                <div class="flexibility-features">
+                    <div class="flexibility-item">
+                        <div class="flexibility-icon">⏸️</div>
+                        <div class="flexibility-label">일시정지</div>
+                    </div>
+                    <div class="flexibility-item">
+                        <div class="flexibility-icon">⏭️</div>
+                        <div class="flexibility-label">건너뛰기</div>
+                    </div>
+                    <div class="flexibility-item">
+                        <div class="flexibility-icon">❌</div>
+                        <div class="flexibility-label">언제든 해지</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Testimonials -->
+        <section class="section">
+            <h2 class="section-title">구독자 후기</h2>
+            <p class="section-subtitle">과일다리 구독자들의 진솔한 이야기</p>
+
+            <div class="testimonials-slider">
+                <div class="testimonial-card">
+                    <div class="testimonial-header">
+                        <div class="testimonial-avatar">😊</div>
+                        <div class="testimonial-info">
+                            <h4>김민지님</h4>
+                            <div class="testimonial-rating">⭐⭐⭐⭐⭐</div>
+                        </div>
+                    </div>
+                    <p class="testimonial-text">"매주 신선한 과일이 집 앞으로 배송되니까 너무 편해요. 아이들도 과일을 더 자주 먹게 되었어요. 가격도 저렴해서 만족합니다!"</p>
+                </div>
+
+                <div class="testimonial-card">
+                    <div class="testimonial-header">
+                        <div class="testimonial-avatar">👨</div>
+                        <div class="testimonial-info">
+                            <h4>박준혁님</h4>
+                            <div class="testimonial-rating">⭐⭐⭐⭐⭐</div>
+                        </div>
+                    </div>
+                    <p class="testimonial-text">"바쁜 직장인인데 매번 마트 가기 힘들었어요. 정기배송 시작하고 나서는 항상 신선한 과일을 먹을 수 있어서 건강해진 느낌이에요."</p>
+                </div>
+
+                <div class="testimonial-card">
+                    <div class="testimonial-header">
+                        <div class="testimonial-avatar">👩</div>
+                        <div class="testimonial-info">
+                            <h4>이서연님</h4>
+                            <div class="testimonial-rating">⭐⭐⭐⭐⭐</div>
+                        </div>
+                    </div>
+                    <p class="testimonial-text">"다양한 과일을 한 번에 받을 수 있어서 좋아요. 특히 베리 박스는 정말 신선하고 맛있어요. 건너뛰기 기능도 유용해요!"</p>
+                </div>
+
+                <div class="testimonial-card">
+                    <div class="testimonial-header">
+                        <div class="testimonial-avatar">👴</div>
+                        <div class="testimonial-info">
+                            <h4>최영수님</h4>
+                            <div class="testimonial-rating">⭐⭐⭐⭐⭐</div>
+                        </div>
+                    </div>
+                    <p class="testimonial-text">"나이가 들어서 무거운 과일 들고 다니기 힘들었는데, 정기배송 덕분에 매주 신선한 과일 먹고 있어요. 감사합니다!"</p>
+                </div>
+            </div>
+        </section>
+
+        <div style="height: 80px;"></div>
+    </main>
+
+    <!-- Bottom CTA -->
+    <div class="bottom-cta">
+        <div class="cta-price">
+            <div class="cta-label">선택한 플랜</div>
+            <div class="cta-amount" id="selectedPrice">32,000원</div>
+        </div>
+        <button class="cta-button" onclick="startSubscription()">구독 시작하기</button>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+        <a href="../home/index.html" class="nav-item">
+            <span class="icon">🏠</span>
+            <span class="label">홈</span>
+        </a>
+        <a href="../products/index.html" class="nav-item active">
+            <span class="icon">🍎</span>
+            <span class="label">상품</span>
+        </a>
+        <a href="../mypage/index.html" class="nav-item">
+            <span class="icon">👤</span>
+            <span class="label">마이</span>
+        </a>
+        <a href="../support/index.html" class="nav-item">
+            <span class="icon">💬</span>
+            <span class="label">고객지원</span>
+        </a>
+    </nav>
+
+    <script>
+        // State management
+        let selectedPlanType = 'weekly';
+        let selectedDay = 'mon';
+        let selectedBoxType = 'premium';
+
+        const planPrices = {
+            weekly: 32000,
+            biweekly: 34000,
+            monthly: 36000
+        };
+
+        const boxPrices = {
+            premium: 32000,
+            berry: 45000,
+            tropical: 38000,
+            dessert: 42000,
+            green: 35000,
+            vitamin: 30000,
+            pink: 48000,
+            family: 28000
+        };
+
+        // Plan selection
+        function selectPlan(planType) {
+            selectedPlanType = planType;
+
+            // Update UI
+            document.querySelectorAll('.plan-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            event.target.closest('.plan-card').classList.add('selected');
+
+            // Update price
+            updatePrice();
+        }
+
+        // Day selection
+        function selectDay(day) {
+            selectedDay = day;
+
+            // Update UI
+            document.querySelectorAll('.frequency-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            event.target.closest('.frequency-option').classList.add('selected');
+        }
+
+        // Box selection
+        function selectBox(boxType) {
+            selectedBoxType = boxType;
+
+            // Calculate total price based on plan discount
+            const basePrice = boxPrices[boxType];
+            let discount = 0;
+
+            switch(selectedPlanType) {
+                case 'weekly':
+                    discount = 0.20;
+                    break;
+                case 'biweekly':
+                    discount = 0.15;
+                    break;
+                case 'monthly':
+                    discount = 0.10;
+                    break;
+            }
+
+            const finalPrice = Math.round(basePrice * (1 - discount));
+
+            // Update price display
+            document.getElementById('selectedPrice').textContent = finalPrice.toLocaleString() + '원';
+
+            // Show feedback
+            const btn = event.target;
+            const originalText = btn.textContent;
+            btn.textContent = '✓ 선택됨';
+            btn.style.background = 'var(--dark-green)';
+
+            setTimeout(() => {
+                btn.textContent = originalText;
+                btn.style.background = 'var(--primary-green)';
+            }, 1500);
+        }
+
+        // Update price display
+        function updatePrice() {
+            const basePrice = planPrices[selectedPlanType];
+            document.getElementById('selectedPrice').textContent = basePrice.toLocaleString() + '원';
+        }
+
+        // Start subscription
+        function startSubscription() {
+            // Get selected values
+            const plan = selectedPlanType;
+            const day = selectedDay;
+            const box = selectedBoxType;
+
+            // In a real app, this would submit to a backend
+            alert(`구독이 시작되었습니다!\n\n플랜: ${plan}\n배송 요일: ${day}\n박스: ${box}\n\n감사합니다!`);
+
+            // Could redirect to payment or confirmation page
+            // window.location.href = '../order/subscription-confirm.html';
+        }
+
+        // Initialize: Select first plan by default
+        window.addEventListener('DOMContentLoaded', function() {
+            document.querySelector('.plan-card').classList.add('selected');
+            document.querySelector('.frequency-option').classList.add('selected');
+        });
+
+        // Smooth scroll for testimonials
+        const slider = document.querySelector('.testimonials-slider');
+        let isDown = false;
+        let startX;
+        let scrollLeft;
+
+        slider.addEventListener('mousedown', (e) => {
+            isDown = true;
+            startX = e.pageX - slider.offsetLeft;
+            scrollLeft = slider.scrollLeft;
+        });
+
+        slider.addEventListener('mouseleave', () => {
+            isDown = false;
+        });
+
+        slider.addEventListener('mouseup', () => {
+            isDown = false;
+        });
+
+        slider.addEventListener('mousemove', (e) => {
+            if (!isDown) return;
+            e.preventDefault();
+            const x = e.pageX - slider.offsetLeft;
+            const walk = (x - startX) * 2;
+            slider.scrollLeft = scrollLeft - walk;
+        });
+    </script>
+</body>
+</html>

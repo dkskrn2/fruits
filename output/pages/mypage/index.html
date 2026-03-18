@@ -1,0 +1,943 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <title>마이페이지 - 과일다리</title>
+
+    <!-- Design System CSS -->
+    <link rel="stylesheet" href="../../styles/design-system.css">
+    <link rel="stylesheet" href="../../styles/components.css">
+
+    <style>
+        /* Page Specific Styles */
+        body {
+            background: #f8f9fa;
+        }
+
+        .mobile-container {
+            padding-top: 0;
+        }
+
+        /* Status Bar */
+        .status-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 20px;
+            background: white;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .status-bar__time {
+            font-weight: 600;
+        }
+
+        .status-bar__icons {
+            display: flex;
+            gap: 4px;
+            align-items: center;
+        }
+
+        /* App Header */
+        .app-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 20px;
+            background: white;
+            border-bottom: 1px solid var(--color-gray-100);
+            position: sticky;
+            top: 0;
+            z-index: var(--z-sticky);
+        }
+
+        .app-header__title {
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .app-header__actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .icon-button {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: transparent;
+            border: none;
+            border-radius: var(--radius-full);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            position: relative;
+        }
+
+        .icon-button:active {
+            background: var(--color-gray-100);
+            transform: scale(0.95);
+        }
+
+        /* Main Content */
+        .main-content {
+            padding-bottom: 80px;
+        }
+
+        /* User Profile Section */
+        .user-profile {
+            background: linear-gradient(135deg, #6FCF3F, #5CB82F);
+            padding: 24px 20px 32px;
+            color: white;
+        }
+
+        .profile-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .profile-avatar {
+            width: 64px;
+            height: 64px;
+            background: white;
+            border-radius: var(--radius-full);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .profile-info {
+            flex: 1;
+        }
+
+        .profile-name {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .profile-membership {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 12px;
+            background: rgba(255, 255, 255, 0.25);
+            border-radius: var(--radius-full);
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .profile-email {
+            font-size: 13px;
+            opacity: 0.9;
+        }
+
+        .profile-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: var(--radius-xl);
+            padding: 16px;
+            backdrop-filter: blur(10px);
+        }
+
+        .stat-item {
+            text-align: center;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+
+        .stat-item:active {
+            transform: scale(0.95);
+        }
+
+        .stat-value {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            opacity: 0.9;
+        }
+
+        /* Order Status Cards */
+        .order-status-section {
+            padding: 20px;
+            background: white;
+        }
+
+        .section-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--color-gray-900);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .section-link {
+            font-size: 13px;
+            color: var(--color-gray-600);
+            text-decoration: none;
+        }
+
+        .order-status-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+        }
+
+        .order-status-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 16px 8px;
+            background: var(--color-gray-50);
+            border-radius: var(--radius-lg);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            position: relative;
+        }
+
+        .order-status-card:active {
+            transform: scale(0.95);
+            background: var(--color-gray-100);
+        }
+
+        .order-status-icon {
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+
+        .order-status-count {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--color-primary);
+            margin-bottom: 4px;
+        }
+
+        .order-status-label {
+            font-size: 11px;
+            color: var(--color-gray-700);
+            text-align: center;
+        }
+
+        .status-badge {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            width: 6px;
+            height: 6px;
+            background: var(--color-error);
+            border-radius: var(--radius-full);
+        }
+
+        /* Benefits Section */
+        .benefits-section {
+            padding: 20px;
+            background: white;
+            margin-top: 8px;
+        }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .benefit-card {
+            background: linear-gradient(135deg, #FFF3E0, #FFE0B2);
+            padding: 16px;
+            border-radius: var(--radius-lg);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+
+        .benefit-card:active {
+            transform: scale(0.98);
+        }
+
+        .benefit-card.points {
+            background: linear-gradient(135deg, #E8F5E9, #C8E6C9);
+        }
+
+        .benefit-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+
+        .benefit-icon {
+            font-size: 24px;
+        }
+
+        .benefit-arrow {
+            font-size: 14px;
+            color: var(--color-gray-500);
+        }
+
+        .benefit-label {
+            font-size: 13px;
+            color: var(--color-gray-700);
+            margin-bottom: 4px;
+        }
+
+        .benefit-value {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--color-gray-900);
+        }
+
+        /* Quick Menu Grid */
+        .quick-menu-section {
+            padding: 20px;
+            background: white;
+            margin-top: 8px;
+        }
+
+        .quick-menu-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        .quick-menu-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+
+        .quick-menu-item:active {
+            transform: scale(0.95);
+        }
+
+        .quick-menu-icon {
+            width: 56px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--color-gray-50);
+            border-radius: var(--radius-xl);
+            font-size: 28px;
+            transition: all var(--transition-fast);
+        }
+
+        .quick-menu-item:active .quick-menu-icon {
+            background: var(--color-primary-light);
+        }
+
+        .quick-menu-label {
+            font-size: 12px;
+            color: var(--color-gray-700);
+            text-align: center;
+        }
+
+        /* Recent Orders */
+        .recent-orders-section {
+            padding: 20px;
+            background: white;
+            margin-top: 8px;
+        }
+
+        .order-item {
+            display: flex;
+            gap: 12px;
+            padding: 16px;
+            background: var(--color-gray-50);
+            border-radius: var(--radius-lg);
+            margin-bottom: 12px;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+
+        .order-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .order-item:active {
+            transform: scale(0.98);
+            background: var(--color-gray-100);
+        }
+
+        .order-image {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #FFE0B2, #FFCC80);
+            border-radius: var(--radius-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            flex-shrink: 0;
+        }
+
+        .order-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .order-date {
+            font-size: 12px;
+            color: var(--color-gray-500);
+            margin-bottom: 4px;
+        }
+
+        .order-title {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--color-gray-900);
+            margin-bottom: 4px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .order-status {
+            display: inline-flex;
+            padding: 4px 10px;
+            background: var(--color-primary-light);
+            color: var(--color-primary-dark);
+            border-radius: var(--radius-full);
+            font-size: 11px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .order-price {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--color-gray-900);
+        }
+
+        /* Membership Banner */
+        .membership-banner {
+            margin: 8px 20px 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #9C27B0, #BA68C8);
+            border-radius: var(--radius-xl);
+            color: white;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+
+        .membership-banner:active {
+            transform: scale(0.98);
+        }
+
+        .membership-badge {
+            display: inline-flex;
+            padding: 4px 12px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: var(--radius-full);
+            font-size: 11px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .membership-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .membership-desc {
+            font-size: 13px;
+            opacity: 0.9;
+            margin-bottom: 16px;
+        }
+
+        .membership-benefits {
+            display: flex;
+            gap: 16px;
+        }
+
+        .membership-benefit {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12px;
+        }
+
+        /* Settings Section */
+        .settings-section {
+            padding: 20px;
+            background: white;
+            margin-top: 8px;
+        }
+
+        .settings-list {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .settings-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 0;
+            border-bottom: 1px solid var(--color-gray-100);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+
+        .settings-item:last-child {
+            border-bottom: none;
+        }
+
+        .settings-item:active {
+            background: var(--color-gray-50);
+            margin: 0 -20px;
+            padding: 16px 20px;
+        }
+
+        .settings-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .settings-icon {
+            font-size: 20px;
+        }
+
+        .settings-label {
+            font-size: 15px;
+            color: var(--color-gray-900);
+        }
+
+        .settings-arrow {
+            font-size: 16px;
+            color: var(--color-gray-400);
+        }
+
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 430px;
+            background: white;
+            border-top: 1px solid var(--color-gray-100);
+            display: flex;
+            justify-content: space-around;
+            padding: 8px 0 env(safe-area-inset-bottom);
+            z-index: var(--z-sticky);
+        }
+
+        .nav-item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            padding: 4px;
+            color: var(--color-gray-500);
+            text-decoration: none;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+
+        .nav-item:active {
+            transform: scale(0.95);
+        }
+
+        .nav-item.active {
+            color: var(--color-primary);
+        }
+
+        .nav-item__icon {
+            font-size: 22px;
+        }
+
+        .nav-item__label {
+            font-size: 11px;
+            font-weight: 500;
+        }
+
+        /* Empty State */
+        .empty-orders {
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .empty-icon {
+            font-size: 48px;
+            opacity: 0.5;
+            margin-bottom: 12px;
+        }
+
+        .empty-text {
+            font-size: 14px;
+            color: var(--color-gray-600);
+        }
+
+        /* Divider */
+        .divider {
+            height: 8px;
+            background: var(--color-gray-100);
+        }
+    </style>
+</head>
+<body>
+    <div class="mobile-container">
+        <!-- Status Bar -->
+        <div class="status-bar">
+            <span class="status-bar__time">9:41</span>
+            <div class="status-bar__icons">
+                <span>📶</span>
+                <span>📶</span>
+                <span>🔋</span>
+            </div>
+        </div>
+
+        <!-- App Header -->
+        <header class="app-header">
+            <h1 class="app-header__title">마이페이지</h1>
+            <div class="app-header__actions">
+                <button class="icon-button" onclick="location.href='../support/inquiry.html'">
+                    🔔
+                </button>
+                <button class="icon-button" onclick="showSettings()">
+                    ⚙️
+                </button>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- User Profile Section -->
+            <section class="user-profile">
+                <div class="profile-header">
+                    <div class="profile-avatar">👤</div>
+                    <div class="profile-info">
+                        <div class="profile-name">
+                            김건강님
+                            <span class="profile-membership">🌟 VIP 회원</span>
+                        </div>
+                        <div class="profile-email">fruitlover@email.com</div>
+                    </div>
+                </div>
+
+                <div class="profile-stats">
+                    <div class="stat-item" onclick="location.href='./points.html'">
+                        <div class="stat-value">12,450</div>
+                        <div class="stat-label">포인트</div>
+                    </div>
+                    <div class="stat-item" onclick="location.href='./coupons.html'">
+                        <div class="stat-value">5</div>
+                        <div class="stat-label">쿠폰</div>
+                    </div>
+                    <div class="stat-item" onclick="location.href='./wishlist.html'">
+                        <div class="stat-value">18</div>
+                        <div class="stat-label">찜</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Order Status Cards -->
+            <section class="order-status-section">
+                <div class="section-title">
+                    주문/배송 현황
+                    <a href="./orders.html" class="section-link">전체보기 →</a>
+                </div>
+                <div class="order-status-grid">
+                    <div class="order-status-card" onclick="location.href='./orders.html?status=ordered'">
+                        <div class="order-status-icon">📋</div>
+                        <div class="order-status-count">2</div>
+                        <div class="order-status-label">주문접수</div>
+                    </div>
+                    <div class="order-status-card" onclick="location.href='./orders.html?status=paid'">
+                        <div class="order-status-icon">💳</div>
+                        <div class="order-status-count">3</div>
+                        <div class="order-status-label">결제완료</div>
+                        <span class="status-badge"></span>
+                    </div>
+                    <div class="order-status-card" onclick="location.href='./orders.html?status=shipping'">
+                        <div class="order-status-icon">🚚</div>
+                        <div class="order-status-count">1</div>
+                        <div class="order-status-label">배송중</div>
+                        <span class="status-badge"></span>
+                    </div>
+                    <div class="order-status-card" onclick="location.href='./orders.html?status=delivered'">
+                        <div class="order-status-icon">✅</div>
+                        <div class="order-status-count">12</div>
+                        <div class="order-status-label">배송완료</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Points & Coupons -->
+            <section class="benefits-section">
+                <div class="section-title">나의 혜택</div>
+                <div class="benefits-grid">
+                    <div class="benefit-card points" onclick="location.href='./points.html'">
+                        <div class="benefit-header">
+                            <div class="benefit-icon">💰</div>
+                            <div class="benefit-arrow">→</div>
+                        </div>
+                        <div class="benefit-label">보유 포인트</div>
+                        <div class="benefit-value">12,450원</div>
+                    </div>
+                    <div class="benefit-card" onclick="location.href='./coupons.html'">
+                        <div class="benefit-header">
+                            <div class="benefit-icon">🎟️</div>
+                            <div class="benefit-arrow">→</div>
+                        </div>
+                        <div class="benefit-label">사용 가능 쿠폰</div>
+                        <div class="benefit-value">5장</div>
+                    </div>
+                </div>
+            </section>
+
+            <div class="divider"></div>
+
+            <!-- Quick Menu Grid -->
+            <section class="quick-menu-section">
+                <div class="section-title">빠른 메뉴</div>
+                <div class="quick-menu-grid">
+                    <div class="quick-menu-item" onclick="location.href='./orders.html'">
+                        <div class="quick-menu-icon">📦</div>
+                        <div class="quick-menu-label">주문내역</div>
+                    </div>
+                    <div class="quick-menu-item" onclick="location.href='./delivery.html'">
+                        <div class="quick-menu-icon">🚚</div>
+                        <div class="quick-menu-label">배송조회</div>
+                    </div>
+                    <div class="quick-menu-item" onclick="location.href='./cancel.html'">
+                        <div class="quick-menu-icon">↩️</div>
+                        <div class="quick-menu-label">취소/반품</div>
+                    </div>
+                    <div class="quick-menu-item" onclick="location.href='./wishlist.html'">
+                        <div class="quick-menu-icon">❤️</div>
+                        <div class="quick-menu-label">찜목록</div>
+                    </div>
+                    <div class="quick-menu-item" onclick="location.href='./reviews.html'">
+                        <div class="quick-menu-icon">⭐</div>
+                        <div class="quick-menu-label">리뷰관리</div>
+                    </div>
+                    <div class="quick-menu-item" onclick="location.href='./qna.html'">
+                        <div class="quick-menu-icon">💬</div>
+                        <div class="quick-menu-label">상품문의</div>
+                    </div>
+                    <div class="quick-menu-item" onclick="location.href='./subscription.html'">
+                        <div class="quick-menu-icon">🔄</div>
+                        <div class="quick-menu-label">정기배송</div>
+                    </div>
+                    <div class="quick-menu-item" onclick="location.href='./donation-history.html'">
+                        <div class="quick-menu-icon">🤝</div>
+                        <div class="quick-menu-label">나눔내역</div>
+                    </div>
+                </div>
+            </section>
+
+            <div class="divider"></div>
+
+            <!-- Recent Orders -->
+            <section class="recent-orders-section">
+                <div class="section-title">
+                    최근 주문
+                    <a href="./orders.html" class="section-link">전체보기 →</a>
+                </div>
+
+                <div class="order-item" onclick="location.href='../order/track/template.html'">
+                    <div class="order-image" style="background: linear-gradient(135deg, #FFE0B2, #FFCC80);">
+                        🍊
+                    </div>
+                    <div class="order-info">
+                        <div class="order-date">2024.03.15</div>
+                        <div class="order-title">제주 한라봉 2kg (특)</div>
+                        <div class="order-status">배송중</div>
+                        <div class="order-price">32,000원</div>
+                    </div>
+                </div>
+
+                <div class="order-item" onclick="location.href='../order/track/template.html'">
+                    <div class="order-image" style="background: linear-gradient(135deg, #E8F5E9, #C8E6C9);">
+                        🍇
+                    </div>
+                    <div class="order-info">
+                        <div class="order-date">2024.03.12</div>
+                        <div class="order-title">샤인머스켓 1.5kg (프리미엄)</div>
+                        <div class="order-status" style="background: #E8F5E9; color: #2E7D32;">배송완료</div>
+                        <div class="order-price">45,000원</div>
+                    </div>
+                </div>
+
+                <div class="order-item" onclick="location.href='../order/track/template.html'">
+                    <div class="order-image" style="background: linear-gradient(135deg, #FFF9C4, #FFE082);">
+                        🍎
+                    </div>
+                    <div class="order-info">
+                        <div class="order-date">2024.03.08</div>
+                        <div class="order-title">청송 꿀사과 3kg 외 1건</div>
+                        <div class="order-status" style="background: #E8F5E9; color: #2E7D32;">배송완료</div>
+                        <div class="order-price">48,000원</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Membership Benefits Banner -->
+            <div class="membership-banner" onclick="location.href='./membership.html'">
+                <div class="membership-badge">✨ VIP 멤버십</div>
+                <div class="membership-title">프리미엄 회원 혜택</div>
+                <div class="membership-desc">전 상품 5% 추가 할인 + 무료배송</div>
+                <div class="membership-benefits">
+                    <div class="membership-benefit">
+                        <span>✓</span>
+                        <span>적립 2배</span>
+                    </div>
+                    <div class="membership-benefit">
+                        <span>✓</span>
+                        <span>우선 배송</span>
+                    </div>
+                    <div class="membership-benefit">
+                        <span>✓</span>
+                        <span>특별 쿠폰</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Settings & Account -->
+            <section class="settings-section">
+                <div class="section-title">설정 및 계정</div>
+                <div class="settings-list">
+                    <div class="settings-item" onclick="location.href='./profile.html'">
+                        <div class="settings-left">
+                            <div class="settings-icon">👤</div>
+                            <div class="settings-label">프로필 관리</div>
+                        </div>
+                        <div class="settings-arrow">›</div>
+                    </div>
+                    <div class="settings-item" onclick="location.href='./address.html'">
+                        <div class="settings-left">
+                            <div class="settings-icon">📍</div>
+                            <div class="settings-label">배송지 관리</div>
+                        </div>
+                        <div class="settings-arrow">›</div>
+                    </div>
+                    <div class="settings-item" onclick="location.href='./payment-methods.html'">
+                        <div class="settings-left">
+                            <div class="settings-icon">💳</div>
+                            <div class="settings-label">결제수단 관리</div>
+                        </div>
+                        <div class="settings-arrow">›</div>
+                    </div>
+                    <div class="settings-item" onclick="location.href='../support/index.html'">
+                        <div class="settings-left">
+                            <div class="settings-icon">💬</div>
+                            <div class="settings-label">고객센터</div>
+                        </div>
+                        <div class="settings-arrow">›</div>
+                    </div>
+                    <div class="settings-item" onclick="logout()">
+                        <div class="settings-left">
+                            <div class="settings-icon">🚪</div>
+                            <div class="settings-label">로그아웃</div>
+                        </div>
+                        <div class="settings-arrow">›</div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Bottom Navigation -->
+        <nav class="bottom-nav">
+            <a href="../home/main.html" class="nav-item">
+                <span class="nav-item__icon">🏠</span>
+                <span class="nav-item__label">홈</span>
+            </a>
+            <a href="../products/index.html" class="nav-item">
+                <span class="nav-item__icon">🍎</span>
+                <span class="nav-item__label">상품</span>
+            </a>
+            <a href="./index.html" class="nav-item active">
+                <span class="nav-item__icon">👤</span>
+                <span class="nav-item__label">마이</span>
+            </a>
+            <a href="../support/index.html" class="nav-item">
+                <span class="nav-item__icon">💬</span>
+                <span class="nav-item__label">고객지원</span>
+            </a>
+        </nav>
+    </div>
+
+    <script>
+        // Settings button handler
+        function showSettings() {
+            alert('설정 메뉴를 준비중입니다.');
+        }
+
+        // Logout handler
+        function logout() {
+            if (confirm('로그아웃 하시겠습니까?')) {
+                alert('로그아웃 되었습니다.');
+                location.href = '../auth/login.html';
+            }
+        }
+
+        // Animate stats on load
+        window.addEventListener('load', () => {
+            const stats = document.querySelectorAll('.stat-value');
+            stats.forEach((stat, index) => {
+                const finalValue = parseInt(stat.textContent.replace(/,/g, ''));
+                let currentValue = 0;
+                const increment = finalValue / 20;
+                const timer = setInterval(() => {
+                    currentValue += increment;
+                    if (currentValue >= finalValue) {
+                        stat.textContent = finalValue.toLocaleString();
+                        clearInterval(timer);
+                    } else {
+                        stat.textContent = Math.floor(currentValue).toLocaleString();
+                    }
+                }, 50);
+            });
+        });
+
+        // Add click feedback for interactive elements
+        document.querySelectorAll('.order-item, .benefit-card, .quick-menu-item, .settings-item').forEach(item => {
+            item.addEventListener('touchstart', function() {
+                this.style.opacity = '0.7';
+            });
+            item.addEventListener('touchend', function() {
+                this.style.opacity = '1';
+            });
+        });
+
+        // Simulate real-time order status updates
+        function updateOrderStatus() {
+            const statusBadges = document.querySelectorAll('.status-badge');
+            statusBadges.forEach(badge => {
+                setInterval(() => {
+                    badge.style.opacity = badge.style.opacity === '0' ? '1' : '0';
+                }, 1000);
+            });
+        }
+
+        updateOrderStatus();
+    </script>
+</body>
+</html>

@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>교환/반품정책 - 과일다리</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* 과일다리 Brand Colors */
+            --primary-green: #8BC34A;
+            --dark-green: #689F38;
+            --light-green: #DCEDC8;
+            --accent-yellow: #FFEB3B;
+            --orange: #FF6F00;
+            --red: #F44336;
+            --warm-pink: #FCE4EC;
+            --primary-warm: #FF9800;
+            --primary-peach: #FFB74D;
+            --light-peach: #FFE0B2;
+            --heart-red: #E91E63;
+
+            /* Neutrals */
+            --text-primary: #212121;
+            --text-secondary: #757575;
+            --text-muted: #9E9E9E;
+            --border: #E0E0E0;
+            --bg-gray: #F5F5F5;
+            --bg-white: #FFFFFF;
+
+            /* Shadows */
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.12);
+            --shadow-md: 0 2px 6px rgba(0,0,0,0.16);
+            --shadow-lg: 0 10px 20px rgba(0,0,0,0.19);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        html {
+            background: #e8e8e8;
+            min-height: 100vh;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', -apple-system, sans-serif;
+            color: var(--text-primary);
+            background: var(--bg-white);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            margin: 0 auto;
+            min-height: 100vh;
+            position: relative;
+            padding-bottom: 60px; /* Bottom nav height */
+        }
+
+        /* PC에서 모바일 너비 유지 */
+        @media (min-width: 768px) {
+            body {
+                max-width: 430px;
+                box-shadow: 0 0 50px rgba(0,0,0,0.1);
+            }
+        }
+
+        .container {
+            padding: 0 15px;
+        }
+
+        /* Header */
+        .header {
+            background: var(--bg-white);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            padding: 10px 15px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .header-back {
+            font-size: 24px;
+            cursor: pointer;
+            padding: 5px;
+            margin-left: -5px;
+        }
+
+        .header-title {
+            font-size: 16px;
+            font-weight: 500;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 15px;
+            margin-left: auto;
+        }
+
+        .header-icon {
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        /* Content Area */
+        .content {
+            min-height: calc(100vh - 120px);
+            padding: 20px 15px;
+        }
+
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 430px;
+            background: white;
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: space-around;
+            padding: 8px 0;
+            z-index: 100;
+        }
+
+        .nav-item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            padding: 4px;
+            color: var(--text-muted);
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .nav-item.active {
+            color: var(--primary-green);
+        }
+
+        .nav-item .icon {
+            font-size: 24px;
+        }
+
+        .nav-item .label {
+            font-size: 11px;
+            font-weight: 500;
+        }
+
+        /* Common Components */
+        .button {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-block;
+            text-decoration: none;
+            text-align: center;
+        }
+
+        .button-primary {
+            background: var(--primary-green);
+            color: white;
+        }
+
+        .button-primary:active {
+            background: var(--dark-green);
+        }
+
+        .button-secondary {
+            background: var(--bg-gray);
+            color: var(--text-primary);
+        }
+
+        .button-full {
+            width: 100%;
+        }
+
+        /* Card Component */
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 12px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        /* Form Elements */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary-green);
+        }
+
+        /* Page Specific Styles */
+        
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        
+        <span class="header-back" onclick="history.back()">←</span>
+        <h1 class="header-title">교환/반품정책</h1>
+        <div class="header-actions">
+            <span class="header-icon">🏠</span>
+        </div>
+        
+    </header>
+
+    <!-- Main Content -->
+    <main class="content">
+        
+            <div class="page-header">
+                <h2>교환/반품정책</h2>
+                <p class="page-desc">교환 및 반품 규정</p>
+            </div>
+
+            <div class="info-content" style="margin-top: 20px;">
+                <div class="card" style="padding: 24px; text-align: center;">
+                    <div style="font-size: 48px; margin-bottom: 16px;">🍎</div>
+                    <h3 style="font-size: 18px; margin-bottom: 12px;">교환/반품정책</h3>
+                    <p style="font-size: 14px; color: var(--text-secondary); line-height: 1.6;">
+                        교환 및 반품 규정
+                    </p>
+
+                    <div style="margin-top: 24px; padding-top: 24px; border-top: 1px solid var(--border);">
+                        <p style="font-size: 13px; color: var(--text-muted);">
+                            과일다리는 신선한 과일을 통해 건강한 삶을 지원합니다.<br>
+                            문의사항이 있으시면 고객센터로 연락 주세요.
+                        </p>
+                        <div style="margin-top: 16px;">
+                            <button class="button button-primary">고객센터 바로가기</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+    </main>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+        <a href="/pages/home/index.html" class="nav-item ">
+            <span class="icon">🏠</span>
+            <span class="label">홈</span>
+        </a>
+        <a href="/pages/products/index.html" class="nav-item ">
+            <span class="icon">🍎</span>
+            <span class="label">상품</span>
+        </a>
+        <a href="/pages/mypage/index.html" class="nav-item ">
+            <span class="icon">👤</span>
+            <span class="label">마이</span>
+        </a>
+        <a href="/pages/support/index.html" class="nav-item active">
+            <span class="icon">💬</span>
+            <span class="label">고객지원</span>
+        </a>
+    </nav>
+</body>
+</html>

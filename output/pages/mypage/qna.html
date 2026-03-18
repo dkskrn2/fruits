@@ -1,0 +1,1038 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>상품문의 - 과일다리</title>
+    <link rel="stylesheet" href="../../styles/design-system.css">
+    <link rel="stylesheet" href="../../styles/components.css">
+    <style>
+        body {
+            background: var(--color-gray-50);
+            padding-bottom: calc(var(--bottom-nav-height) + var(--safe-area-bottom));
+        }
+
+        /* Header */
+        .header {
+            position: sticky;
+            top: 0;
+            z-index: var(--z-sticky);
+            background: var(--color-white);
+            border-bottom: 1px solid var(--color-gray-200);
+            padding: var(--space-3) var(--space-4);
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            max-width: var(--max-width-mobile);
+            margin: 0 auto;
+        }
+
+        .header-back {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--color-gray-900);
+        }
+
+        .header-title {
+            font-size: var(--font-size-md);
+            font-weight: var(--font-weight-semibold);
+            color: var(--color-gray-900);
+        }
+
+        .header-action {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            cursor: pointer;
+            color: var(--color-gray-600);
+        }
+
+        /* Tabs */
+        .tabs-wrapper {
+            background: var(--color-white);
+            position: sticky;
+            top: 56px;
+            z-index: var(--z-sticky);
+            border-bottom: 1px solid var(--color-gray-200);
+        }
+
+        .tabs {
+            max-width: var(--max-width-mobile);
+            margin: 0 auto;
+        }
+
+        /* Content */
+        .main-content {
+            max-width: var(--max-width-mobile);
+            margin: 0 auto;
+            padding: var(--space-4);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Q&A Card */
+        .qna-card {
+            background: var(--color-white);
+            border-radius: var(--radius-lg);
+            padding: var(--space-4);
+            margin-bottom: var(--space-3);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .qna-card-header {
+            display: flex;
+            gap: var(--space-3);
+            margin-bottom: var(--space-3);
+            padding-bottom: var(--space-3);
+            border-bottom: 1px solid var(--color-gray-100);
+        }
+
+        .qna-product-thumb {
+            width: 64px;
+            height: 64px;
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            flex-shrink: 0;
+            background: var(--color-gray-100);
+        }
+
+        .qna-product-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .qna-product-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .qna-product-name {
+            font-size: var(--font-size-sm);
+            font-weight: var(--font-weight-medium);
+            color: var(--color-gray-900);
+            margin-bottom: var(--space-1);
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .qna-product-option {
+            font-size: var(--font-size-xs);
+            color: var(--color-gray-600);
+            margin-bottom: var(--space-2);
+        }
+
+        .qna-meta {
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+        }
+
+        .qna-date {
+            font-size: var(--font-size-xs);
+            color: var(--color-gray-500);
+        }
+
+        /* Question Section */
+        .qna-question {
+            margin-bottom: var(--space-3);
+        }
+
+        .qna-question-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: var(--space-2);
+        }
+
+        .qna-question-label {
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+        }
+
+        .qna-icon {
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--color-primary-light);
+            color: var(--color-primary);
+            border-radius: var(--radius-sm);
+            font-weight: var(--font-weight-bold);
+            font-size: var(--font-size-sm);
+        }
+
+        .qna-question-text {
+            font-size: var(--font-size-base);
+            color: var(--color-gray-900);
+            line-height: var(--line-height-relaxed);
+        }
+
+        .qna-private-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 2px var(--space-2);
+            background: var(--color-gray-100);
+            color: var(--color-gray-700);
+            font-size: 10px;
+            font-weight: var(--font-weight-medium);
+            border-radius: var(--radius-sm);
+        }
+
+        /* Answer Section */
+        .qna-answer {
+            padding: var(--space-3);
+            background: var(--color-gray-50);
+            border-radius: var(--radius-md);
+            border-left: 3px solid var(--color-primary);
+        }
+
+        .qna-answer-header {
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+            margin-bottom: var(--space-2);
+        }
+
+        .qna-answer-icon {
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--color-primary);
+            color: var(--color-white);
+            border-radius: var(--radius-sm);
+            font-weight: var(--font-weight-bold);
+            font-size: var(--font-size-sm);
+        }
+
+        .qna-seller-badge {
+            padding: 2px var(--space-2);
+            background: var(--color-primary);
+            color: var(--color-white);
+            font-size: 10px;
+            font-weight: var(--font-weight-semibold);
+            border-radius: var(--radius-sm);
+        }
+
+        .qna-answer-text {
+            font-size: var(--font-size-sm);
+            color: var(--color-gray-700);
+            line-height: var(--line-height-relaxed);
+        }
+
+        .qna-answer-date {
+            font-size: var(--font-size-xs);
+            color: var(--color-gray-500);
+            margin-top: var(--space-2);
+        }
+
+        /* No Answer State */
+        .qna-no-answer {
+            padding: var(--space-4);
+            text-align: center;
+            background: var(--color-gray-50);
+            border-radius: var(--radius-md);
+            border: 1px dashed var(--color-gray-300);
+        }
+
+        .qna-no-answer-text {
+            font-size: var(--font-size-sm);
+            color: var(--color-gray-600);
+        }
+
+        /* Floating Action Button */
+        .fab {
+            position: fixed;
+            bottom: calc(var(--bottom-nav-height) + var(--space-4) + var(--safe-area-bottom));
+            right: var(--space-4);
+            width: 56px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--color-primary);
+            color: var(--color-white);
+            border-radius: var(--radius-full);
+            box-shadow: var(--shadow-lg);
+            cursor: pointer;
+            z-index: var(--z-sticky);
+            font-size: 24px;
+            transition: all var(--transition-fast);
+        }
+
+        .fab:active {
+            transform: scale(0.95);
+        }
+
+        /* Modal */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: var(--z-modal);
+            display: none;
+            align-items: flex-end;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            width: 100%;
+            max-width: var(--max-width-mobile);
+            max-height: 90vh;
+            background: var(--color-white);
+            border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+            overflow: hidden;
+            animation: slideUp 0.3s ease;
+            margin: 0 auto;
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(100%);
+            }
+            to {
+                transform: translateY(0);
+            }
+        }
+
+        .modal-header {
+            padding: var(--space-4);
+            border-bottom: 1px solid var(--color-gray-200);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .modal-title {
+            font-size: var(--font-size-md);
+            font-weight: var(--font-weight-semibold);
+            color: var(--color-gray-900);
+        }
+
+        .modal-close {
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--color-gray-600);
+        }
+
+        .modal-body {
+            padding: var(--space-4);
+            max-height: calc(90vh - 140px);
+            overflow-y: auto;
+        }
+
+        .modal-footer {
+            padding: var(--space-4);
+            border-top: 1px solid var(--color-gray-200);
+            background: var(--color-white);
+        }
+
+        /* Form Textarea */
+        .textarea {
+            width: 100%;
+            padding: var(--space-3);
+            font-size: var(--font-size-base);
+            font-family: inherit;
+            border: 1px solid var(--color-gray-300);
+            border-radius: var(--radius-lg);
+            background: var(--color-white);
+            transition: all var(--transition-fast);
+            outline: none;
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .textarea:focus {
+            border-color: var(--color-primary);
+            box-shadow: 0 0 0 3px rgba(111, 207, 63, 0.1);
+        }
+
+        /* Toggle Switch */
+        .toggle-group {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: var(--space-3);
+            background: var(--color-gray-50);
+            border-radius: var(--radius-lg);
+        }
+
+        .toggle-label {
+            font-size: var(--font-size-base);
+            font-weight: var(--font-weight-medium);
+            color: var(--color-gray-900);
+        }
+
+        .toggle-desc {
+            font-size: var(--font-size-xs);
+            color: var(--color-gray-600);
+            margin-top: 2px;
+        }
+
+        .toggle-switch {
+            position: relative;
+            width: 48px;
+            height: 28px;
+            background: var(--color-gray-300);
+            border-radius: var(--radius-full);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+
+        .toggle-switch.active {
+            background: var(--color-primary);
+        }
+
+        .toggle-switch::after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 24px;
+            height: 24px;
+            background: var(--color-white);
+            border-radius: var(--radius-full);
+            transition: all var(--transition-fast);
+        }
+
+        .toggle-switch.active::after {
+            left: 22px;
+        }
+
+        /* Product Selector */
+        .product-selector {
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+            padding: var(--space-3);
+            background: var(--color-gray-50);
+            border-radius: var(--radius-lg);
+            cursor: pointer;
+        }
+
+        .product-selector-thumb {
+            width: 56px;
+            height: 56px;
+            border-radius: var(--radius-md);
+            background: var(--color-gray-200);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+        }
+
+        .product-selector-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .product-selector-label {
+            font-size: var(--font-size-xs);
+            color: var(--color-gray-600);
+            margin-bottom: 2px;
+        }
+
+        .product-selector-value {
+            font-size: var(--font-size-base);
+            font-weight: var(--font-weight-medium);
+            color: var(--color-gray-900);
+        }
+
+        .product-selector-arrow {
+            color: var(--color-gray-400);
+            font-size: 20px;
+        }
+
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: calc(var(--bottom-nav-height) + var(--safe-area-bottom));
+            background: var(--color-white);
+            border-top: 1px solid var(--color-gray-200);
+            display: flex;
+            justify-content: space-around;
+            padding-bottom: var(--safe-area-bottom);
+            z-index: var(--z-sticky);
+        }
+
+        .nav-item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            color: var(--color-gray-500);
+            text-decoration: none;
+            transition: all var(--transition-fast);
+        }
+
+        .nav-item.active {
+            color: var(--color-primary);
+        }
+
+        .nav-item-icon {
+            font-size: 24px;
+        }
+
+        .nav-item-label {
+            font-size: var(--font-size-xs);
+            font-weight: var(--font-weight-medium);
+        }
+
+        /* Responsive */
+        @media (min-width: 431px) {
+            .fab {
+                right: calc(50% - 215px + var(--space-4));
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <div class="header-back" onclick="history.back()">←</div>
+            <h1 class="header-title">상품문의</h1>
+            <div class="header-action"></div>
+        </div>
+    </header>
+
+    <!-- Tabs -->
+    <div class="tabs-wrapper">
+        <div class="tabs">
+            <button class="tab active" data-tab="my-questions">
+                작성한 문의
+            </button>
+            <button class="tab" data-tab="answered">
+                받은 답변
+            </button>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- My Questions Tab -->
+        <div class="tab-content active" id="my-questions">
+            <!-- Q&A Card - Answered -->
+            <div class="qna-card">
+                <div class="qna-card-header">
+                    <div class="qna-product-thumb">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='50' font-size='50' text-anchor='middle' x='50'%3E🍎%3C/text%3E%3C/svg%3E" alt="사과">
+                    </div>
+                    <div class="qna-product-info">
+                        <div class="qna-product-name">청송 프리미엄 사과</div>
+                        <div class="qna-product-option">5kg (14-16입)</div>
+                        <div class="qna-meta">
+                            <span class="badge badge-success">답변완료</span>
+                            <span class="qna-date">2024.03.15</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="qna-question">
+                    <div class="qna-question-header">
+                        <div class="qna-question-label">
+                            <span class="qna-icon">Q</span>
+                        </div>
+                        <span class="qna-private-badge">
+                            🔒 비공개
+                        </span>
+                    </div>
+                    <div class="qna-question-text">
+                        배송은 언제쯤 가능한가요? 다음 주 금요일까지 받아야 하는데 가능할까요?
+                    </div>
+                </div>
+
+                <div class="qna-answer">
+                    <div class="qna-answer-header">
+                        <span class="qna-answer-icon">A</span>
+                        <span class="qna-seller-badge">판매자</span>
+                    </div>
+                    <div class="qna-answer-text">
+                        안녕하세요, 과일다리입니다. 주문 후 1-2일 내 출고되며, 다음 주 금요일까지는 충분히 도착 가능합니다. 배송 관련 추가 문의사항은 고객센터로 연락 주시면 자세히 안내해드리겠습니다. 감사합니다!
+                    </div>
+                    <div class="qna-answer-date">2024.03.15 14:30 답변완료</div>
+                </div>
+            </div>
+
+            <!-- Q&A Card - Waiting -->
+            <div class="qna-card">
+                <div class="qna-card-header">
+                    <div class="qna-product-thumb">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='50' font-size='50' text-anchor='middle' x='50'%3E🍊%3C/text%3E%3C/svg%3E" alt="귤">
+                    </div>
+                    <div class="qna-product-info">
+                        <div class="qna-product-name">제주 프리미엄 한라봉</div>
+                        <div class="qna-product-option">3kg (8-10입)</div>
+                        <div class="qna-meta">
+                            <span class="badge badge-warning">답변대기</span>
+                            <span class="qna-date">2024.03.18</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="qna-question">
+                    <div class="qna-question-header">
+                        <div class="qna-question-label">
+                            <span class="qna-icon">Q</span>
+                        </div>
+                    </div>
+                    <div class="qna-question-text">
+                        한라봉 당도가 궁금합니다. 선물용으로 구매하려고 하는데 당도 보장되나요?
+                    </div>
+                </div>
+
+                <div class="qna-no-answer">
+                    <div class="qna-no-answer-text">
+                        판매자의 답변을 기다리고 있습니다
+                    </div>
+                </div>
+            </div>
+
+            <!-- Q&A Card - Answered -->
+            <div class="qna-card">
+                <div class="qna-card-header">
+                    <div class="qna-product-thumb">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='50' font-size='50' text-anchor='middle' x='50'%3E🍇%3C/text%3E%3C/svg%3E" alt="포도">
+                    </div>
+                    <div class="qna-product-info">
+                        <div class="qna-product-name">샤인머스캣 특선</div>
+                        <div class="qna-product-option">2kg (3-4송이)</div>
+                        <div class="qna-meta">
+                            <span class="badge badge-success">답변완료</span>
+                            <span class="qna-date">2024.03.14</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="qna-question">
+                    <div class="qna-question-header">
+                        <div class="qna-question-label">
+                            <span class="qna-icon">Q</span>
+                        </div>
+                    </div>
+                    <div class="qna-question-text">
+                        샤인머스캣 씨가 있나요? 아이들이 먹기에 씨 없는 게 좋아서요.
+                    </div>
+                </div>
+
+                <div class="qna-answer">
+                    <div class="qna-answer-header">
+                        <span class="qna-answer-icon">A</span>
+                        <span class="qna-seller-badge">판매자</span>
+                    </div>
+                    <div class="qna-answer-text">
+                        안녕하세요. 샤인머스캣은 씨 없는 품종으로 아이들이 먹기에도 안전하고 좋습니다. 당도도 높고 신선한 상태로 보내드리니 안심하고 주문해주세요!
+                    </div>
+                    <div class="qna-answer-date">2024.03.14 16:20 답변완료</div>
+                </div>
+            </div>
+
+            <!-- Q&A Card - Waiting -->
+            <div class="qna-card">
+                <div class="qna-card-header">
+                    <div class="qna-product-thumb">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='50' font-size='50' text-anchor='middle' x='50'%3E🍓%3C/text%3E%3C/svg%3E" alt="딸기">
+                    </div>
+                    <div class="qna-product-info">
+                        <div class="qna-product-name">설향 딸기 프리미엄</div>
+                        <div class="qna-product-option">1.5kg (특대과)</div>
+                        <div class="qna-meta">
+                            <span class="badge badge-warning">답변대기</span>
+                            <span class="qna-date">2024.03.18</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="qna-question">
+                    <div class="qna-question-header">
+                        <div class="qna-question-label">
+                            <span class="qna-icon">Q</span>
+                        </div>
+                        <span class="qna-private-badge">
+                            🔒 비공개
+                        </span>
+                    </div>
+                    <div class="qna-question-text">
+                        딸기 크기가 어느 정도인가요? 선물용으로 구매 예정입니다.
+                    </div>
+                </div>
+
+                <div class="qna-no-answer">
+                    <div class="qna-no-answer-text">
+                        판매자의 답변을 기다리고 있습니다
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Answered Tab -->
+        <div class="tab-content" id="answered">
+            <!-- Q&A Card - Answered -->
+            <div class="qna-card">
+                <div class="qna-card-header">
+                    <div class="qna-product-thumb">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='50' font-size='50' text-anchor='middle' x='50'%3E🍎%3C/text%3E%3C/svg%3E" alt="사과">
+                    </div>
+                    <div class="qna-product-info">
+                        <div class="qna-product-name">청송 프리미엄 사과</div>
+                        <div class="qna-product-option">5kg (14-16입)</div>
+                        <div class="qna-meta">
+                            <span class="badge badge-success">답변완료</span>
+                            <span class="qna-date">2024.03.15</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="qna-question">
+                    <div class="qna-question-header">
+                        <div class="qna-question-label">
+                            <span class="qna-icon">Q</span>
+                        </div>
+                        <span class="qna-private-badge">
+                            🔒 비공개
+                        </span>
+                    </div>
+                    <div class="qna-question-text">
+                        배송은 언제쯤 가능한가요? 다음 주 금요일까지 받아야 하는데 가능할까요?
+                    </div>
+                </div>
+
+                <div class="qna-answer">
+                    <div class="qna-answer-header">
+                        <span class="qna-answer-icon">A</span>
+                        <span class="qna-seller-badge">판매자</span>
+                    </div>
+                    <div class="qna-answer-text">
+                        안녕하세요, 과일다리입니다. 주문 후 1-2일 내 출고되며, 다음 주 금요일까지는 충분히 도착 가능합니다. 배송 관련 추가 문의사항은 고객센터로 연락 주시면 자세히 안내해드리겠습니다. 감사합니다!
+                    </div>
+                    <div class="qna-answer-date">2024.03.15 14:30 답변완료</div>
+                </div>
+            </div>
+
+            <!-- Q&A Card - Answered -->
+            <div class="qna-card">
+                <div class="qna-card-header">
+                    <div class="qna-product-thumb">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='50' font-size='50' text-anchor='middle' x='50'%3E🍇%3C/text%3E%3C/svg%3E" alt="포도">
+                    </div>
+                    <div class="qna-product-info">
+                        <div class="qna-product-name">샤인머스캣 특선</div>
+                        <div class="qna-product-option">2kg (3-4송이)</div>
+                        <div class="qna-meta">
+                            <span class="badge badge-success">답변완료</span>
+                            <span class="qna-date">2024.03.14</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="qna-question">
+                    <div class="qna-question-header">
+                        <div class="qna-question-label">
+                            <span class="qna-icon">Q</span>
+                        </div>
+                    </div>
+                    <div class="qna-question-text">
+                        샤인머스캣 씨가 있나요? 아이들이 먹기에 씨 없는 게 좋아서요.
+                    </div>
+                </div>
+
+                <div class="qna-answer">
+                    <div class="qna-answer-header">
+                        <span class="qna-answer-icon">A</span>
+                        <span class="qna-seller-badge">판매자</span>
+                    </div>
+                    <div class="qna-answer-text">
+                        안녕하세요. 샤인머스캣은 씨 없는 품종으로 아이들이 먹기에도 안전하고 좋습니다. 당도도 높고 신선한 상태로 보내드리니 안심하고 주문해주세요!
+                    </div>
+                    <div class="qna-answer-date">2024.03.14 16:20 답변완료</div>
+                </div>
+            </div>
+
+            <!-- Q&A Card - Answered -->
+            <div class="qna-card">
+                <div class="qna-card-header">
+                    <div class="qna-product-thumb">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='50' font-size='50' text-anchor='middle' x='50'%3E🍑%3C/text%3E%3C/svg%3E" alt="복숭아">
+                    </div>
+                    <div class="qna-product-info">
+                        <div class="qna-product-name">영천 백도 복숭아</div>
+                        <div class="qna-product-option">3kg (9-12입)</div>
+                        <div class="qna-meta">
+                            <span class="badge badge-success">답변완료</span>
+                            <span class="qna-date">2024.03.13</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="qna-question">
+                    <div class="qna-question-header">
+                        <div class="qna-question-label">
+                            <span class="qna-icon">Q</span>
+                        </div>
+                    </div>
+                    <div class="qna-question-text">
+                        복숭아 보관 방법이 궁금합니다. 실온 보관인가요, 냉장 보관인가요?
+                    </div>
+                </div>
+
+                <div class="qna-answer">
+                    <div class="qna-answer-header">
+                        <span class="qna-answer-icon">A</span>
+                        <span class="qna-seller-badge">판매자</span>
+                    </div>
+                    <div class="qna-answer-text">
+                        복숭아는 수령 후 바로 드실 경우 실온에 1-2일 두시면 더 달고 맛있습니다. 장기 보관하실 경우 냉장고에 보관하시고, 먹기 30분 전에 꺼내 두시면 가장 맛있게 즐기실 수 있습니다.
+                    </div>
+                    <div class="qna-answer-date">2024.03.13 11:45 답변완료</div>
+                </div>
+            </div>
+
+            <!-- Q&A Card - Answered -->
+            <div class="qna-card">
+                <div class="qna-card-header">
+                    <div class="qna-product-thumb">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='50' font-size='50' text-anchor='middle' x='50'%3E🥭%3C/text%3E%3C/svg%3E" alt="망고">
+                    </div>
+                    <div class="qna-product-info">
+                        <div class="qna-product-name">필리핀 애플망고</div>
+                        <div class="qna-product-option">2kg (6-8입)</div>
+                        <div class="qna-meta">
+                            <span class="badge badge-success">답변완료</span>
+                            <span class="qna-date">2024.03.12</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="qna-question">
+                    <div class="qna-question-header">
+                        <div class="qna-question-label">
+                            <span class="qna-icon">Q</span>
+                        </div>
+                        <span class="qna-private-badge">
+                            🔒 비공개
+                        </span>
+                    </div>
+                    <div class="qna-question-text">
+                        망고가 딱딱하게 올까요, 무르게 올까요? 선호하는 상태가 있어서요.
+                    </div>
+                </div>
+
+                <div class="qna-answer">
+                    <div class="qna-answer-header">
+                        <span class="qna-answer-icon">A</span>
+                        <span class="qna-seller-badge">판매자</span>
+                    </div>
+                    <div class="qna-answer-text">
+                        망고는 약 70% 정도 익은 상태로 발송됩니다. 수령 후 2-3일 실온에 두시면 완숙 상태가 되어 가장 맛있게 드실 수 있습니다. 바로 드시고 싶으시면 주문 시 요청사항에 말씀해주세요!
+                    </div>
+                    <div class="qna-answer-date">2024.03.12 15:30 답변완료</div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Floating Action Button -->
+    <button class="fab" onclick="openQuestionModal()">
+        ✏️
+    </button>
+
+    <!-- Question Modal -->
+    <div class="modal" id="questionModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">상품문의 작성</h2>
+                <div class="modal-close" onclick="closeQuestionModal()">×</div>
+            </div>
+            <div class="modal-body">
+                <!-- Product Selector -->
+                <div class="form-group">
+                    <label class="form-label">상품 선택</label>
+                    <div class="product-selector">
+                        <div class="product-selector-thumb">🍎</div>
+                        <div class="product-selector-info">
+                            <div class="product-selector-label">문의할 상품을 선택하세요</div>
+                            <div class="product-selector-value">상품 선택하기</div>
+                        </div>
+                        <div class="product-selector-arrow">›</div>
+                    </div>
+                </div>
+
+                <!-- Question Input -->
+                <div class="form-group">
+                    <label class="form-label form-label-required">문의 내용</label>
+                    <textarea
+                        class="textarea"
+                        placeholder="상품에 대해 궁금한 점을 작성해주세요.&#10;&#10;• 배송 관련 문의&#10;• 상품 상태 문의&#10;• 보관 방법 문의&#10;등을 남겨주시면 빠르게 답변드리겠습니다."
+                        id="questionText"
+                    ></textarea>
+                    <div class="form-helper">최소 10자 이상 작성해주세요</div>
+                </div>
+
+                <!-- Private Toggle -->
+                <div class="form-group">
+                    <div class="toggle-group">
+                        <div>
+                            <div class="toggle-label">비공개 문의</div>
+                            <div class="toggle-desc">나와 판매자만 볼 수 있습니다</div>
+                        </div>
+                        <div class="toggle-switch" id="privateToggle" onclick="togglePrivate()"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary btn-full" onclick="submitQuestion()">
+                    문의하기
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+        <a href="../home/index.html" class="nav-item">
+            <div class="nav-item-icon">🏠</div>
+            <div class="nav-item-label">홈</div>
+        </a>
+        <a href="../products/index.html" class="nav-item">
+            <div class="nav-item-icon">🍎</div>
+            <div class="nav-item-label">상품</div>
+        </a>
+        <a href="../mypage/index.html" class="nav-item active">
+            <div class="nav-item-icon">👤</div>
+            <div class="nav-item-label">마이</div>
+        </a>
+        <a href="../support/index.html" class="nav-item">
+            <div class="nav-item-icon">💬</div>
+            <div class="nav-item-label">고객지원</div>
+        </a>
+    </nav>
+
+    <script>
+        // Tab Switching
+        const tabs = document.querySelectorAll('.tab');
+        const tabContents = document.querySelectorAll('.tab-content');
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                const tabId = tab.getAttribute('data-tab');
+
+                // Remove active class from all tabs and contents
+                tabs.forEach(t => t.classList.remove('active'));
+                tabContents.forEach(content => content.classList.remove('active'));
+
+                // Add active class to clicked tab and corresponding content
+                tab.classList.add('active');
+                document.getElementById(tabId).classList.add('active');
+            });
+        });
+
+        // Modal Functions
+        function openQuestionModal() {
+            document.getElementById('questionModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeQuestionModal() {
+            document.getElementById('questionModal').classList.remove('active');
+            document.body.style.overflow = '';
+
+            // Reset form
+            document.getElementById('questionText').value = '';
+            document.getElementById('privateToggle').classList.remove('active');
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('questionModal').addEventListener('click', (e) => {
+            if (e.target.id === 'questionModal') {
+                closeQuestionModal();
+            }
+        });
+
+        // Private Toggle
+        let isPrivate = false;
+
+        function togglePrivate() {
+            isPrivate = !isPrivate;
+            document.getElementById('privateToggle').classList.toggle('active');
+        }
+
+        // Submit Question
+        function submitQuestion() {
+            const questionText = document.getElementById('questionText').value.trim();
+
+            if (questionText.length < 10) {
+                alert('문의 내용을 최소 10자 이상 작성해주세요.');
+                return;
+            }
+
+            // Show success message
+            alert('문의가 등록되었습니다.\n판매자의 답변을 기다려주세요.');
+
+            // Close modal
+            closeQuestionModal();
+
+            // In a real application, you would send the question to the server here
+            console.log('Question submitted:', {
+                question: questionText,
+                isPrivate: isPrivate
+            });
+        }
+
+        // Prevent body scroll when modal is open
+        window.addEventListener('load', () => {
+            const modal = document.getElementById('questionModal');
+            if (modal.classList.contains('active')) {
+                document.body.style.overflow = 'hidden';
+            }
+        });
+
+        // Handle back button
+        window.addEventListener('popstate', () => {
+            const modal = document.getElementById('questionModal');
+            if (modal.classList.contains('active')) {
+                closeQuestionModal();
+                history.pushState(null, '', window.location.href);
+            }
+        });
+    </script>
+</body>
+</html>

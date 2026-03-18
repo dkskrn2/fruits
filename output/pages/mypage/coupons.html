@@ -1,0 +1,1058 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>쿠폰함 - 과일다리</title>
+    <link rel="stylesheet" href="../../styles/design-system.css">
+    <link rel="stylesheet" href="../../styles/components.css">
+    <style>
+        /* Page Layout */
+        .page-wrapper {
+            padding-bottom: calc(var(--bottom-nav-height) + var(--space-4));
+            background: var(--color-gray-50);
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .page-header {
+            background: var(--color-white);
+            padding: var(--space-4);
+            border-bottom: 1px solid var(--color-gray-200);
+            position: sticky;
+            top: 0;
+            z-index: var(--z-sticky);
+        }
+
+        .header-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: var(--space-5);
+        }
+
+        .back-btn {
+            font-size: 24px;
+            cursor: pointer;
+            padding: var(--space-2);
+            margin-left: calc(var(--space-2) * -1);
+            color: var(--color-gray-900);
+            background: none;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .page-title {
+            font-size: var(--font-size-lg);
+            font-weight: var(--font-weight-bold);
+            color: var(--color-gray-900);
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        /* Coupon Summary Stats */
+        .coupon-summary {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--space-3);
+            margin-bottom: var(--space-4);
+        }
+
+        .summary-item {
+            text-align: center;
+            padding: var(--space-4);
+            background: var(--color-gray-50);
+            border-radius: var(--radius-lg);
+        }
+
+        .summary-value {
+            font-size: var(--font-size-2xl);
+            font-weight: var(--font-weight-bold);
+            color: var(--color-primary);
+            margin-bottom: var(--space-1);
+        }
+
+        .summary-label {
+            font-size: var(--font-size-xs);
+            color: var(--color-gray-600);
+        }
+
+        .summary-item.expiring .summary-value {
+            color: var(--color-error);
+        }
+
+        /* Coupon Registration Section */
+        .coupon-register {
+            padding: var(--space-5) var(--space-4);
+            background: var(--color-white);
+            margin-bottom: var(--space-2);
+        }
+
+        .register-title {
+            font-size: var(--font-size-base);
+            font-weight: var(--font-weight-semibold);
+            color: var(--color-gray-900);
+            margin-bottom: var(--space-3);
+        }
+
+        .register-form {
+            display: flex;
+            gap: var(--space-2);
+        }
+
+        .register-input {
+            flex: 1;
+            padding: var(--space-3) var(--space-4);
+            border: 1px solid var(--color-gray-300);
+            border-radius: var(--radius-lg);
+            font-size: var(--font-size-base);
+            font-family: inherit;
+            transition: all var(--transition-fast);
+        }
+
+        .register-input:focus {
+            outline: none;
+            border-color: var(--color-primary);
+            box-shadow: 0 0 0 3px rgba(111, 207, 63, 0.1);
+        }
+
+        .register-input::placeholder {
+            color: var(--color-gray-500);
+        }
+
+        .register-btn {
+            padding: var(--space-3) var(--space-5);
+            background: var(--color-primary);
+            color: var(--color-white);
+            border: none;
+            border-radius: var(--radius-lg);
+            font-size: var(--font-size-base);
+            font-weight: var(--font-weight-semibold);
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all var(--transition-fast);
+        }
+
+        .register-btn:active {
+            background: var(--color-primary-dark);
+            transform: scale(0.97);
+        }
+
+        /* Tab Navigation */
+        .tabs {
+            display: flex;
+            background: var(--color-white);
+            border-bottom: 1px solid var(--color-gray-200);
+            position: sticky;
+            top: 134px;
+            z-index: var(--z-sticky);
+        }
+
+        .tab {
+            flex: 1;
+            padding: var(--space-4);
+            font-size: var(--font-size-base);
+            font-weight: var(--font-weight-medium);
+            color: var(--color-gray-600);
+            background: transparent;
+            border: none;
+            border-bottom: 2px solid transparent;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            position: relative;
+        }
+
+        .tab:active {
+            background: var(--color-gray-50);
+        }
+
+        .tab.active {
+            color: var(--color-primary);
+            border-bottom-color: var(--color-primary);
+        }
+
+        .tab-count {
+            font-size: var(--font-size-sm);
+            color: var(--color-primary);
+            margin-left: var(--space-1);
+        }
+
+        /* Coupon List */
+        .coupon-list {
+            padding: var(--space-4);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Coupon Card */
+        .coupon-card {
+            background: var(--color-white);
+            border-radius: var(--radius-xl);
+            margin-bottom: var(--space-4);
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+            position: relative;
+            border: 2px dashed var(--color-primary);
+        }
+
+        .coupon-card.used {
+            opacity: 0.6;
+            border-color: var(--color-gray-300);
+            background: var(--color-gray-50);
+        }
+
+        .coupon-card.expired {
+            opacity: 0.5;
+            border-color: var(--color-gray-300);
+            background: var(--color-gray-100);
+        }
+
+        .coupon-card.vip {
+            border-color: var(--color-accent);
+            background: linear-gradient(135deg, #FFF9E6 0%, #FFFEF7 100%);
+        }
+
+        .coupon-card.expiring-soon::before {
+            content: '곧 만료';
+            position: absolute;
+            top: var(--space-2);
+            right: var(--space-2);
+            padding: var(--space-1) var(--space-2);
+            background: var(--color-error);
+            color: var(--color-white);
+            font-size: var(--font-size-xs);
+            font-weight: var(--font-weight-bold);
+            border-radius: var(--radius-sm);
+            z-index: 1;
+        }
+
+        .coupon-content {
+            display: flex;
+            align-items: center;
+            padding: var(--space-4);
+        }
+
+        .coupon-visual {
+            width: 90px;
+            flex-shrink: 0;
+            text-align: center;
+            padding: var(--space-4);
+            border-right: 2px dashed var(--color-gray-300);
+            margin-right: var(--space-4);
+        }
+
+        .coupon-card.used .coupon-visual,
+        .coupon-card.expired .coupon-visual {
+            border-right-color: var(--color-gray-300);
+        }
+
+        .coupon-discount {
+            font-size: 28px;
+            font-weight: var(--font-weight-bold);
+            color: var(--color-primary);
+            line-height: 1;
+            margin-bottom: var(--space-1);
+        }
+
+        .coupon-card.used .coupon-discount,
+        .coupon-card.expired .coupon-discount {
+            color: var(--color-gray-500);
+        }
+
+        .coupon-card.vip .coupon-discount {
+            color: var(--color-warning);
+        }
+
+        .coupon-type {
+            font-size: var(--font-size-xs);
+            color: var(--color-gray-600);
+            font-weight: var(--font-weight-medium);
+        }
+
+        .coupon-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .coupon-name {
+            font-size: var(--font-size-base);
+            font-weight: var(--font-weight-bold);
+            color: var(--color-gray-900);
+            margin-bottom: var(--space-2);
+            line-height: var(--line-height-tight);
+        }
+
+        .coupon-details {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-1);
+        }
+
+        .coupon-detail {
+            font-size: var(--font-size-xs);
+            color: var(--color-gray-600);
+            display: flex;
+            align-items: center;
+            gap: var(--space-1);
+        }
+
+        .coupon-detail-icon {
+            font-size: 12px;
+            opacity: 0.7;
+        }
+
+        .coupon-expiry {
+            color: var(--color-error);
+            font-weight: var(--font-weight-medium);
+        }
+
+        .coupon-footer {
+            padding: var(--space-3) var(--space-4);
+            background: rgba(0, 0, 0, 0.02);
+            border-top: 1px dashed var(--color-gray-200);
+        }
+
+        .coupon-card.used .coupon-footer,
+        .coupon-card.expired .coupon-footer {
+            background: var(--color-gray-100);
+        }
+
+        .coupon-conditions {
+            font-size: var(--font-size-xs);
+            color: var(--color-gray-600);
+            line-height: var(--line-height-relaxed);
+            margin-bottom: var(--space-3);
+        }
+
+        .coupon-actions {
+            display: flex;
+            gap: var(--space-2);
+        }
+
+        .coupon-btn {
+            flex: 1;
+            padding: var(--space-3);
+            border: none;
+            border-radius: var(--radius-lg);
+            font-size: var(--font-size-sm);
+            font-weight: var(--font-weight-semibold);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+
+        .coupon-btn-primary {
+            background: var(--color-primary);
+            color: var(--color-white);
+        }
+
+        .coupon-btn-primary:active {
+            background: var(--color-primary-dark);
+            transform: scale(0.97);
+        }
+
+        .coupon-btn-disabled {
+            background: var(--color-gray-300);
+            color: var(--color-gray-600);
+            cursor: not-allowed;
+        }
+
+        .coupon-btn-disabled:active {
+            transform: none;
+        }
+
+        .coupon-btn-outline {
+            background: transparent;
+            color: var(--color-gray-700);
+            border: 1px solid var(--color-gray-300);
+        }
+
+        .coupon-status {
+            text-align: center;
+            padding: var(--space-2);
+            font-size: var(--font-size-sm);
+            font-weight: var(--font-weight-semibold);
+        }
+
+        .coupon-status.used {
+            color: var(--color-gray-600);
+        }
+
+        .coupon-status.expired {
+            color: var(--color-error);
+        }
+
+        /* Empty State */
+        .empty-state {
+            padding: var(--space-12) var(--space-6);
+            text-align: center;
+        }
+
+        .empty-icon {
+            font-size: 64px;
+            margin-bottom: var(--space-4);
+            opacity: 0.3;
+        }
+
+        .empty-title {
+            font-size: var(--font-size-md);
+            font-weight: var(--font-weight-semibold);
+            color: var(--color-gray-700);
+            margin-bottom: var(--space-2);
+        }
+
+        .empty-desc {
+            font-size: var(--font-size-sm);
+            color: var(--color-gray-500);
+            line-height: var(--line-height-relaxed);
+        }
+
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: var(--max-width-mobile);
+            background: var(--color-white);
+            border-top: 1px solid var(--color-gray-200);
+            display: flex;
+            justify-content: space-around;
+            padding: var(--space-2) 0;
+            z-index: var(--z-sticky);
+            height: var(--bottom-nav-height);
+        }
+
+        .nav-item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--space-1);
+            padding: var(--space-1);
+            color: var(--color-gray-500);
+            text-decoration: none;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+
+        .nav-item.active {
+            color: var(--color-primary);
+        }
+
+        .nav-icon {
+            font-size: 24px;
+        }
+
+        .nav-label {
+            font-size: var(--font-size-xs);
+            font-weight: var(--font-weight-medium);
+        }
+
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            bottom: calc(var(--bottom-nav-height) + var(--space-4));
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.85);
+            color: var(--color-white);
+            padding: var(--space-3) var(--space-5);
+            border-radius: var(--radius-full);
+            font-size: var(--font-size-sm);
+            z-index: var(--z-notification);
+            opacity: 0;
+            transition: all var(--transition-base);
+            pointer-events: none;
+        }
+
+        .toast.show {
+            opacity: 1;
+        }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: var(--z-modal);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: var(--space-4);
+        }
+
+        .modal-overlay.show {
+            display: flex;
+        }
+
+        .modal {
+            background: var(--color-white);
+            border-radius: var(--radius-2xl);
+            padding: var(--space-6);
+            max-width: 340px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .modal-icon {
+            font-size: 48px;
+            margin-bottom: var(--space-4);
+        }
+
+        .modal-title {
+            font-size: var(--font-size-lg);
+            font-weight: var(--font-weight-bold);
+            color: var(--color-gray-900);
+            margin-bottom: var(--space-2);
+        }
+
+        .modal-message {
+            font-size: var(--font-size-base);
+            color: var(--color-gray-600);
+            line-height: var(--line-height-relaxed);
+            margin-bottom: var(--space-6);
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: var(--space-2);
+        }
+
+        .modal-btn {
+            flex: 1;
+            padding: var(--space-3) var(--space-4);
+            border: none;
+            border-radius: var(--radius-lg);
+            font-size: var(--font-size-base);
+            font-weight: var(--font-weight-semibold);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+
+        .modal-btn-primary {
+            background: var(--color-primary);
+            color: var(--color-white);
+        }
+
+        .modal-btn-secondary {
+            background: var(--color-gray-200);
+            color: var(--color-gray-900);
+        }
+
+        .modal-btn:active {
+            transform: scale(0.97);
+        }
+    </style>
+</head>
+<body>
+    <div class="mobile-container page-wrapper">
+        <!-- Header -->
+        <header class="page-header">
+            <div class="header-top">
+                <button class="back-btn" onclick="history.back()">←</button>
+                <h1 class="page-title">쿠폰함</h1>
+                <div style="width: 40px;"></div>
+            </div>
+
+            <!-- Coupon Summary -->
+            <div class="coupon-summary">
+                <div class="summary-item">
+                    <div class="summary-value" id="totalCount">8</div>
+                    <div class="summary-label">보유</div>
+                </div>
+                <div class="summary-item">
+                    <div class="summary-value" id="availableCount">5</div>
+                    <div class="summary-label">사용가능</div>
+                </div>
+                <div class="summary-item expiring">
+                    <div class="summary-value" id="expiringCount">2</div>
+                    <div class="summary-label">만료예정</div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Coupon Registration -->
+        <section class="coupon-register">
+            <h2 class="register-title">쿠폰 등록</h2>
+            <form class="register-form" onsubmit="registerCoupon(event)">
+                <input
+                    type="text"
+                    class="register-input"
+                    id="couponCode"
+                    placeholder="쿠폰 번호를 입력하세요"
+                    maxlength="16"
+                >
+                <button type="submit" class="register-btn">등록</button>
+            </form>
+        </section>
+
+        <!-- Tab Navigation -->
+        <nav class="tabs">
+            <button class="tab active" data-tab="available" onclick="switchTab('available')">
+                사용가능 <span class="tab-count" id="availableTabCount">(5)</span>
+            </button>
+            <button class="tab" data-tab="used" onclick="switchTab('used')">
+                사용완료 <span class="tab-count" id="usedTabCount">(2)</span>
+            </button>
+            <button class="tab" data-tab="expired" onclick="switchTab('expired')">
+                기간만료 <span class="tab-count" id="expiredTabCount">(1)</span>
+            </button>
+        </nav>
+
+        <!-- Coupon Lists -->
+        <main class="coupon-list">
+            <!-- Available Coupons -->
+            <div id="available-content" class="tab-content active">
+                <!-- VIP Special Coupon -->
+                <div class="coupon-card vip expiring-soon">
+                    <div class="coupon-content">
+                        <div class="coupon-visual">
+                            <div class="coupon-discount">30%</div>
+                            <div class="coupon-type">VIP 특별</div>
+                        </div>
+                        <div class="coupon-info">
+                            <h3 class="coupon-name">VIP 회원 특별 할인</h3>
+                            <div class="coupon-details">
+                                <div class="coupon-detail">
+                                    <span class="coupon-detail-icon">📅</span>
+                                    <span class="coupon-expiry">2026.03.20 까지 (2일 남음)</span>
+                                </div>
+                                <div class="coupon-detail">
+                                    <span class="coupon-detail-icon">💰</span>
+                                    <span>최소 주문금액 50,000원</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="coupon-footer">
+                        <div class="coupon-conditions">
+                            • 전 상품 적용 가능<br>
+                            • 다른 쿠폰과 중복 사용 불가<br>
+                            • 최대 할인금액 30,000원
+                        </div>
+                        <div class="coupon-actions">
+                            <button class="coupon-btn coupon-btn-primary" onclick="useCoupon('VIP 회원 특별 할인', '30%')">
+                                사용하기
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- New Member Coupon -->
+                <div class="coupon-card expiring-soon">
+                    <div class="coupon-content">
+                        <div class="coupon-visual">
+                            <div class="coupon-discount">5,000원</div>
+                            <div class="coupon-type">신규회원</div>
+                        </div>
+                        <div class="coupon-info">
+                            <h3 class="coupon-name">신규회원 가입 축하 쿠폰</h3>
+                            <div class="coupon-details">
+                                <div class="coupon-detail">
+                                    <span class="coupon-detail-icon">📅</span>
+                                    <span class="coupon-expiry">2026.03.25 까지 (7일 남음)</span>
+                                </div>
+                                <div class="coupon-detail">
+                                    <span class="coupon-detail-icon">💰</span>
+                                    <span>최소 주문금액 30,000원</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="coupon-footer">
+                        <div class="coupon-conditions">
+                            • 첫 구매 시 사용 가능<br>
+                            • 전 상품 적용 가능
+                        </div>
+                        <div class="coupon-actions">
+                            <button class="coupon-btn coupon-btn-primary" onclick="useCoupon('신규회원 가입 축하 쿠폰', '5,000원')">
+                                사용하기
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Free Shipping Coupon -->
+                <div class="coupon-card">
+                    <div class="coupon-content">
+                        <div class="coupon-visual">
+                            <div class="coupon-discount">무료</div>
+                            <div class="coupon-type">배송비</div>
+                        </div>
+                        <div class="coupon-info">
+                            <h3 class="coupon-name">무료배송 쿠폰</h3>
+                            <div class="coupon-details">
+                                <div class="coupon-detail">
+                                    <span class="coupon-detail-icon">📅</span>
+                                    <span>2026.04.30 까지</span>
+                                </div>
+                                <div class="coupon-detail">
+                                    <span class="coupon-detail-icon">💰</span>
+                                    <span>최소 주문금액 20,000원</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="coupon-footer">
+                        <div class="coupon-conditions">
+                            • 배송비 3,000원 무료<br>
+                            • 제주/도서산간 제외
+                        </div>
+                        <div class="coupon-actions">
+                            <button class="coupon-btn coupon-btn-primary" onclick="useCoupon('무료배송 쿠폰', '무료')">
+                                사용하기
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Seasonal Discount -->
+                <div class="coupon-card">
+                    <div class="coupon-content">
+                        <div class="coupon-visual">
+                            <div class="coupon-discount">15%</div>
+                            <div class="coupon-type">시즌특가</div>
+                        </div>
+                        <div class="coupon-info">
+                            <h3 class="coupon-name">봄맞이 과일 특가 할인</h3>
+                            <div class="coupon-details">
+                                <div class="coupon-detail">
+                                    <span class="coupon-detail-icon">📅</span>
+                                    <span>2026.05.31 까지</span>
+                                </div>
+                                <div class="coupon-detail">
+                                    <span class="coupon-detail-icon">💰</span>
+                                    <span>최소 주문금액 40,000원</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="coupon-footer">
+                        <div class="coupon-conditions">
+                            • 딸기, 수박, 멜론 상품군 적용<br>
+                            • 최대 할인금액 15,000원
+                        </div>
+                        <div class="coupon-actions">
+                            <button class="coupon-btn coupon-btn-primary" onclick="useCoupon('봄맞이 과일 특가 할인', '15%')">
+                                사용하기
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Birthday Coupon -->
+                <div class="coupon-card">
+                    <div class="coupon-content">
+                        <div class="coupon-visual">
+                            <div class="coupon-discount">10,000원</div>
+                            <div class="coupon-type">생일축하</div>
+                        </div>
+                        <div class="coupon-info">
+                            <h3 class="coupon-name">생일 축하 쿠폰</h3>
+                            <div class="coupon-details">
+                                <div class="coupon-detail">
+                                    <span class="coupon-detail-icon">📅</span>
+                                    <span>2026.04.18 까지</span>
+                                </div>
+                                <div class="coupon-detail">
+                                    <span class="coupon-detail-icon">💰</span>
+                                    <span>최소 주문금액 50,000원</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="coupon-footer">
+                        <div class="coupon-conditions">
+                            • 생일 당월에만 사용 가능<br>
+                            • 전 상품 적용 가능
+                        </div>
+                        <div class="coupon-actions">
+                            <button class="coupon-btn coupon-btn-primary" onclick="useCoupon('생일 축하 쿠폰', '10,000원')">
+                                사용하기
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Used Coupons -->
+            <div id="used-content" class="tab-content">
+                <div class="coupon-card used">
+                    <div class="coupon-content">
+                        <div class="coupon-visual">
+                            <div class="coupon-discount">20%</div>
+                            <div class="coupon-type">할인</div>
+                        </div>
+                        <div class="coupon-info">
+                            <h3 class="coupon-name">겨울 시즌 할인 쿠폰</h3>
+                            <div class="coupon-details">
+                                <div class="coupon-detail">
+                                    <span class="coupon-detail-icon">✓</span>
+                                    <span>2026.03.10 사용완료</span>
+                                </div>
+                                <div class="coupon-detail">
+                                    <span class="coupon-detail-icon">💰</span>
+                                    <span>할인금액 8,000원 적용</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="coupon-footer">
+                        <div class="coupon-status used">사용 완료된 쿠폰입니다</div>
+                    </div>
+                </div>
+
+                <div class="coupon-card used">
+                    <div class="coupon-content">
+                        <div class="coupon-visual">
+                            <div class="coupon-discount">3,000원</div>
+                            <div class="coupon-type">배송비</div>
+                        </div>
+                        <div class="coupon-info">
+                            <h3 class="coupon-name">첫 구매 무료배송</h3>
+                            <div class="coupon-details">
+                                <div class="coupon-detail">
+                                    <span class="coupon-detail-icon">✓</span>
+                                    <span>2026.03.05 사용완료</span>
+                                </div>
+                                <div class="coupon-detail">
+                                    <span class="coupon-detail-icon">💰</span>
+                                    <span>할인금액 3,000원 적용</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="coupon-footer">
+                        <div class="coupon-status used">사용 완료된 쿠폰입니다</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Expired Coupons -->
+            <div id="expired-content" class="tab-content">
+                <div class="coupon-card expired">
+                    <div class="coupon-content">
+                        <div class="coupon-visual">
+                            <div class="coupon-discount">25%</div>
+                            <div class="coupon-type">특별할인</div>
+                        </div>
+                        <div class="coupon-info">
+                            <h3 class="coupon-name">설날 특가 할인</h3>
+                            <div class="coupon-details">
+                                <div class="coupon-detail">
+                                    <span class="coupon-detail-icon">⏰</span>
+                                    <span>2026.02.28 만료</span>
+                                </div>
+                                <div class="coupon-detail">
+                                    <span class="coupon-detail-icon">💰</span>
+                                    <span>최소 주문금액 50,000원</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="coupon-footer">
+                        <div class="coupon-status expired">기간이 만료된 쿠폰입니다</div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Bottom Navigation -->
+        <nav class="bottom-nav">
+            <a href="../home/index.html" class="nav-item">
+                <span class="nav-icon">🏠</span>
+                <span class="nav-label">홈</span>
+            </a>
+            <a href="../products/index.html" class="nav-item">
+                <span class="nav-icon">🍎</span>
+                <span class="nav-label">상품</span>
+            </a>
+            <a href="../cart/index.html" class="nav-item">
+                <span class="nav-icon">🛒</span>
+                <span class="nav-label">장바구니</span>
+            </a>
+            <a href="index.html" class="nav-item active">
+                <span class="nav-icon">👤</span>
+                <span class="nav-label">마이페이지</span>
+            </a>
+        </nav>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast"></div>
+
+    <!-- Confirmation Modal -->
+    <div id="modal" class="modal-overlay">
+        <div class="modal">
+            <div class="modal-icon">🎟️</div>
+            <h3 class="modal-title" id="modalTitle">쿠폰 사용</h3>
+            <p class="modal-message" id="modalMessage">이 쿠폰을 사용하시겠습니까?</p>
+            <div class="modal-actions">
+                <button class="modal-btn modal-btn-secondary" onclick="closeModal()">취소</button>
+                <button class="modal-btn modal-btn-primary" onclick="confirmUseCoupon()">확인</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sample coupon data
+        let currentCoupon = null;
+
+        // Tab Switching
+        function switchTab(tabName) {
+            // Update tab buttons
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelector(`[data-tab="${tabName}"]`).classList.add('active');
+
+            // Update tab content
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            document.getElementById(`${tabName}-content`).classList.add('active');
+        }
+
+        // Coupon Registration
+        function registerCoupon(event) {
+            event.preventDefault();
+            const couponCode = document.getElementById('couponCode').value.trim();
+
+            if (!couponCode) {
+                showToast('쿠폰 번호를 입력해주세요');
+                return;
+            }
+
+            // Simulate coupon validation
+            const validCoupons = ['FRUIT2026', 'SPRING30', 'WELCOME5000', 'FREESHIP'];
+
+            if (validCoupons.includes(couponCode.toUpperCase())) {
+                showToast('쿠폰이 등록되었습니다!');
+                document.getElementById('couponCode').value = '';
+
+                // Update counts
+                updateCouponCounts();
+            } else {
+                showToast('유효하지 않은 쿠폰 번호입니다');
+            }
+        }
+
+        // Use Coupon
+        function useCoupon(couponName, discount) {
+            currentCoupon = { name: couponName, discount: discount };
+
+            document.getElementById('modalTitle').textContent = '쿠폰 사용';
+            document.getElementById('modalMessage').innerHTML =
+                `<strong>${couponName}</strong><br>(${discount} 할인)<br><br>장바구니로 이동하여 적용하시겠습니까?`;
+
+            document.getElementById('modal').classList.add('show');
+        }
+
+        // Confirm Coupon Usage
+        function confirmUseCoupon() {
+            if (currentCoupon) {
+                // In a real application, this would apply the coupon to the cart
+                showToast(`${currentCoupon.name} 쿠폰이 적용되었습니다`);
+
+                // Redirect to cart page after a short delay
+                setTimeout(() => {
+                    window.location.href = '../cart/index.html';
+                }, 1500);
+            }
+            closeModal();
+        }
+
+        // Close Modal
+        function closeModal() {
+            document.getElementById('modal').classList.remove('show');
+            currentCoupon = null;
+        }
+
+        // Show Toast Notification
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // Update Coupon Counts
+        function updateCouponCounts() {
+            const availableCount = document.querySelectorAll('#available-content .coupon-card').length;
+            const usedCount = document.querySelectorAll('#used-content .coupon-card').length;
+            const expiredCount = document.querySelectorAll('#expired-content .coupon-card').length;
+            const totalCount = availableCount + usedCount + expiredCount;
+
+            // Count expiring soon coupons (within 7 days)
+            const expiringCount = document.querySelectorAll('#available-content .coupon-card.expiring-soon').length;
+
+            document.getElementById('totalCount').textContent = totalCount;
+            document.getElementById('availableCount').textContent = availableCount;
+            document.getElementById('expiringCount').textContent = expiringCount;
+
+            document.getElementById('availableTabCount').textContent = `(${availableCount})`;
+            document.getElementById('usedTabCount').textContent = `(${usedCount})`;
+            document.getElementById('expiredTabCount').textContent = `(${expiredCount})`;
+        }
+
+        // Update Expiry Countdown
+        function updateExpiryCountdown() {
+            const expiryElements = document.querySelectorAll('.coupon-expiry');
+            const today = new Date('2026-03-18'); // Using the date from environment
+
+            expiryElements.forEach(element => {
+                const text = element.textContent;
+                const dateMatch = text.match(/(\d{4})\.(\d{2})\.(\d{2})/);
+
+                if (dateMatch) {
+                    const expiryDate = new Date(dateMatch[1], dateMatch[2] - 1, dateMatch[3]);
+                    const diffTime = expiryDate - today;
+                    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+                    if (diffDays > 0 && diffDays <= 7) {
+                        const card = element.closest('.coupon-card');
+                        if (card && !card.classList.contains('used') && !card.classList.contains('expired')) {
+                            card.classList.add('expiring-soon');
+                        }
+                    }
+                }
+            });
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('modal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            updateCouponCounts();
+            updateExpiryCountdown();
+        });
+
+        // Auto-format coupon code input
+        document.getElementById('couponCode').addEventListener('input', function(e) {
+            let value = e.target.value.toUpperCase().replace(/[^A-Z0-9]/g, '');
+            e.target.value = value;
+        });
+    </script>
+</body>
+</html>

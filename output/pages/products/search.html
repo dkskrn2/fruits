@@ -1,0 +1,1203 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>상품 검색 - 과일다리</title>
+    <link rel="stylesheet" href="../../styles/design-system.css">
+    <link rel="stylesheet" href="../../styles/components.css">
+    <style>
+        /* Search Page Specific Styles */
+        body {
+            background: var(--color-white);
+        }
+
+        .mobile-container {
+            padding-bottom: var(--bottom-nav-height);
+        }
+
+        /* Search Header */
+        .search-header {
+            position: sticky;
+            top: 0;
+            z-index: var(--z-sticky);
+            background: var(--color-white);
+            padding: var(--space-3) var(--space-4);
+            border-bottom: 1px solid var(--color-gray-200);
+        }
+
+        .search-header__top {
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+            margin-bottom: var(--space-3);
+        }
+
+        .search-header__back {
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--color-gray-900);
+            min-width: 24px;
+            transition: all var(--transition-fast);
+        }
+
+        .search-header__back:active {
+            transform: scale(0.9);
+        }
+
+        /* Search Bar */
+        .search-bar {
+            position: relative;
+            flex: 1;
+        }
+
+        .search-bar__input {
+            width: 100%;
+            padding: var(--space-3) var(--space-10) var(--space-3) var(--space-4);
+            font-size: var(--font-size-base);
+            border: 2px solid var(--color-gray-300);
+            border-radius: var(--radius-full);
+            background: var(--color-gray-50);
+            transition: all var(--transition-fast);
+        }
+
+        .search-bar__input:focus {
+            outline: none;
+            border-color: var(--color-primary);
+            background: var(--color-white);
+            box-shadow: 0 0 0 3px rgba(111, 207, 63, 0.1);
+        }
+
+        .search-bar__clear {
+            position: absolute;
+            right: var(--space-3);
+            top: 50%;
+            transform: translateY(-50%);
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--color-gray-400);
+            color: var(--color-white);
+            border-radius: var(--radius-full);
+            font-size: 12px;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .search-bar__clear.show {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .search-bar__clear:active {
+            transform: translateY(-50%) scale(0.9);
+        }
+
+        /* Auto Complete Suggestions */
+        .suggestions {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: var(--color-white);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-xl);
+            margin-top: var(--space-2);
+            max-height: 300px;
+            overflow-y: auto;
+            display: none;
+            z-index: var(--z-dropdown);
+        }
+
+        .suggestions.show {
+            display: block;
+        }
+
+        .suggestion-item {
+            padding: var(--space-3) var(--space-4);
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            border-bottom: 1px solid var(--color-gray-100);
+        }
+
+        .suggestion-item:last-child {
+            border-bottom: none;
+        }
+
+        .suggestion-item:active {
+            background: var(--color-gray-50);
+        }
+
+        .suggestion-item__icon {
+            font-size: 16px;
+            color: var(--color-gray-500);
+        }
+
+        .suggestion-item__text {
+            flex: 1;
+            font-size: var(--font-size-sm);
+            color: var(--color-gray-900);
+        }
+
+        .suggestion-item__text mark {
+            background: var(--color-accent);
+            color: var(--color-gray-900);
+            font-weight: var(--font-weight-semibold);
+        }
+
+        /* Popular Keywords */
+        .popular-keywords {
+            padding: var(--space-4);
+            background: var(--color-gray-50);
+        }
+
+        .popular-keywords__title {
+            font-size: var(--font-size-sm);
+            font-weight: var(--font-weight-semibold);
+            color: var(--color-gray-700);
+            margin-bottom: var(--space-3);
+        }
+
+        .popular-keywords__list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-2);
+        }
+
+        .keyword-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-1);
+            padding: var(--space-2) var(--space-3);
+            background: var(--color-white);
+            color: var(--color-gray-700);
+            font-size: var(--font-size-sm);
+            border-radius: var(--radius-full);
+            border: 1px solid var(--color-gray-300);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+
+        .keyword-chip__rank {
+            font-weight: var(--font-weight-bold);
+            color: var(--color-primary);
+        }
+
+        .keyword-chip:active {
+            transform: scale(0.95);
+            background: var(--color-gray-100);
+        }
+
+        /* Recent Searches */
+        .recent-searches {
+            padding: var(--space-4);
+        }
+
+        .recent-searches__header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: var(--space-3);
+        }
+
+        .recent-searches__title {
+            font-size: var(--font-size-base);
+            font-weight: var(--font-weight-semibold);
+            color: var(--color-gray-900);
+        }
+
+        .recent-searches__clear {
+            font-size: var(--font-size-sm);
+            color: var(--color-gray-600);
+            cursor: pointer;
+            padding: var(--space-1) var(--space-2);
+            transition: all var(--transition-fast);
+        }
+
+        .recent-searches__clear:active {
+            color: var(--color-gray-900);
+        }
+
+        .recent-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: var(--space-3) 0;
+            border-bottom: 1px solid var(--color-gray-100);
+            cursor: pointer;
+        }
+
+        .recent-item:last-child {
+            border-bottom: none;
+        }
+
+        .recent-item__content {
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+            flex: 1;
+        }
+
+        .recent-item__icon {
+            font-size: 16px;
+            color: var(--color-gray-500);
+        }
+
+        .recent-item__text {
+            font-size: var(--font-size-base);
+            color: var(--color-gray-900);
+        }
+
+        .recent-item__delete {
+            font-size: 18px;
+            color: var(--color-gray-400);
+            padding: var(--space-2);
+            transition: all var(--transition-fast);
+        }
+
+        .recent-item__delete:active {
+            color: var(--color-gray-700);
+            transform: scale(0.9);
+        }
+
+        .recent-searches__empty {
+            text-align: center;
+            padding: var(--space-12) var(--space-4);
+            color: var(--color-gray-500);
+            font-size: var(--font-size-sm);
+        }
+
+        /* Search Results Section */
+        .search-results {
+            display: none;
+        }
+
+        .search-results.show {
+            display: block;
+        }
+
+        /* Results Header */
+        .results-header {
+            padding: var(--space-4);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--color-gray-200);
+        }
+
+        .results-header__count {
+            font-size: var(--font-size-base);
+            color: var(--color-gray-700);
+        }
+
+        .results-header__count strong {
+            color: var(--color-primary);
+            font-weight: var(--font-weight-bold);
+        }
+
+        .results-header__filter {
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+            padding: var(--space-2) var(--space-3);
+            background: var(--color-gray-50);
+            border-radius: var(--radius-lg);
+            font-size: var(--font-size-sm);
+            color: var(--color-gray-700);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+
+        .results-header__filter:active {
+            background: var(--color-gray-200);
+        }
+
+        /* Filters */
+        .filters {
+            padding: var(--space-4);
+            background: var(--color-white);
+            border-bottom: 1px solid var(--color-gray-200);
+            overflow-x: auto;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        .filters::-webkit-scrollbar {
+            display: none;
+        }
+
+        .filters__list {
+            display: flex;
+            gap: var(--space-2);
+            min-width: min-content;
+        }
+
+        .filter-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-1);
+            padding: var(--space-2) var(--space-4);
+            background: var(--color-white);
+            color: var(--color-gray-700);
+            font-size: var(--font-size-sm);
+            font-weight: var(--font-weight-medium);
+            border-radius: var(--radius-full);
+            border: 1px solid var(--color-gray-300);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            white-space: nowrap;
+        }
+
+        .filter-chip.active {
+            background: var(--color-primary);
+            color: var(--color-white);
+            border-color: var(--color-primary);
+        }
+
+        .filter-chip:active {
+            transform: scale(0.95);
+        }
+
+        /* Sort Options */
+        .sort-options {
+            display: flex;
+            padding: var(--space-3) var(--space-4);
+            gap: var(--space-2);
+            background: var(--color-white);
+            border-bottom: 1px solid var(--color-gray-200);
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+
+        .sort-options::-webkit-scrollbar {
+            display: none;
+        }
+
+        .sort-option {
+            padding: var(--space-2) var(--space-3);
+            font-size: var(--font-size-sm);
+            color: var(--color-gray-600);
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all var(--transition-fast);
+            position: relative;
+        }
+
+        .sort-option.active {
+            color: var(--color-primary);
+            font-weight: var(--font-weight-semibold);
+        }
+
+        .sort-option.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--color-primary);
+        }
+
+        /* Results Grid */
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--space-3);
+            padding: var(--space-4);
+        }
+
+        /* Product Card Adjustments */
+        .product-card {
+            box-shadow: var(--shadow-sm);
+        }
+
+        /* No Results */
+        .no-results {
+            display: none;
+            padding: var(--space-12) var(--space-6);
+            text-align: center;
+        }
+
+        .no-results.show {
+            display: block;
+        }
+
+        .no-results__icon {
+            font-size: 64px;
+            margin-bottom: var(--space-4);
+        }
+
+        .no-results__title {
+            font-size: var(--font-size-lg);
+            font-weight: var(--font-weight-bold);
+            color: var(--color-gray-900);
+            margin-bottom: var(--space-2);
+        }
+
+        .no-results__desc {
+            font-size: var(--font-size-base);
+            color: var(--color-gray-600);
+            margin-bottom: var(--space-6);
+            line-height: var(--line-height-relaxed);
+        }
+
+        .no-results__suggestions {
+            background: var(--color-gray-50);
+            border-radius: var(--radius-lg);
+            padding: var(--space-4);
+            text-align: left;
+        }
+
+        .no-results__suggestions-title {
+            font-size: var(--font-size-sm);
+            font-weight: var(--font-weight-semibold);
+            color: var(--color-gray-700);
+            margin-bottom: var(--space-3);
+        }
+
+        .no-results__suggestions-list {
+            list-style: none;
+        }
+
+        .no-results__suggestions-list li {
+            font-size: var(--font-size-sm);
+            color: var(--color-gray-600);
+            padding: var(--space-2) 0;
+            padding-left: var(--space-4);
+            position: relative;
+        }
+
+        .no-results__suggestions-list li::before {
+            content: '•';
+            position: absolute;
+            left: var(--space-2);
+            color: var(--color-primary);
+        }
+
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: var(--max-width-mobile);
+            background: var(--color-white);
+            border-top: 1px solid var(--color-gray-200);
+            display: flex;
+            justify-content: space-around;
+            padding: var(--space-2) 0;
+            z-index: var(--z-sticky);
+        }
+
+        .nav-item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--space-1);
+            padding: var(--space-1);
+            color: var(--color-gray-500);
+            text-decoration: none;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+
+        .nav-item.active {
+            color: var(--color-primary);
+        }
+
+        .nav-item__icon {
+            font-size: 24px;
+        }
+
+        .nav-item__label {
+            font-size: var(--font-size-xs);
+            font-weight: var(--font-weight-medium);
+        }
+
+        /* Loading State */
+        .loading {
+            display: none;
+            padding: var(--space-8) var(--space-4);
+            text-align: center;
+        }
+
+        .loading.show {
+            display: block;
+        }
+
+        .loading__spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid var(--color-gray-200);
+            border-top-color: var(--color-primary);
+            border-radius: var(--radius-full);
+            animation: spin 1s linear infinite;
+            margin: 0 auto var(--space-3);
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .loading__text {
+            font-size: var(--font-size-sm);
+            color: var(--color-gray-600);
+        }
+    </style>
+</head>
+<body>
+    <div class="mobile-container">
+        <!-- Search Header -->
+        <div class="search-header">
+            <div class="search-header__top">
+                <span class="search-header__back" onclick="history.back()">←</span>
+                <div class="search-bar">
+                    <input
+                        type="text"
+                        class="search-bar__input"
+                        id="searchInput"
+                        placeholder="어떤 과일을 찾으시나요?"
+                        autocomplete="off"
+                    >
+                    <span class="search-bar__clear" id="clearBtn">✕</span>
+
+                    <!-- Auto Complete Suggestions -->
+                    <div class="suggestions" id="suggestions"></div>
+                </div>
+            </div>
+
+            <!-- Popular Keywords -->
+            <div class="popular-keywords">
+                <div class="popular-keywords__title">인기 검색어</div>
+                <div class="popular-keywords__list">
+                    <div class="keyword-chip" data-keyword="샤인머스캣">
+                        <span class="keyword-chip__rank">1</span>
+                        <span>샤인머스캣</span>
+                    </div>
+                    <div class="keyword-chip" data-keyword="딸기">
+                        <span class="keyword-chip__rank">2</span>
+                        <span>딸기</span>
+                    </div>
+                    <div class="keyword-chip" data-keyword="수박">
+                        <span class="keyword-chip__rank">3</span>
+                        <span>수박</span>
+                    </div>
+                    <div class="keyword-chip" data-keyword="망고">
+                        <span class="keyword-chip__rank">4</span>
+                        <span>망고</span>
+                    </div>
+                    <div class="keyword-chip" data-keyword="메론">
+                        <span class="keyword-chip__rank">5</span>
+                        <span>메론</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Searches -->
+        <div class="recent-searches" id="recentSearches">
+            <div class="recent-searches__header">
+                <div class="recent-searches__title">최근 검색어</div>
+                <div class="recent-searches__clear" onclick="clearAllRecent()">전체삭제</div>
+            </div>
+            <div id="recentList"></div>
+        </div>
+
+        <!-- Search Results -->
+        <div class="search-results" id="searchResults">
+            <!-- Results Header -->
+            <div class="results-header">
+                <div class="results-header__count">
+                    <strong id="resultCount">0</strong>개의 상품
+                </div>
+                <div class="results-header__filter" onclick="toggleFilters()">
+                    <span>필터</span>
+                    <span>⚙</span>
+                </div>
+            </div>
+
+            <!-- Filters -->
+            <div class="filters" id="filters" style="display: none;">
+                <div class="filters__list">
+                    <div class="filter-chip" data-filter="price" data-value="all">전체가격</div>
+                    <div class="filter-chip" data-filter="price" data-value="under10">1만원 이하</div>
+                    <div class="filter-chip" data-filter="price" data-value="10to30">1-3만원</div>
+                    <div class="filter-chip" data-filter="price" data-value="30to50">3-5만원</div>
+                    <div class="filter-chip" data-filter="price" data-value="over50">5만원 이상</div>
+                </div>
+            </div>
+
+            <div class="filters" id="brixFilters" style="display: none;">
+                <div class="filters__list">
+                    <div class="filter-chip" data-filter="brix" data-value="all">전체 당도</div>
+                    <div class="filter-chip" data-filter="brix" data-value="high">고당도</div>
+                    <div class="filter-chip" data-filter="brix" data-value="medium">중당도</div>
+                    <div class="filter-chip" data-filter="brix" data-value="low">저당도</div>
+                </div>
+            </div>
+
+            <div class="filters" id="originFilters" style="display: none;">
+                <div class="filters__list">
+                    <div class="filter-chip" data-filter="origin" data-value="all">전체 원산지</div>
+                    <div class="filter-chip" data-filter="origin" data-value="korea">국내산</div>
+                    <div class="filter-chip" data-filter="origin" data-value="import">수입산</div>
+                </div>
+            </div>
+
+            <div class="filters" id="categoryFilters" style="display: none;">
+                <div class="filters__list">
+                    <div class="filter-chip" data-filter="category" data-value="all">전체 카테고리</div>
+                    <div class="filter-chip" data-filter="category" data-value="berry">베리류</div>
+                    <div class="filter-chip" data-filter="category" data-value="tropical">열대과일</div>
+                    <div class="filter-chip" data-filter="category" data-value="citrus">감귤류</div>
+                    <div class="filter-chip" data-filter="category" data-value="stone">핵과류</div>
+                </div>
+            </div>
+
+            <!-- Sort Options -->
+            <div class="sort-options">
+                <button class="sort-option active" data-sort="popular">인기순</button>
+                <button class="sort-option" data-sort="price-low">가격 낮은순</button>
+                <button class="sort-option" data-sort="price-high">가격 높은순</button>
+                <button class="sort-option" data-sort="latest">최신순</button>
+                <button class="sort-option" data-sort="review">리뷰많은순</button>
+            </div>
+
+            <!-- Loading State -->
+            <div class="loading" id="loading">
+                <div class="loading__spinner"></div>
+                <div class="loading__text">검색 중...</div>
+            </div>
+
+            <!-- Results Grid -->
+            <div class="results-grid" id="resultsGrid"></div>
+
+            <!-- No Results -->
+            <div class="no-results" id="noResults">
+                <div class="no-results__icon">🔍</div>
+                <div class="no-results__title">검색 결과가 없습니다</div>
+                <div class="no-results__desc">
+                    다른 검색어로 다시 시도하거나<br>
+                    아래 추천 검색어를 참고해주세요
+                </div>
+                <div class="no-results__suggestions">
+                    <div class="no-results__suggestions-title">이런 검색은 어떠세요?</div>
+                    <ul class="no-results__suggestions-list">
+                        <li>샤인머스캣, 딸기, 수박 등 구체적인 과일명</li>
+                        <li>제철과일, 당도높은과일 등 특징으로 검색</li>
+                        <li>선물용과일, 프리미엄과일 등 용도로 검색</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bottom Navigation -->
+        <nav class="bottom-nav">
+            <a href="../home/main.html" class="nav-item">
+                <span class="nav-item__icon">🏠</span>
+                <span class="nav-item__label">홈</span>
+            </a>
+            <a href="./index.html" class="nav-item active">
+                <span class="nav-item__icon">🍎</span>
+                <span class="nav-item__label">상품</span>
+            </a>
+            <a href="../cart/cart.html" class="nav-item">
+                <span class="nav-item__icon">🛒</span>
+                <span class="nav-item__label">장바구니</span>
+            </a>
+            <a href="../mypage/index.html" class="nav-item">
+                <span class="nav-item__icon">👤</span>
+                <span class="nav-item__label">마이페이지</span>
+            </a>
+        </nav>
+    </div>
+
+    <script>
+        // Sample product data
+        const products = [
+            {
+                id: 1,
+                name: '제주 프리미엄 샤인머스캣',
+                desc: '고당도 프리미엄 등급',
+                price: 45000,
+                originalPrice: 55000,
+                image: 'https://images.unsplash.com/photo-1599819177240-e6c00ce9ca1d?w=400',
+                badge: '15%',
+                brix: '18°Bx',
+                origin: '제주',
+                category: 'berry',
+                keywords: ['샤인머스캣', '포도', '머스캣', '제주', '고당도'],
+                reviews: 1250,
+                popularity: 95
+            },
+            {
+                id: 2,
+                name: '설향 딸기 1kg',
+                desc: '당일 수확 산지직송',
+                price: 23000,
+                originalPrice: null,
+                image: 'https://images.unsplash.com/photo-1464965911861-746a04b4bca6?w=400',
+                badge: null,
+                brix: '12°Bx',
+                origin: '논산',
+                category: 'berry',
+                keywords: ['딸기', '설향', '논산', '산지직송'],
+                reviews: 856,
+                popularity: 88
+            },
+            {
+                id: 3,
+                name: '애플망고 2입',
+                desc: '완숙 직송 프리미엄',
+                price: 38000,
+                originalPrice: 45000,
+                image: 'https://images.unsplash.com/photo-1553279768-865429fa0078?w=400',
+                badge: '인기',
+                brix: '16°Bx',
+                origin: '태국',
+                category: 'tropical',
+                keywords: ['망고', '애플망고', '열대과일', '태국'],
+                reviews: 724,
+                popularity: 82
+            },
+            {
+                id: 4,
+                name: '성주 꿀수박 1통',
+                desc: '당도보장 최고등급',
+                price: 29000,
+                originalPrice: null,
+                image: 'https://images.unsplash.com/photo-1587049352846-4a222e784226?w=400',
+                badge: null,
+                brix: '13°Bx',
+                origin: '성주',
+                category: 'melon',
+                keywords: ['수박', '꿀수박', '성주', '여름과일'],
+                reviews: 632,
+                popularity: 78
+            },
+            {
+                id: 5,
+                name: '제주 한라봉 3kg',
+                desc: '즙 가득 새콤달콤',
+                price: 32000,
+                originalPrice: 38000,
+                image: 'https://images.unsplash.com/photo-1580663265523-96fda86dcd64?w=400',
+                badge: '20%',
+                brix: '11°Bx',
+                origin: '제주',
+                category: 'citrus',
+                keywords: ['한라봉', '감귤', '제주', '귤'],
+                reviews: 542,
+                popularity: 75
+            },
+            {
+                id: 6,
+                name: '프리미엄 멜론 1통',
+                desc: '달콤한 고급 멜론',
+                price: 42000,
+                originalPrice: null,
+                image: 'https://images.unsplash.com/photo-1571575243085-7c7b0c3db030?w=400',
+                badge: null,
+                brix: '15°Bx',
+                origin: '나주',
+                category: 'melon',
+                keywords: ['멜론', '메론', '나주', '고급과일'],
+                reviews: 428,
+                popularity: 71
+            },
+            {
+                id: 7,
+                name: '청송 사과 5kg',
+                desc: '아삭한 청송사과',
+                price: 27000,
+                originalPrice: 32000,
+                image: 'https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?w=400',
+                badge: '특가',
+                brix: '14°Bx',
+                origin: '청송',
+                category: 'stone',
+                keywords: ['사과', '청송', '청송사과', '가을과일'],
+                reviews: 915,
+                popularity: 85
+            },
+            {
+                id: 8,
+                name: '골드키위 15입',
+                desc: '달콤한 골드키위',
+                price: 19000,
+                originalPrice: null,
+                image: 'https://images.unsplash.com/photo-1585059895524-72359e06133a?w=400',
+                badge: null,
+                brix: '16°Bx',
+                origin: '뉴질랜드',
+                category: 'tropical',
+                keywords: ['키위', '골드키위', '뉴질랜드'],
+                reviews: 367,
+                popularity: 68
+            }
+        ];
+
+        // Auto-complete keywords
+        const autoCompleteKeywords = [
+            '샤인머스캣', '딸기', '수박', '망고', '메론', '한라봉',
+            '사과', '키위', '포도', '복숭아', '체리', '바나나',
+            '제주', '논산', '성주', '청송', '나주',
+            '고당도', '프리미엄', '선물용', '제철과일', '당일배송'
+        ];
+
+        // State
+        let recentSearches = JSON.parse(localStorage.getItem('recentSearches') || '[]');
+        let currentFilter = {
+            price: 'all',
+            brix: 'all',
+            origin: 'all',
+            category: 'all'
+        };
+        let currentSort = 'popular';
+        let searchQuery = '';
+        let filtersVisible = false;
+
+        // DOM Elements
+        const searchInput = document.getElementById('searchInput');
+        const clearBtn = document.getElementById('clearBtn');
+        const suggestions = document.getElementById('suggestions');
+        const recentSearchesEl = document.getElementById('recentSearches');
+        const recentList = document.getElementById('recentList');
+        const searchResults = document.getElementById('searchResults');
+        const resultsGrid = document.getElementById('resultsGrid');
+        const noResults = document.getElementById('noResults');
+        const loading = document.getElementById('loading');
+        const resultCount = document.getElementById('resultCount');
+
+        // Initialize
+        renderRecentSearches();
+
+        // Search input events
+        searchInput.addEventListener('input', (e) => {
+            const value = e.target.value.trim();
+
+            if (value) {
+                clearBtn.classList.add('show');
+                showSuggestions(value);
+            } else {
+                clearBtn.classList.remove('show');
+                suggestions.classList.remove('show');
+                hideSearchResults();
+            }
+        });
+
+        searchInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                const value = searchInput.value.trim();
+                if (value) {
+                    performSearch(value);
+                }
+            }
+        });
+
+        searchInput.addEventListener('focus', () => {
+            const value = searchInput.value.trim();
+            if (value) {
+                showSuggestions(value);
+            }
+        });
+
+        // Clear button
+        clearBtn.addEventListener('click', () => {
+            searchInput.value = '';
+            clearBtn.classList.remove('show');
+            suggestions.classList.remove('show');
+            hideSearchResults();
+            searchInput.focus();
+        });
+
+        // Close suggestions when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.search-bar')) {
+                suggestions.classList.remove('show');
+            }
+        });
+
+        // Show auto-complete suggestions
+        function showSuggestions(query) {
+            const matches = autoCompleteKeywords.filter(keyword =>
+                keyword.toLowerCase().includes(query.toLowerCase())
+            );
+
+            if (matches.length > 0) {
+                suggestions.innerHTML = matches.slice(0, 5).map(keyword => {
+                    const highlighted = keyword.replace(
+                        new RegExp(query, 'gi'),
+                        match => `<mark>${match}</mark>`
+                    );
+                    return `
+                        <div class="suggestion-item" onclick="selectSuggestion('${keyword}')">
+                            <span class="suggestion-item__icon">🔍</span>
+                            <span class="suggestion-item__text">${highlighted}</span>
+                        </div>
+                    `;
+                }).join('');
+                suggestions.classList.add('show');
+            } else {
+                suggestions.classList.remove('show');
+            }
+        }
+
+        // Select suggestion
+        function selectSuggestion(keyword) {
+            searchInput.value = keyword;
+            suggestions.classList.remove('show');
+            performSearch(keyword);
+        }
+
+        // Popular keyword click
+        document.querySelectorAll('.keyword-chip').forEach(chip => {
+            chip.addEventListener('click', () => {
+                const keyword = chip.dataset.keyword;
+                searchInput.value = keyword;
+                performSearch(keyword);
+            });
+        });
+
+        // Recent searches
+        function renderRecentSearches() {
+            if (recentSearches.length === 0) {
+                recentList.innerHTML = '<div class="recent-searches__empty">최근 검색 내역이 없습니다</div>';
+            } else {
+                recentList.innerHTML = recentSearches.map((search, index) => `
+                    <div class="recent-item">
+                        <div class="recent-item__content" onclick="selectRecent('${search}')">
+                            <span class="recent-item__icon">🕒</span>
+                            <span class="recent-item__text">${search}</span>
+                        </div>
+                        <span class="recent-item__delete" onclick="deleteRecent(${index})">✕</span>
+                    </div>
+                `).join('');
+            }
+        }
+
+        function selectRecent(search) {
+            searchInput.value = search;
+            performSearch(search);
+        }
+
+        function deleteRecent(index) {
+            recentSearches.splice(index, 1);
+            localStorage.setItem('recentSearches', JSON.stringify(recentSearches));
+            renderRecentSearches();
+        }
+
+        function clearAllRecent() {
+            if (confirm('최근 검색어를 모두 삭제하시겠습니까?')) {
+                recentSearches = [];
+                localStorage.setItem('recentSearches', JSON.stringify(recentSearches));
+                renderRecentSearches();
+            }
+        }
+
+        // Perform search
+        function performSearch(query) {
+            searchQuery = query;
+
+            // Add to recent searches
+            if (!recentSearches.includes(query)) {
+                recentSearches.unshift(query);
+                recentSearches = recentSearches.slice(0, 10); // Keep max 10
+                localStorage.setItem('recentSearches', JSON.stringify(recentSearches));
+                renderRecentSearches();
+            }
+
+            // Show loading
+            recentSearchesEl.style.display = 'none';
+            searchResults.classList.add('show');
+            loading.classList.add('show');
+            resultsGrid.style.display = 'none';
+            noResults.classList.remove('show');
+
+            // Simulate search delay
+            setTimeout(() => {
+                loading.classList.remove('show');
+                displayResults();
+            }, 500);
+        }
+
+        // Display results
+        function displayResults() {
+            let filtered = filterProducts();
+            filtered = sortProducts(filtered);
+
+            resultCount.textContent = filtered.length;
+
+            if (filtered.length === 0) {
+                resultsGrid.style.display = 'none';
+                noResults.classList.add('show');
+            } else {
+                noResults.classList.remove('show');
+                resultsGrid.style.display = 'grid';
+                resultsGrid.innerHTML = filtered.map(product => createProductCard(product)).join('');
+            }
+        }
+
+        // Filter products
+        function filterProducts() {
+            return products.filter(product => {
+                // Search query match
+                const queryMatch = product.keywords.some(keyword =>
+                    keyword.toLowerCase().includes(searchQuery.toLowerCase())
+                );
+                if (!queryMatch) return false;
+
+                // Price filter
+                if (currentFilter.price !== 'all') {
+                    const price = product.price;
+                    if (currentFilter.price === 'under10' && price >= 10000) return false;
+                    if (currentFilter.price === '10to30' && (price < 10000 || price > 30000)) return false;
+                    if (currentFilter.price === '30to50' && (price < 30000 || price > 50000)) return false;
+                    if (currentFilter.price === 'over50' && price < 50000) return false;
+                }
+
+                // Brix filter
+                if (currentFilter.brix !== 'all') {
+                    const brix = parseInt(product.brix);
+                    if (currentFilter.brix === 'high' && brix < 15) return false;
+                    if (currentFilter.brix === 'medium' && (brix < 12 || brix >= 15)) return false;
+                    if (currentFilter.brix === 'low' && brix >= 12) return false;
+                }
+
+                // Origin filter
+                if (currentFilter.origin !== 'all') {
+                    const isKorean = ['제주', '논산', '성주', '청송', '나주'].includes(product.origin);
+                    if (currentFilter.origin === 'korea' && !isKorean) return false;
+                    if (currentFilter.origin === 'import' && isKorean) return false;
+                }
+
+                // Category filter
+                if (currentFilter.category !== 'all' && product.category !== currentFilter.category) {
+                    return false;
+                }
+
+                return true;
+            });
+        }
+
+        // Sort products
+        function sortProducts(products) {
+            const sorted = [...products];
+
+            switch (currentSort) {
+                case 'price-low':
+                    sorted.sort((a, b) => a.price - b.price);
+                    break;
+                case 'price-high':
+                    sorted.sort((a, b) => b.price - a.price);
+                    break;
+                case 'latest':
+                    sorted.sort((a, b) => b.id - a.id);
+                    break;
+                case 'review':
+                    sorted.sort((a, b) => b.reviews - a.reviews);
+                    break;
+                case 'popular':
+                default:
+                    sorted.sort((a, b) => b.popularity - a.popularity);
+            }
+
+            return sorted;
+        }
+
+        // Create product card HTML
+        function createProductCard(product) {
+            return `
+                <div class="product-card" onclick="location.href='./detail.html?id=${product.id}'">
+                    <div class="product-card__image">
+                        <img src="${product.image}" alt="${product.name}">
+                        ${product.badge ? `<span class="product-card__badge">${product.badge}</span>` : ''}
+                    </div>
+                    <div class="product-card__content">
+                        <div class="product-card__title">${product.name}</div>
+                        <div class="product-card__desc">${product.desc}</div>
+                        <div class="product-card__info">
+                            <span class="product-card__brix">${product.brix}</span>
+                            <span class="product-card__origin">${product.origin}</span>
+                        </div>
+                        <div class="product-card__footer">
+                            <div>
+                                ${product.originalPrice ?
+                                    `<span class="product-card__price-original">${product.originalPrice.toLocaleString()}원</span>` : ''}
+                                <div class="product-card__price">${product.price.toLocaleString()}원</div>
+                            </div>
+                            <div class="product-card__action">+</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Hide search results
+        function hideSearchResults() {
+            searchResults.classList.remove('show');
+            recentSearchesEl.style.display = 'block';
+        }
+
+        // Toggle filters
+        function toggleFilters() {
+            filtersVisible = !filtersVisible;
+            document.getElementById('filters').style.display = filtersVisible ? 'block' : 'none';
+            document.getElementById('brixFilters').style.display = filtersVisible ? 'block' : 'none';
+            document.getElementById('originFilters').style.display = filtersVisible ? 'block' : 'none';
+            document.getElementById('categoryFilters').style.display = filtersVisible ? 'block' : 'none';
+        }
+
+        // Filter chips
+        document.querySelectorAll('.filter-chip').forEach(chip => {
+            chip.addEventListener('click', () => {
+                const filterType = chip.dataset.filter;
+                const value = chip.dataset.value;
+
+                // Update filter state
+                currentFilter[filterType] = value;
+
+                // Update active state
+                document.querySelectorAll(`[data-filter="${filterType}"]`).forEach(c => {
+                    c.classList.remove('active');
+                });
+                chip.classList.add('active');
+
+                // Re-display results
+                if (searchQuery) {
+                    displayResults();
+                }
+            });
+        });
+
+        // Sort options
+        document.querySelectorAll('.sort-option').forEach(option => {
+            option.addEventListener('click', () => {
+                currentSort = option.dataset.sort;
+
+                // Update active state
+                document.querySelectorAll('.sort-option').forEach(o => {
+                    o.classList.remove('active');
+                });
+                option.classList.add('active');
+
+                // Re-display results
+                if (searchQuery) {
+                    displayResults();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

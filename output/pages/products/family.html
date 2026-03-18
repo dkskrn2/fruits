@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>가족루틴 - 과일다리</title>
+    <link rel="stylesheet" href="../../styles/design-system.css">
+    <link rel="stylesheet" href="../../styles/components.css">
+    <style>
+        /* Page Layout */
+        body {
+            padding-bottom: var(--bottom-nav-height);
+            background: var(--color-gray-50);
+        }
+
+        @media (min-width: 768px) {
+            body {
+                max-width: 430px;
+                margin: 0 auto;
+                box-shadow: 0 0 40px rgba(0, 0, 0, 0.1);
+            }
+        }
+
+        /* Header */
+        .header {
+            position: sticky;
+            top: 0;
+            z-index: var(--z-sticky);
+            background: var(--color-white);
+            border-bottom: 1px solid var(--color-gray-200);
+            padding: var(--space-3) var(--space-4);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .header__back {
+            font-size: 24px;
+            cursor: pointer;
+            padding: var(--space-2);
+            margin-left: calc(var(--space-2) * -1);
+        }
+
+        .header__title {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: var(--font-size-md);
+            font-weight: var(--font-weight-semibold);
+        }
+
+        .header__actions {
+            display: flex;
+            gap: var(--space-3);
+        }
+
+        .header__icon {
+            font-size: 22px;
+            cursor: pointer;
+            padding: var(--space-2);
+        }
+
+        /* Hero Banner */
+        .hero-banner {
+            background: linear-gradient(135deg, #E8F5E9 0%, #C8E6C9 100%);
+            padding: var(--space-8) var(--space-4) var(--space-6);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-banner::before {
+            content: '👨‍👩‍👧‍👦';
+            position: absolute;
+            font-size: 120px;
+            opacity: 0.1;
+            top: -20px;
+            right: 20px;
+        }
+
+        .hero-banner__title {
+            font-size: var(--font-size-2xl);
+            font-weight: var(--font-weight-bold);
+            color: var(--color-gray-900);
+            margin-bottom: var(--space-2);
+        }
+
+        .hero-banner__subtitle {
+            font-size: var(--font-size-base);
+            color: var(--color-gray-700);
+            line-height: var(--line-height-relaxed);
+        }
+
+        .hero-banner__highlight {
+            color: var(--color-primary);
+            font-weight: var(--font-weight-bold);
+        }
+
+        /* Package Recommendations */
+        .recommendations {
+            padding: var(--space-5) var(--space-4);
+            background: var(--color-white);
+        }
+
+        .recommendations__title {
+            font-size: var(--font-size-md);
+            font-weight: var(--font-weight-bold);
+            color: var(--color-gray-900);
+            margin-bottom: var(--space-4);
+        }
+
+        .recommendation-cards {
+            display: flex;
+            gap: var(--space-3);
+            overflow-x: auto;
+            padding-bottom: var(--space-2);
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .recommendation-cards::-webkit-scrollbar {
+            display: none;
+        }
+
+        .recommendation-card {
+            min-width: 140px;
+            background: var(--color-white);
+            border: 2px solid var(--color-gray-200);
+            border-radius: var(--radius-xl);
+            padding: var(--space-4);
+            text-align: center;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+
+        .recommendation-card:active {
+            transform: scale(0.95);
+        }
+
+        .recommendation-card.active {
+            border-color: var(--color-primary);
+            background: var(--color-primary-light);
+        }
+
+        .recommendation-card__icon {
+            font-size: 32px;
+            margin-bottom: var(--space-2);
+        }
+
+        .recommendation-card__title {
+            font-size: var(--font-size-sm);
+            font-weight: var(--font-weight-semibold);
+            color: var(--color-gray-900);
+            margin-bottom: var(--space-1);
+        }
+
+        .recommendation-card__desc {
+            font-size: var(--font-size-xs);
+            color: var(--color-gray-600);
+        }
+
+        /* Filter Section */
+        .filter-section {
+            padding: var(--space-4);
+            background: var(--color-white);
+            border-top: 1px solid var(--color-gray-100);
+            border-bottom: 1px solid var(--color-gray-100);
+        }
+
+        .filter-section__title {
+            font-size: var(--font-size-sm);
+            font-weight: var(--font-weight-medium);
+            color: var(--color-gray-700);
+            margin-bottom: var(--space-3);
+        }
+
+        .filter-chips {
+            display: flex;
+            gap: var(--space-2);
+            overflow-x: auto;
+            padding-bottom: var(--space-2);
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .filter-chips::-webkit-scrollbar {
+            display: none;
+        }
+
+        .filter-chip {
+            flex-shrink: 0;
+            padding: var(--space-2) var(--space-4);
+            font-size: var(--font-size-sm);
+            font-weight: var(--font-weight-medium);
+            background: var(--color-white);
+            color: var(--color-gray-700);
+            border: 1px solid var(--color-gray-300);
+            border-radius: var(--radius-full);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            white-space: nowrap;
+        }
+
+        .filter-chip:active {
+            transform: scale(0.95);
+        }
+
+        .filter-chip.active {
+            background: var(--color-primary);
+            color: var(--color-white);
+            border-color: var(--color-primary);
+        }
+
+        /* Sort Bar */
+        .sort-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: var(--space-3) var(--space-4);
+            background: var(--color-white);
+            border-bottom: 1px solid var(--color-gray-100);
+        }
+
+        .sort-bar__count {
+            font-size: var(--font-size-sm);
+            color: var(--color-gray-600);
+        }
+
+        .sort-bar__count strong {
+            color: var(--color-primary);
+            font-weight: var(--font-weight-bold);
+        }
+
+        .sort-options {
+            display: flex;
+            gap: var(--space-2);
+        }
+
+        .sort-option {
+            padding: var(--space-1) var(--space-3);
+            font-size: var(--font-size-sm);
+            color: var(--color-gray-600);
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .sort-option.active {
+            color: var(--color-gray-900);
+            font-weight: var(--font-weight-semibold);
+        }
+
+        .sort-option.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--color-gray-900);
+        }
+
+        /* Products Grid */
+        .products-container {
+            padding: var(--space-4);
+            background: var(--color-gray-50);
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--space-3);
+        }
+
+        /* Family Product Card */
+        .family-product-card {
+            background: var(--color-white);
+            border-radius: var(--radius-xl);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            transition: all var(--transition-base);
+            cursor: pointer;
+        }
+
+        .family-product-card:active {
+            transform: scale(0.98);
+        }
+
+        .family-product-card__image {
+            position: relative;
+            padding-top: 100%;
+            background: linear-gradient(135deg, #FFE0B2 0%, #FFCC80 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .family-product-card__emoji {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 56px;
+        }
+
+        .family-product-card__badge {
+            position: absolute;
+            top: var(--space-2);
+            left: var(--space-2);
+            padding: var(--space-1) var(--space-2);
+            background: var(--color-error);
+            color: var(--color-white);
+            font-size: 10px;
+            font-weight: var(--font-weight-bold);
+            border-radius: var(--radius-sm);
+        }
+
+        .family-product-card__subscription {
+            position: absolute;
+            top: var(--space-2);
+            right: var(--space-2);
+            padding: var(--space-1) var(--space-2);
+            background: rgba(255, 255, 255, 0.95);
+            color: var(--color-primary);
+            font-size: 10px;
+            font-weight: var(--font-weight-bold);
+            border-radius: var(--radius-sm);
+        }
+
+        .family-product-card__content {
+            padding: var(--space-3);
+        }
+
+        .family-product-card__title {
+            font-size: var(--font-size-sm);
+            font-weight: var(--font-weight-semibold);
+            color: var(--color-gray-900);
+            margin-bottom: var(--space-1);
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            min-height: 34px;
+        }
+
+        .family-product-card__composition {
+            font-size: 10px;
+            color: var(--color-gray-600);
+            margin-bottom: var(--space-2);
+            line-height: 1.4;
+        }
+
+        .family-product-card__people {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-1);
+            padding: 2px var(--space-2);
+            background: var(--color-primary-light);
+            color: var(--color-primary-dark);
+            font-size: 10px;
+            font-weight: var(--font-weight-semibold);
+            border-radius: var(--radius-sm);
+            margin-bottom: var(--space-2);
+        }
+
+        .family-product-card__price-row {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-1);
+            margin-bottom: var(--space-2);
+        }
+
+        .family-product-card__price-main {
+            display: flex;
+            align-items: baseline;
+            gap: var(--space-1);
+        }
+
+        .family-product-card__price {
+            font-size: var(--font-size-md);
+            font-weight: var(--font-weight-bold);
+            color: var(--color-gray-900);
+        }
+
+        .family-product-card__price-original {
+            font-size: var(--font-size-xs);
+            color: var(--color-gray-500);
+            text-decoration: line-through;
+        }
+
+        .family-product-card__subscription-price {
+            font-size: var(--font-size-xs);
+            color: var(--color-primary);
+            font-weight: var(--font-weight-medium);
+        }
+
+        .family-product-card__action {
+            width: 100%;
+            padding: var(--space-2);
+            background: var(--color-primary);
+            color: var(--color-white);
+            border: none;
+            border-radius: var(--radius-md);
+            font-size: var(--font-size-sm);
+            font-weight: var(--font-weight-medium);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+
+        .family-product-card__action:active {
+            background: var(--color-primary-dark);
+        }
+
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 430px;
+            background: var(--color-white);
+            border-top: 1px solid var(--color-gray-200);
+            display: flex;
+            justify-content: space-around;
+            padding: var(--space-2) 0;
+            z-index: var(--z-sticky);
+        }
+
+        .nav-item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--space-1);
+            padding: var(--space-1);
+            color: var(--color-gray-500);
+            text-decoration: none;
+            cursor: pointer;
+            transition: color var(--transition-fast);
+        }
+
+        .nav-item.active {
+            color: var(--color-primary);
+        }
+
+        .nav-item__icon {
+            font-size: 24px;
+        }
+
+        .nav-item__label {
+            font-size: 11px;
+            font-weight: var(--font-weight-medium);
+        }
+
+        /* Gradient Backgrounds */
+        .gradient-red {
+            background: linear-gradient(135deg, #FFCDD2 0%, #EF9A9A 100%);
+        }
+
+        .gradient-orange {
+            background: linear-gradient(135deg, #FFE0B2 0%, #FFCC80 100%);
+        }
+
+        .gradient-yellow {
+            background: linear-gradient(135deg, #FFF9C4 0%, #FFF59D 100%);
+        }
+
+        .gradient-green {
+            background: linear-gradient(135deg, #C8E6C9 0%, #A5D6A7 100%);
+        }
+
+        .gradient-purple {
+            background: linear-gradient(135deg, #E1BEE7 0%, #CE93D8 100%);
+        }
+
+        .gradient-blue {
+            background: linear-gradient(135deg, #BBDEFB 0%, #90CAF9 100%);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <span class="header__back" onclick="history.back()">←</span>
+        <h1 class="header__title">가족루틴</h1>
+        <div class="header__actions">
+            <span class="header__icon" onclick="location.href='../cart/index.html'">🛒</span>
+        </div>
+    </header>
+
+    <!-- Hero Banner -->
+    <section class="hero-banner">
+        <h2 class="hero-banner__title">가족 건강 루틴</h2>
+        <p class="hero-banner__subtitle">
+            <span class="hero-banner__highlight">온 가족이 함께</span> 즐기는<br>
+            신선한 과일 정기배송
+        </p>
+    </section>
+
+    <!-- Package Recommendations -->
+    <section class="recommendations">
+        <h3 class="recommendations__title">추천 패키지</h3>
+        <div class="recommendation-cards">
+            <div class="recommendation-card active" data-category="all">
+                <div class="recommendation-card__icon">👨‍👩‍👧‍👦</div>
+                <div class="recommendation-card__title">온가족용</div>
+                <div class="recommendation-card__desc">4인 이상</div>
+            </div>
+            <div class="recommendation-card" data-category="parents">
+                <div class="recommendation-card__icon">👴👵</div>
+                <div class="recommendation-card__title">부모님용</div>
+                <div class="recommendation-card__desc">2인 세트</div>
+            </div>
+            <div class="recommendation-card" data-category="kids">
+                <div class="recommendation-card__icon">👶</div>
+                <div class="recommendation-card__title">아이용</div>
+                <div class="recommendation-card__desc">어린이 맞춤</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Filter Section -->
+    <section class="filter-section">
+        <div class="filter-chips" id="filterChips">
+            <button class="filter-chip active" data-filter="all">전체</button>
+            <button class="filter-chip" data-filter="package">패키지 구성</button>
+            <button class="filter-chip" data-filter="price-low">가격대 낮음</button>
+            <button class="filter-chip" data-filter="price-mid">가격대 중간</button>
+            <button class="filter-chip" data-filter="price-high">가격대 높음</button>
+            <button class="filter-chip" data-filter="2people">2인용</button>
+            <button class="filter-chip" data-filter="4people">4인용</button>
+            <button class="filter-chip" data-filter="6people">6인 이상</button>
+        </div>
+    </section>
+
+    <!-- Sort Bar -->
+    <div class="sort-bar">
+        <div class="sort-bar__count">
+            총 <strong id="productCount">10</strong>개 상품
+        </div>
+        <div class="sort-options">
+            <button class="sort-option active" data-sort="popular">인기순</button>
+            <button class="sort-option" data-sort="price">가격순</button>
+            <button class="sort-option" data-sort="latest">최신순</button>
+        </div>
+    </div>
+
+    <!-- Products Grid -->
+    <main class="products-container">
+        <div class="products-grid" id="productsGrid">
+            <!-- Product 1 -->
+            <div class="family-product-card" data-category="all" data-people="4" data-price="45000">
+                <div class="family-product-card__image gradient-red">
+                    <span class="family-product-card__emoji">🍎</span>
+                    <span class="family-product-card__badge">10% 할인</span>
+                    <span class="family-product-card__subscription">정기배송</span>
+                </div>
+                <div class="family-product-card__content">
+                    <h3 class="family-product-card__title">프리미엄 사과 가족세트</h3>
+                    <p class="family-product-card__composition">사과 8개, 배 4개, 감 6개</p>
+                    <span class="family-product-card__people">👨‍👩‍👧‍👦 4인용</span>
+                    <div class="family-product-card__price-row">
+                        <div class="family-product-card__price-main">
+                            <span class="family-product-card__price">45,000원</span>
+                            <span class="family-product-card__price-original">50,000원</span>
+                        </div>
+                        <span class="family-product-card__subscription-price">정기배송 시 40,500원</span>
+                    </div>
+                    <button class="family-product-card__action">장바구니 담기</button>
+                </div>
+            </div>
+
+            <!-- Product 2 -->
+            <div class="family-product-card" data-category="kids" data-people="2" data-price="28000">
+                <div class="family-product-card__image gradient-orange">
+                    <span class="family-product-card__emoji">🍊</span>
+                    <span class="family-product-card__badge">당도보장</span>
+                    <span class="family-product-card__subscription">정기배송</span>
+                </div>
+                <div class="family-product-card__content">
+                    <h3 class="family-product-card__title">키즈 프렌들리 과일박스</h3>
+                    <p class="family-product-card__composition">딸기 1팩, 샤인머스캣 1송이, 귤 10개</p>
+                    <span class="family-product-card__people">👶 어린이 맞춤</span>
+                    <div class="family-product-card__price-row">
+                        <div class="family-product-card__price-main">
+                            <span class="family-product-card__price">28,000원</span>
+                        </div>
+                        <span class="family-product-card__subscription-price">정기배송 시 25,200원</span>
+                    </div>
+                    <button class="family-product-card__action">장바구니 담기</button>
+                </div>
+            </div>
+
+            <!-- Product 3 -->
+            <div class="family-product-card" data-category="parents" data-people="2" data-price="38000">
+                <div class="family-product-card__image gradient-green">
+                    <span class="family-product-card__emoji">🍇</span>
+                    <span class="family-product-card__badge">프리미엄</span>
+                    <span class="family-product-card__subscription">정기배송</span>
+                </div>
+                <div class="family-product-card__content">
+                    <h3 class="family-product-card__title">건강 챙기는 부모님 세트</h3>
+                    <p class="family-product-card__composition">포도 2송이, 복숭아 6개, 자두 10개</p>
+                    <span class="family-product-card__people">👴👵 2인용</span>
+                    <div class="family-product-card__price-row">
+                        <div class="family-product-card__price-main">
+                            <span class="family-product-card__price">38,000원</span>
+                            <span class="family-product-card__price-original">42,000원</span>
+                        </div>
+                        <span class="family-product-card__subscription-price">정기배송 시 34,200원</span>
+                    </div>
+                    <button class="family-product-card__action">장바구니 담기</button>
+                </div>
+            </div>
+
+            <!-- Product 4 -->
+            <div class="family-product-card" data-category="all" data-people="6" data-price="68000">
+                <div class="family-product-card__image gradient-purple">
+                    <span class="family-product-card__emoji">🍑</span>
+                    <span class="family-product-card__badge">베스트</span>
+                    <span class="family-product-card__subscription">정기배송</span>
+                </div>
+                <div class="family-product-card__content">
+                    <h3 class="family-product-card__title">대가족 프리미엄 박스</h3>
+                    <p class="family-product-card__composition">사과 10개, 배 6개, 귤 20개, 감 8개</p>
+                    <span class="family-product-card__people">👨‍👩‍👧‍👦 6인 이상</span>
+                    <div class="family-product-card__price-row">
+                        <div class="family-product-card__price-main">
+                            <span class="family-product-card__price">68,000원</span>
+                            <span class="family-product-card__price-original">75,000원</span>
+                        </div>
+                        <span class="family-product-card__subscription-price">정기배송 시 61,200원</span>
+                    </div>
+                    <button class="family-product-card__action">장바구니 담기</button>
+                </div>
+            </div>
+
+            <!-- Product 5 -->
+            <div class="family-product-card" data-category="all" data-people="4" data-price="52000">
+                <div class="family-product-card__image gradient-yellow">
+                    <span class="family-product-card__emoji">🍌</span>
+                    <span class="family-product-card__subscription">정기배송</span>
+                </div>
+                <div class="family-product-card__content">
+                    <h3 class="family-product-card__title">열대과일 가족 패키지</h3>
+                    <p class="family-product-card__composition">바나나 3송이, 파인애플 2개, 망고 4개</p>
+                    <span class="family-product-card__people">👨‍👩‍👧‍👦 4인용</span>
+                    <div class="family-product-card__price-row">
+                        <div class="family-product-card__price-main">
+                            <span class="family-product-card__price">52,000원</span>
+                        </div>
+                        <span class="family-product-card__subscription-price">정기배송 시 46,800원</span>
+                    </div>
+                    <button class="family-product-card__action">장바구니 담기</button>
+                </div>
+            </div>
+
+            <!-- Product 6 -->
+            <div class="family-product-card" data-category="kids" data-people="2" data-price="32000">
+                <div class="family-product-card__image gradient-red">
+                    <span class="family-product-card__emoji">🍓</span>
+                    <span class="family-product-card__badge">신선보장</span>
+                    <span class="family-product-card__subscription">정기배송</span>
+                </div>
+                <div class="family-product-card__content">
+                    <h3 class="family-product-card__title">달콤한 어린이 과일세트</h3>
+                    <p class="family-product-card__composition">딸기 2팩, 바나나 2송이, 키위 6개</p>
+                    <span class="family-product-card__people">👶 어린이 맞춤</span>
+                    <div class="family-product-card__price-row">
+                        <div class="family-product-card__price-main">
+                            <span class="family-product-card__price">32,000원</span>
+                        </div>
+                        <span class="family-product-card__subscription-price">정기배송 시 28,800원</span>
+                    </div>
+                    <button class="family-product-card__action">장바구니 담기</button>
+                </div>
+            </div>
+
+            <!-- Product 7 -->
+            <div class="family-product-card" data-category="parents" data-people="2" data-price="42000">
+                <div class="family-product-card__image gradient-blue">
+                    <span class="family-product-card__emoji">🫐</span>
+                    <span class="family-product-card__badge">건강추천</span>
+                    <span class="family-product-card__subscription">정기배송</span>
+                </div>
+                <div class="family-product-card__content">
+                    <h3 class="family-product-card__title">항산화 베리 부모님 세트</h3>
+                    <p class="family-product-card__composition">블루베리 3팩, 체리 2팩, 사과 6개</p>
+                    <span class="family-product-card__people">👴👵 2인용</span>
+                    <div class="family-product-card__price-row">
+                        <div class="family-product-card__price-main">
+                            <span class="family-product-card__price">42,000원</span>
+                            <span class="family-product-card__price-original">48,000원</span>
+                        </div>
+                        <span class="family-product-card__subscription-price">정기배송 시 37,800원</span>
+                    </div>
+                    <button class="family-product-card__action">장바구니 담기</button>
+                </div>
+            </div>
+
+            <!-- Product 8 -->
+            <div class="family-product-card" data-category="all" data-people="4" data-price="55000">
+                <div class="family-product-card__image gradient-orange">
+                    <span class="family-product-card__emoji">🥭</span>
+                    <span class="family-product-card__badge">시즌특가</span>
+                    <span class="family-product-card__subscription">정기배송</span>
+                </div>
+                <div class="family-product-card__content">
+                    <h3 class="family-product-card__title">프리미엄 망고 가족팩</h3>
+                    <p class="family-product-card__composition">애플망고 6개, 용과 3개, 리치 10개</p>
+                    <span class="family-product-card__people">👨‍👩‍👧‍👦 4인용</span>
+                    <div class="family-product-card__price-row">
+                        <div class="family-product-card__price-main">
+                            <span class="family-product-card__price">55,000원</span>
+                            <span class="family-product-card__price-original">62,000원</span>
+                        </div>
+                        <span class="family-product-card__subscription-price">정기배송 시 49,500원</span>
+                    </div>
+                    <button class="family-product-card__action">장바구니 담기</button>
+                </div>
+            </div>
+
+            <!-- Product 9 -->
+            <div class="family-product-card" data-category="all" data-people="6" data-price="72000">
+                <div class="family-product-card__image gradient-green">
+                    <span class="family-product-card__emoji">🍈</span>
+                    <span class="family-product-card__badge">프리미엄</span>
+                    <span class="family-product-card__subscription">정기배송</span>
+                </div>
+                <div class="family-product-card__content">
+                    <h3 class="family-product-card__title">신선 과일 대용량 세트</h3>
+                    <p class="family-product-card__composition">멜론 2통, 수박 1통, 포도 3송이, 복숭아 8개</p>
+                    <span class="family-product-card__people">👨‍👩‍👧‍👦 6인 이상</span>
+                    <div class="family-product-card__price-row">
+                        <div class="family-product-card__price-main">
+                            <span class="family-product-card__price">72,000원</span>
+                            <span class="family-product-card__price-original">80,000원</span>
+                        </div>
+                        <span class="family-product-card__subscription-price">정기배송 시 64,800원</span>
+                    </div>
+                    <button class="family-product-card__action">장바구니 담기</button>
+                </div>
+            </div>
+
+            <!-- Product 10 -->
+            <div class="family-product-card" data-category="parents" data-people="2" data-price="35000">
+                <div class="family-product-card__image gradient-purple">
+                    <span class="family-product-card__emoji">🍐</span>
+                    <span class="family-product-card__subscription">정기배송</span>
+                </div>
+                <div class="family-product-card__content">
+                    <h3 class="family-product-card__title">소화 잘되는 부모님 과일</h3>
+                    <p class="family-product-card__composition">배 6개, 참외 4개, 토마토 1팩</p>
+                    <span class="family-product-card__people">👴👵 2인용</span>
+                    <div class="family-product-card__price-row">
+                        <div class="family-product-card__price-main">
+                            <span class="family-product-card__price">35,000원</span>
+                        </div>
+                        <span class="family-product-card__subscription-price">정기배송 시 31,500원</span>
+                    </div>
+                    <button class="family-product-card__action">장바구니 담기</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+        <a href="../home/index.html" class="nav-item">
+            <span class="nav-item__icon">🏠</span>
+            <span class="nav-item__label">홈</span>
+        </a>
+        <a href="../products/index.html" class="nav-item active">
+            <span class="nav-item__icon">🍎</span>
+            <span class="nav-item__label">상품</span>
+        </a>
+        <a href="../mypage/index.html" class="nav-item">
+            <span class="nav-item__icon">👤</span>
+            <span class="nav-item__label">마이</span>
+        </a>
+        <a href="../support/index.html" class="nav-item">
+            <span class="nav-item__icon">💬</span>
+            <span class="nav-item__label">고객지원</span>
+        </a>
+    </nav>
+
+    <!-- JavaScript -->
+    <script>
+        // Recommendation Cards
+        const recommendationCards = document.querySelectorAll('.recommendation-card');
+        const productCards = document.querySelectorAll('.family-product-card');
+        const productCountEl = document.getElementById('productCount');
+
+        recommendationCards.forEach(card => {
+            card.addEventListener('click', function() {
+                // Toggle active state
+                recommendationCards.forEach(c => c.classList.remove('active'));
+                this.classList.add('active');
+
+                // Filter products
+                const category = this.getAttribute('data-category');
+                let visibleCount = 0;
+
+                productCards.forEach(product => {
+                    const productCategory = product.getAttribute('data-category');
+
+                    if (category === 'all' || productCategory === category) {
+                        product.style.display = 'block';
+                        visibleCount++;
+                    } else {
+                        product.style.display = 'none';
+                    }
+                });
+
+                productCountEl.textContent = visibleCount;
+            });
+        });
+
+        // Filter Chips
+        const filterChips = document.querySelectorAll('.filter-chip');
+
+        filterChips.forEach(chip => {
+            chip.addEventListener('click', function() {
+                // Toggle active state (multiple selections allowed)
+                this.classList.toggle('active');
+
+                // Get all active filters
+                const activeFilters = Array.from(document.querySelectorAll('.filter-chip.active'))
+                    .map(c => c.getAttribute('data-filter'));
+
+                let visibleCount = 0;
+
+                productCards.forEach(product => {
+                    const price = parseInt(product.getAttribute('data-price'));
+                    const people = parseInt(product.getAttribute('data-people'));
+                    let shouldShow = true;
+
+                    // If no filters or only "all" is selected, show all
+                    if (activeFilters.length === 0 || (activeFilters.length === 1 && activeFilters.includes('all'))) {
+                        shouldShow = true;
+                    } else {
+                        // Check if product matches any active filter
+                        const matchesFilter = activeFilters.some(filter => {
+                            if (filter === 'all') return true;
+                            if (filter === 'price-low') return price < 40000;
+                            if (filter === 'price-mid') return price >= 40000 && price < 60000;
+                            if (filter === 'price-high') return price >= 60000;
+                            if (filter === '2people') return people === 2;
+                            if (filter === '4people') return people === 4;
+                            if (filter === '6people') return people >= 6;
+                            return false;
+                        });
+
+                        shouldShow = matchesFilter;
+                    }
+
+                    if (shouldShow) {
+                        product.style.display = 'block';
+                        visibleCount++;
+                    } else {
+                        product.style.display = 'none';
+                    }
+                });
+
+                productCountEl.textContent = visibleCount;
+            });
+        });
+
+        // Sort Options
+        const sortOptions = document.querySelectorAll('.sort-option');
+
+        sortOptions.forEach(option => {
+            option.addEventListener('click', function() {
+                // Toggle active state
+                sortOptions.forEach(o => o.classList.remove('active'));
+                this.classList.add('active');
+
+                // Get sort type
+                const sortType = this.getAttribute('data-sort');
+                const productsGrid = document.getElementById('productsGrid');
+                const productsArray = Array.from(productCards);
+
+                // Sort products
+                productsArray.sort((a, b) => {
+                    if (sortType === 'price') {
+                        return parseInt(a.getAttribute('data-price')) - parseInt(b.getAttribute('data-price'));
+                    } else if (sortType === 'latest') {
+                        // Reverse order for latest
+                        return 0;
+                    } else {
+                        // Popular - keep original order
+                        return 0;
+                    }
+                });
+
+                // Re-append sorted products
+                productsArray.forEach(product => {
+                    productsGrid.appendChild(product);
+                });
+            });
+        });
+
+        // Add to Cart
+        const addToCartButtons = document.querySelectorAll('.family-product-card__action');
+
+        addToCartButtons.forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.stopPropagation();
+
+                // Visual feedback
+                const originalText = this.textContent;
+                this.textContent = '담았습니다!';
+                this.style.background = 'var(--color-success)';
+
+                setTimeout(() => {
+                    this.textContent = originalText;
+                    this.style.background = '';
+                }, 1000);
+            });
+        });
+
+        // Product Card Click
+        productCards.forEach(card => {
+            card.addEventListener('click', function(e) {
+                // Don't navigate if clicking the action button
+                if (e.target.classList.contains('family-product-card__action')) {
+                    return;
+                }
+
+                // Navigate to product detail page
+                console.log('Navigate to product detail');
+                // window.location.href = '/pages/products/detail.html';
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,909 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>프로필 관리 - 과일다리</title>
+    <link rel="stylesheet" href="../../styles/design-system.css">
+    <link rel="stylesheet" href="../../styles/components.css">
+    <style>
+        /* Profile Page Specific Styles */
+        body {
+            background: var(--color-gray-50);
+        }
+
+        /* PC에서 모바일 너비 유지 */
+        @media (min-width: 768px) {
+            body {
+                max-width: 430px;
+                margin: 0 auto;
+                box-shadow: 0 0 50px rgba(0,0,0,0.1);
+            }
+        }
+
+        /* Header */
+        .header {
+            background: var(--color-white);
+            border-bottom: 1px solid var(--color-gray-200);
+            position: sticky;
+            top: 0;
+            z-index: var(--z-sticky);
+            padding: var(--space-3) var(--space-4);
+            display: flex;
+            align-items: center;
+            height: var(--header-height);
+        }
+
+        .header-back {
+            font-size: 24px;
+            cursor: pointer;
+            padding: var(--space-2);
+            margin-left: calc(var(--space-2) * -1);
+            color: var(--color-gray-900);
+        }
+
+        .header-title {
+            font-size: var(--font-size-md);
+            font-weight: var(--font-weight-semibold);
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        /* Profile Photo Section */
+        .profile-photo-section {
+            background: var(--color-white);
+            padding: var(--space-8) var(--space-4) var(--space-6);
+            text-align: center;
+            border-bottom: 8px solid var(--color-gray-100);
+        }
+
+        .profile-photo-container {
+            position: relative;
+            display: inline-block;
+            margin-bottom: var(--space-3);
+        }
+
+        .profile-photo {
+            width: 100px;
+            height: 100px;
+            border-radius: var(--radius-full);
+            background: var(--color-gray-100);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            overflow: hidden;
+            border: 3px solid var(--color-white);
+            box-shadow: var(--shadow-md);
+        }
+
+        .profile-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .photo-upload-btn {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 32px;
+            height: 32px;
+            background: var(--color-primary);
+            color: var(--color-white);
+            border-radius: var(--radius-full);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            cursor: pointer;
+            border: 3px solid var(--color-white);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .photo-upload-btn:active {
+            transform: scale(0.95);
+        }
+
+        #photoInput {
+            display: none;
+        }
+
+        .profile-name {
+            font-size: var(--font-size-lg);
+            font-weight: var(--font-weight-bold);
+            color: var(--color-gray-900);
+            margin-bottom: var(--space-1);
+        }
+
+        .profile-email {
+            font-size: var(--font-size-sm);
+            color: var(--color-gray-600);
+        }
+
+        /* Form Sections */
+        .form-section {
+            background: var(--color-white);
+            padding: var(--space-5) var(--space-4);
+            margin-bottom: var(--space-2);
+        }
+
+        .form-section-title {
+            font-size: var(--font-size-md);
+            font-weight: var(--font-weight-semibold);
+            color: var(--color-gray-900);
+            margin-bottom: var(--space-4);
+        }
+
+        /* Password Strength Indicator */
+        .password-strength {
+            margin-top: var(--space-2);
+            display: none;
+        }
+
+        .password-strength.show {
+            display: block;
+        }
+
+        .strength-bar {
+            height: 4px;
+            background: var(--color-gray-200);
+            border-radius: var(--radius-full);
+            overflow: hidden;
+            margin-bottom: var(--space-2);
+        }
+
+        .strength-fill {
+            height: 100%;
+            width: 0%;
+            transition: all var(--transition-base);
+            border-radius: var(--radius-full);
+        }
+
+        .strength-fill.weak {
+            width: 33%;
+            background: var(--color-error);
+        }
+
+        .strength-fill.medium {
+            width: 66%;
+            background: var(--color-warning);
+        }
+
+        .strength-fill.strong {
+            width: 100%;
+            background: var(--color-success);
+        }
+
+        .strength-text {
+            font-size: var(--font-size-xs);
+            color: var(--color-gray-600);
+        }
+
+        /* Toggle Switch */
+        .toggle-group {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: var(--space-3) 0;
+        }
+
+        .toggle-label {
+            font-size: var(--font-size-base);
+            color: var(--color-gray-900);
+        }
+
+        .toggle-desc {
+            font-size: var(--font-size-xs);
+            color: var(--color-gray-600);
+            margin-top: var(--space-1);
+        }
+
+        .toggle-switch {
+            position: relative;
+            width: 48px;
+            height: 28px;
+            background: var(--color-gray-300);
+            border-radius: var(--radius-full);
+            cursor: pointer;
+            transition: background var(--transition-fast);
+        }
+
+        .toggle-switch.active {
+            background: var(--color-primary);
+        }
+
+        .toggle-slider {
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 24px;
+            height: 24px;
+            background: var(--color-white);
+            border-radius: var(--radius-full);
+            transition: transform var(--transition-fast);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .toggle-switch.active .toggle-slider {
+            transform: translateX(20px);
+        }
+
+        /* Danger Zone */
+        .danger-zone {
+            background: var(--color-white);
+            padding: var(--space-5) var(--space-4);
+            margin-bottom: var(--space-2);
+            border-top: 2px solid #FFEBEE;
+        }
+
+        .danger-zone-title {
+            font-size: var(--font-size-md);
+            font-weight: var(--font-weight-semibold);
+            color: var(--color-error);
+            margin-bottom: var(--space-2);
+        }
+
+        .danger-zone-desc {
+            font-size: var(--font-size-sm);
+            color: var(--color-gray-600);
+            margin-bottom: var(--space-4);
+            line-height: var(--line-height-relaxed);
+        }
+
+        .btn-danger {
+            background: transparent;
+            border: 1px solid var(--color-error);
+            color: var(--color-error);
+        }
+
+        .btn-danger:active {
+            background: #FFEBEE;
+        }
+
+        /* Save Button */
+        .save-button-container {
+            padding: var(--space-4);
+            background: var(--color-white);
+            border-top: 1px solid var(--color-gray-200);
+            position: sticky;
+            bottom: var(--bottom-nav-height);
+            z-index: var(--z-sticky);
+        }
+
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            bottom: calc(var(--bottom-nav-height) + var(--space-6));
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--color-gray-900);
+            color: var(--color-white);
+            padding: var(--space-3) var(--space-5);
+            border-radius: var(--radius-lg);
+            font-size: var(--font-size-sm);
+            box-shadow: var(--shadow-xl);
+            opacity: 0;
+            transition: all var(--transition-base);
+            z-index: var(--z-notification);
+            max-width: 90%;
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+
+        .toast.success {
+            background: var(--color-success);
+        }
+
+        .toast.error {
+            background: var(--color-error);
+        }
+
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 430px;
+            background: var(--color-white);
+            border-top: 1px solid var(--color-gray-200);
+            display: flex;
+            justify-content: space-around;
+            padding: var(--space-2) 0;
+            z-index: var(--z-sticky);
+            height: var(--bottom-nav-height);
+        }
+
+        .nav-item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--space-1);
+            padding: var(--space-1);
+            color: var(--color-gray-500);
+            text-decoration: none;
+            cursor: pointer;
+            transition: color var(--transition-fast);
+        }
+
+        .nav-item.active {
+            color: var(--color-primary);
+        }
+
+        .nav-item .icon {
+            font-size: 24px;
+        }
+
+        .nav-item .label {
+            font-size: var(--font-size-xs);
+            font-weight: var(--font-weight-medium);
+        }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: var(--z-modal);
+            padding: var(--space-4);
+        }
+
+        .modal-overlay.show {
+            display: flex;
+        }
+
+        .modal {
+            background: var(--color-white);
+            border-radius: var(--radius-xl);
+            padding: var(--space-6);
+            max-width: 340px;
+            width: 100%;
+            box-shadow: var(--shadow-2xl);
+        }
+
+        .modal-title {
+            font-size: var(--font-size-lg);
+            font-weight: var(--font-weight-bold);
+            color: var(--color-gray-900);
+            margin-bottom: var(--space-2);
+            text-align: center;
+        }
+
+        .modal-desc {
+            font-size: var(--font-size-sm);
+            color: var(--color-gray-600);
+            line-height: var(--line-height-relaxed);
+            margin-bottom: var(--space-6);
+            text-align: center;
+        }
+
+        .modal-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-2);
+        }
+
+        /* Content Padding */
+        .content {
+            padding-bottom: calc(var(--bottom-nav-height) + var(--space-16));
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <span class="header-back" onclick="history.back()">←</span>
+        <h1 class="header-title">프로필 관리</h1>
+    </header>
+
+    <!-- Main Content -->
+    <main class="content">
+        <!-- Profile Photo Section -->
+        <section class="profile-photo-section">
+            <div class="profile-photo-container">
+                <div class="profile-photo" id="profilePhoto">
+                    <span id="photoPlaceholder">👤</span>
+                    <img id="photoPreview" style="display: none;" alt="프로필 사진">
+                </div>
+                <label for="photoInput" class="photo-upload-btn">
+                    📷
+                </label>
+                <input type="file" id="photoInput" accept="image/*">
+            </div>
+            <div class="profile-name" id="displayName">홍길동</div>
+            <div class="profile-email" id="displayEmail">user@example.com</div>
+        </section>
+
+        <!-- Basic Information Form -->
+        <section class="form-section">
+            <h2 class="form-section-title">기본 정보</h2>
+
+            <div class="form-group">
+                <label class="form-label form-label-required">이름</label>
+                <input type="text" class="input" id="userName" placeholder="이름을 입력하세요" value="홍길동">
+                <div class="form-error" id="nameError"></div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label form-label-required">이메일</label>
+                <input type="email" class="input" id="userEmail" placeholder="example@email.com" value="user@example.com">
+                <div class="form-error" id="emailError"></div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label form-label-required">휴대폰 번호</label>
+                <input type="tel" class="input" id="userPhone" placeholder="010-0000-0000" value="010-1234-5678">
+                <div class="form-helper">하이픈(-)을 포함하여 입력해주세요</div>
+                <div class="form-error" id="phoneError"></div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">생년월일</label>
+                <input type="date" class="input" id="userBirthdate" value="1990-01-01">
+                <div class="form-helper">생일 쿠폰 혜택을 받으실 수 있습니다</div>
+            </div>
+        </section>
+
+        <!-- Password Change Section -->
+        <section class="form-section">
+            <h2 class="form-section-title">비밀번호 변경</h2>
+
+            <div class="form-group">
+                <label class="form-label">현재 비밀번호</label>
+                <input type="password" class="input" id="currentPassword" placeholder="현재 비밀번호를 입력하세요">
+                <div class="form-error" id="currentPasswordError"></div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">새 비밀번호</label>
+                <input type="password" class="input" id="newPassword" placeholder="새 비밀번호를 입력하세요">
+                <div class="password-strength" id="passwordStrength">
+                    <div class="strength-bar">
+                        <div class="strength-fill" id="strengthFill"></div>
+                    </div>
+                    <div class="strength-text" id="strengthText"></div>
+                </div>
+                <div class="form-helper">8자 이상, 영문, 숫자, 특수문자 조합</div>
+                <div class="form-error" id="newPasswordError"></div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">새 비밀번호 확인</label>
+                <input type="password" class="input" id="confirmPassword" placeholder="새 비밀번호를 다시 입력하세요">
+                <div class="form-error" id="confirmPasswordError"></div>
+            </div>
+        </section>
+
+        <!-- Marketing Preferences -->
+        <section class="form-section">
+            <h2 class="form-section-title">마케팅 수신 동의</h2>
+
+            <div class="toggle-group">
+                <div>
+                    <div class="toggle-label">이메일 수신 동의</div>
+                    <div class="toggle-desc">신상품 및 할인 정보를 이메일로 받아보세요</div>
+                </div>
+                <div class="toggle-switch" id="emailToggle">
+                    <div class="toggle-slider"></div>
+                </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="toggle-group">
+                <div>
+                    <div class="toggle-label">SMS 수신 동의</div>
+                    <div class="toggle-desc">이벤트 및 프로모션 정보를 SMS로 받아보세요</div>
+                </div>
+                <div class="toggle-switch active" id="smsToggle">
+                    <div class="toggle-slider"></div>
+                </div>
+            </div>
+
+            <div style="margin-top: var(--space-4); padding: var(--space-3); background: var(--color-gray-50); border-radius: var(--radius-md);">
+                <p style="font-size: var(--font-size-xs); color: var(--color-gray-600); line-height: var(--line-height-relaxed);">
+                    마케팅 정보 수신 동의는 선택사항이며, 동의하지 않으셔도 과일다리 서비스를 이용하실 수 있습니다. 언제든지 설정을 변경하실 수 있습니다.
+                </p>
+            </div>
+        </section>
+
+        <!-- Danger Zone -->
+        <section class="danger-zone">
+            <h2 class="danger-zone-title">계정 삭제</h2>
+            <p class="danger-zone-desc">
+                계정을 삭제하면 모든 개인정보와 주문 내역이 영구적으로 삭제됩니다. 이 작업은 되돌릴 수 없으니 신중하게 결정해주세요.
+            </p>
+            <button class="btn btn-danger btn-full" id="deleteAccountBtn">계정 삭제</button>
+        </section>
+
+        <!-- Save Button -->
+        <div class="save-button-container">
+            <button class="btn btn-primary btn-full btn-lg" id="saveBtn">변경사항 저장</button>
+        </div>
+    </main>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+        <a href="../home/index.html" class="nav-item">
+            <span class="icon">🏠</span>
+            <span class="label">홈</span>
+        </a>
+        <a href="../products/index.html" class="nav-item">
+            <span class="icon">🍎</span>
+            <span class="label">상품</span>
+        </a>
+        <a href="../mypage/index.html" class="nav-item active">
+            <span class="icon">👤</span>
+            <span class="label">마이</span>
+        </a>
+        <a href="../support/index.html" class="nav-item">
+            <span class="icon">💬</span>
+            <span class="label">고객지원</span>
+        </a>
+    </nav>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast"></div>
+
+    <!-- Delete Account Modal -->
+    <div class="modal-overlay" id="deleteModal">
+        <div class="modal">
+            <div class="modal-title">정말 계정을 삭제하시겠습니까?</div>
+            <div class="modal-desc">
+                이 작업은 되돌릴 수 없습니다. 모든 개인정보와 주문 내역이 영구적으로 삭제됩니다.
+            </div>
+            <div class="modal-actions">
+                <button class="btn btn-secondary btn-full" id="cancelDeleteBtn">취소</button>
+                <button class="btn btn-danger btn-full" id="confirmDeleteBtn">삭제</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // State Management
+        const state = {
+            emailMarketing: false,
+            smsMarketing: true,
+            photoChanged: false,
+            formChanged: false
+        };
+
+        // Photo Upload
+        const photoInput = document.getElementById('photoInput');
+        const photoPreview = document.getElementById('photoPreview');
+        const photoPlaceholder = document.getElementById('photoPlaceholder');
+
+        photoInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                if (file.size > 5 * 1024 * 1024) {
+                    showToast('파일 크기는 5MB를 초과할 수 없습니다', 'error');
+                    return;
+                }
+
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    photoPreview.src = e.target.result;
+                    photoPreview.style.display = 'block';
+                    photoPlaceholder.style.display = 'none';
+                    state.photoChanged = true;
+                    showToast('프로필 사진이 변경되었습니다', 'success');
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Form Validation
+        const userName = document.getElementById('userName');
+        const userEmail = document.getElementById('userEmail');
+        const userPhone = document.getElementById('userPhone');
+
+        userName.addEventListener('input', function() {
+            validateName(this.value);
+            state.formChanged = true;
+        });
+
+        userEmail.addEventListener('input', function() {
+            validateEmail(this.value);
+            state.formChanged = true;
+        });
+
+        userPhone.addEventListener('input', function() {
+            validatePhone(this.value);
+            state.formChanged = true;
+        });
+
+        function validateName(name) {
+            const nameError = document.getElementById('nameError');
+            if (!name.trim()) {
+                nameError.textContent = '이름을 입력해주세요';
+                userName.classList.add('input-error');
+                return false;
+            }
+            if (name.length < 2) {
+                nameError.textContent = '이름은 최소 2자 이상이어야 합니다';
+                userName.classList.add('input-error');
+                return false;
+            }
+            nameError.textContent = '';
+            userName.classList.remove('input-error');
+            return true;
+        }
+
+        function validateEmail(email) {
+            const emailError = document.getElementById('emailError');
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+            if (!email.trim()) {
+                emailError.textContent = '이메일을 입력해주세요';
+                userEmail.classList.add('input-error');
+                return false;
+            }
+            if (!emailRegex.test(email)) {
+                emailError.textContent = '올바른 이메일 형식이 아닙니다';
+                userEmail.classList.add('input-error');
+                return false;
+            }
+            emailError.textContent = '';
+            userEmail.classList.remove('input-error');
+            return true;
+        }
+
+        function validatePhone(phone) {
+            const phoneError = document.getElementById('phoneError');
+            const phoneRegex = /^010-\d{4}-\d{4}$/;
+
+            if (!phone.trim()) {
+                phoneError.textContent = '휴대폰 번호를 입력해주세요';
+                userPhone.classList.add('input-error');
+                return false;
+            }
+            if (!phoneRegex.test(phone)) {
+                phoneError.textContent = '010-0000-0000 형식으로 입력해주세요';
+                userPhone.classList.add('input-error');
+                return false;
+            }
+            phoneError.textContent = '';
+            userPhone.classList.remove('input-error');
+            return true;
+        }
+
+        // Password Strength Checker
+        const newPassword = document.getElementById('newPassword');
+        const passwordStrength = document.getElementById('passwordStrength');
+        const strengthFill = document.getElementById('strengthFill');
+        const strengthText = document.getElementById('strengthText');
+
+        newPassword.addEventListener('input', function() {
+            const password = this.value;
+
+            if (password.length === 0) {
+                passwordStrength.classList.remove('show');
+                return;
+            }
+
+            passwordStrength.classList.add('show');
+            const strength = checkPasswordStrength(password);
+
+            strengthFill.className = 'strength-fill';
+            if (strength.score === 1) {
+                strengthFill.classList.add('weak');
+                strengthText.textContent = '약함: ' + strength.message;
+                strengthText.style.color = 'var(--color-error)';
+            } else if (strength.score === 2) {
+                strengthFill.classList.add('medium');
+                strengthText.textContent = '보통: ' + strength.message;
+                strengthText.style.color = 'var(--color-warning)';
+            } else {
+                strengthFill.classList.add('strong');
+                strengthText.textContent = '강함: 안전한 비밀번호입니다';
+                strengthText.style.color = 'var(--color-success)';
+            }
+        });
+
+        function checkPasswordStrength(password) {
+            let score = 0;
+            let messages = [];
+
+            if (password.length >= 8) score++;
+            else messages.push('8자 이상 필요');
+
+            if (/[a-z]/.test(password) && /[A-Z]/.test(password)) score++;
+            else if (/[a-zA-Z]/.test(password)) score += 0.5;
+            else messages.push('영문 필요');
+
+            if (/\d/.test(password)) score++;
+            else messages.push('숫자 필요');
+
+            if (/[!@#$%^&*(),.?":{}|<>]/.test(password)) score++;
+            else messages.push('특수문자 필요');
+
+            const finalScore = score >= 3.5 ? 3 : score >= 2.5 ? 2 : 1;
+
+            return {
+                score: finalScore,
+                message: messages.join(', ') || '안전한 비밀번호입니다'
+            };
+        }
+
+        // Password Confirmation
+        const confirmPassword = document.getElementById('confirmPassword');
+        const confirmPasswordError = document.getElementById('confirmPasswordError');
+
+        confirmPassword.addEventListener('input', function() {
+            if (this.value && this.value !== newPassword.value) {
+                confirmPasswordError.textContent = '비밀번호가 일치하지 않습니다';
+                this.classList.add('input-error');
+            } else {
+                confirmPasswordError.textContent = '';
+                this.classList.remove('input-error');
+            }
+        });
+
+        // Toggle Switches
+        const emailToggle = document.getElementById('emailToggle');
+        const smsToggle = document.getElementById('smsToggle');
+
+        emailToggle.addEventListener('click', function() {
+            this.classList.toggle('active');
+            state.emailMarketing = this.classList.contains('active');
+            state.formChanged = true;
+        });
+
+        smsToggle.addEventListener('click', function() {
+            this.classList.toggle('active');
+            state.smsMarketing = this.classList.contains('active');
+            state.formChanged = true;
+        });
+
+        // Save Changes
+        const saveBtn = document.getElementById('saveBtn');
+
+        saveBtn.addEventListener('click', function() {
+            // Validate basic info
+            const nameValid = validateName(userName.value);
+            const emailValid = validateEmail(userEmail.value);
+            const phoneValid = validatePhone(userPhone.value);
+
+            if (!nameValid || !emailValid || !phoneValid) {
+                showToast('입력 정보를 확인해주세요', 'error');
+                return;
+            }
+
+            // Validate password if changed
+            const currentPasswordValue = document.getElementById('currentPassword').value;
+            const newPasswordValue = newPassword.value;
+            const confirmPasswordValue = confirmPassword.value;
+
+            if (currentPasswordValue || newPasswordValue || confirmPasswordValue) {
+                if (!currentPasswordValue) {
+                    showToast('현재 비밀번호를 입력해주세요', 'error');
+                    return;
+                }
+                if (!newPasswordValue) {
+                    showToast('새 비밀번호를 입력해주세요', 'error');
+                    return;
+                }
+                if (newPasswordValue !== confirmPasswordValue) {
+                    showToast('비밀번호가 일치하지 않습니다', 'error');
+                    return;
+                }
+                if (checkPasswordStrength(newPasswordValue).score < 2) {
+                    showToast('더 강력한 비밀번호를 사용해주세요', 'error');
+                    return;
+                }
+            }
+
+            // Show loading state
+            saveBtn.textContent = '저장 중...';
+            saveBtn.disabled = true;
+
+            // Simulate API call
+            setTimeout(() => {
+                // Update display name and email
+                document.getElementById('displayName').textContent = userName.value;
+                document.getElementById('displayEmail').textContent = userEmail.value;
+
+                // Reset form state
+                state.formChanged = false;
+                state.photoChanged = false;
+
+                // Clear password fields
+                document.getElementById('currentPassword').value = '';
+                newPassword.value = '';
+                confirmPassword.value = '';
+                passwordStrength.classList.remove('show');
+
+                // Reset button
+                saveBtn.textContent = '변경사항 저장';
+                saveBtn.disabled = false;
+
+                // Show success message
+                showToast('프로필이 성공적으로 업데이트되었습니다', 'success');
+            }, 1000);
+        });
+
+        // Delete Account
+        const deleteAccountBtn = document.getElementById('deleteAccountBtn');
+        const deleteModal = document.getElementById('deleteModal');
+        const cancelDeleteBtn = document.getElementById('cancelDeleteBtn');
+        const confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
+
+        deleteAccountBtn.addEventListener('click', function() {
+            deleteModal.classList.add('show');
+        });
+
+        cancelDeleteBtn.addEventListener('click', function() {
+            deleteModal.classList.remove('show');
+        });
+
+        confirmDeleteBtn.addEventListener('click', function() {
+            // Show loading
+            confirmDeleteBtn.textContent = '삭제 중...';
+            confirmDeleteBtn.disabled = true;
+
+            // Simulate API call
+            setTimeout(() => {
+                showToast('계정이 삭제되었습니다', 'success');
+
+                // Redirect to home after 2 seconds
+                setTimeout(() => {
+                    window.location.href = '../home/index.html';
+                }, 2000);
+            }, 1000);
+        });
+
+        deleteModal.addEventListener('click', function(e) {
+            if (e.target === deleteModal) {
+                deleteModal.classList.remove('show');
+            }
+        });
+
+        // Toast Notification
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.className = 'toast ' + type;
+            toast.classList.add('show');
+
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // Prevent data loss
+        window.addEventListener('beforeunload', function(e) {
+            if (state.formChanged || state.photoChanged) {
+                e.preventDefault();
+                e.returnValue = '';
+            }
+        });
+
+        // Auto-format phone number
+        userPhone.addEventListener('input', function(e) {
+            let value = e.target.value.replace(/[^\d]/g, '');
+
+            if (value.length <= 3) {
+                e.target.value = value;
+            } else if (value.length <= 7) {
+                e.target.value = value.slice(0, 3) + '-' + value.slice(3);
+            } else {
+                e.target.value = value.slice(0, 3) + '-' + value.slice(3, 7) + '-' + value.slice(7, 11);
+            }
+        });
+    </script>
+</body>
+</html>

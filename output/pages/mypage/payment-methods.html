@@ -1,0 +1,1014 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>결제수단관리 - 과일다리</title>
+    <link rel="stylesheet" href="../../styles/design-system.css">
+    <link rel="stylesheet" href="../../styles/components.css">
+    <style>
+        body {
+            background: var(--color-gray-50);
+            padding-bottom: calc(var(--bottom-nav-height) + env(safe-area-inset-bottom));
+        }
+
+        /* Header */
+        .header {
+            position: sticky;
+            top: 0;
+            z-index: var(--z-sticky);
+            background: var(--color-white);
+            border-bottom: 1px solid var(--color-gray-200);
+            padding: var(--space-4);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: var(--header-height);
+        }
+
+        .header-back {
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 24px;
+            margin-left: calc(var(--space-2) * -1);
+        }
+
+        .header-title {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: var(--font-size-md);
+            font-weight: var(--font-weight-semibold);
+            color: var(--color-gray-900);
+        }
+
+        /* Content */
+        .content {
+            padding: var(--space-4);
+            padding-bottom: var(--space-8);
+        }
+
+        /* Section Header */
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--space-4);
+        }
+
+        .section-header h2 {
+            font-size: var(--font-size-md);
+            font-weight: var(--font-weight-bold);
+            color: var(--color-gray-900);
+        }
+
+        .add-button {
+            display: flex;
+            align-items: center;
+            gap: var(--space-1);
+            padding: var(--space-2) var(--space-3);
+            background: var(--color-primary);
+            color: var(--color-white);
+            border: none;
+            border-radius: var(--radius-lg);
+            font-size: var(--font-size-sm);
+            font-weight: var(--font-weight-medium);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+
+        .add-button:active {
+            transform: scale(0.97);
+            background: var(--color-primary-dark);
+        }
+
+        /* Payment Method Card */
+        .payment-card {
+            background: var(--color-white);
+            border-radius: var(--radius-xl);
+            padding: var(--space-5);
+            margin-bottom: var(--space-3);
+            box-shadow: var(--shadow-sm);
+            position: relative;
+            transition: all var(--transition-fast);
+        }
+
+        .payment-card:active {
+            transform: scale(0.99);
+        }
+
+        .payment-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: var(--space-4);
+        }
+
+        .payment-card-type {
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+        }
+
+        .payment-card-logo {
+            font-size: 32px;
+        }
+
+        .payment-card-brand {
+            font-size: var(--font-size-md);
+            font-weight: var(--font-weight-bold);
+            color: var(--color-gray-900);
+            margin-bottom: var(--space-1);
+        }
+
+        .payment-card-name {
+            font-size: var(--font-size-xs);
+            color: var(--color-gray-600);
+        }
+
+        .default-badge {
+            padding: var(--space-1) var(--space-2);
+            background: var(--color-primary-light);
+            color: var(--color-primary-dark);
+            font-size: var(--font-size-xs);
+            font-weight: var(--font-weight-semibold);
+            border-radius: var(--radius-sm);
+        }
+
+        .payment-card-number {
+            font-size: var(--font-size-lg);
+            font-weight: var(--font-weight-medium);
+            color: var(--color-gray-900);
+            letter-spacing: 2px;
+            margin-bottom: var(--space-3);
+            font-family: 'Courier New', monospace;
+        }
+
+        .payment-card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .payment-card-info {
+            display: flex;
+            gap: var(--space-4);
+        }
+
+        .info-item {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-1);
+        }
+
+        .info-label {
+            font-size: var(--font-size-xs);
+            color: var(--color-gray-500);
+        }
+
+        .info-value {
+            font-size: var(--font-size-sm);
+            font-weight: var(--font-weight-medium);
+            color: var(--color-gray-900);
+        }
+
+        .payment-card-actions {
+            display: flex;
+            gap: var(--space-2);
+        }
+
+        .icon-button {
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--color-gray-100);
+            border: none;
+            border-radius: var(--radius-lg);
+            font-size: 18px;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+
+        .icon-button:active {
+            transform: scale(0.9);
+            background: var(--color-gray-200);
+        }
+
+        .icon-button.delete {
+            background: #FFEBEE;
+            color: var(--color-error);
+        }
+
+        .icon-button.delete:active {
+            background: #FFCDD2;
+        }
+
+        /* Simple Payment Methods */
+        .simple-payment-section {
+            margin-top: var(--space-6);
+        }
+
+        .simple-payment-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--space-3);
+        }
+
+        .simple-payment-card {
+            background: var(--color-white);
+            border: 2px solid var(--color-gray-200);
+            border-radius: var(--radius-lg);
+            padding: var(--space-4);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--space-2);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+
+        .simple-payment-card:active {
+            transform: scale(0.97);
+        }
+
+        .simple-payment-card.active {
+            border-color: var(--color-primary);
+            background: var(--color-primary-light);
+        }
+
+        .simple-payment-icon {
+            font-size: 36px;
+        }
+
+        .simple-payment-name {
+            font-size: var(--font-size-sm);
+            font-weight: var(--font-weight-medium);
+            color: var(--color-gray-900);
+        }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: flex-end;
+            justify-content: center;
+            z-index: var(--z-modal);
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(100%); }
+            to { transform: translateY(0); }
+        }
+
+        .modal {
+            background: var(--color-white);
+            border-radius: var(--radius-2xl) var(--radius-2xl) 0 0;
+            width: 100%;
+            max-width: var(--max-width-mobile);
+            max-height: 90vh;
+            overflow-y: auto;
+            animation: slideUp 0.3s ease;
+            padding: var(--space-6) var(--space-4) var(--space-4);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--space-6);
+        }
+
+        .modal-title {
+            font-size: var(--font-size-lg);
+            font-weight: var(--font-weight-bold);
+            color: var(--color-gray-900);
+        }
+
+        .modal-close {
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--color-gray-100);
+            border: none;
+            border-radius: var(--radius-full);
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        .modal-close:active {
+            transform: scale(0.9);
+        }
+
+        /* Form */
+        .form-group {
+            margin-bottom: var(--space-5);
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: var(--space-2);
+            font-size: var(--font-size-sm);
+            font-weight: var(--font-weight-medium);
+            color: var(--color-gray-700);
+        }
+
+        .form-label.required::after {
+            content: ' *';
+            color: var(--color-error);
+        }
+
+        .form-input {
+            width: 100%;
+            padding: var(--space-3) var(--space-4);
+            font-size: var(--font-size-base);
+            font-family: inherit;
+            border: 1px solid var(--color-gray-300);
+            border-radius: var(--radius-lg);
+            background: var(--color-white);
+            transition: all var(--transition-fast);
+            outline: none;
+        }
+
+        .form-input:focus {
+            border-color: var(--color-primary);
+            box-shadow: 0 0 0 3px rgba(111, 207, 63, 0.1);
+        }
+
+        .form-input.error {
+            border-color: var(--color-error);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--space-3);
+        }
+
+        .form-helper {
+            margin-top: var(--space-1);
+            font-size: var(--font-size-xs);
+            color: var(--color-gray-600);
+        }
+
+        .form-error {
+            margin-top: var(--space-1);
+            font-size: var(--font-size-xs);
+            color: var(--color-error);
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+            margin-top: var(--space-4);
+            padding: var(--space-3);
+            background: var(--color-gray-50);
+            border-radius: var(--radius-lg);
+            cursor: pointer;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+
+        .checkbox-group label {
+            font-size: var(--font-size-sm);
+            color: var(--color-gray-700);
+            cursor: pointer;
+            user-select: none;
+        }
+
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: var(--max-width-mobile);
+            background: var(--color-white);
+            border-top: 1px solid var(--color-gray-200);
+            display: flex;
+            justify-content: space-around;
+            padding: var(--space-2) 0;
+            z-index: var(--z-sticky);
+        }
+
+        .nav-item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--space-1);
+            padding: var(--space-2);
+            color: var(--color-gray-500);
+            text-decoration: none;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+
+        .nav-item.active {
+            color: var(--color-primary);
+        }
+
+        .nav-item .icon {
+            font-size: 24px;
+        }
+
+        .nav-item .label {
+            font-size: var(--font-size-xs);
+            font-weight: var(--font-weight-medium);
+        }
+
+        /* Empty State */
+        .empty-payment {
+            background: var(--color-white);
+            border-radius: var(--radius-xl);
+            padding: var(--space-12) var(--space-6);
+            text-align: center;
+            margin-bottom: var(--space-3);
+        }
+
+        .empty-payment-icon {
+            font-size: 64px;
+            margin-bottom: var(--space-4);
+            opacity: 0.3;
+        }
+
+        .empty-payment-title {
+            font-size: var(--font-size-md);
+            font-weight: var(--font-weight-semibold);
+            color: var(--color-gray-700);
+            margin-bottom: var(--space-2);
+        }
+
+        .empty-payment-desc {
+            font-size: var(--font-size-sm);
+            color: var(--color-gray-500);
+            line-height: var(--line-height-relaxed);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-back" onclick="history.back()">
+            ←
+        </div>
+        <h1 class="header-title">결제수단관리</h1>
+        <div style="width: 44px;"></div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="content">
+        <!-- Registered Cards Section -->
+        <section>
+            <div class="section-header">
+                <h2>등록된 카드</h2>
+                <button class="add-button" onclick="openAddCardModal()">
+                    <span>+</span>
+                    <span>카드 추가</span>
+                </button>
+            </div>
+
+            <!-- Payment Cards Container -->
+            <div id="payment-cards-container">
+                <!-- Sample Payment Card 1 -->
+                <div class="payment-card" data-card-id="1">
+                    <div class="payment-card-header">
+                        <div class="payment-card-type">
+                            <div class="payment-card-logo">💳</div>
+                            <div>
+                                <div class="payment-card-brand">신한카드</div>
+                                <div class="payment-card-name">Deep Dream</div>
+                            </div>
+                        </div>
+                        <span class="default-badge">기본결제</span>
+                    </div>
+                    <div class="payment-card-number">1234  ••••  ••••  5678</div>
+                    <div class="payment-card-footer">
+                        <div class="payment-card-info">
+                            <div class="info-item">
+                                <span class="info-label">유효기간</span>
+                                <span class="info-value">12/26</span>
+                            </div>
+                        </div>
+                        <div class="payment-card-actions">
+                            <button class="icon-button" onclick="setDefaultCard(1)" title="기본 결제수단으로 설정">
+                                ⭐
+                            </button>
+                            <button class="icon-button delete" onclick="deleteCard(1)" title="삭제">
+                                🗑️
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sample Payment Card 2 -->
+                <div class="payment-card" data-card-id="2">
+                    <div class="payment-card-header">
+                        <div class="payment-card-type">
+                            <div class="payment-card-logo">💳</div>
+                            <div>
+                                <div class="payment-card-brand">국민카드</div>
+                                <div class="payment-card-name">KB National</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="payment-card-number">9876  ••••  ••••  4321</div>
+                    <div class="payment-card-footer">
+                        <div class="payment-card-info">
+                            <div class="info-item">
+                                <span class="info-label">유효기간</span>
+                                <span class="info-value">08/27</span>
+                            </div>
+                        </div>
+                        <div class="payment-card-actions">
+                            <button class="icon-button" onclick="setDefaultCard(2)" title="기본 결제수단으로 설정">
+                                ⭐
+                            </button>
+                            <button class="icon-button delete" onclick="deleteCard(2)" title="삭제">
+                                🗑️
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sample Payment Card 3 -->
+                <div class="payment-card" data-card-id="3">
+                    <div class="payment-card-header">
+                        <div class="payment-card-type">
+                            <div class="payment-card-logo">💳</div>
+                            <div>
+                                <div class="payment-card-brand">삼성카드</div>
+                                <div class="payment-card-name">taptap O</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="payment-card-number">5555  ••••  ••••  7890</div>
+                    <div class="payment-card-footer">
+                        <div class="payment-card-info">
+                            <div class="info-item">
+                                <span class="info-label">유효기간</span>
+                                <span class="info-value">03/28</span>
+                            </div>
+                        </div>
+                        <div class="payment-card-actions">
+                            <button class="icon-button" onclick="setDefaultCard(3)" title="기본 결제수단으로 설정">
+                                ⭐
+                            </button>
+                            <button class="icon-button delete" onclick="deleteCard(3)" title="삭제">
+                                🗑️
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Simple Payment Section -->
+        <section class="simple-payment-section">
+            <div class="section-header">
+                <h2>간편결제</h2>
+            </div>
+
+            <div class="simple-payment-grid">
+                <div class="simple-payment-card" onclick="toggleSimplePayment(this, 'kakao')">
+                    <div class="simple-payment-icon">💬</div>
+                    <div class="simple-payment-name">카카오페이</div>
+                </div>
+
+                <div class="simple-payment-card" onclick="toggleSimplePayment(this, 'naver')">
+                    <div class="simple-payment-icon">🅝</div>
+                    <div class="simple-payment-name">네이버페이</div>
+                </div>
+
+                <div class="simple-payment-card" onclick="toggleSimplePayment(this, 'toss')">
+                    <div class="simple-payment-icon">💙</div>
+                    <div class="simple-payment-name">토스페이</div>
+                </div>
+
+                <div class="simple-payment-card" onclick="toggleSimplePayment(this, 'payco')">
+                    <div class="simple-payment-icon">💳</div>
+                    <div class="simple-payment-name">페이코</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Payment Security Info -->
+        <div class="card" style="margin-top: var(--space-6);">
+            <div style="display: flex; align-items: start; gap: var(--space-3);">
+                <div style="font-size: 28px;">🔒</div>
+                <div>
+                    <div style="font-size: var(--font-size-sm); font-weight: var(--font-weight-semibold); color: var(--color-gray-900); margin-bottom: var(--space-2);">
+                        안전한 결제 정보 보호
+                    </div>
+                    <div style="font-size: var(--font-size-xs); color: var(--color-gray-600); line-height: var(--line-height-relaxed);">
+                        모든 결제 정보는 암호화되어 안전하게 저장됩니다. 과일다리는 PG사의 보안 시스템을 통해 고객님의 결제 정보를 보호합니다.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Add Card Modal -->
+    <div class="modal-overlay" id="addCardModal" onclick="closeModalOnOverlay(event)">
+        <div class="modal" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <h2 class="modal-title">카드 등록</h2>
+                <button class="modal-close" onclick="closeAddCardModal()">×</button>
+            </div>
+
+            <form id="addCardForm" onsubmit="handleAddCard(event)">
+                <div class="form-group">
+                    <label class="form-label required" for="cardNumber">카드번호</label>
+                    <input
+                        type="text"
+                        id="cardNumber"
+                        class="form-input"
+                        placeholder="1234 5678 9012 3456"
+                        maxlength="19"
+                        required
+                    >
+                    <div class="form-helper">공백 없이 16자리를 입력해주세요</div>
+                    <div class="form-error" id="cardNumberError"></div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label required" for="expiryDate">유효기간</label>
+                        <input
+                            type="text"
+                            id="expiryDate"
+                            class="form-input"
+                            placeholder="MM/YY"
+                            maxlength="5"
+                            required
+                        >
+                        <div class="form-error" id="expiryError"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label required" for="cvc">CVC</label>
+                        <input
+                            type="text"
+                            id="cvc"
+                            class="form-input"
+                            placeholder="123"
+                            maxlength="3"
+                            inputmode="numeric"
+                            required
+                        >
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label required" for="cardPassword">카드 비밀번호</label>
+                    <input
+                        type="password"
+                        id="cardPassword"
+                        class="form-input"
+                        placeholder="앞 2자리"
+                        maxlength="2"
+                        inputmode="numeric"
+                        required
+                    >
+                    <div class="form-helper">카드 비밀번호 앞 2자리를 입력해주세요</div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label required" for="birthDate">생년월일</label>
+                    <input
+                        type="text"
+                        id="birthDate"
+                        class="form-input"
+                        placeholder="YYMMDD (6자리)"
+                        maxlength="6"
+                        inputmode="numeric"
+                        required
+                    >
+                    <div class="form-helper">생년월일 6자리를 입력해주세요</div>
+                </div>
+
+                <div class="checkbox-group" onclick="toggleDefaultCheckbox()">
+                    <input type="checkbox" id="setAsDefault">
+                    <label for="setAsDefault">기본 결제수단으로 설정</label>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-full btn-lg" style="margin-top: var(--space-6);">
+                    카드 등록하기
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+        <a href="../home/index.html" class="nav-item">
+            <span class="icon">🏠</span>
+            <span class="label">홈</span>
+        </a>
+        <a href="../products/index.html" class="nav-item">
+            <span class="icon">🍎</span>
+            <span class="label">상품</span>
+        </a>
+        <a href="../mypage/index.html" class="nav-item active">
+            <span class="icon">👤</span>
+            <span class="label">마이</span>
+        </a>
+        <a href="../support/index.html" class="nav-item">
+            <span class="icon">💬</span>
+            <span class="label">고객지원</span>
+        </a>
+    </nav>
+
+    <script>
+        // Card number formatting
+        document.getElementById('cardNumber').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\s/g, '');
+            let formattedValue = value.match(/.{1,4}/g)?.join(' ') || value;
+            e.target.value = formattedValue;
+
+            // Clear error when user types
+            document.getElementById('cardNumberError').textContent = '';
+            e.target.classList.remove('error');
+        });
+
+        // Expiry date formatting
+        document.getElementById('expiryDate').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+
+            if (value.length >= 2) {
+                value = value.slice(0, 2) + '/' + value.slice(2, 4);
+            }
+
+            e.target.value = value;
+
+            // Validate expiry date
+            if (value.length === 5) {
+                const [month, year] = value.split('/');
+                const monthNum = parseInt(month);
+
+                if (monthNum < 1 || monthNum > 12) {
+                    document.getElementById('expiryError').textContent = '올바른 월을 입력해주세요 (01-12)';
+                    e.target.classList.add('error');
+                } else {
+                    document.getElementById('expiryError').textContent = '';
+                    e.target.classList.remove('error');
+                }
+            } else {
+                document.getElementById('expiryError').textContent = '';
+                e.target.classList.remove('error');
+            }
+        });
+
+        // CVC input validation (numbers only)
+        document.getElementById('cvc').addEventListener('input', function(e) {
+            e.target.value = e.target.value.replace(/\D/g, '');
+        });
+
+        // Card password input validation (numbers only)
+        document.getElementById('cardPassword').addEventListener('input', function(e) {
+            e.target.value = e.target.value.replace(/\D/g, '');
+        });
+
+        // Birth date input validation (numbers only)
+        document.getElementById('birthDate').addEventListener('input', function(e) {
+            e.target.value = e.target.value.replace(/\D/g, '');
+        });
+
+        // Modal functions
+        function openAddCardModal() {
+            document.getElementById('addCardModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeAddCardModal() {
+            document.getElementById('addCardModal').classList.remove('active');
+            document.body.style.overflow = '';
+            document.getElementById('addCardForm').reset();
+            clearFormErrors();
+        }
+
+        function closeModalOnOverlay(event) {
+            if (event.target === event.currentTarget) {
+                closeAddCardModal();
+            }
+        }
+
+        function clearFormErrors() {
+            document.getElementById('cardNumberError').textContent = '';
+            document.getElementById('expiryError').textContent = '';
+            document.querySelectorAll('.form-input').forEach(input => {
+                input.classList.remove('error');
+            });
+        }
+
+        // Toggle default checkbox
+        function toggleDefaultCheckbox() {
+            const checkbox = document.getElementById('setAsDefault');
+            checkbox.checked = !checkbox.checked;
+        }
+
+        // Handle add card form submission
+        function handleAddCard(event) {
+            event.preventDefault();
+
+            const cardNumber = document.getElementById('cardNumber').value.replace(/\s/g, '');
+            const expiryDate = document.getElementById('expiryDate').value;
+            const cvc = document.getElementById('cvc').value;
+            const cardPassword = document.getElementById('cardPassword').value;
+            const birthDate = document.getElementById('birthDate').value;
+            const setAsDefault = document.getElementById('setAsDefault').checked;
+
+            // Validation
+            let isValid = true;
+
+            // Validate card number (should be 16 digits)
+            if (cardNumber.length !== 16) {
+                document.getElementById('cardNumberError').textContent = '카드번호 16자리를 입력해주세요';
+                document.getElementById('cardNumber').classList.add('error');
+                isValid = false;
+            }
+
+            // Validate expiry date
+            if (expiryDate.length !== 5) {
+                document.getElementById('expiryError').textContent = '유효기간을 올바르게 입력해주세요';
+                document.getElementById('expiryDate').classList.add('error');
+                isValid = false;
+            }
+
+            if (!isValid) {
+                return;
+            }
+
+            // Simulate card addition
+            console.log('Adding card:', {
+                cardNumber: cardNumber.replace(/(\d{4})/g, '$1 ').trim(),
+                expiryDate,
+                cvc,
+                cardPassword,
+                birthDate,
+                setAsDefault
+            });
+
+            // Show success message
+            alert('카드가 성공적으로 등록되었습니다.');
+
+            // Close modal
+            closeAddCardModal();
+
+            // In real application, you would:
+            // 1. Send data to server
+            // 2. Add new card to the list
+            // 3. Update UI accordingly
+        }
+
+        // Set default card
+        function setDefaultCard(cardId) {
+            // Remove default badge from all cards
+            document.querySelectorAll('.default-badge').forEach(badge => {
+                badge.remove();
+            });
+
+            // Add default badge to selected card
+            const selectedCard = document.querySelector(`[data-card-id="${cardId}"]`);
+            const badge = document.createElement('span');
+            badge.className = 'default-badge';
+            badge.textContent = '기본결제';
+            selectedCard.querySelector('.payment-card-header').appendChild(badge);
+
+            // Show success message
+            setTimeout(() => {
+                alert('기본 결제수단으로 설정되었습니다.');
+            }, 100);
+        }
+
+        // Delete card
+        function deleteCard(cardId) {
+            const selectedCard = document.querySelector(`[data-card-id="${cardId}"]`);
+            const isDefault = selectedCard.querySelector('.default-badge');
+
+            if (isDefault) {
+                alert('기본 결제수단은 삭제할 수 없습니다.\n다른 카드를 기본 결제수단으로 설정한 후 삭제해주세요.');
+                return;
+            }
+
+            if (confirm('이 카드를 삭제하시겠습니까?')) {
+                selectedCard.style.animation = 'slideOut 0.3s ease';
+                setTimeout(() => {
+                    selectedCard.remove();
+
+                    // Check if there are no cards left
+                    const remainingCards = document.querySelectorAll('.payment-card').length;
+                    if (remainingCards === 0) {
+                        showEmptyState();
+                    }
+                }, 300);
+            }
+        }
+
+        // Animation for card removal
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideOut {
+                from {
+                    opacity: 1;
+                    transform: translateX(0);
+                }
+                to {
+                    opacity: 0;
+                    transform: translateX(100%);
+                }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Show empty state
+        function showEmptyState() {
+            const container = document.getElementById('payment-cards-container');
+            container.innerHTML = `
+                <div class="empty-payment">
+                    <div class="empty-payment-icon">💳</div>
+                    <div class="empty-payment-title">등록된 카드가 없습니다</div>
+                    <div class="empty-payment-desc">
+                        카드를 등록하고<br>
+                        빠르고 편리하게 결제하세요
+                    </div>
+                </div>
+            `;
+        }
+
+        // Toggle simple payment
+        function toggleSimplePayment(element, provider) {
+            if (element.classList.contains('active')) {
+                element.classList.remove('active');
+                console.log(`${provider} 연동 해제`);
+            } else {
+                element.classList.add('active');
+                console.log(`${provider} 연동 시작`);
+
+                // Simulate provider authentication
+                setTimeout(() => {
+                    alert(`${getProviderName(provider)} 인증이 완료되었습니다.`);
+                }, 500);
+            }
+        }
+
+        // Get provider name in Korean
+        function getProviderName(provider) {
+            const names = {
+                'kakao': '카카오페이',
+                'naver': '네이버페이',
+                'toss': '토스페이',
+                'payco': '페이코'
+            };
+            return names[provider] || provider;
+        }
+
+        // Prevent form submission on Enter key in input fields (except submit button)
+        document.getElementById('addCardForm').addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && e.target.tagName !== 'BUTTON') {
+                e.preventDefault();
+            }
+        });
+
+        // Initialize: Set first card as default if no default exists
+        window.addEventListener('DOMContentLoaded', function() {
+            const hasDefault = document.querySelector('.default-badge');
+            if (!hasDefault) {
+                const firstCard = document.querySelector('.payment-card');
+                if (firstCard) {
+                    const cardId = firstCard.getAttribute('data-card-id');
+                    setDefaultCard(cardId);
+                }
+            }
+        });
+    </script>
+</body>
+</html>

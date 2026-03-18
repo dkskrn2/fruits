@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <title>포인트 내역 - 과일다리</title>
+
+    <!-- Design System CSS -->
+    <link rel="stylesheet" href="../../styles/design-system.css">
+    <link rel="stylesheet" href="../../styles/components.css">
+
+    <style>
+        /* Page Specific Styles */
+        body {
+            background: var(--color-gray-50);
+        }
+
+        .mobile-container {
+            padding-top: 0;
+        }
+
+        /* App Header */
+        .app-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 20px;
+            background: white;
+            border-bottom: 1px solid var(--color-gray-100);
+            position: sticky;
+            top: 0;
+            z-index: var(--z-sticky);
+        }
+
+        .app-header__left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .back-button {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: transparent;
+            border: none;
+            border-radius: var(--radius-full);
+            cursor: pointer;
+            font-size: 20px;
+            transition: all var(--transition-fast);
+        }
+
+        .back-button:active {
+            background: var(--color-gray-100);
+            transform: scale(0.95);
+        }
+
+        .app-header__title {
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .app-header__actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .icon-button {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: transparent;
+            border: none;
+            border-radius: var(--radius-full);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            font-size: 20px;
+        }
+
+        .icon-button:active {
+            background: var(--color-gray-100);
+            transform: scale(0.95);
+        }
+
+        /* Main Content */
+        .main-content {
+            padding-bottom: 80px;
+        }
+
+        /* Points Summary Card */
+        .points-summary {
+            background: linear-gradient(135deg, #6FCF3F 0%, #5CB82F 100%);
+            margin: 16px;
+            border-radius: var(--radius-xl);
+            padding: 24px;
+            color: white;
+            box-shadow: 0 4px 12px rgba(111, 207, 63, 0.3);
+        }
+
+        .points-summary__main {
+            text-align: center;
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .points-summary__label {
+            font-size: var(--font-size-sm);
+            opacity: 0.9;
+            margin-bottom: 8px;
+        }
+
+        .points-summary__amount {
+            font-size: 36px;
+            font-weight: var(--font-weight-bold);
+            margin-bottom: 4px;
+            letter-spacing: -1px;
+        }
+
+        .points-summary__desc {
+            font-size: var(--font-size-xs);
+            opacity: 0.8;
+        }
+
+        .points-summary__details {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+        }
+
+        .points-detail {
+            text-align: center;
+        }
+
+        .points-detail__label {
+            font-size: var(--font-size-xs);
+            opacity: 0.85;
+            margin-bottom: 6px;
+        }
+
+        .points-detail__value {
+            font-size: var(--font-size-lg);
+            font-weight: var(--font-weight-bold);
+        }
+
+        /* Filter Section */
+        .filter-section {
+            background: white;
+            padding: 16px 20px 12px;
+            border-bottom: 1px solid var(--color-gray-100);
+        }
+
+        /* Type Filter Tabs */
+        .type-filter {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 16px;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+        }
+
+        .type-filter::-webkit-scrollbar {
+            display: none;
+        }
+
+        .type-filter-tab {
+            flex-shrink: 0;
+            padding: 8px 16px;
+            font-size: var(--font-size-sm);
+            font-weight: var(--font-weight-medium);
+            color: var(--color-gray-600);
+            background: var(--color-gray-100);
+            border: 1px solid transparent;
+            border-radius: var(--radius-full);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            user-select: none;
+        }
+
+        .type-filter-tab:active {
+            transform: scale(0.95);
+        }
+
+        .type-filter-tab.active {
+            background: var(--color-primary-light);
+            color: var(--color-primary-dark);
+            border-color: var(--color-primary);
+        }
+
+        /* Period Filter */
+        .period-filter {
+            display: flex;
+            gap: 8px;
+        }
+
+        .period-filter-tab {
+            flex: 1;
+            padding: 8px 12px;
+            font-size: var(--font-size-sm);
+            font-weight: var(--font-weight-medium);
+            color: var(--color-gray-600);
+            background: var(--color-gray-50);
+            border: 1px solid var(--color-gray-200);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            text-align: center;
+            user-select: none;
+        }
+
+        .period-filter-tab:active {
+            transform: scale(0.97);
+        }
+
+        .period-filter-tab.active {
+            background: var(--color-gray-900);
+            color: white;
+            border-color: var(--color-gray-900);
+        }
+
+        /* Points History List */
+        .history-section {
+            padding: 16px;
+        }
+
+        .history-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            padding: 0 4px;
+        }
+
+        .history-title {
+            font-size: var(--font-size-base);
+            font-weight: var(--font-weight-semibold);
+            color: var(--color-gray-900);
+        }
+
+        .history-count {
+            font-size: var(--font-size-sm);
+            color: var(--color-gray-600);
+        }
+
+        /* History Item */
+        .history-item {
+            background: white;
+            border-radius: var(--radius-lg);
+            padding: 16px;
+            margin-bottom: 12px;
+            box-shadow: var(--shadow-xs);
+            transition: all var(--transition-fast);
+        }
+
+        .history-item:active {
+            transform: scale(0.98);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .history-item__header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 8px;
+        }
+
+        .history-item__info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .history-item__type {
+            display: inline-flex;
+            align-items: center;
+            padding: 2px 8px;
+            font-size: 10px;
+            font-weight: var(--font-weight-semibold);
+            border-radius: var(--radius-sm);
+            margin-bottom: 6px;
+        }
+
+        .history-item__type--earn {
+            background: var(--color-primary-light);
+            color: var(--color-primary-dark);
+        }
+
+        .history-item__type--use {
+            background: #FFEBEE;
+            color: #C62828;
+        }
+
+        .history-item__type--expire {
+            background: #FFF3E0;
+            color: #E65100;
+        }
+
+        .history-item__desc {
+            font-size: var(--font-size-base);
+            font-weight: var(--font-weight-medium);
+            color: var(--color-gray-900);
+            margin-bottom: 4px;
+            line-height: 1.4;
+        }
+
+        .history-item__date {
+            font-size: var(--font-size-xs);
+            color: var(--color-gray-600);
+        }
+
+        .history-item__amount {
+            font-size: var(--font-size-lg);
+            font-weight: var(--font-weight-bold);
+            white-space: nowrap;
+            margin-left: 12px;
+        }
+
+        .history-item__amount--positive {
+            color: var(--color-primary);
+        }
+
+        .history-item__amount--negative {
+            color: var(--color-error);
+        }
+
+        .history-item__footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 12px;
+            border-top: 1px solid var(--color-gray-100);
+            margin-top: 12px;
+        }
+
+        .history-item__expiry {
+            font-size: var(--font-size-xs);
+            color: var(--color-gray-600);
+        }
+
+        .history-item__expiry--warning {
+            color: var(--color-warning);
+            font-weight: var(--font-weight-medium);
+        }
+
+        .history-item__balance {
+            font-size: var(--font-size-xs);
+            color: var(--color-gray-600);
+        }
+
+        .history-item__balance-value {
+            font-weight: var(--font-weight-semibold);
+            color: var(--color-gray-900);
+        }
+
+        /* Empty State */
+        .empty-state {
+            padding: 60px 20px;
+            text-align: center;
+        }
+
+        .empty-state__icon {
+            font-size: 64px;
+            margin-bottom: 16px;
+            opacity: 0.3;
+        }
+
+        .empty-state__title {
+            font-size: var(--font-size-md);
+            font-weight: var(--font-weight-semibold);
+            color: var(--color-gray-700);
+            margin-bottom: 8px;
+        }
+
+        .empty-state__desc {
+            font-size: var(--font-size-sm);
+            color: var(--color-gray-500);
+            line-height: 1.6;
+        }
+
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 430px;
+            background: white;
+            border-top: 1px solid var(--color-gray-200);
+            display: flex;
+            justify-content: space-around;
+            padding: 8px 0 calc(8px + env(safe-area-inset-bottom));
+            z-index: var(--z-sticky);
+        }
+
+        .nav-item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            padding: 8px;
+            color: var(--color-gray-600);
+            text-decoration: none;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+
+        .nav-item:active {
+            transform: scale(0.95);
+        }
+
+        .nav-item.active {
+            color: var(--color-primary);
+        }
+
+        .nav-item__icon {
+            font-size: 24px;
+        }
+
+        .nav-item__label {
+            font-size: 11px;
+            font-weight: var(--font-weight-medium);
+        }
+
+        /* Hidden State */
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="mobile-container">
+        <!-- App Header -->
+        <header class="app-header">
+            <div class="app-header__left">
+                <button class="back-button" onclick="window.history.back()">
+                    ←
+                </button>
+                <h1 class="app-header__title">포인트</h1>
+            </div>
+            <div class="app-header__actions">
+                <button class="icon-button" onclick="window.location.href='../home/index.html'">
+                    🏠
+                </button>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Points Summary Card -->
+            <div class="points-summary">
+                <div class="points-summary__main">
+                    <div class="points-summary__label">현재 포인트</div>
+                    <div class="points-summary__amount" id="currentPoints">15,280 P</div>
+                    <div class="points-summary__desc">다음 등급까지 4,720P 남았어요</div>
+                </div>
+                <div class="points-summary__details">
+                    <div class="points-detail">
+                        <div class="points-detail__label">적립예정</div>
+                        <div class="points-detail__value" id="expectedPoints">2,500 P</div>
+                    </div>
+                    <div class="points-detail">
+                        <div class="points-detail__label">
+                            <span id="expiryDays">30일</span> 내 소멸예정
+                        </div>
+                        <div class="points-detail__value" id="expiringPoints">1,200 P</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Filter Section -->
+            <div class="filter-section">
+                <!-- Type Filter -->
+                <div class="type-filter">
+                    <button class="type-filter-tab active" data-type="all">전체</button>
+                    <button class="type-filter-tab" data-type="earn">적립</button>
+                    <button class="type-filter-tab" data-type="use">사용</button>
+                    <button class="type-filter-tab" data-type="expire">소멸</button>
+                </div>
+
+                <!-- Period Filter -->
+                <div class="period-filter">
+                    <button class="period-filter-tab active" data-period="1">1개월</button>
+                    <button class="period-filter-tab" data-period="3">3개월</button>
+                    <button class="period-filter-tab" data-period="6">6개월</button>
+                </div>
+            </div>
+
+            <!-- History Section -->
+            <div class="history-section">
+                <div class="history-header">
+                    <div class="history-title">포인트 내역</div>
+                    <div class="history-count"><span id="historyCount">10</span>건</div>
+                </div>
+
+                <!-- History List -->
+                <div id="historyList">
+                    <!-- Items will be dynamically inserted here -->
+                </div>
+
+                <!-- Empty State (hidden by default) -->
+                <div class="empty-state hidden" id="emptyState">
+                    <div class="empty-state__icon">💰</div>
+                    <div class="empty-state__title">포인트 내역이 없어요</div>
+                    <div class="empty-state__desc">
+                        선택한 기간 동안의 포인트 내역이 없습니다.<br>
+                        상품을 구매하고 포인트를 적립해보세요!
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Bottom Navigation -->
+        <nav class="bottom-nav">
+            <a href="../home/index.html" class="nav-item">
+                <span class="nav-item__icon">🏠</span>
+                <span class="nav-item__label">홈</span>
+            </a>
+            <a href="../products/index.html" class="nav-item">
+                <span class="nav-item__icon">🍎</span>
+                <span class="nav-item__label">상품</span>
+            </a>
+            <a href="../cart/index.html" class="nav-item">
+                <span class="nav-item__icon">🛒</span>
+                <span class="nav-item__label">장바구니</span>
+            </a>
+            <a href="./index.html" class="nav-item active">
+                <span class="nav-item__icon">👤</span>
+                <span class="nav-item__label">마이</span>
+            </a>
+        </nav>
+    </div>
+
+    <script>
+        // Sample transaction data
+        const transactions = [
+            {
+                id: 1,
+                type: 'earn',
+                date: '2024-03-15',
+                description: '제주 한라봉 5kg 구매 적립',
+                amount: 1580,
+                expiryDate: '2025-03-15',
+                balance: 15280,
+                orderNumber: '#2024031500123'
+            },
+            {
+                id: 2,
+                type: 'earn',
+                date: '2024-03-12',
+                description: '리뷰 작성 적립 (사과 후기)',
+                amount: 500,
+                expiryDate: '2025-03-12',
+                balance: 13700,
+                orderNumber: null
+            },
+            {
+                id: 3,
+                type: 'use',
+                date: '2024-03-10',
+                description: '주문 결제 시 포인트 사용',
+                amount: -3000,
+                expiryDate: null,
+                balance: 13200,
+                orderNumber: '#2024031000089'
+            },
+            {
+                id: 4,
+                type: 'earn',
+                date: '2024-03-08',
+                description: '신규 가입 웰컴 포인트',
+                amount: 5000,
+                expiryDate: '2025-03-08',
+                balance: 16200,
+                orderNumber: null
+            },
+            {
+                id: 5,
+                type: 'earn',
+                date: '2024-03-05',
+                description: '딸기 세트 구매 적립',
+                amount: 2500,
+                expiryDate: '2025-03-05',
+                balance: 11200,
+                orderNumber: '#2024030500045'
+            },
+            {
+                id: 6,
+                type: 'expire',
+                date: '2024-03-01',
+                description: '포인트 유효기간 만료',
+                amount: -1200,
+                expiryDate: null,
+                balance: 8700,
+                orderNumber: null
+            },
+            {
+                id: 7,
+                type: 'earn',
+                date: '2024-02-28',
+                description: '2월 등급 보너스 지급',
+                amount: 1000,
+                expiryDate: '2025-02-28',
+                balance: 9900,
+                orderNumber: null
+            },
+            {
+                id: 8,
+                type: 'use',
+                date: '2024-02-25',
+                description: '주문 결제 시 포인트 사용',
+                amount: -2000,
+                expiryDate: null,
+                balance: 8900,
+                orderNumber: '#2024022500067'
+            },
+            {
+                id: 9,
+                type: 'earn',
+                date: '2024-02-20',
+                description: '친구 초대 이벤트 적립',
+                amount: 3000,
+                expiryDate: '2025-02-20',
+                balance: 10900,
+                orderNumber: null
+            },
+            {
+                id: 10,
+                type: 'earn',
+                date: '2024-02-15',
+                description: '망고 프리미엄 세트 구매 적립',
+                amount: 4500,
+                expiryDate: '2025-02-15',
+                balance: 7900,
+                orderNumber: '#2024021500034'
+            },
+            {
+                id: 11,
+                type: 'use',
+                date: '2024-02-10',
+                description: '주문 결제 시 포인트 사용',
+                amount: -1500,
+                expiryDate: null,
+                balance: 3400,
+                orderNumber: '#2024021000021'
+            },
+            {
+                id: 12,
+                type: 'earn',
+                date: '2024-02-05',
+                description: '출석 체크 이벤트 적립',
+                amount: 200,
+                expiryDate: '2025-02-05',
+                balance: 4900,
+                orderNumber: null
+            }
+        ];
+
+        // State
+        let currentType = 'all';
+        let currentPeriod = 1;
+
+        // Format number with comma
+        function formatNumber(num) {
+            return Math.abs(num).toLocaleString();
+        }
+
+        // Format date
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const day = String(date.getDate()).padStart(2, '0');
+            return `${year}.${month}.${day}`;
+        }
+
+        // Calculate days until expiry
+        function getDaysUntilExpiry(expiryDate) {
+            if (!expiryDate) return null;
+            const today = new Date();
+            const expiry = new Date(expiryDate);
+            const diffTime = expiry - today;
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            return diffDays;
+        }
+
+        // Get type label
+        function getTypeLabel(type) {
+            const labels = {
+                earn: '적립',
+                use: '사용',
+                expire: '소멸'
+            };
+            return labels[type] || '';
+        }
+
+        // Filter transactions
+        function filterTransactions() {
+            const now = new Date();
+            const periodMonths = currentPeriod;
+            const startDate = new Date(now.getFullYear(), now.getMonth() - periodMonths, now.getDate());
+
+            let filtered = transactions.filter(t => {
+                const transDate = new Date(t.date);
+
+                // Filter by period
+                if (transDate < startDate) return false;
+
+                // Filter by type
+                if (currentType !== 'all' && t.type !== currentType) return false;
+
+                return true;
+            });
+
+            return filtered;
+        }
+
+        // Render history item
+        function renderHistoryItem(transaction) {
+            const typeClass = `history-item__type--${transaction.type}`;
+            const amountClass = transaction.amount > 0 ? 'history-item__amount--positive' : 'history-item__amount--negative';
+            const amountPrefix = transaction.amount > 0 ? '+' : '';
+
+            let footerHTML = '';
+
+            if (transaction.type === 'earn' && transaction.expiryDate) {
+                const daysUntil = getDaysUntilExpiry(transaction.expiryDate);
+                const expiryClass = daysUntil !== null && daysUntil <= 30 ? 'history-item__expiry--warning' : '';
+                footerHTML = `
+                    <div class="history-item__footer">
+                        <div class="history-item__expiry ${expiryClass}">
+                            ${daysUntil !== null ? `${daysUntil}일 후 소멸` : `${formatDate(transaction.expiryDate)} 소멸`}
+                        </div>
+                        <div class="history-item__balance">
+                            잔액 <span class="history-item__balance-value">${formatNumber(transaction.balance)} P</span>
+                        </div>
+                    </div>
+                `;
+            } else {
+                footerHTML = `
+                    <div class="history-item__footer">
+                        <div class="history-item__expiry"></div>
+                        <div class="history-item__balance">
+                            잔액 <span class="history-item__balance-value">${formatNumber(transaction.balance)} P</span>
+                        </div>
+                    </div>
+                `;
+            }
+
+            return `
+                <div class="history-item">
+                    <div class="history-item__header">
+                        <div class="history-item__info">
+                            <span class="history-item__type ${typeClass}">${getTypeLabel(transaction.type)}</span>
+                            <div class="history-item__desc">${transaction.description}</div>
+                            <div class="history-item__date">${formatDate(transaction.date)}</div>
+                        </div>
+                        <div class="history-item__amount ${amountClass}">
+                            ${amountPrefix}${formatNumber(transaction.amount)} P
+                        </div>
+                    </div>
+                    ${footerHTML}
+                </div>
+            `;
+        }
+
+        // Render history list
+        function renderHistory() {
+            const filtered = filterTransactions();
+            const historyList = document.getElementById('historyList');
+            const emptyState = document.getElementById('emptyState');
+            const historyCount = document.getElementById('historyCount');
+
+            if (filtered.length === 0) {
+                historyList.classList.add('hidden');
+                emptyState.classList.remove('hidden');
+                historyCount.textContent = '0';
+            } else {
+                historyList.classList.remove('hidden');
+                emptyState.classList.add('hidden');
+                historyCount.textContent = filtered.length;
+
+                historyList.innerHTML = filtered.map(t => renderHistoryItem(t)).join('');
+            }
+        }
+
+        // Update expiry countdown
+        function updateExpiryCountdown() {
+            // Calculate days until nearest expiry
+            const now = new Date();
+            const earnTransactions = transactions.filter(t => t.type === 'earn' && t.expiryDate);
+
+            if (earnTransactions.length > 0) {
+                const sortedByExpiry = earnTransactions.sort((a, b) =>
+                    new Date(a.expiryDate) - new Date(b.expiryDate)
+                );
+
+                const nearestExpiry = sortedByExpiry[0];
+                const daysUntil = getDaysUntilExpiry(nearestExpiry.expiryDate);
+
+                if (daysUntil !== null) {
+                    document.getElementById('expiryDays').textContent = `${daysUntil}일`;
+                }
+            }
+        }
+
+        // Type filter event handlers
+        document.querySelectorAll('.type-filter-tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                document.querySelectorAll('.type-filter-tab').forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+                currentType = this.dataset.type;
+                renderHistory();
+            });
+        });
+
+        // Period filter event handlers
+        document.querySelectorAll('.period-filter-tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                document.querySelectorAll('.period-filter-tab').forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+                currentPeriod = parseInt(this.dataset.period);
+                renderHistory();
+            });
+        });
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            renderHistory();
+            updateExpiryCountdown();
+        });
+
+        // Prevent zoom on double tap
+        let lastTouchEnd = 0;
+        document.addEventListener('touchend', function(event) {
+            const now = Date.now();
+            if (now - lastTouchEnd <= 300) {
+                event.preventDefault();
+            }
+            lastTouchEnd = now;
+        }, false);
+    </script>
+</body>
+</html>

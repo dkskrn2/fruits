@@ -1,0 +1,1045 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>배송조회 - 과일다리</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../styles/design-system.css">
+    <link rel="stylesheet" href="../../styles/components.css">
+    <style>
+        /* Delivery Tracking Specific Styles */
+
+        /* Delivery Status Banner */
+        .delivery-banner {
+            background: linear-gradient(135deg, #8BC34A 0%, #689F38 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+
+        .delivery-banner-status {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .delivery-banner-desc {
+            font-size: 14px;
+            opacity: 0.9;
+            margin-bottom: 4px;
+        }
+
+        .delivery-banner-time {
+            font-size: 13px;
+            opacity: 0.8;
+        }
+
+        /* Delivery Timeline */
+        .delivery-timeline {
+            background: white;
+            border-radius: 12px;
+            padding: 24px 16px;
+            margin-bottom: 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .timeline-steps {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            position: relative;
+            padding: 0 10px;
+            margin-bottom: 16px;
+        }
+
+        .timeline-line {
+            position: absolute;
+            top: 20px;
+            left: 10px;
+            right: 10px;
+            height: 2px;
+            background: #E0E0E0;
+            z-index: 0;
+        }
+
+        .timeline-line-progress {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            background: #8BC34A;
+            transition: width 1s ease;
+        }
+
+        .timeline-step {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .timeline-dot {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: white;
+            border: 2px solid #E0E0E0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            margin-bottom: 8px;
+            transition: all 0.3s;
+        }
+
+        .timeline-step.active .timeline-dot {
+            background: #8BC34A;
+            border-color: #8BC34A;
+            transform: scale(1.1);
+            box-shadow: 0 4px 12px rgba(139, 195, 74, 0.3);
+        }
+
+        .timeline-step.completed .timeline-dot {
+            background: #8BC34A;
+            border-color: #8BC34A;
+        }
+
+        .timeline-label {
+            font-size: 12px;
+            font-weight: 500;
+            color: #9E9E9E;
+            text-align: center;
+            line-height: 1.3;
+        }
+
+        .timeline-step.active .timeline-label {
+            color: #8BC34A;
+            font-weight: 700;
+        }
+
+        .timeline-step.completed .timeline-label {
+            color: #689F38;
+        }
+
+        /* Map Placeholder */
+        .delivery-map {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .map-container {
+            position: relative;
+            height: 200px;
+            background: linear-gradient(135deg, #E8F5E9 0%, #C8E6C9 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .map-icon {
+            font-size: 64px;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .map-overlay {
+            position: absolute;
+            top: 16px;
+            left: 16px;
+            background: rgba(255,255,255,0.95);
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 500;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .map-info {
+            padding: 16px;
+            border-top: 1px solid #E0E0E0;
+        }
+
+        .map-info-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .map-info-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .map-info-label {
+            font-size: 14px;
+            color: #757575;
+        }
+
+        .map-info-value {
+            font-size: 14px;
+            font-weight: 600;
+            color: #212121;
+        }
+
+        .map-info-highlight {
+            color: #8BC34A;
+            font-weight: 700;
+        }
+
+        /* Driver Info Card */
+        .driver-card {
+            background: white;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .driver-avatar {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #FFE0B2 0%, #FFB74D 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            flex-shrink: 0;
+        }
+
+        .driver-info {
+            flex: 1;
+        }
+
+        .driver-name {
+            font-size: 16px;
+            font-weight: 700;
+            color: #212121;
+            margin-bottom: 4px;
+        }
+
+        .driver-vehicle {
+            font-size: 13px;
+            color: #757575;
+            margin-bottom: 2px;
+        }
+
+        .driver-rating {
+            font-size: 13px;
+            color: #FF9800;
+        }
+
+        .driver-call {
+            background: #8BC34A;
+            color: white;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+        }
+
+        .driver-call:active {
+            background: #689F38;
+            transform: scale(0.95);
+        }
+
+        /* Product List */
+        .delivery-products {
+            background: white;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .products-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .products-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #212121;
+        }
+
+        .products-count {
+            font-size: 14px;
+            color: #757575;
+        }
+
+        .product-item {
+            display: flex;
+            gap: 12px;
+            padding: 12px 0;
+            border-bottom: 1px solid #F5F5F5;
+        }
+
+        .product-item:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .product-item:first-child {
+            padding-top: 0;
+        }
+
+        .product-image {
+            width: 60px;
+            height: 60px;
+            border-radius: 8px;
+            background: linear-gradient(135deg, #FFE0B2 0%, #DCEDC8 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            flex-shrink: 0;
+        }
+
+        .product-details {
+            flex: 1;
+        }
+
+        .product-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: #212121;
+            margin-bottom: 4px;
+        }
+
+        .product-meta {
+            font-size: 13px;
+            color: #757575;
+            margin-bottom: 4px;
+        }
+
+        .product-price {
+            font-size: 14px;
+            font-weight: 700;
+            color: #8BC34A;
+        }
+
+        /* Tracking Info */
+        .tracking-info {
+            background: white;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .tracking-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #F5F5F5;
+        }
+
+        .tracking-row:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .tracking-row:first-child {
+            padding-top: 0;
+        }
+
+        .tracking-label {
+            font-size: 14px;
+            color: #757575;
+        }
+
+        .tracking-value {
+            font-size: 14px;
+            font-weight: 600;
+            color: #212121;
+            text-align: right;
+        }
+
+        .tracking-number {
+            color: #8BC34A;
+            cursor: pointer;
+        }
+
+        /* Delivery History */
+        .delivery-history {
+            background: white;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 80px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .history-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .history-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #212121;
+        }
+
+        .history-filter {
+            display: flex;
+            gap: 8px;
+        }
+
+        .filter-btn {
+            padding: 6px 12px;
+            border: 1px solid #E0E0E0;
+            background: white;
+            border-radius: 16px;
+            font-size: 12px;
+            font-weight: 500;
+            color: #757575;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .filter-btn.active {
+            background: #8BC34A;
+            border-color: #8BC34A;
+            color: white;
+        }
+
+        .history-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .history-item {
+            padding: 12px;
+            background: #F9F9F9;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .history-item:active {
+            background: #F5F5F5;
+        }
+
+        .history-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .history-item-date {
+            font-size: 13px;
+            font-weight: 600;
+            color: #212121;
+        }
+
+        .history-item-status {
+            font-size: 12px;
+            font-weight: 600;
+            padding: 4px 8px;
+            border-radius: 4px;
+        }
+
+        .history-item-status.completed {
+            background: #E8F5E9;
+            color: #689F38;
+        }
+
+        .history-item-status.delivering {
+            background: #FFF3E0;
+            color: #FF9800;
+        }
+
+        .history-item-status.preparing {
+            background: #E3F2FD;
+            color: #2196F3;
+        }
+
+        .history-item-desc {
+            font-size: 13px;
+            color: #757575;
+            margin-bottom: 4px;
+        }
+
+        .history-item-tracking {
+            font-size: 12px;
+            color: #9E9E9E;
+        }
+
+        /* Real-time Update Badge */
+        .live-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: #FF5252;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .live-dot {
+            width: 6px;
+            height: 6px;
+            background: white;
+            border-radius: 50%;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .empty-icon {
+            font-size: 64px;
+            margin-bottom: 16px;
+            opacity: 0.5;
+        }
+
+        .empty-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #757575;
+            margin-bottom: 8px;
+        }
+
+        .empty-desc {
+            font-size: 14px;
+            color: #9E9E9E;
+            line-height: 1.6;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+            overflow-x: auto;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        .tabs::-webkit-scrollbar {
+            display: none;
+        }
+
+        .tab {
+            padding: 10px 20px;
+            background: white;
+            border: 1px solid #E0E0E0;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #757575;
+            cursor: pointer;
+            transition: all 0.3s;
+            white-space: nowrap;
+        }
+
+        .tab.active {
+            background: #8BC34A;
+            border-color: #8BC34A;
+            color: white;
+        }
+
+        /* Loading Animation */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(139, 195, 74, 0.3);
+            border-top-color: #8BC34A;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Responsive */
+        @media (max-width: 430px) {
+            .timeline-label {
+                font-size: 11px;
+            }
+
+            .timeline-dot {
+                width: 36px;
+                height: 36px;
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <span class="header-back" onclick="history.back()">←</span>
+        <h1 class="header-title">배송조회</h1>
+        <div class="header-actions">
+            <span class="header-icon" onclick="location.href='../home/index.html'">🏠</span>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="content">
+        <!-- Tabs -->
+        <div class="tabs">
+            <div class="tab active" data-tab="current">현재 배송</div>
+            <div class="tab" data-tab="history">배송 내역</div>
+        </div>
+
+        <!-- Current Delivery Tab -->
+        <div id="currentTab" class="tab-content">
+            <!-- Live Badge -->
+            <div class="live-badge">
+                <span class="live-dot"></span>
+                <span>실시간 추적중</span>
+            </div>
+
+            <!-- Delivery Status Banner -->
+            <div class="delivery-banner">
+                <div class="delivery-banner-status" id="currentStatus">배송중</div>
+                <div class="delivery-banner-desc" id="currentDesc">고객님의 상품이 배송중입니다</div>
+                <div class="delivery-banner-time" id="currentTime">약 30분 후 도착 예정</div>
+            </div>
+
+            <!-- Delivery Timeline -->
+            <div class="delivery-timeline">
+                <div class="timeline-steps">
+                    <div class="timeline-line">
+                        <div class="timeline-line-progress" id="timelineProgress"></div>
+                    </div>
+                    <div class="timeline-step completed" data-step="1">
+                        <div class="timeline-dot">✓</div>
+                        <div class="timeline-label">주문접수</div>
+                    </div>
+                    <div class="timeline-step completed" data-step="2">
+                        <div class="timeline-dot">✓</div>
+                        <div class="timeline-label">상품준비</div>
+                    </div>
+                    <div class="timeline-step active" data-step="3">
+                        <div class="timeline-dot">🚚</div>
+                        <div class="timeline-label">배송중</div>
+                    </div>
+                    <div class="timeline-step" data-step="4">
+                        <div class="timeline-dot">📦</div>
+                        <div class="timeline-label">배송완료</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Map Visualization -->
+            <div class="delivery-map">
+                <div class="map-container">
+                    <div class="map-overlay">📍 서울 강남구</div>
+                    <div class="map-icon">🚚</div>
+                </div>
+                <div class="map-info">
+                    <div class="map-info-row">
+                        <span class="map-info-label">현재 위치</span>
+                        <span class="map-info-value">서울 강남구 테헤란로</span>
+                    </div>
+                    <div class="map-info-row">
+                        <span class="map-info-label">도착 예정</span>
+                        <span class="map-info-value map-info-highlight" id="arrivalTime">오늘 14:30</span>
+                    </div>
+                    <div class="map-info-row">
+                        <span class="map-info-label">남은 거리</span>
+                        <span class="map-info-value" id="remainDistance">약 3.2km</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Driver Info -->
+            <div class="driver-card">
+                <div class="driver-avatar">👨</div>
+                <div class="driver-info">
+                    <div class="driver-name">김기사님</div>
+                    <div class="driver-vehicle">서울 12가 3456</div>
+                    <div class="driver-rating">⭐ 4.9 (1,234건)</div>
+                </div>
+                <button class="driver-call" onclick="callDriver()">📞</button>
+            </div>
+
+            <!-- Product List -->
+            <div class="delivery-products">
+                <div class="products-header">
+                    <h3 class="products-title">배송 상품</h3>
+                    <span class="products-count">총 3개</span>
+                </div>
+                <div class="product-item">
+                    <div class="product-image">🍎</div>
+                    <div class="product-details">
+                        <div class="product-name">프리미엄 사과</div>
+                        <div class="product-meta">2kg · 1박스</div>
+                        <div class="product-price">29,900원</div>
+                    </div>
+                </div>
+                <div class="product-item">
+                    <div class="product-image">🍊</div>
+                    <div class="product-details">
+                        <div class="product-name">제주 한라봉</div>
+                        <div class="product-meta">1.5kg · 1박스</div>
+                        <div class="product-price">19,900원</div>
+                    </div>
+                </div>
+                <div class="product-item">
+                    <div class="product-image">🍇</div>
+                    <div class="product-details">
+                        <div class="product-name">샤인머스캣</div>
+                        <div class="product-meta">1kg · 1송이</div>
+                        <div class="product-price">35,000원</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tracking Info -->
+            <div class="tracking-info">
+                <div class="tracking-row">
+                    <span class="tracking-label">운송장번호</span>
+                    <span class="tracking-value tracking-number" onclick="copyTracking()">123456789012</span>
+                </div>
+                <div class="tracking-row">
+                    <span class="tracking-label">택배사</span>
+                    <span class="tracking-value">CJ대한통운</span>
+                </div>
+                <div class="tracking-row">
+                    <span class="tracking-label">출고일</span>
+                    <span class="tracking-value">2026.03.17 (화)</span>
+                </div>
+                <div class="tracking-row">
+                    <span class="tracking-label">배송비</span>
+                    <span class="tracking-value">무료배송</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Delivery History Tab -->
+        <div id="historyTab" class="tab-content" style="display: none;">
+            <div class="delivery-history">
+                <div class="history-header">
+                    <h3 class="history-title">배송 내역</h3>
+                    <div class="history-filter">
+                        <button class="filter-btn active" data-filter="all">전체</button>
+                        <button class="filter-btn" data-filter="completed">완료</button>
+                        <button class="filter-btn" data-filter="delivering">배송중</button>
+                    </div>
+                </div>
+                <div class="history-list">
+                    <!-- History Item 1 - Delivering -->
+                    <div class="history-item" data-status="delivering" onclick="viewDelivery('123456789012')">
+                        <div class="history-item-header">
+                            <span class="history-item-date">2026.03.17</span>
+                            <span class="history-item-status delivering">배송중</span>
+                        </div>
+                        <div class="history-item-desc">프리미엄 사과 외 2건</div>
+                        <div class="history-item-tracking">운송장: 123456789012</div>
+                    </div>
+
+                    <!-- History Item 2 - Completed -->
+                    <div class="history-item" data-status="completed" onclick="viewDelivery('987654321098')">
+                        <div class="history-item-header">
+                            <span class="history-item-date">2026.03.10</span>
+                            <span class="history-item-status completed">배송완료</span>
+                        </div>
+                        <div class="history-item-desc">제주 감귤 외 1건</div>
+                        <div class="history-item-tracking">운송장: 987654321098</div>
+                    </div>
+
+                    <!-- History Item 3 - Completed -->
+                    <div class="history-item" data-status="completed" onclick="viewDelivery('555666777888')">
+                        <div class="history-item-header">
+                            <span class="history-item-date">2026.03.03</span>
+                            <span class="history-item-status completed">배송완료</span>
+                        </div>
+                        <div class="history-item-desc">딸기 2kg</div>
+                        <div class="history-item-tracking">운송장: 555666777888</div>
+                    </div>
+
+                    <!-- History Item 4 - Preparing -->
+                    <div class="history-item" data-status="preparing" onclick="viewDelivery('111222333444')">
+                        <div class="history-item-header">
+                            <span class="history-item-date">2026.02.24</span>
+                            <span class="history-item-status completed">배송완료</span>
+                        </div>
+                        <div class="history-item-desc">국내산 바나나 외 3건</div>
+                        <div class="history-item-tracking">운송장: 111222333444</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+        <a href="../home/index.html" class="nav-item">
+            <span class="icon">🏠</span>
+            <span class="label">홈</span>
+        </a>
+        <a href="../products/index.html" class="nav-item">
+            <span class="icon">🍎</span>
+            <span class="label">상품</span>
+        </a>
+        <a href="index.html" class="nav-item active">
+            <span class="icon">👤</span>
+            <span class="label">마이</span>
+        </a>
+        <a href="../support/index.html" class="nav-item">
+            <span class="icon">💬</span>
+            <span class="label">고객지원</span>
+        </a>
+    </nav>
+
+    <script>
+        // Tab Switching
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                const tabName = this.dataset.tab;
+
+                // Update tab buttons
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+
+                // Update tab content
+                document.getElementById('currentTab').style.display = tabName === 'current' ? 'block' : 'none';
+                document.getElementById('historyTab').style.display = tabName === 'history' ? 'block' : 'none';
+            });
+        });
+
+        // Timeline Animation
+        function animateTimeline() {
+            const steps = document.querySelectorAll('.timeline-step');
+            const progress = document.getElementById('timelineProgress');
+
+            // Find active step
+            let activeIndex = 0;
+            steps.forEach((step, index) => {
+                if (step.classList.contains('active')) {
+                    activeIndex = index;
+                }
+            });
+
+            // Calculate progress width
+            const progressWidth = (activeIndex / (steps.length - 1)) * 100;
+            progress.style.width = progressWidth + '%';
+        }
+
+        // Real-time Location Updates (Simulated)
+        let distanceRemaining = 3.2;
+        let minutesRemaining = 30;
+
+        function updateDeliveryStatus() {
+            // Simulate distance decrease
+            distanceRemaining -= 0.1;
+            minutesRemaining -= 1;
+
+            if (distanceRemaining < 0) distanceRemaining = 0;
+            if (minutesRemaining < 0) minutesRemaining = 0;
+
+            // Update UI
+            document.getElementById('remainDistance').textContent = `약 ${distanceRemaining.toFixed(1)}km`;
+            document.getElementById('currentTime').textContent = `약 ${minutesRemaining}분 후 도착 예정`;
+
+            // Check if delivery is complete
+            if (distanceRemaining === 0 && minutesRemaining === 0) {
+                updateToDelivered();
+            }
+        }
+
+        function updateToDelivered() {
+            const steps = document.querySelectorAll('.timeline-step');
+            steps.forEach(step => {
+                step.classList.remove('active');
+                step.classList.add('completed');
+            });
+
+            document.getElementById('currentStatus').textContent = '배송완료';
+            document.getElementById('currentDesc').textContent = '상품이 안전하게 배송되었습니다';
+            document.getElementById('currentTime').textContent = '배송 완료';
+            document.getElementById('arrivalTime').textContent = '배송 완료';
+
+            animateTimeline();
+        }
+
+        // History Filter
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const filter = this.dataset.filter;
+
+                // Update active button
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+
+                // Filter history items
+                document.querySelectorAll('.history-item').forEach(item => {
+                    const status = item.dataset.status;
+                    if (filter === 'all' || status === filter) {
+                        item.style.display = 'block';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+        // Copy Tracking Number
+        function copyTracking() {
+            const trackingNumber = '123456789012';
+
+            // Try to use Clipboard API
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(trackingNumber).then(() => {
+                    alert('운송장번호가 복사되었습니다\n' + trackingNumber);
+                });
+            } else {
+                // Fallback for older browsers
+                const textarea = document.createElement('textarea');
+                textarea.value = trackingNumber;
+                textarea.style.position = 'fixed';
+                textarea.style.opacity = '0';
+                document.body.appendChild(textarea);
+                textarea.select();
+
+                try {
+                    document.execCommand('copy');
+                    alert('운송장번호가 복사되었습니다\n' + trackingNumber);
+                } catch (err) {
+                    alert('운송장번호: ' + trackingNumber);
+                }
+
+                document.body.removeChild(textarea);
+            }
+        }
+
+        // Call Driver
+        function callDriver() {
+            if (confirm('기사님께 전화를 거시겠습니까?')) {
+                alert('기사님께 연결중...\n(실제 환경에서는 전화가 연결됩니다)');
+            }
+        }
+
+        // View Delivery Details
+        function viewDelivery(trackingNumber) {
+            alert(`배송 상세 조회\n운송장번호: ${trackingNumber}\n\n(상세 페이지로 이동합니다)`);
+        }
+
+        // Initialize animations on page load
+        window.addEventListener('load', function() {
+            animateTimeline();
+
+            // Start real-time updates every 5 seconds
+            setInterval(updateDeliveryStatus, 5000);
+        });
+
+        // Simulate different delivery stages for demo
+        let simulationStage = 0;
+        const deliveryStages = [
+            {
+                status: '배송중',
+                desc: '고객님의 상품이 배송중입니다',
+                time: '약 30분 후 도착 예정',
+                location: '서울 강남구 테헤란로',
+                distance: '3.2km',
+                activeStep: 3
+            },
+            {
+                status: '배송중',
+                desc: '고객님 댁 근처에 도착했습니다',
+                time: '약 5분 후 도착 예정',
+                location: '서울 강남구 역삼동',
+                distance: '0.5km',
+                activeStep: 3
+            },
+            {
+                status: '배송완료',
+                desc: '상품이 안전하게 배송되었습니다',
+                time: '배송 완료',
+                location: '고객님 댁',
+                distance: '0km',
+                activeStep: 4
+            }
+        ];
+
+        // Advanced simulation (uncomment to enable automatic stage progression)
+        /*
+        setInterval(() => {
+            if (simulationStage < deliveryStages.length - 1) {
+                simulationStage++;
+                const stage = deliveryStages[simulationStage];
+
+                document.getElementById('currentStatus').textContent = stage.status;
+                document.getElementById('currentDesc').textContent = stage.desc;
+                document.getElementById('currentTime').textContent = stage.time;
+                document.querySelector('.map-overlay').textContent = '📍 ' + stage.location;
+                document.getElementById('remainDistance').textContent = '약 ' + stage.distance;
+
+                // Update timeline
+                const steps = document.querySelectorAll('.timeline-step');
+                steps.forEach((step, index) => {
+                    step.classList.remove('active', 'completed');
+                    if (index < stage.activeStep - 1) {
+                        step.classList.add('completed');
+                    } else if (index === stage.activeStep - 1) {
+                        step.classList.add('active');
+                    }
+                });
+
+                animateTimeline();
+            }
+        }, 15000); // Change stage every 15 seconds
+        */
+
+        // Add smooth scroll behavior
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

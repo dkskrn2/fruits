@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>장바구니 - 과일다리</title>
+    <link rel="stylesheet" href="../../styles/design-system.css">
+    <link rel="stylesheet" href="../../styles/components.css">
+    <style>
+        /* Cart Page Specific Styles */
+        .page-container {
+            width: 430px;
+            margin: 0 auto;
+            background: var(--color-background);
+            min-height: 100vh;
+            position: relative;
+            padding-bottom: 180px; /* Space for bottom summary and nav */
+        }
+
+        /* Header */
+        .cart-header {
+            position: sticky;
+            top: 0;
+            background: var(--color-white);
+            z-index: 100;
+            border-bottom: 1px solid var(--color-gray-100);
+        }
+
+        .cart-header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: var(--space-3) var(--space-4);
+            height: 56px;
+        }
+
+        .back-button {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: var(--radius-full);
+            background: transparent;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            transition: background var(--transition-fast);
+        }
+
+        .back-button:active {
+            background: var(--color-gray-50);
+        }
+
+        .cart-title {
+            font-size: var(--font-size-lg);
+            font-weight: 600;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .cart-clear {
+            font-size: var(--font-size-sm);
+            color: var(--color-gray-600);
+            background: none;
+            border: none;
+            padding: var(--space-2) var(--space-3);
+            cursor: pointer;
+        }
+
+        /* Select All Bar */
+        .select-all-bar {
+            background: var(--color-white);
+            padding: var(--space-3) var(--space-4);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 8px solid var(--color-gray-50);
+        }
+
+        .select-all-left {
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+        }
+
+        .checkbox {
+            width: 22px;
+            height: 22px;
+            border-radius: var(--radius-sm);
+            border: 2px solid var(--color-gray-300);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+
+        .checkbox.checked {
+            background: var(--color-primary);
+            border-color: var(--color-primary);
+        }
+
+        .checkbox.checked::after {
+            content: '✓';
+            color: white;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .select-all-text {
+            font-size: var(--font-size-base);
+            color: var(--color-gray-900);
+        }
+
+        .delete-selected {
+            font-size: var(--font-size-sm);
+            color: var(--color-gray-600);
+            background: none;
+            border: none;
+            padding: var(--space-2);
+            cursor: pointer;
+        }
+
+        /* Cart Items */
+        .cart-items {
+            background: var(--color-white);
+            padding-bottom: var(--space-4);
+        }
+
+        .cart-item {
+            padding: var(--space-4);
+            border-bottom: 1px solid var(--color-gray-100);
+            position: relative;
+        }
+
+        .cart-item:last-child {
+            border-bottom: none;
+        }
+
+        .cart-item-header {
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+            margin-bottom: var(--space-3);
+        }
+
+        .cart-item-content {
+            display: flex;
+            gap: var(--space-3);
+        }
+
+        .cart-item-image {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, #FFE0B2, #FFCC80);
+            border-radius: var(--radius-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            flex-shrink: 0;
+        }
+
+        .cart-item-info {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-2);
+        }
+
+        .cart-item-name {
+            font-size: var(--font-size-base);
+            font-weight: 500;
+            color: var(--color-gray-900);
+        }
+
+        .cart-item-option {
+            font-size: var(--font-size-sm);
+            color: var(--color-gray-600);
+        }
+
+        .cart-item-price {
+            font-size: var(--font-size-md);
+            font-weight: 600;
+            color: var(--color-gray-900);
+            margin-top: auto;
+        }
+
+        /* Quantity Control */
+        .quantity-control {
+            display: flex;
+            align-items: center;
+            border: 1px solid var(--color-gray-200);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            height: 32px;
+            margin-top: var(--space-2);
+        }
+
+        .qty-button {
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--color-white);
+            border: none;
+            cursor: pointer;
+            font-size: 18px;
+            color: var(--color-gray-600);
+            transition: background var(--transition-fast);
+        }
+
+        .qty-button:active {
+            background: var(--color-gray-100);
+        }
+
+        .qty-button:disabled {
+            color: var(--color-gray-300);
+            cursor: not-allowed;
+        }
+
+        .qty-input {
+            width: 40px;
+            text-align: center;
+            border: none;
+            background: var(--color-white);
+            font-size: var(--font-size-sm);
+            color: var(--color-gray-900);
+        }
+
+        /* Coupon Section */
+        .coupon-section {
+            background: var(--color-white);
+            margin-top: 8px;
+            padding: var(--space-4);
+        }
+
+        .coupon-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: var(--space-3);
+        }
+
+        .coupon-title {
+            font-size: var(--font-size-base);
+            font-weight: 600;
+            color: var(--color-gray-900);
+        }
+
+        .coupon-count {
+            font-size: var(--font-size-sm);
+            color: var(--color-primary);
+            font-weight: 500;
+        }
+
+        .coupon-input-group {
+            display: flex;
+            gap: var(--space-2);
+        }
+
+        .coupon-input {
+            flex: 1;
+            padding: var(--space-3);
+            border: 1px solid var(--color-gray-200);
+            border-radius: var(--radius-md);
+            font-size: var(--font-size-sm);
+        }
+
+        .coupon-apply {
+            padding: var(--space-3) var(--space-5);
+            background: var(--color-gray-900);
+            color: var(--color-white);
+            border: none;
+            border-radius: var(--radius-md);
+            font-size: var(--font-size-sm);
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        /* Price Summary */
+        .price-summary {
+            background: var(--color-white);
+            margin-top: 8px;
+            padding: var(--space-4);
+        }
+
+        .price-row {
+            display: flex;
+            justify-content: space-between;
+            padding: var(--space-2) 0;
+            font-size: var(--font-size-sm);
+            color: var(--color-gray-700);
+        }
+
+        .price-row.discount {
+            color: var(--color-error);
+        }
+
+        .price-row.total {
+            padding-top: var(--space-4);
+            margin-top: var(--space-3);
+            border-top: 1px solid var(--color-gray-200);
+            font-size: var(--font-size-lg);
+            font-weight: 600;
+            color: var(--color-gray-900);
+        }
+
+        /* Bottom Fixed Area */
+        .bottom-fixed {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 430px;
+            background: var(--color-white);
+            border-top: 1px solid var(--color-gray-200);
+            z-index: 90;
+        }
+
+        .order-summary {
+            padding: var(--space-3) var(--space-4);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--color-gray-50);
+        }
+
+        .order-summary-text {
+            font-size: var(--font-size-sm);
+            color: var(--color-gray-700);
+        }
+
+        .order-summary-price {
+            font-size: var(--font-size-lg);
+            font-weight: 700;
+            color: var(--color-gray-900);
+        }
+
+        .order-button {
+            width: 100%;
+            padding: var(--space-4);
+            background: var(--color-primary);
+            color: var(--color-white);
+            border: none;
+            font-size: var(--font-size-md);
+            font-weight: 600;
+            cursor: pointer;
+            transition: background var(--transition-fast);
+        }
+
+        .order-button:active {
+            background: var(--color-primary-dark);
+        }
+
+        .order-button:disabled {
+            background: var(--color-gray-300);
+            cursor: not-allowed;
+        }
+
+        /* Empty State */
+        .empty-cart {
+            padding: var(--space-10) var(--space-4);
+            text-align: center;
+            background: var(--color-white);
+            min-height: 400px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .empty-icon {
+            font-size: 64px;
+            margin-bottom: var(--space-4);
+        }
+
+        .empty-title {
+            font-size: var(--font-size-lg);
+            font-weight: 600;
+            color: var(--color-gray-900);
+            margin-bottom: var(--space-2);
+        }
+
+        .empty-desc {
+            font-size: var(--font-size-base);
+            color: var(--color-gray-600);
+            margin-bottom: var(--space-6);
+        }
+
+        .shop-button {
+            padding: var(--space-3) var(--space-6);
+            background: var(--color-primary);
+            color: var(--color-white);
+            border: none;
+            border-radius: var(--radius-lg);
+            font-size: var(--font-size-base);
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        /* Delivery Notice */
+        .delivery-notice {
+            background: var(--color-primary-light);
+            padding: var(--space-3) var(--space-4);
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+            font-size: var(--font-size-sm);
+            color: var(--color-primary-dark);
+        }
+
+        .delivery-notice-icon {
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="page-container">
+        <!-- Header -->
+        <header class="cart-header">
+            <div class="cart-header-content">
+                <button class="back-button" onclick="history.back()">←</button>
+                <h1 class="cart-title">장바구니</h1>
+                <button class="cart-clear" onclick="clearCart()">비우기</button>
+            </div>
+        </header>
+
+        <!-- Select All Bar -->
+        <div class="select-all-bar">
+            <div class="select-all-left">
+                <div class="checkbox checked" onclick="toggleSelectAll(this)"></div>
+                <span class="select-all-text">전체선택 (3/3)</span>
+            </div>
+            <button class="delete-selected" onclick="deleteSelected()">선택삭제</button>
+        </div>
+
+        <!-- Cart Items -->
+        <div class="cart-items">
+            <!-- Cart Item 1 -->
+            <div class="cart-item">
+                <div class="cart-item-header">
+                    <div class="checkbox checked" onclick="toggleItem(this)"></div>
+                </div>
+                <div class="cart-item-content">
+                    <div class="cart-item-image">🍊</div>
+                    <div class="cart-item-info">
+                        <div class="cart-item-name">제주 한라봉</div>
+                        <div class="cart-item-option">3kg / 프리미엄</div>
+                        <div class="cart-item-price">32,000원</div>
+                        <div class="quantity-control">
+                            <button class="qty-button" onclick="decreaseQty(this)">−</button>
+                            <input type="text" class="qty-input" value="1" readonly>
+                            <button class="qty-button" onclick="increaseQty(this)">+</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cart Item 2 -->
+            <div class="cart-item">
+                <div class="cart-item-header">
+                    <div class="checkbox checked" onclick="toggleItem(this)"></div>
+                </div>
+                <div class="cart-item-content">
+                    <div class="cart-item-image" style="background: linear-gradient(135deg, #FFE8E8, #FFB8B8);">🍓</div>
+                    <div class="cart-item-info">
+                        <div class="cart-item-name">논산 딸기</div>
+                        <div class="cart-item-option">500g x 2팩</div>
+                        <div class="cart-item-price">28,000원</div>
+                        <div class="quantity-control">
+                            <button class="qty-button" onclick="decreaseQty(this)">−</button>
+                            <input type="text" class="qty-input" value="2" readonly>
+                            <button class="qty-button" onclick="increaseQty(this)">+</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cart Item 3 -->
+            <div class="cart-item">
+                <div class="cart-item-header">
+                    <div class="checkbox checked" onclick="toggleItem(this)"></div>
+                </div>
+                <div class="cart-item-content">
+                    <div class="cart-item-image" style="background: linear-gradient(135deg, #FFF8DC, #FFE4B5);">🍌</div>
+                    <div class="cart-item-info">
+                        <div class="cart-item-name">필리핀 바나나</div>
+                        <div class="cart-item-option">1.5kg / 유기농</div>
+                        <div class="cart-item-price">8,900원</div>
+                        <div class="quantity-control">
+                            <button class="qty-button" onclick="decreaseQty(this)">−</button>
+                            <input type="text" class="qty-input" value="1" readonly>
+                            <button class="qty-button" onclick="increaseQty(this)">+</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Delivery Notice -->
+        <div class="delivery-notice">
+            <span class="delivery-notice-icon">🚚</span>
+            <span>30,000원 이상 무료배송 (현재: 96,900원)</span>
+        </div>
+
+        <!-- Coupon Section -->
+        <div class="coupon-section">
+            <div class="coupon-header">
+                <h3 class="coupon-title">쿠폰</h3>
+                <span class="coupon-count">보유 쿠폰 3장</span>
+            </div>
+            <div class="coupon-input-group">
+                <input type="text" class="coupon-input" placeholder="쿠폰 코드를 입력하세요">
+                <button class="coupon-apply">적용</button>
+            </div>
+        </div>
+
+        <!-- Price Summary -->
+        <div class="price-summary">
+            <div class="price-row">
+                <span>상품금액</span>
+                <span>96,900원</span>
+            </div>
+            <div class="price-row discount">
+                <span>상품할인</span>
+                <span>-8,000원</span>
+            </div>
+            <div class="price-row discount">
+                <span>쿠폰할인</span>
+                <span>-5,000원</span>
+            </div>
+            <div class="price-row">
+                <span>배송비</span>
+                <span>무료</span>
+            </div>
+            <div class="price-row total">
+                <span>결제예정금액</span>
+                <span>83,900원</span>
+            </div>
+        </div>
+
+        <!-- Bottom Fixed Area -->
+        <div class="bottom-fixed">
+            <div class="order-summary">
+                <span class="order-summary-text">총 3개</span>
+                <span class="order-summary-price">83,900원</span>
+            </div>
+            <button class="order-button" onclick="proceedToOrder()">
+                83,900원 주문하기
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Toggle select all
+        function toggleSelectAll(element) {
+            element.classList.toggle('checked');
+            const itemCheckboxes = document.querySelectorAll('.cart-item .checkbox');
+            const isChecked = element.classList.contains('checked');
+
+            itemCheckboxes.forEach(checkbox => {
+                if (isChecked) {
+                    checkbox.classList.add('checked');
+                } else {
+                    checkbox.classList.remove('checked');
+                }
+            });
+
+            updateSelectCount();
+            updateOrderButton();
+        }
+
+        // Toggle individual item
+        function toggleItem(element) {
+            element.classList.toggle('checked');
+            updateSelectCount();
+            updateOrderButton();
+        }
+
+        // Update select count
+        function updateSelectCount() {
+            const totalItems = document.querySelectorAll('.cart-item .checkbox').length;
+            const checkedItems = document.querySelectorAll('.cart-item .checkbox.checked').length;
+            const selectAllText = document.querySelector('.select-all-text');
+            const selectAllCheckbox = document.querySelector('.select-all-bar .checkbox');
+
+            selectAllText.textContent = `전체선택 (${checkedItems}/${totalItems})`;
+
+            if (checkedItems === totalItems && totalItems > 0) {
+                selectAllCheckbox.classList.add('checked');
+            } else {
+                selectAllCheckbox.classList.remove('checked');
+            }
+        }
+
+        // Update order button
+        function updateOrderButton() {
+            const checkedItems = document.querySelectorAll('.cart-item .checkbox.checked').length;
+            const orderButton = document.querySelector('.order-button');
+            const orderSummaryText = document.querySelector('.order-summary-text');
+
+            if (checkedItems === 0) {
+                orderButton.disabled = true;
+                orderButton.textContent = '상품을 선택해주세요';
+                orderSummaryText.textContent = '총 0개';
+            } else {
+                orderButton.disabled = false;
+                orderButton.textContent = '83,900원 주문하기';
+                orderSummaryText.textContent = `총 ${checkedItems}개`;
+            }
+        }
+
+        // Quantity controls
+        function decreaseQty(button) {
+            const input = button.nextElementSibling;
+            let value = parseInt(input.value);
+            if (value > 1) {
+                input.value = value - 1;
+            }
+        }
+
+        function increaseQty(button) {
+            const input = button.previousElementSibling;
+            let value = parseInt(input.value);
+            input.value = value + 1;
+        }
+
+        // Delete selected items
+        function deleteSelected() {
+            const checkedItems = document.querySelectorAll('.cart-item .checkbox.checked');
+            if (checkedItems.length === 0) {
+                alert('삭제할 상품을 선택해주세요');
+                return;
+            }
+
+            if (confirm(`선택한 ${checkedItems.length}개 상품을 삭제하시겠습니까?`)) {
+                checkedItems.forEach(checkbox => {
+                    checkbox.closest('.cart-item').remove();
+                });
+                updateSelectCount();
+                updateOrderButton();
+
+                // Show empty state if no items left
+                if (document.querySelectorAll('.cart-item').length === 0) {
+                    showEmptyCart();
+                }
+            }
+        }
+
+        // Clear cart
+        function clearCart() {
+            if (confirm('장바구니를 비우시겠습니까?')) {
+                showEmptyCart();
+            }
+        }
+
+        // Show empty cart state
+        function showEmptyCart() {
+            const cartItems = document.querySelector('.cart-items');
+            cartItems.innerHTML = `
+                <div class="empty-cart">
+                    <div class="empty-icon">🛒</div>
+                    <h2 class="empty-title">장바구니가 비어있습니다</h2>
+                    <p class="empty-desc">원하는 상품을 담아보세요</p>
+                    <button class="shop-button" onclick="location.href='/products/all'">쇼핑 계속하기</button>
+                </div>
+            `;
+
+            // Hide other sections
+            document.querySelector('.select-all-bar').style.display = 'none';
+            document.querySelector('.delivery-notice').style.display = 'none';
+            document.querySelector('.coupon-section').style.display = 'none';
+            document.querySelector('.price-summary').style.display = 'none';
+            document.querySelector('.bottom-fixed').style.display = 'none';
+        }
+
+        // Proceed to order
+        function proceedToOrder() {
+            const checkedItems = document.querySelectorAll('.cart-item .checkbox.checked').length;
+            if (checkedItems > 0) {
+                location.href = '/order/checkout';
+            }
+        }
+    </script>
+</body>
+</html>

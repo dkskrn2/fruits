@@ -1,0 +1,1145 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>리뷰관리 - 과일다리</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* 과일다리 Brand Colors */
+            --primary-green: #8BC34A;
+            --dark-green: #689F38;
+            --light-green: #DCEDC8;
+            --accent-yellow: #FFEB3B;
+            --orange: #FF6F00;
+            --red: #F44336;
+            --warm-pink: #FCE4EC;
+            --primary-warm: #FF9800;
+            --primary-peach: #FFB74D;
+            --light-peach: #FFE0B2;
+            --heart-red: #E91E63;
+
+            /* Neutrals */
+            --text-primary: #212121;
+            --text-secondary: #757575;
+            --text-muted: #9E9E9E;
+            --border: #E0E0E0;
+            --bg-gray: #F5F5F5;
+            --bg-white: #FFFFFF;
+
+            /* Shadows */
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.12);
+            --shadow-md: 0 2px 6px rgba(0,0,0,0.16);
+            --shadow-lg: 0 10px 20px rgba(0,0,0,0.19);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        html {
+            background: #e8e8e8;
+            min-height: 100vh;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', -apple-system, sans-serif;
+            color: var(--text-primary);
+            background: var(--bg-white);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            margin: 0 auto;
+            min-height: 100vh;
+            position: relative;
+            padding-bottom: 60px; /* Bottom nav height */
+        }
+
+        /* PC에서 모바일 너비 유지 */
+        @media (min-width: 768px) {
+            body {
+                max-width: 430px;
+                box-shadow: 0 0 50px rgba(0,0,0,0.1);
+            }
+        }
+
+        .container {
+            padding: 0 15px;
+        }
+
+        /* Header */
+        .header {
+            background: var(--bg-white);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            padding: 10px 15px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .header-back {
+            font-size: 24px;
+            cursor: pointer;
+            padding: 5px;
+            margin-left: -5px;
+        }
+
+        .header-title {
+            font-size: 16px;
+            font-weight: 500;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 15px;
+            margin-left: auto;
+        }
+
+        .header-icon {
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        /* Content Area */
+        .content {
+            min-height: calc(100vh - 120px);
+            padding: 20px 15px;
+        }
+
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 430px;
+            background: white;
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: space-around;
+            padding: 8px 0;
+            z-index: 100;
+        }
+
+        .nav-item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            padding: 4px;
+            color: var(--text-muted);
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .nav-item.active {
+            color: var(--primary-green);
+        }
+
+        .nav-item .icon {
+            font-size: 24px;
+        }
+
+        .nav-item .label {
+            font-size: 11px;
+            font-weight: 500;
+        }
+
+        /* Common Components */
+        .button {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-block;
+            text-decoration: none;
+            text-align: center;
+        }
+
+        .button-primary {
+            background: var(--primary-green);
+            color: white;
+        }
+
+        .button-primary:active {
+            background: var(--dark-green);
+        }
+
+        .button-secondary {
+            background: var(--bg-gray);
+            color: var(--text-primary);
+        }
+
+        .button-full {
+            width: 100%;
+        }
+
+        /* Card Component */
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 12px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        /* Form Elements */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary-green);
+        }
+
+        /* Page Specific Styles */
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            background: white;
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 51px;
+            z-index: 90;
+        }
+
+        .tab {
+            flex: 1;
+            padding: 16px;
+            text-align: center;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .tab.active {
+            color: var(--primary-green);
+            border-bottom-color: var(--primary-green);
+        }
+
+        .tab-content {
+            display: none;
+            padding: 16px 0;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Review Card */
+        .review-card {
+            background: white;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 12px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .review-product {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .review-product-image {
+            width: 60px;
+            height: 60px;
+            border-radius: 8px;
+            object-fit: cover;
+        }
+
+        .review-product-info {
+            flex: 1;
+        }
+
+        .review-product-name {
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+
+        .review-product-date {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .review-deadline {
+            font-size: 12px;
+            color: var(--orange);
+            font-weight: 500;
+        }
+
+        .review-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .review-button {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 500;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .review-button.primary {
+            background: var(--primary-green);
+            color: white;
+            border-color: var(--primary-green);
+        }
+
+        .review-button:active {
+            transform: scale(0.98);
+        }
+
+        /* Written Review */
+        .review-content {
+            padding: 12px 0;
+            border-top: 1px solid var(--border);
+            margin-top: 12px;
+        }
+
+        .review-rating {
+            display: flex;
+            gap: 4px;
+            margin-bottom: 8px;
+        }
+
+        .star {
+            color: #FFD700;
+            font-size: 16px;
+        }
+
+        .star.empty {
+            color: var(--border);
+        }
+
+        .review-text {
+            font-size: 14px;
+            line-height: 1.6;
+            color: var(--text-primary);
+            margin-bottom: 12px;
+        }
+
+        .review-images {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .review-image {
+            width: 70px;
+            height: 70px;
+            border-radius: 8px;
+            object-fit: cover;
+        }
+
+        .review-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .review-points {
+            color: var(--primary-green);
+            font-weight: 500;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 430px;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            animation: fadeIn 0.3s;
+        }
+
+        .modal.active {
+            display: flex;
+            align-items: flex-end;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            background: white;
+            width: 100%;
+            max-height: 90vh;
+            border-radius: 20px 20px 0 0;
+            padding: 24px;
+            overflow-y: auto;
+            animation: slideUp 0.3s;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(100%); }
+            to { transform: translateY(0); }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .modal-title {
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .modal-close {
+            font-size: 24px;
+            cursor: pointer;
+            padding: 4px;
+        }
+
+        /* Star Rating */
+        .star-rating {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            padding: 20px 0;
+            background: var(--bg-gray);
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+
+        .star-rating .star {
+            font-size: 32px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .star-rating .star:active {
+            transform: scale(1.2);
+        }
+
+        .rating-text {
+            text-align: center;
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-top: 8px;
+        }
+
+        /* Freshness Rating */
+        .freshness-rating {
+            display: flex;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .freshness-option {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            text-align: center;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .freshness-option.selected {
+            border-color: var(--primary-green);
+            background: var(--light-green);
+            color: var(--dark-green);
+            font-weight: 500;
+        }
+
+        /* Photo Upload */
+        .photo-upload-area {
+            display: flex;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .photo-upload-button {
+            width: 80px;
+            height: 80px;
+            border: 2px dashed var(--border);
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 12px;
+            color: var(--text-muted);
+            transition: all 0.3s;
+        }
+
+        .photo-upload-button:hover {
+            border-color: var(--primary-green);
+            color: var(--primary-green);
+        }
+
+        .photo-preview {
+            width: 80px;
+            height: 80px;
+            border-radius: 8px;
+            position: relative;
+        }
+
+        .photo-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .photo-remove {
+            position: absolute;
+            top: -6px;
+            right: -6px;
+            width: 20px;
+            height: 20px;
+            background: var(--red);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        /* Text Area */
+        textarea {
+            width: 100%;
+            min-height: 120px;
+            padding: 12px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 14px;
+            font-family: inherit;
+            resize: vertical;
+            transition: border-color 0.3s;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: var(--primary-green);
+        }
+
+        .char-count {
+            text-align: right;
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        /* Reward Notice */
+        .reward-notice {
+            background: var(--light-green);
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin-top: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .reward-notice-icon {
+            font-size: 20px;
+        }
+
+        .reward-notice-text {
+            font-size: 13px;
+            color: var(--dark-green);
+            line-height: 1.5;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .empty-state-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+        }
+
+        .empty-state-title {
+            font-size: 16px;
+            font-weight: 500;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+
+        .empty-state-text {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        
+        <span class="header-back" onclick="history.back()">←</span>
+        <h1 class="header-title">리뷰관리</h1>
+        <div class="header-actions">
+            <span class="header-icon">🏠</span>
+        </div>
+        
+    </header>
+
+    <!-- Tabs -->
+    <div class="tabs">
+        <div class="tab active" data-tab="writable">작성가능 (2)</div>
+        <div class="tab" data-tab="written">작성완료 (3)</div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="content">
+        <!-- Writable Reviews Tab -->
+        <div class="tab-content active" id="writable">
+            <div class="container">
+                <!-- Writable Review 1 -->
+                <div class="review-card">
+                    <div class="review-product">
+                        <img src="https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?w=200" alt="제주 한라봉" class="review-product-image">
+                        <div class="review-product-info">
+                            <div class="review-product-name">제주 한라봉 2kg</div>
+                            <div class="review-product-date">구매일: 2026.03.15</div>
+                            <div class="review-deadline">⏰ 3일 후 작성 마감</div>
+                        </div>
+                    </div>
+                    <div class="review-actions">
+                        <button class="review-button primary" onclick="openReviewModal('제주 한라봉 2kg', 'https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?w=200')">리뷰 작성하기</button>
+                    </div>
+                </div>
+
+                <!-- Writable Review 2 -->
+                <div class="review-card">
+                    <div class="review-product">
+                        <img src="https://images.unsplash.com/photo-1619546813926-a78fa6372cd2?w=200" alt="샤인머스캣" class="review-product-image">
+                        <div class="review-product-info">
+                            <div class="review-product-name">프리미엄 샤인머스캣 1kg</div>
+                            <div class="review-product-date">구매일: 2026.03.13</div>
+                            <div class="review-deadline">⏰ 5일 후 작성 마감</div>
+                        </div>
+                    </div>
+                    <div class="review-actions">
+                        <button class="review-button primary" onclick="openReviewModal('프리미엄 샤인머스캣 1kg', 'https://images.unsplash.com/photo-1619546813926-a78fa6372cd2?w=200')">리뷰 작성하기</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Written Reviews Tab -->
+        <div class="tab-content" id="written">
+            <div class="container">
+                <!-- Written Review 1 -->
+                <div class="review-card">
+                    <div class="review-product">
+                        <img src="https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?w=200" alt="당도선별 딸기" class="review-product-image">
+                        <div class="review-product-info">
+                            <div class="review-product-name">당도선별 딸기 500g</div>
+                            <div class="review-product-date">구매일: 2026.03.10</div>
+                        </div>
+                    </div>
+
+                    <div class="review-content">
+                        <div class="review-rating">
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                        </div>
+                        <div class="review-text">
+                            딸기가 정말 신선하고 달아요! 아이들이 너무 좋아해서 금방 먹어치웠습니다. 포장도 꼼꼼하게 되어있어서 배송 중에 상하지 않고 잘 도착했어요. 다음에도 또 주문할 생각입니다.
+                        </div>
+                        <div class="review-images">
+                            <img src="https://images.unsplash.com/photo-1464965911861-746a04b4bca6?w=200" alt="리뷰 사진 1" class="review-image">
+                            <img src="https://images.unsplash.com/photo-1495570689269-d883b1224443?w=200" alt="리뷰 사진 2" class="review-image">
+                        </div>
+                        <div class="review-meta">
+                            <span>2026.03.12 작성</span>
+                            <span class="review-points">+300 포인트 적립</span>
+                        </div>
+                    </div>
+
+                    <div class="review-actions">
+                        <button class="review-button" onclick="editReview(1)">수정</button>
+                        <button class="review-button" onclick="deleteReview(1)">삭제</button>
+                    </div>
+                </div>
+
+                <!-- Written Review 2 -->
+                <div class="review-card">
+                    <div class="review-product">
+                        <img src="https://images.unsplash.com/photo-1587049352846-4a222e784d38?w=200" alt="애플망고" class="review-product-image">
+                        <div class="review-product-info">
+                            <div class="review-product-name">프리미엄 애플망고 2입</div>
+                            <div class="review-product-date">구매일: 2026.03.08</div>
+                        </div>
+                    </div>
+
+                    <div class="review-content">
+                        <div class="review-rating">
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star empty">★</span>
+                        </div>
+                        <div class="review-text">
+                            망고 향이 정말 좋고 당도도 높아요. 다만 한 개가 살짝 무른 부분이 있었는데, 그래도 전체적으로 만족스럽습니다. 신선도가 중요한 과일인데 배송이 빨라서 좋았어요.
+                        </div>
+                        <div class="review-images">
+                            <img src="https://images.unsplash.com/photo-1601493700631-2b16ec4b4716?w=200" alt="리뷰 사진" class="review-image">
+                        </div>
+                        <div class="review-meta">
+                            <span>2026.03.10 작성</span>
+                            <span class="review-points">+200 포인트 적립</span>
+                        </div>
+                    </div>
+
+                    <div class="review-actions">
+                        <button class="review-button" onclick="editReview(2)">수정</button>
+                        <button class="review-button" onclick="deleteReview(2)">삭제</button>
+                    </div>
+                </div>
+
+                <!-- Written Review 3 -->
+                <div class="review-card">
+                    <div class="review-product">
+                        <img src="https://images.unsplash.com/photo-1589927986089-35812388d1f4?w=200" alt="청송 사과" class="review-product-image">
+                        <div class="review-product-info">
+                            <div class="review-product-name">청송 사과 5kg</div>
+                            <div class="review-product-date">구매일: 2026.03.05</div>
+                        </div>
+                    </div>
+
+                    <div class="review-content">
+                        <div class="review-rating">
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                            <span class="star">★</span>
+                        </div>
+                        <div class="review-text">
+                            아삭아삭하고 과즙이 풍부해요. 크기도 일정하고 흠집 하나 없이 깨끗한 사과들만 들어있었습니다. 가족 모두 만족하며 먹고 있어요. 과일다리는 항상 믿고 주문합니다!
+                        </div>
+                        <div class="review-meta">
+                            <span>2026.03.07 작성</span>
+                            <span class="review-points">+100 포인트 적립</span>
+                        </div>
+                    </div>
+
+                    <div class="review-actions">
+                        <button class="review-button" onclick="editReview(3)">수정</button>
+                        <button class="review-button" onclick="deleteReview(3)">삭제</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Review Modal -->
+    <div class="modal" id="reviewModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">리뷰 작성</h3>
+                <span class="modal-close" onclick="closeReviewModal()">×</span>
+            </div>
+
+            <!-- Product Info -->
+            <div class="review-product" style="margin-bottom: 24px;">
+                <img id="modalProductImage" src="" alt="상품" class="review-product-image">
+                <div class="review-product-info">
+                    <div class="review-product-name" id="modalProductName"></div>
+                </div>
+            </div>
+
+            <!-- Star Rating -->
+            <div class="form-group">
+                <label class="form-label">상품은 만족하셨나요?</label>
+                <div class="star-rating" id="starRating">
+                    <span class="star" data-rating="1">★</span>
+                    <span class="star" data-rating="2">★</span>
+                    <span class="star" data-rating="3">★</span>
+                    <span class="star" data-rating="4">★</span>
+                    <span class="star" data-rating="5">★</span>
+                </div>
+                <div class="rating-text" id="ratingText">별점을 선택해주세요</div>
+            </div>
+
+            <!-- Freshness Rating -->
+            <div class="form-group">
+                <label class="form-label">과일 신선도는 어떠셨나요?</label>
+                <div class="freshness-rating">
+                    <div class="freshness-option" data-freshness="매우좋음">
+                        매우 좋음
+                    </div>
+                    <div class="freshness-option" data-freshness="좋음">
+                        좋음
+                    </div>
+                    <div class="freshness-option" data-freshness="보통">
+                        보통
+                    </div>
+                    <div class="freshness-option" data-freshness="아쉬움">
+                        아쉬움
+                    </div>
+                </div>
+            </div>
+
+            <!-- Review Text -->
+            <div class="form-group">
+                <label class="form-label">리뷰 내용 (최소 20자)</label>
+                <textarea id="reviewText" placeholder="상품에 대한 솔직한 리뷰를 작성해주세요.&#10;다른 고객님들께 많은 도움이 됩니다."></textarea>
+                <div class="char-count">
+                    <span id="charCount">0</span> / 20자
+                </div>
+            </div>
+
+            <!-- Photo Upload -->
+            <div class="form-group">
+                <label class="form-label">사진 첨부 (최대 3장)</label>
+                <div class="photo-upload-area" id="photoUploadArea">
+                    <label class="photo-upload-button" for="photoInput">
+                        <div style="font-size: 24px; margin-bottom: 4px;">📷</div>
+                        <div>사진 추가</div>
+                    </label>
+                    <input type="file" id="photoInput" accept="image/*" multiple style="display: none;">
+                </div>
+            </div>
+
+            <!-- Reward Notice -->
+            <div class="reward-notice">
+                <span class="reward-notice-icon">🎁</span>
+                <div class="reward-notice-text">
+                    <strong>리뷰 작성 혜택</strong><br>
+                    텍스트 리뷰: 100P / 사진 리뷰: 200P 추가 적립!
+                </div>
+            </div>
+
+            <!-- Submit Button -->
+            <button class="button button-primary button-full" style="margin-top: 24px;" onclick="submitReview()">
+                리뷰 등록하기
+            </button>
+        </div>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+        <a href="/pages/home/index.html" class="nav-item ">
+            <span class="icon">🏠</span>
+            <span class="label">홈</span>
+        </a>
+        <a href="/pages/products/index.html" class="nav-item ">
+            <span class="icon">🍎</span>
+            <span class="label">상품</span>
+        </a>
+        <a href="/pages/mypage/index.html" class="nav-item active">
+            <span class="icon">👤</span>
+            <span class="label">마이</span>
+        </a>
+        <a href="/pages/support/index.html" class="nav-item ">
+            <span class="icon">💬</span>
+            <span class="label">고객지원</span>
+        </a>
+    </nav>
+
+    <script>
+        // State variables
+        let selectedRating = 0;
+        let selectedFreshness = '';
+        let uploadedPhotos = [];
+
+        // Tab switching
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                // Remove active class from all tabs and contents
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+
+                // Add active class to clicked tab
+                tab.classList.add('active');
+
+                // Show corresponding content
+                const tabName = tab.getAttribute('data-tab');
+                document.getElementById(tabName).classList.add('active');
+            });
+        });
+
+        // Open review modal
+        function openReviewModal(productName, productImage) {
+            document.getElementById('modalProductName').textContent = productName;
+            document.getElementById('modalProductImage').src = productImage;
+            document.getElementById('reviewModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+
+            // Reset form
+            resetReviewForm();
+        }
+
+        // Close review modal
+        function closeReviewModal() {
+            document.getElementById('reviewModal').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('reviewModal').addEventListener('click', (e) => {
+            if (e.target.id === 'reviewModal') {
+                closeReviewModal();
+            }
+        });
+
+        // Star rating interaction
+        const stars = document.querySelectorAll('#starRating .star');
+        const ratingText = document.getElementById('ratingText');
+        const ratingTexts = ['', '별로예요', '그저 그래요', '괜찮아요', '좋아요', '최고예요!'];
+
+        stars.forEach(star => {
+            star.addEventListener('click', () => {
+                const rating = parseInt(star.getAttribute('data-rating'));
+                selectedRating = rating;
+
+                // Update star colors
+                stars.forEach((s, index) => {
+                    if (index < rating) {
+                        s.classList.remove('empty');
+                    } else {
+                        s.classList.add('empty');
+                    }
+                });
+
+                // Update rating text
+                ratingText.textContent = ratingTexts[rating];
+                ratingText.style.color = 'var(--primary-green)';
+                ratingText.style.fontWeight = '500';
+            });
+        });
+
+        // Freshness rating interaction
+        document.querySelectorAll('.freshness-option').forEach(option => {
+            option.addEventListener('click', () => {
+                // Remove selected class from all options
+                document.querySelectorAll('.freshness-option').forEach(o => {
+                    o.classList.remove('selected');
+                });
+
+                // Add selected class to clicked option
+                option.classList.add('selected');
+                selectedFreshness = option.getAttribute('data-freshness');
+            });
+        });
+
+        // Character count for review text
+        const reviewText = document.getElementById('reviewText');
+        const charCount = document.getElementById('charCount');
+
+        reviewText.addEventListener('input', () => {
+            const count = reviewText.value.length;
+            charCount.textContent = count;
+
+            if (count >= 20) {
+                charCount.style.color = 'var(--primary-green)';
+            } else {
+                charCount.style.color = 'var(--text-muted)';
+            }
+        });
+
+        // Photo upload
+        const photoInput = document.getElementById('photoInput');
+        const photoUploadArea = document.getElementById('photoUploadArea');
+
+        photoInput.addEventListener('change', (e) => {
+            const files = Array.from(e.target.files);
+
+            files.forEach(file => {
+                if (uploadedPhotos.length >= 3) {
+                    alert('최대 3장까지 업로드 가능합니다.');
+                    return;
+                }
+
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    uploadedPhotos.push(event.target.result);
+                    renderPhotos();
+                };
+                reader.readAsDataURL(file);
+            });
+
+            // Reset input
+            photoInput.value = '';
+        });
+
+        function renderPhotos() {
+            // Remove existing previews
+            document.querySelectorAll('.photo-preview').forEach(p => p.remove());
+
+            // Add new previews
+            uploadedPhotos.forEach((photo, index) => {
+                const preview = document.createElement('div');
+                preview.className = 'photo-preview';
+                preview.innerHTML = `
+                    <img src="${photo}" alt="리뷰 사진 ${index + 1}">
+                    <div class="photo-remove" onclick="removePhoto(${index})">×</div>
+                `;
+
+                // Insert before upload button
+                const uploadButton = photoUploadArea.querySelector('.photo-upload-button');
+                photoUploadArea.insertBefore(preview, uploadButton);
+            });
+
+            // Hide upload button if 3 photos uploaded
+            const uploadButton = photoUploadArea.querySelector('.photo-upload-button');
+            if (uploadedPhotos.length >= 3) {
+                uploadButton.style.display = 'none';
+            } else {
+                uploadButton.style.display = 'flex';
+            }
+        }
+
+        function removePhoto(index) {
+            uploadedPhotos.splice(index, 1);
+            renderPhotos();
+        }
+
+        // Submit review
+        function submitReview() {
+            const text = reviewText.value.trim();
+
+            // Validation
+            if (selectedRating === 0) {
+                alert('별점을 선택해주세요.');
+                return;
+            }
+
+            if (!selectedFreshness) {
+                alert('과일 신선도를 선택해주세요.');
+                return;
+            }
+
+            if (text.length < 20) {
+                alert('리뷰 내용을 최소 20자 이상 입력해주세요.');
+                return;
+            }
+
+            // Calculate points
+            let points = 100; // Base points
+            if (uploadedPhotos.length > 0) {
+                points += 200; // Photo bonus
+            }
+
+            // Success message
+            alert(`리뷰가 등록되었습니다!\n${points} 포인트가 적립되었습니다.`);
+
+            // Close modal and refresh (in real app, would update the list)
+            closeReviewModal();
+
+            // In a real application, this would send data to the server
+            // and update the review list dynamically
+        }
+
+        // Reset review form
+        function resetReviewForm() {
+            selectedRating = 0;
+            selectedFreshness = '';
+            uploadedPhotos = [];
+            reviewText.value = '';
+            charCount.textContent = '0';
+
+            // Reset stars
+            stars.forEach(star => {
+                star.classList.add('empty');
+            });
+            ratingText.textContent = '별점을 선택해주세요';
+            ratingText.style.color = 'var(--text-secondary)';
+            ratingText.style.fontWeight = 'normal';
+
+            // Reset freshness options
+            document.querySelectorAll('.freshness-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+
+            // Reset photos
+            renderPhotos();
+        }
+
+        // Edit review
+        function editReview(reviewId) {
+            alert('리뷰 수정 기능입니다. (리뷰 ID: ' + reviewId + ')');
+            // In a real application, this would open the modal with existing data
+        }
+
+        // Delete review
+        function deleteReview(reviewId) {
+            if (confirm('정말 이 리뷰를 삭제하시겠습니까?')) {
+                alert('리뷰가 삭제되었습니다.');
+                // In a real application, this would delete the review from the server
+                // and remove it from the list
+            }
+        }
+
+        // Initialize - set all stars to empty initially
+        document.addEventListener('DOMContentLoaded', () => {
+            stars.forEach(star => {
+                star.classList.add('empty');
+            });
+        });
+    </script>
+</body>
+</html>

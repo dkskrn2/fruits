@@ -1,0 +1,1341 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>공지사항 - 과일다리</title>
+    <link rel="stylesheet" href="../../styles/design-system.css">
+    <link rel="stylesheet" href="../../styles/components.css">
+    <style>
+        /* Notice Page Specific Styles */
+        body {
+            background: var(--color-gray-50);
+        }
+
+        /* Header */
+        .notice-header {
+            background: var(--color-white);
+            position: sticky;
+            top: 0;
+            z-index: var(--z-sticky);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .notice-header__top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: var(--space-4);
+            height: var(--header-height);
+        }
+
+        .notice-header__back {
+            font-size: 24px;
+            cursor: pointer;
+            padding: var(--space-2);
+            margin-left: calc(var(--space-2) * -1);
+            color: var(--color-gray-900);
+        }
+
+        .notice-header__title {
+            font-size: var(--font-size-md);
+            font-weight: var(--font-weight-semibold);
+            color: var(--color-gray-900);
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .notice-header__home {
+            font-size: 22px;
+            cursor: pointer;
+            padding: var(--space-2);
+        }
+
+        /* Search Bar */
+        .search-bar {
+            padding: var(--space-3) var(--space-4);
+            background: var(--color-white);
+            border-bottom: 1px solid var(--color-gray-200);
+        }
+
+        .search-bar__input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .search-bar__icon {
+            position: absolute;
+            left: var(--space-4);
+            font-size: 18px;
+            color: var(--color-gray-500);
+        }
+
+        .search-bar__input {
+            width: 100%;
+            padding: var(--space-3) var(--space-4) var(--space-3) 44px;
+            border: 1px solid var(--color-gray-300);
+            border-radius: var(--radius-lg);
+            font-size: var(--font-size-base);
+            background: var(--color-gray-50);
+            transition: all var(--transition-fast);
+        }
+
+        .search-bar__input:focus {
+            outline: none;
+            border-color: var(--color-primary);
+            background: var(--color-white);
+            box-shadow: 0 0 0 3px rgba(111, 207, 63, 0.1);
+        }
+
+        .search-bar__input::placeholder {
+            color: var(--color-gray-500);
+        }
+
+        .search-bar__clear {
+            position: absolute;
+            right: var(--space-4);
+            font-size: 18px;
+            color: var(--color-gray-400);
+            cursor: pointer;
+            display: none;
+            padding: var(--space-2);
+        }
+
+        .search-bar__clear.show {
+            display: block;
+        }
+
+        /* Category Tabs */
+        .category-tabs {
+            background: var(--color-white);
+            border-bottom: 1px solid var(--color-gray-200);
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        .category-tabs::-webkit-scrollbar {
+            display: none;
+        }
+
+        .category-tabs__list {
+            display: flex;
+            padding: var(--space-2) var(--space-4);
+            gap: var(--space-2);
+            min-width: min-content;
+        }
+
+        .category-tab {
+            padding: var(--space-2) var(--space-4);
+            font-size: var(--font-size-sm);
+            font-weight: var(--font-weight-medium);
+            color: var(--color-gray-600);
+            background: var(--color-white);
+            border: 1px solid var(--color-gray-300);
+            border-radius: var(--radius-full);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            white-space: nowrap;
+            user-select: none;
+        }
+
+        .category-tab:active {
+            transform: scale(0.95);
+        }
+
+        .category-tab.active {
+            background: var(--color-primary);
+            color: var(--color-white);
+            border-color: var(--color-primary);
+        }
+
+        /* Notice List */
+        .notice-list {
+            padding: var(--space-4);
+            padding-bottom: calc(var(--bottom-nav-height) + var(--space-4));
+        }
+
+        /* Notice Item */
+        .notice-item {
+            background: var(--color-white);
+            border-radius: var(--radius-lg);
+            margin-bottom: var(--space-3);
+            box-shadow: var(--shadow-sm);
+            overflow: hidden;
+            transition: all var(--transition-base);
+        }
+
+        .notice-item.hidden {
+            display: none;
+        }
+
+        .notice-item.pinned {
+            border: 2px solid var(--color-primary);
+        }
+
+        .notice-item__header {
+            padding: var(--space-4);
+            cursor: pointer;
+            user-select: none;
+            transition: background var(--transition-fast);
+        }
+
+        .notice-item__header:active {
+            background: var(--color-gray-50);
+        }
+
+        .notice-item.open .notice-item__header {
+            border-bottom: 1px solid var(--color-gray-200);
+        }
+
+        .notice-item__top {
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+            margin-bottom: var(--space-2);
+        }
+
+        /* Notice Badges */
+        .notice-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 3px var(--space-2);
+            font-size: var(--font-size-xs);
+            font-weight: var(--font-weight-bold);
+            border-radius: var(--radius-sm);
+            line-height: 1;
+        }
+
+        .notice-badge.badge-notice {
+            background: var(--color-primary-light);
+            color: var(--color-primary-dark);
+        }
+
+        .notice-badge.badge-important {
+            background: #FFEBEE;
+            color: var(--color-error);
+        }
+
+        .notice-badge.badge-new {
+            background: #E3F2FD;
+            color: #1976D2;
+        }
+
+        .notice-badge.badge-event {
+            background: #FFF3E0;
+            color: #E65100;
+        }
+
+        .notice-badge.badge-maintenance {
+            background: #F3E5F5;
+            color: #7B1FA2;
+        }
+
+        /* Pin Icon */
+        .notice-item__pin {
+            font-size: 16px;
+            color: var(--color-primary);
+            margin-left: auto;
+        }
+
+        /* Notice Title */
+        .notice-item__title {
+            font-size: var(--font-size-base);
+            font-weight: var(--font-weight-semibold);
+            color: var(--color-gray-900);
+            line-height: var(--line-height-normal);
+            margin-bottom: var(--space-2);
+        }
+
+        /* Notice Meta */
+        .notice-item__meta {
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+            font-size: var(--font-size-xs);
+            color: var(--color-gray-500);
+        }
+
+        .notice-item__meta-item {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .notice-item__meta-icon {
+            font-size: 14px;
+        }
+
+        /* Notice Content (Accordion) */
+        .notice-item__content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height var(--transition-base);
+        }
+
+        .notice-item.open .notice-item__content {
+            max-height: 2000px;
+        }
+
+        .notice-item__body {
+            padding: var(--space-4);
+            font-size: var(--font-size-sm);
+            color: var(--color-gray-700);
+            line-height: var(--line-height-relaxed);
+        }
+
+        .notice-item__body p {
+            margin-bottom: var(--space-3);
+        }
+
+        .notice-item__body p:last-child {
+            margin-bottom: 0;
+        }
+
+        .notice-item__body ul {
+            margin: var(--space-2) 0;
+            padding-left: var(--space-5);
+        }
+
+        .notice-item__body li {
+            margin: var(--space-1) 0;
+        }
+
+        .notice-item__body strong {
+            color: var(--color-gray-900);
+            font-weight: var(--font-weight-semibold);
+        }
+
+        .notice-item__body .highlight {
+            background: var(--color-primary-light);
+            padding: 2px 4px;
+            border-radius: var(--radius-xs);
+            color: var(--color-primary-dark);
+        }
+
+        /* Notice Footer */
+        .notice-item__footer {
+            padding: var(--space-3) var(--space-4);
+            background: var(--color-gray-50);
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+            font-size: var(--font-size-xs);
+            color: var(--color-gray-600);
+        }
+
+        .notice-item__footer-icon {
+            font-size: 14px;
+        }
+
+        /* Toggle Icon */
+        .notice-item__toggle {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+            margin-left: auto;
+            color: var(--color-gray-400);
+            font-size: 20px;
+            transition: transform var(--transition-base);
+        }
+
+        .notice-item.open .notice-item__toggle {
+            transform: rotate(90deg);
+        }
+
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: var(--space-2);
+            padding: var(--space-4);
+            margin-bottom: calc(var(--bottom-nav-height) + var(--space-4));
+        }
+
+        .pagination__btn {
+            min-width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--color-gray-300);
+            border-radius: var(--radius-md);
+            background: var(--color-white);
+            color: var(--color-gray-700);
+            font-size: var(--font-size-sm);
+            font-weight: var(--font-weight-medium);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            user-select: none;
+        }
+
+        .pagination__btn:active {
+            transform: scale(0.95);
+        }
+
+        .pagination__btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        .pagination__btn:disabled:active {
+            transform: none;
+        }
+
+        .pagination__btn.active {
+            background: var(--color-primary);
+            color: var(--color-white);
+            border-color: var(--color-primary);
+        }
+
+        .pagination__dots {
+            padding: 0 var(--space-2);
+            color: var(--color-gray-400);
+        }
+
+        /* Empty State */
+        .empty-state {
+            padding: var(--space-12) var(--space-6);
+            text-align: center;
+        }
+
+        .empty-state__icon {
+            font-size: 64px;
+            margin-bottom: var(--space-4);
+            opacity: 0.3;
+        }
+
+        .empty-state__title {
+            font-size: var(--font-size-md);
+            font-weight: var(--font-weight-medium);
+            color: var(--color-gray-700);
+            margin-bottom: var(--space-2);
+        }
+
+        .empty-state__desc {
+            font-size: var(--font-size-sm);
+            color: var(--color-gray-500);
+            line-height: var(--line-height-relaxed);
+        }
+
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: var(--max-width-mobile);
+            background: var(--color-white);
+            border-top: 1px solid var(--color-gray-200);
+            display: flex;
+            justify-content: space-around;
+            padding: var(--space-2) 0;
+            z-index: var(--z-sticky);
+            height: var(--bottom-nav-height);
+        }
+
+        .nav-item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            color: var(--color-gray-500);
+            text-decoration: none;
+            cursor: pointer;
+            transition: color var(--transition-fast);
+        }
+
+        .nav-item.active {
+            color: var(--color-primary);
+        }
+
+        .nav-item__icon {
+            font-size: 24px;
+        }
+
+        .nav-item__label {
+            font-size: var(--font-size-xs);
+            font-weight: var(--font-weight-medium);
+        }
+
+        /* Animations */
+        @keyframes highlight {
+            0%, 100% {
+                background-color: transparent;
+            }
+            50% {
+                background-color: rgba(111, 207, 63, 0.1);
+            }
+        }
+
+        .notice-item.highlight {
+            animation: highlight 1s ease-in-out;
+        }
+
+        /* Responsive */
+        @media (min-width: 768px) {
+            body {
+                max-width: var(--max-width-mobile);
+                margin: 0 auto;
+                box-shadow: 0 0 40px rgba(0, 0, 0, 0.1);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="mobile-container">
+        <!-- Header -->
+        <header class="notice-header">
+            <div class="notice-header__top">
+                <div class="notice-header__back" onclick="history.back()">←</div>
+                <h1 class="notice-header__title">공지사항</h1>
+                <div class="notice-header__home" onclick="location.href='../home/main.html'">🏠</div>
+            </div>
+
+            <!-- Search Bar -->
+            <div class="search-bar">
+                <div class="search-bar__input-wrapper">
+                    <span class="search-bar__icon">🔍</span>
+                    <input
+                        type="text"
+                        class="search-bar__input"
+                        id="searchInput"
+                        placeholder="공지사항을 검색해보세요"
+                        autocomplete="off"
+                    >
+                    <span class="search-bar__clear" id="clearSearch">✕</span>
+                </div>
+            </div>
+
+            <!-- Category Tabs -->
+            <div class="category-tabs">
+                <div class="category-tabs__list">
+                    <button class="category-tab active" data-category="전체">전체</button>
+                    <button class="category-tab" data-category="공지">공지</button>
+                    <button class="category-tab" data-category="안내">안내</button>
+                    <button class="category-tab" data-category="이벤트">이벤트</button>
+                    <button class="category-tab" data-category="점검">점검</button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Notice List -->
+        <div class="notice-list" id="noticeList">
+            <!-- Pinned Notice 1 -->
+            <div class="notice-item pinned" data-category="공지" data-id="1" data-date="2026-03-15">
+                <div class="notice-item__header">
+                    <div class="notice-item__top">
+                        <span class="notice-badge badge-important">중요</span>
+                        <span class="notice-badge badge-new">NEW</span>
+                        <span class="notice-item__pin">📌</span>
+                        <div class="notice-item__toggle">›</div>
+                    </div>
+                    <div class="notice-item__title">[중요] 과일다리 봄맞이 대규모 리뉴얼 안내</div>
+                    <div class="notice-item__meta">
+                        <span class="notice-item__meta-item">
+                            <span class="notice-item__meta-icon">📅</span>
+                            2026.03.15
+                        </span>
+                        <span class="notice-item__meta-item">
+                            <span class="notice-item__meta-icon">👁</span>
+                            1,247
+                        </span>
+                    </div>
+                </div>
+                <div class="notice-item__content">
+                    <div class="notice-item__body">
+                        <p>안녕하세요, 과일다리입니다.</p>
+                        <p>고객님께 더 나은 서비스를 제공하기 위해 <strong>2026년 3월 20일(목)</strong>부터 전면 리뉴얼을 진행합니다.</p>
+                        <p><strong>주요 개선 사항:</strong></p>
+                        <ul>
+                            <li>더욱 빨라진 주문 및 결제 프로세스</li>
+                            <li>AI 기반 맞춤형 과일 추천 시스템 도입</li>
+                            <li>실시간 채팅 상담 서비스 오픈</li>
+                            <li>포인트 및 쿠폰 통합 관리 시스템</li>
+                            <li>새벽배송 지역 확대 (전국 주요 도시)</li>
+                        </ul>
+                        <p>리뉴얼 기간 동안 일부 서비스 이용에 제한이 있을 수 있으니 양해 부탁드립니다.</p>
+                        <p>감사합니다.</p>
+                    </div>
+                    <div class="notice-item__footer">
+                        <span class="notice-item__footer-icon">🏷️</span>
+                        리뉴얼, 서비스 개선
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pinned Notice 2 -->
+            <div class="notice-item pinned" data-category="이벤트" data-id="2" data-date="2026-03-14">
+                <div class="notice-item__header">
+                    <div class="notice-item__top">
+                        <span class="notice-badge badge-event">이벤트</span>
+                        <span class="notice-badge badge-new">NEW</span>
+                        <span class="notice-item__pin">📌</span>
+                        <div class="notice-item__toggle">›</div>
+                    </div>
+                    <div class="notice-item__title">봄맞이 신규 회원 가입 이벤트 - 5만원 혜택 팩 증정!</div>
+                    <div class="notice-item__meta">
+                        <span class="notice-item__meta-item">
+                            <span class="notice-item__meta-icon">📅</span>
+                            2026.03.14
+                        </span>
+                        <span class="notice-item__meta-item">
+                            <span class="notice-item__meta-icon">👁</span>
+                            3,892
+                        </span>
+                    </div>
+                </div>
+                <div class="notice-item__content">
+                    <div class="notice-item__body">
+                        <p>과일다리와 함께하는 달콤한 봄! 신규 회원 가입 이벤트를 진행합니다.</p>
+                        <p><strong class="highlight">2026년 3월 31일까지</strong> 가입하신 신규 회원님께 특별한 혜택을 드립니다:</p>
+                        <ul>
+                            <li><strong>즉시 지급:</strong> 5,000원 적립금</li>
+                            <li><strong>첫 구매 30% 할인 쿠폰</strong> (최대 15,000원)</li>
+                            <li><strong>무료배송 쿠폰 3장</strong></li>
+                            <li><strong>웰컴 박스:</strong> 제철 과일 샘플 증정</li>
+                        </ul>
+                        <p><strong>참여 방법:</strong></p>
+                        <ul>
+                            <li>회원가입 완료 후 이벤트 페이지에서 응모</li>
+                            <li>첫 구매 시 자동으로 혜택 적용</li>
+                            <li>친구 초대 시 추가 5,000원 적립금 증정</li>
+                        </ul>
+                        <p>이 기회를 놓치지 마세요!</p>
+                    </div>
+                    <div class="notice-item__footer">
+                        <span class="notice-item__footer-icon">🏷️</span>
+                        이벤트, 신규회원, 할인
+                    </div>
+                </div>
+            </div>
+
+            <!-- Regular Notice 3 -->
+            <div class="notice-item" data-category="안내" data-id="3" data-date="2026-03-13">
+                <div class="notice-item__header">
+                    <div class="notice-item__top">
+                        <span class="notice-badge badge-notice">안내</span>
+                        <span class="notice-badge badge-new">NEW</span>
+                        <div class="notice-item__toggle">›</div>
+                    </div>
+                    <div class="notice-item__title">제주 감귤 시즌 마감 안내 및 봄 과일 입고 소식</div>
+                    <div class="notice-item__meta">
+                        <span class="notice-item__meta-item">
+                            <span class="notice-item__meta-icon">📅</span>
+                            2026.03.13
+                        </span>
+                        <span class="notice-item__meta-item">
+                            <span class="notice-item__meta-icon">👁</span>
+                            856
+                        </span>
+                    </div>
+                </div>
+                <div class="notice-item__content">
+                    <div class="notice-item__body">
+                        <p>안녕하세요, 과일다리입니다.</p>
+                        <p>겨울 동안 많은 사랑을 받았던 <strong>제주 감귤이 3월 20일로 시즌 마감</strong>됩니다. 마지막 기회를 놓치지 마세요!</p>
+                        <p><strong>봄 제철 과일 신규 입고:</strong></p>
+                        <ul>
+                            <li>설향 딸기 (논산/담양) - 3월 18일부터</li>
+                            <li>킹스베리 (충남) - 3월 20일부터</li>
+                            <li>성주 참외 - 3월 25일부터</li>
+                            <li>봄 한라봉 - 3월 30일부터</li>
+                        </ul>
+                        <p>모든 봄 과일은 <span class="highlight">예약 주문</span>을 통해 가장 신선한 상태로 받아보실 수 있습니다.</p>
+                    </div>
+                    <div class="notice-item__footer">
+                        <span class="notice-item__footer-icon">🏷️</span>
+                        제철과일, 시즌 안내
+                    </div>
+                </div>
+            </div>
+
+            <!-- Notice 4 -->
+            <div class="notice-item" data-category="점검" data-id="4" data-date="2026-03-12">
+                <div class="notice-item__header">
+                    <div class="notice-item__top">
+                        <span class="notice-badge badge-maintenance">점검</span>
+                        <div class="notice-item__toggle">›</div>
+                    </div>
+                    <div class="notice-item__title">[완료] 시스템 정기 점검 완료 안내 (3/12)</div>
+                    <div class="notice-item__meta">
+                        <span class="notice-item__meta-item">
+                            <span class="notice-item__meta-icon">📅</span>
+                            2026.03.12
+                        </span>
+                        <span class="notice-item__meta-item">
+                            <span class="notice-item__meta-icon">👁</span>
+                            432
+                        </span>
+                    </div>
+                </div>
+                <div class="notice-item__content">
+                    <div class="notice-item__body">
+                        <p>안녕하세요, 과일다리입니다.</p>
+                        <p><strong>2026년 3월 12일 새벽 2시~5시</strong> 진행된 시스템 정기 점검이 성공적으로 완료되었습니다.</p>
+                        <p><strong>점검 내용:</strong></p>
+                        <ul>
+                            <li>서버 안정성 개선</li>
+                            <li>결제 시스템 보안 강화</li>
+                            <li>배송 추적 시스템 업그레이드</li>
+                            <li>모바일 앱 성능 최적화</li>
+                        </ul>
+                        <p>점검 기간 동안 불편을 드려 죄송하며, 앞으로 더 나은 서비스로 보답하겠습니다.</p>
+                    </div>
+                    <div class="notice-item__footer">
+                        <span class="notice-item__footer-icon">🏷️</span>
+                        시스템 점검
+                    </div>
+                </div>
+            </div>
+
+            <!-- Notice 5 -->
+            <div class="notice-item" data-category="공지" data-id="5" data-date="2026-03-10">
+                <div class="notice-item__header">
+                    <div class="notice-item__top">
+                        <span class="notice-badge badge-notice">공지</span>
+                        <div class="notice-item__toggle">›</div>
+                    </div>
+                    <div class="notice-item__title">개인정보 처리방침 개정 안내</div>
+                    <div class="notice-item__meta">
+                        <span class="notice-item__meta-item">
+                            <span class="notice-item__meta-icon">📅</span>
+                            2026.03.10
+                        </span>
+                        <span class="notice-item__meta-item">
+                            <span class="notice-item__meta-icon">👁</span>
+                            1,523
+                        </span>
+                    </div>
+                </div>
+                <div class="notice-item__content">
+                    <div class="notice-item__body">
+                        <p>안녕하세요, 과일다리입니다.</p>
+                        <p>고객님의 개인정보 보호를 강화하기 위해 개인정보 처리방침을 일부 개정하였습니다.</p>
+                        <p><strong>주요 개정 내용:</strong></p>
+                        <ul>
+                            <li>개인정보 수집 및 이용 목적 명확화</li>
+                            <li>개인정보 보유 및 이용 기간 구체화</li>
+                            <li>개인정보 제3자 제공 관련 내용 추가</li>
+                            <li>고객 권리 행사 방법 상세 안내</li>
+                        </ul>
+                        <p><strong>시행일:</strong> 2026년 3월 20일</p>
+                        <p>개정된 전문은 [설정 > 약관 및 정책]에서 확인하실 수 있습니다.</p>
+                    </div>
+                    <div class="notice-item__footer">
+                        <span class="notice-item__footer-icon">🏷️</span>
+                        개인정보, 약관
+                    </div>
+                </div>
+            </div>
+
+            <!-- Notice 6 -->
+            <div class="notice-item" data-category="이벤트" data-id="6" data-date="2026-03-08">
+                <div class="notice-item__header">
+                    <div class="notice-item__top">
+                        <span class="notice-badge badge-event">이벤트</span>
+                        <div class="notice-item__toggle">›</div>
+                    </div>
+                    <div class="notice-item__title">리뷰 작성 이벤트 - 매월 50분께 선물 증정</div>
+                    <div class="notice-item__meta">
+                        <span class="notice-item__meta-item">
+                            <span class="notice-item__meta-icon">📅</span>
+                            2026.03.08
+                        </span>
+                        <span class="notice-item__meta-item">
+                            <span class="notice-item__meta-icon">👁</span>
+                            2,145
+                        </span>
+                    </div>
+                </div>
+                <div class="notice-item__content">
+                    <div class="notice-item__body">
+                        <p>과일다리의 소중한 고객님들과 함께하는 리뷰 이벤트!</p>
+                        <p><strong>참여 방법:</strong></p>
+                        <ul>
+                            <li>구매하신 과일 후기를 사진과 함께 작성</li>
+                            <li>리뷰 작성 시 기본 1,000원 적립금 지급</li>
+                            <li>포토 리뷰는 2,000원 추가 적립</li>
+                        </ul>
+                        <p><strong>매월 추첨:</strong></p>
+                        <ul>
+                            <li>베스트 리뷰 10분: 3만원 상품권</li>
+                            <li>우수 리뷰 20분: 1만원 할인 쿠폰</li>
+                            <li>참여 리뷰 20분: 5천원 쿠폰</li>
+                        </ul>
+                        <p>여러분의 솔직한 후기가 다른 고객님들께 큰 도움이 됩니다!</p>
+                    </div>
+                    <div class="notice-item__footer">
+                        <span class="notice-item__footer-icon">🏷️</span>
+                        이벤트, 리뷰
+                    </div>
+                </div>
+            </div>
+
+            <!-- Notice 7 -->
+            <div class="notice-item" data-category="안내" data-id="7" data-date="2026-03-05">
+                <div class="notice-item__header">
+                    <div class="notice-item__top">
+                        <span class="notice-badge badge-notice">안내</span>
+                        <div class="notice-item__toggle">›</div>
+                    </div>
+                    <div class="notice-item__title">새벽배송 지역 확대 안내</div>
+                    <div class="notice-item__meta">
+                        <span class="notice-item__meta-item">
+                            <span class="notice-item__meta-icon">📅</span>
+                            2026.03.05
+                        </span>
+                        <span class="notice-item__meta-item">
+                            <span class="notice-item__meta-icon">👁</span>
+                            1,876
+                        </span>
+                    </div>
+                </div>
+                <div class="notice-item__content">
+                    <div class="notice-item__body">
+                        <p>안녕하세요, 과일다리입니다.</p>
+                        <p>많은 고객님들의 요청으로 <strong>새벽배송 서비스 지역을 확대</strong>합니다!</p>
+                        <p><strong>신규 새벽배송 가능 지역:</strong></p>
+                        <ul>
+                            <li>대전 전역</li>
+                            <li>광주 전역</li>
+                            <li>울산 전역</li>
+                            <li>경기 남부 (수원, 용인, 화성, 평택 등)</li>
+                        </ul>
+                        <p><strong>새벽배송 안내:</strong></p>
+                        <ul>
+                            <li>배송 시간: 새벽 6시~8시</li>
+                            <li>주문 마감: 전날 오후 11시</li>
+                            <li>추가 배송비: 2,000원</li>
+                        </ul>
+                        <p>신선한 과일을 더 빠르게 만나보세요!</p>
+                    </div>
+                    <div class="notice-item__footer">
+                        <span class="notice-item__footer-icon">🏷️</span>
+                        배송, 새벽배송
+                    </div>
+                </div>
+            </div>
+
+            <!-- Notice 8 -->
+            <div class="notice-item" data-category="공지" data-id="8" data-date="2026-03-03">
+                <div class="notice-item__header">
+                    <div class="notice-item__top">
+                        <span class="notice-badge badge-notice">공지</span>
+                        <div class="notice-item__toggle">›</div>
+                    </div>
+                    <div class="notice-item__title">설 연휴 배송 및 고객센터 운영 안내</div>
+                    <div class="notice-item__meta">
+                        <span class="notice-item__meta-item">
+                            <span class="notice-item__meta-icon">📅</span>
+                            2026.03.03
+                        </span>
+                        <span class="notice-item__meta-item">
+                            <span class="notice-item__meta-icon">👁</span>
+                            965
+                        </span>
+                    </div>
+                </div>
+                <div class="notice-item__content">
+                    <div class="notice-item__body">
+                        <p>안녕하세요, 과일다리입니다.</p>
+                        <p>설 명절 연휴 기간 동안의 배송 및 고객센터 운영 일정을 안내드립니다.</p>
+                        <p><strong>연휴 기간:</strong> 2026년 3월 28일(금) ~ 3월 31일(월)</p>
+                        <p><strong>배송 안내:</strong></p>
+                        <ul>
+                            <li>3월 26일까지 주문: 연휴 전 배송</li>
+                            <li>3월 27일 이후 주문: 4월 1일부터 순차 배송</li>
+                            <li>명절 선물세트는 3월 25일까지 주문 권장</li>
+                        </ul>
+                        <p><strong>고객센터:</strong></p>
+                        <ul>
+                            <li>연휴 기간 휴무</li>
+                            <li>1:1 문의는 접수 가능 (4월 1일부터 순차 답변)</li>
+                            <li>긴급 문의: 카카오톡 채널 이용</li>
+                        </ul>
+                    </div>
+                    <div class="notice-item__footer">
+                        <span class="notice-item__footer-icon">🏷️</span>
+                        공휴일, 배송
+                    </div>
+                </div>
+            </div>
+
+            <!-- Notice 9 -->
+            <div class="notice-item" data-category="안내" data-id="9" data-date="2026-03-01">
+                <div class="notice-item__header">
+                    <div class="notice-item__top">
+                        <span class="notice-badge badge-notice">안내</span>
+                        <div class="notice-item__toggle">›</div>
+                    </div>
+                    <div class="notice-item__title">정기구독 서비스 혜택 업그레이드 안내</div>
+                    <div class="notice-item__meta">
+                        <span class="notice-item__meta-item">
+                            <span class="notice-item__meta-icon">📅</span>
+                            2026.03.01
+                        </span>
+                        <span class="notice-item__meta-item">
+                            <span class="notice-item__meta-icon">👁</span>
+                            2,341
+                        </span>
+                    </div>
+                </div>
+                <div class="notice-item__content">
+                    <div class="notice-item__body">
+                        <p>정기구독 고객님들께 더 큰 혜택을 드립니다!</p>
+                        <p><strong>업그레이드 혜택:</strong></p>
+                        <ul>
+                            <li><strong>할인율 증가:</strong> 기존 10% → 15%</li>
+                            <li><strong>무료배송:</strong> 구독 기간 중 모든 주문 무료</li>
+                            <li><strong>우선 배송:</strong> 신선도 보장을 위한 최우선 배송</li>
+                            <li><strong>전용 혜택:</strong> 매월 구독자 전용 쿠폰 제공</li>
+                            <li><strong>유연한 관리:</strong> 일시정지, 변경 자유</li>
+                        </ul>
+                        <p><strong>구독 플랜:</strong></p>
+                        <ul>
+                            <li>주간 구독: 매주 신선한 과일</li>
+                            <li>격주 구독: 2주마다 배송</li>
+                            <li>월간 구독: 한 달에 한 번</li>
+                        </ul>
+                        <p>지금 정기구독을 시작하고 특별한 혜택을 누려보세요!</p>
+                    </div>
+                    <div class="notice-item__footer">
+                        <span class="notice-item__footer-icon">🏷️</span>
+                        정기구독, 혜택
+                    </div>
+                </div>
+            </div>
+
+            <!-- Notice 10 -->
+            <div class="notice-item" data-category="이벤트" data-id="10" data-date="2026-02-28">
+                <div class="notice-item__header">
+                    <div class="notice-item__top">
+                        <span class="notice-badge badge-event">이벤트</span>
+                        <div class="notice-item__toggle">›</div>
+                    </div>
+                    <div class="notice-item__title">친구 초대 이벤트 - 함께 나누는 5만원 혜택</div>
+                    <div class="notice-item__meta">
+                        <span class="notice-item__meta-item">
+                            <span class="notice-item__meta-icon">📅</span>
+                            2026.02.28
+                        </span>
+                        <span class="notice-item__meta-item">
+                            <span class="notice-item__meta-icon">👁</span>
+                            3,567
+                        </span>
+                    </div>
+                </div>
+                <div class="notice-item__content">
+                    <div class="notice-item__body">
+                        <p>친구를 초대하고 함께 혜택을 받으세요!</p>
+                        <p><strong>이벤트 혜택:</strong></p>
+                        <ul>
+                            <li><strong>초대한 친구:</strong> 가입 시 1만원 할인 쿠폰</li>
+                            <li><strong>초대받은 친구:</strong> 첫 구매 시 1만원 할인</li>
+                            <li><strong>추가 혜택:</strong> 친구가 첫 구매 완료 시 초대자에게 5천원 적립금 추가 지급</li>
+                        </ul>
+                        <p><strong>참여 방법:</strong></p>
+                        <ul>
+                            <li>마이페이지에서 '친구 초대' 선택</li>
+                            <li>초대 링크를 친구에게 공유</li>
+                            <li>친구가 가입하면 자동으로 혜택 지급</li>
+                        </ul>
+                        <p><strong>제한 없음:</strong> 초대 인원에 제한이 없어 무제한으로 혜택을 받으실 수 있습니다!</p>
+                        <p>지금 바로 친구들과 함께 신선한 과일을 즐겨보세요!</p>
+                    </div>
+                    <div class="notice-item__footer">
+                        <span class="notice-item__footer-icon">🏷️</span>
+                        이벤트, 친구초대, 할인
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Empty State (숨김 처리, 검색 결과 없을 때 표시) -->
+        <div class="empty-state" id="emptyState" style="display: none;">
+            <div class="empty-state__icon">📢</div>
+            <div class="empty-state__title">검색 결과가 없습니다</div>
+            <div class="empty-state__desc">
+                다른 검색어로 다시 시도해보시거나<br>
+                카테고리를 변경해보세요
+            </div>
+        </div>
+
+        <!-- Pagination -->
+        <div class="pagination" id="pagination">
+            <button class="pagination__btn" id="prevBtn" disabled>‹</button>
+            <button class="pagination__btn active" data-page="1">1</button>
+            <button class="pagination__btn" data-page="2">2</button>
+            <button class="pagination__btn" data-page="3">3</button>
+            <span class="pagination__dots">...</span>
+            <button class="pagination__btn" data-page="10">10</button>
+            <button class="pagination__btn" id="nextBtn">›</button>
+        </div>
+
+        <!-- Bottom Navigation -->
+        <nav class="bottom-nav">
+            <a href="../home/main.html" class="nav-item">
+                <div class="nav-item__icon">🏠</div>
+                <div class="nav-item__label">홈</div>
+            </a>
+            <a href="../products/index.html" class="nav-item">
+                <div class="nav-item__icon">🍎</div>
+                <div class="nav-item__label">상품</div>
+            </a>
+            <a href="../mypage/index.html" class="nav-item">
+                <div class="nav-item__icon">👤</div>
+                <div class="nav-item__label">마이</div>
+            </a>
+            <a href="index.html" class="nav-item active">
+                <div class="nav-item__icon">💬</div>
+                <div class="nav-item__label">고객센터</div>
+            </a>
+        </nav>
+    </div>
+
+    <script>
+        // State Management
+        let currentCategory = '전체';
+        let searchQuery = '';
+        let currentPage = 1;
+        const itemsPerPage = 10;
+        let viewCounts = {};
+
+        // DOM Elements
+        const searchInput = document.getElementById('searchInput');
+        const clearSearch = document.getElementById('clearSearch');
+        const categoryTabs = document.querySelectorAll('.category-tab');
+        const noticeItems = document.querySelectorAll('.notice-item');
+        const noticeList = document.getElementById('noticeList');
+        const emptyState = document.getElementById('emptyState');
+        const pagination = document.getElementById('pagination');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeViewCounts();
+            setupNoticeClickHandlers();
+            setupSearchFunctionality();
+            setupCategoryTabs();
+            setupPagination();
+            loadViewCounts();
+        });
+
+        // Initialize view counts from localStorage or use default values
+        function initializeViewCounts() {
+            const savedCounts = localStorage.getItem('noticeViewCounts');
+            if (savedCounts) {
+                viewCounts = JSON.parse(savedCounts);
+            } else {
+                // Default view counts
+                viewCounts = {
+                    '1': 1247, '2': 3892, '3': 856, '4': 432, '5': 1523,
+                    '6': 2145, '7': 1876, '8': 965, '9': 2341, '10': 3567
+                };
+                saveViewCounts();
+            }
+        }
+
+        // Save view counts to localStorage
+        function saveViewCounts() {
+            localStorage.setItem('noticeViewCounts', JSON.stringify(viewCounts));
+        }
+
+        // Load view counts into DOM
+        function loadViewCounts() {
+            noticeItems.forEach(item => {
+                const id = item.dataset.id;
+                const viewElement = item.querySelector('.notice-item__meta-item:last-child');
+                if (viewElement && viewCounts[id]) {
+                    viewElement.innerHTML = `
+                        <span class="notice-item__meta-icon">👁</span>
+                        ${viewCounts[id].toLocaleString()}
+                    `;
+                }
+            });
+        }
+
+        // Setup notice click handlers
+        function setupNoticeClickHandlers() {
+            noticeItems.forEach(item => {
+                const header = item.querySelector('.notice-item__header');
+                header.addEventListener('click', () => toggleNotice(item));
+            });
+        }
+
+        // Toggle notice accordion
+        function toggleNotice(item) {
+            const isOpen = item.classList.contains('open');
+            const id = item.dataset.id;
+
+            if (isOpen) {
+                item.classList.remove('open');
+            } else {
+                // Increment view count
+                if (id && viewCounts[id] !== undefined) {
+                    viewCounts[id]++;
+                    saveViewCounts();
+                    loadViewCounts();
+                }
+
+                // Open the item
+                item.classList.add('open');
+
+                // Optional: Close other items
+                // noticeItems.forEach(i => {
+                //     if (i !== item) i.classList.remove('open');
+                // });
+
+                // Scroll into view
+                setTimeout(() => {
+                    item.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }, 300);
+            }
+        }
+
+        // Setup search functionality
+        function setupSearchFunctionality() {
+            searchInput.addEventListener('input', (e) => {
+                searchQuery = e.target.value.toLowerCase().trim();
+                if (searchQuery) {
+                    clearSearch.classList.add('show');
+                } else {
+                    clearSearch.classList.remove('show');
+                }
+                currentPage = 1;
+                filterNotices();
+            });
+
+            clearSearch.addEventListener('click', () => {
+                searchInput.value = '';
+                searchQuery = '';
+                clearSearch.classList.remove('show');
+                currentPage = 1;
+                filterNotices();
+                searchInput.focus();
+            });
+        }
+
+        // Setup category tabs
+        function setupCategoryTabs() {
+            categoryTabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    currentCategory = tab.dataset.category;
+                    categoryTabs.forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+                    currentPage = 1;
+                    filterNotices();
+                });
+            });
+        }
+
+        // Filter notices based on category and search
+        function filterNotices() {
+            let visibleCount = 0;
+            let matchedItems = [];
+
+            noticeItems.forEach(item => {
+                const category = item.dataset.category;
+                const title = item.querySelector('.notice-item__title').textContent.toLowerCase();
+                const body = item.querySelector('.notice-item__body')?.textContent.toLowerCase() || '';
+
+                // Check category match
+                const categoryMatch = currentCategory === '전체' || category === currentCategory;
+
+                // Check search match
+                const searchMatch = !searchQuery ||
+                    title.includes(searchQuery) ||
+                    body.includes(searchQuery);
+
+                if (categoryMatch && searchMatch) {
+                    matchedItems.push(item);
+                    visibleCount++;
+                } else {
+                    item.classList.add('hidden');
+                    item.classList.remove('open');
+                }
+            });
+
+            // Apply pagination
+            applyPagination(matchedItems);
+
+            // Show/hide empty state
+            if (visibleCount === 0) {
+                noticeList.style.display = 'none';
+                emptyState.style.display = 'block';
+                pagination.style.display = 'none';
+            } else {
+                noticeList.style.display = 'block';
+                emptyState.style.display = 'none';
+                pagination.style.display = 'flex';
+            }
+
+            // Update pagination controls
+            updatePagination(matchedItems.length);
+        }
+
+        // Apply pagination to matched items
+        function applyPagination(items) {
+            const startIndex = (currentPage - 1) * itemsPerPage;
+            const endIndex = startIndex + itemsPerPage;
+
+            items.forEach((item, index) => {
+                if (index >= startIndex && index < endIndex) {
+                    item.classList.remove('hidden');
+                } else {
+                    item.classList.add('hidden');
+                }
+            });
+        }
+
+        // Setup pagination
+        function setupPagination() {
+            const pageButtons = document.querySelectorAll('.pagination__btn[data-page]');
+
+            pageButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const page = parseInt(btn.dataset.page);
+                    currentPage = page;
+                    filterNotices();
+                });
+            });
+
+            prevBtn.addEventListener('click', () => {
+                if (currentPage > 1) {
+                    currentPage--;
+                    filterNotices();
+                }
+            });
+
+            nextBtn.addEventListener('click', () => {
+                const totalPages = calculateTotalPages();
+                if (currentPage < totalPages) {
+                    currentPage++;
+                    filterNotices();
+                }
+            });
+        }
+
+        // Calculate total pages based on visible items
+        function calculateTotalPages() {
+            let visibleCount = 0;
+            noticeItems.forEach(item => {
+                const category = item.dataset.category;
+                const categoryMatch = currentCategory === '전체' || category === currentCategory;
+                if (categoryMatch) visibleCount++;
+            });
+            return Math.ceil(visibleCount / itemsPerPage);
+        }
+
+        // Update pagination controls
+        function updatePagination(totalItems) {
+            const totalPages = Math.ceil(totalItems / itemsPerPage);
+            const pageButtons = document.querySelectorAll('.pagination__btn[data-page]');
+
+            // Update page buttons
+            pageButtons.forEach(btn => {
+                btn.classList.remove('active');
+                const page = parseInt(btn.dataset.page);
+                if (page === currentPage) {
+                    btn.classList.add('active');
+                }
+            });
+
+            // Update prev/next buttons
+            prevBtn.disabled = currentPage === 1;
+            nextBtn.disabled = currentPage >= totalPages;
+
+            // Scroll to top when page changes
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Toast notification
+        function showToast(message) {
+            const existingToast = document.querySelector('.toast');
+            if (existingToast) {
+                existingToast.remove();
+            }
+
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            toast.textContent = message;
+            toast.style.cssText = `
+                position: fixed;
+                bottom: calc(var(--bottom-nav-height) + 20px);
+                left: 50%;
+                transform: translateX(-50%);
+                background: rgba(0, 0, 0, 0.8);
+                color: white;
+                padding: 12px 24px;
+                border-radius: 24px;
+                font-size: 14px;
+                z-index: 1000;
+                animation: fadeInOut 2s ease-in-out;
+                max-width: 90%;
+                text-align: center;
+            `;
+
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes fadeInOut {
+                    0% { opacity: 0; transform: translateX(-50%) translateY(10px); }
+                    15% { opacity: 1; transform: translateX(-50%) translateY(0); }
+                    85% { opacity: 1; transform: translateX(-50%) translateY(0); }
+                    100% { opacity: 0; transform: translateX(-50%) translateY(10px); }
+                }
+            `;
+            document.head.appendChild(style);
+
+            document.body.appendChild(toast);
+
+            setTimeout(() => {
+                toast.remove();
+                style.remove();
+            }, 2000);
+        }
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            // Ctrl/Cmd + K to focus search
+            if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+                e.preventDefault();
+                searchInput.focus();
+            }
+
+            // Escape to clear search
+            if (e.key === 'Escape' && document.activeElement === searchInput) {
+                searchInput.value = '';
+                searchQuery = '';
+                clearSearch.classList.remove('show');
+                currentPage = 1;
+                filterNotices();
+            }
+        });
+
+        // Auto-expand notice if coming from URL hash
+        if (window.location.hash) {
+            const targetId = window.location.hash.substring(1);
+            const targetNotice = document.querySelector(`[data-id="${targetId}"]`);
+            if (targetNotice) {
+                setTimeout(() => {
+                    targetNotice.classList.add('open');
+                    targetNotice.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }, 300);
+            }
+        }
+
+        // Initial load
+        filterNotices();
+    </script>
+</body>
+</html>

@@ -1,0 +1,937 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>주문완료 - 과일다리</title>
+    <link rel="stylesheet" href="../../styles/design-system.css">
+    <link rel="stylesheet" href="../../styles/components.css">
+    <style>
+        body {
+            background: var(--color-gray-50);
+        }
+
+        /* Success Hero Section */
+        .success-hero {
+            background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+            padding: var(--space-10) var(--space-4);
+            text-align: center;
+            color: var(--color-white);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .success-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 30% 50%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .success-animation {
+            position: relative;
+            margin: 0 auto var(--space-5);
+        }
+
+        .checkmark-circle {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto;
+            position: relative;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: var(--radius-full);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: scaleIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            backdrop-filter: blur(10px);
+        }
+
+        .checkmark {
+            font-size: 56px;
+            animation: checkmarkPop 0.6s 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+        }
+
+        .success-message {
+            position: relative;
+            z-index: 1;
+        }
+
+        .success-title {
+            font-size: var(--font-size-2xl);
+            font-weight: var(--font-weight-bold);
+            margin-bottom: var(--space-2);
+            animation: fadeInUp 0.6s 0.2s both;
+        }
+
+        .success-subtitle {
+            font-size: var(--font-size-base);
+            opacity: 0.9;
+            animation: fadeInUp 0.6s 0.3s both;
+        }
+
+        .order-number {
+            margin-top: var(--space-4);
+            padding: var(--space-3) var(--space-5);
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: var(--radius-lg);
+            display: inline-block;
+            animation: fadeInUp 0.6s 0.4s both;
+            backdrop-filter: blur(10px);
+        }
+
+        .order-number-label {
+            font-size: var(--font-size-xs);
+            opacity: 0.8;
+            margin-bottom: var(--space-1);
+        }
+
+        .order-number-value {
+            font-size: var(--font-size-xl);
+            font-weight: var(--font-weight-bold);
+            font-family: 'Courier New', monospace;
+            letter-spacing: 1px;
+        }
+
+        /* Confetti Canvas */
+        #confetti-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        /* Content Sections */
+        .content-wrapper {
+            padding: var(--space-4);
+            animation: fadeIn 0.6s 0.5s both;
+        }
+
+        .info-card {
+            background: var(--color-white);
+            border-radius: var(--radius-xl);
+            padding: var(--space-5);
+            margin-bottom: var(--space-4);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .info-card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: var(--space-4);
+        }
+
+        .info-card-title {
+            font-size: var(--font-size-md);
+            font-weight: var(--font-weight-bold);
+            color: var(--color-gray-900);
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+        }
+
+        .info-card-icon {
+            font-size: 24px;
+        }
+
+        /* Order Items */
+        .order-item {
+            display: flex;
+            gap: var(--space-3);
+            padding: var(--space-3);
+            background: var(--color-gray-50);
+            border-radius: var(--radius-lg);
+            margin-bottom: var(--space-3);
+        }
+
+        .order-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .order-item-image {
+            width: 70px;
+            height: 70px;
+            border-radius: var(--radius-md);
+            object-fit: cover;
+            background: var(--color-white);
+        }
+
+        .order-item-info {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .order-item-name {
+            font-size: var(--font-size-base);
+            font-weight: var(--font-weight-medium);
+            color: var(--color-gray-900);
+            margin-bottom: var(--space-1);
+        }
+
+        .order-item-details {
+            font-size: var(--font-size-sm);
+            color: var(--color-gray-600);
+        }
+
+        .order-item-price {
+            font-size: var(--font-size-md);
+            font-weight: var(--font-weight-bold);
+            color: var(--color-gray-900);
+            white-space: nowrap;
+        }
+
+        /* Info Rows */
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding: var(--space-3) 0;
+            border-bottom: 1px solid var(--color-gray-100);
+        }
+
+        .info-row:last-child {
+            border-bottom: none;
+        }
+
+        .info-row-label {
+            font-size: var(--font-size-sm);
+            color: var(--color-gray-600);
+            flex-shrink: 0;
+            margin-right: var(--space-4);
+        }
+
+        .info-row-value {
+            font-size: var(--font-size-sm);
+            color: var(--color-gray-900);
+            text-align: right;
+            font-weight: var(--font-weight-medium);
+        }
+
+        .info-row-value.highlight {
+            color: var(--color-primary);
+            font-weight: var(--font-weight-bold);
+        }
+
+        /* Total Amount */
+        .total-row {
+            background: var(--color-primary-light);
+            padding: var(--space-4);
+            border-radius: var(--radius-lg);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: var(--space-4);
+        }
+
+        .total-label {
+            font-size: var(--font-size-md);
+            font-weight: var(--font-weight-bold);
+            color: var(--color-gray-900);
+        }
+
+        .total-amount {
+            font-size: var(--font-size-xl);
+            font-weight: var(--font-weight-bold);
+            color: var(--color-primary-dark);
+        }
+
+        /* Points Earned */
+        .points-banner {
+            background: linear-gradient(135deg, #FFD93D 0%, #FF9800 100%);
+            padding: var(--space-4);
+            border-radius: var(--radius-xl);
+            margin-bottom: var(--space-4);
+            text-align: center;
+            color: var(--color-white);
+            box-shadow: var(--shadow-md);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .points-icon {
+            font-size: 40px;
+            margin-bottom: var(--space-2);
+        }
+
+        .points-text {
+            font-size: var(--font-size-base);
+            margin-bottom: var(--space-1);
+        }
+
+        .points-amount {
+            font-size: var(--font-size-2xl);
+            font-weight: var(--font-weight-bold);
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-3);
+            margin-bottom: var(--space-5);
+        }
+
+        .action-button {
+            padding: var(--space-4);
+            border: none;
+            border-radius: var(--radius-xl);
+            font-size: var(--font-size-base);
+            font-weight: var(--font-weight-semibold);
+            cursor: pointer;
+            transition: all var(--transition-base);
+            text-decoration: none;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--space-2);
+        }
+
+        .action-button-primary {
+            background: var(--color-primary);
+            color: var(--color-white);
+            box-shadow: var(--shadow-md);
+        }
+
+        .action-button-primary:active {
+            background: var(--color-primary-dark);
+            transform: translateY(1px);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .action-button-secondary {
+            background: var(--color-white);
+            color: var(--color-gray-900);
+            border: 2px solid var(--color-gray-300);
+        }
+
+        .action-button-secondary:active {
+            background: var(--color-gray-50);
+            transform: translateY(1px);
+        }
+
+        .action-button-icon {
+            font-size: 28px;
+        }
+
+        /* Recommended Products */
+        .recommend-section {
+            margin-top: var(--space-6);
+        }
+
+        .recommend-header {
+            padding: 0 var(--space-4);
+            margin-bottom: var(--space-4);
+        }
+
+        .recommend-title {
+            font-size: var(--font-size-lg);
+            font-weight: var(--font-weight-bold);
+            color: var(--color-gray-900);
+            margin-bottom: var(--space-1);
+        }
+
+        .recommend-subtitle {
+            font-size: var(--font-size-sm);
+            color: var(--color-gray-600);
+        }
+
+        .recommend-products {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--space-3);
+            padding: 0 var(--space-4);
+            margin-bottom: var(--space-20);
+        }
+
+        .recommend-product {
+            background: var(--color-white);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            cursor: pointer;
+            transition: all var(--transition-base);
+        }
+
+        .recommend-product:active {
+            transform: scale(0.98);
+            box-shadow: var(--shadow-xs);
+        }
+
+        .recommend-product-image {
+            width: 100%;
+            aspect-ratio: 1;
+            object-fit: cover;
+            background: var(--color-gray-100);
+        }
+
+        .recommend-product-info {
+            padding: var(--space-3);
+        }
+
+        .recommend-product-name {
+            font-size: var(--font-size-sm);
+            font-weight: var(--font-weight-medium);
+            color: var(--color-gray-900);
+            margin-bottom: var(--space-1);
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .recommend-product-price {
+            font-size: var(--font-size-md);
+            font-weight: var(--font-weight-bold);
+            color: var(--color-primary-dark);
+        }
+
+        /* Delivery Timeline */
+        .timeline {
+            position: relative;
+            padding-left: var(--space-6);
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-bottom: var(--space-4);
+        }
+
+        .timeline-item:last-child {
+            padding-bottom: 0;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -22px;
+            top: 8px;
+            width: 12px;
+            height: 12px;
+            background: var(--color-gray-300);
+            border-radius: var(--radius-full);
+            border: 2px solid var(--color-white);
+            box-shadow: 0 0 0 2px var(--color-gray-300);
+        }
+
+        .timeline-item.active::before {
+            background: var(--color-primary);
+            box-shadow: 0 0 0 2px var(--color-primary);
+        }
+
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            left: -17px;
+            top: 20px;
+            width: 2px;
+            height: calc(100% - 8px);
+            background: var(--color-gray-200);
+        }
+
+        .timeline-item:last-child::after {
+            display: none;
+        }
+
+        .timeline-date {
+            font-size: var(--font-size-xs);
+            color: var(--color-gray-600);
+            margin-bottom: var(--space-1);
+        }
+
+        .timeline-title {
+            font-size: var(--font-size-base);
+            font-weight: var(--font-weight-medium);
+            color: var(--color-gray-900);
+        }
+
+        /* Animations */
+        @keyframes scaleIn {
+            0% {
+                transform: scale(0);
+                opacity: 0;
+            }
+            50% {
+                transform: scale(1.1);
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        @keyframes checkmarkPop {
+            0% {
+                transform: scale(0) rotate(-45deg);
+                opacity: 0;
+            }
+            100% {
+                transform: scale(1) rotate(0deg);
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.02);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 375px) {
+            .success-hero {
+                padding: var(--space-8) var(--space-4);
+            }
+
+            .checkmark-circle {
+                width: 80px;
+                height: 80px;
+            }
+
+            .checkmark {
+                font-size: 44px;
+            }
+
+            .success-title {
+                font-size: var(--font-size-xl);
+            }
+        }
+    </style>
+</head>
+<body class="mobile-container">
+    <!-- Confetti Canvas -->
+    <canvas id="confetti-canvas"></canvas>
+
+    <!-- Success Hero Section -->
+    <section class="success-hero">
+        <div class="success-animation">
+            <div class="checkmark-circle">
+                <div class="checkmark">✓</div>
+            </div>
+        </div>
+
+        <div class="success-message">
+            <h1 class="success-title">주문이 완료되었습니다!</h1>
+            <p class="success-subtitle">신선한 과일로 건강한 하루 되세요</p>
+        </div>
+
+        <div class="order-number">
+            <div class="order-number-label">주문번호</div>
+            <div class="order-number-value" id="orderNumber">20260318-123456</div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="content-wrapper">
+        <!-- Points Earned Banner -->
+        <div class="points-banner">
+            <div class="points-icon">🎁</div>
+            <div class="points-text">이번 주문으로 적립된 포인트</div>
+            <div class="points-amount">1,500P</div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="action-buttons">
+            <a href="../mypage/orders.html" class="action-button action-button-primary">
+                <span class="action-button-icon">📦</span>
+                <span>주문내역 보기</span>
+            </a>
+            <a href="../products/index.html" class="action-button action-button-secondary">
+                <span class="action-button-icon">🛒</span>
+                <span>쇼핑 계속하기</span>
+            </a>
+        </div>
+
+        <!-- Delivery Info -->
+        <div class="info-card">
+            <div class="info-card-header">
+                <h2 class="info-card-title">
+                    <span class="info-card-icon">🚚</span>
+                    배송 정보
+                </h2>
+            </div>
+
+            <div class="timeline">
+                <div class="timeline-item active">
+                    <div class="timeline-date">2026.03.18 (오늘)</div>
+                    <div class="timeline-title">주문 접수 완료</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">2026.03.19 (내일)</div>
+                    <div class="timeline-title">상품 준비중</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">2026.03.20 (모레)</div>
+                    <div class="timeline-title">배송 출발</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">2026.03.21 (예정)</div>
+                    <div class="timeline-title">배송 완료 예정</div>
+                </div>
+            </div>
+
+            <div style="margin-top: var(--space-4); padding: var(--space-3); background: var(--color-primary-light); border-radius: var(--radius-lg);">
+                <div style="font-size: var(--font-size-sm); color: var(--color-gray-700); margin-bottom: var(--space-1);">
+                    배송지
+                </div>
+                <div style="font-size: var(--font-size-base); font-weight: var(--font-weight-medium); color: var(--color-gray-900);">
+                    서울시 강남구 테헤란로 123<br>
+                    행복아파트 101동 1001호
+                </div>
+                <div style="font-size: var(--font-size-sm); color: var(--color-gray-600); margin-top: var(--space-2);">
+                    김민수 님 · 010-1234-5678
+                </div>
+            </div>
+        </div>
+
+        <!-- Order Summary -->
+        <div class="info-card">
+            <div class="info-card-header">
+                <h2 class="info-card-title">
+                    <span class="info-card-icon">📋</span>
+                    주문 상품
+                </h2>
+            </div>
+
+            <div class="order-item">
+                <img src="https://images.unsplash.com/photo-1619566636858-adf3ef46400b?w=200&h=200&fit=crop" alt="샤인머스켓" class="order-item-image">
+                <div class="order-item-info">
+                    <div class="order-item-name">프리미엄 샤인머스켓</div>
+                    <div class="order-item-details">1.5kg · 1박스</div>
+                </div>
+                <div class="order-item-price">45,000원</div>
+            </div>
+
+            <div class="order-item">
+                <img src="https://images.unsplash.com/photo-1587049352846-4a222e784567?w=200&h=200&fit=crop" alt="딸기" class="order-item-image">
+                <div class="order-item-info">
+                    <div class="order-item-name">설향 딸기 (특)</div>
+                    <div class="order-item-details">500g · 2팩</div>
+                </div>
+                <div class="order-item-price">28,000원</div>
+            </div>
+
+            <div style="margin-top: var(--space-4); padding-top: var(--space-4); border-top: 1px solid var(--color-gray-200);">
+                <div class="info-row">
+                    <div class="info-row-label">상품 금액</div>
+                    <div class="info-row-value">73,000원</div>
+                </div>
+                <div class="info-row">
+                    <div class="info-row-label">배송비</div>
+                    <div class="info-row-value">무료</div>
+                </div>
+                <div class="info-row">
+                    <div class="info-row-label">할인</div>
+                    <div class="info-row-value" style="color: var(--color-error);">-3,000원</div>
+                </div>
+            </div>
+
+            <div class="total-row">
+                <div class="total-label">최종 결제금액</div>
+                <div class="total-amount">70,000원</div>
+            </div>
+        </div>
+
+        <!-- Payment Info -->
+        <div class="info-card">
+            <div class="info-card-header">
+                <h2 class="info-card-title">
+                    <span class="info-card-icon">💳</span>
+                    결제 정보
+                </h2>
+            </div>
+
+            <div class="info-row">
+                <div class="info-row-label">결제수단</div>
+                <div class="info-row-value">신한카드 (1234)</div>
+            </div>
+            <div class="info-row">
+                <div class="info-row-label">결제금액</div>
+                <div class="info-row-value highlight">70,000원</div>
+            </div>
+            <div class="info-row">
+                <div class="info-row-label">결제일시</div>
+                <div class="info-row-value">2026.03.18 15:42</div>
+            </div>
+            <div class="info-row">
+                <div class="info-row-label">적립 포인트</div>
+                <div class="info-row-value highlight">1,500P</div>
+            </div>
+        </div>
+
+        <!-- Recommended Products -->
+        <section class="recommend-section">
+            <div class="recommend-header">
+                <h2 class="recommend-title">이런 상품은 어때요?</h2>
+                <p class="recommend-subtitle">고객님께 추천하는 신선한 과일</p>
+            </div>
+
+            <div class="recommend-products">
+                <div class="recommend-product" onclick="location.href='../products/detail.html'">
+                    <img src="https://images.unsplash.com/photo-1601493700631-2b16ec4b4716?w=300&h=300&fit=crop" alt="한라봉" class="recommend-product-image">
+                    <div class="recommend-product-info">
+                        <div class="recommend-product-name">제주 한라봉</div>
+                        <div class="recommend-product-price">29,900원</div>
+                    </div>
+                </div>
+
+                <div class="recommend-product" onclick="location.href='../products/detail.html'">
+                    <img src="https://images.unsplash.com/photo-1589927986089-35812388d1f4?w=300&h=300&fit=crop" alt="사과" class="recommend-product-image">
+                    <div class="recommend-product-info">
+                        <div class="recommend-product-name">프리미엄 사과</div>
+                        <div class="recommend-product-price">35,000원</div>
+                    </div>
+                </div>
+
+                <div class="recommend-product" onclick="location.href='../products/detail.html'">
+                    <img src="https://images.unsplash.com/photo-1587132117132-6c01e70e34d8?w=300&h=300&fit=crop" alt="블루베리" class="recommend-product-image">
+                    <div class="recommend-product-info">
+                        <div class="recommend-product-name">생생 블루베리</div>
+                        <div class="recommend-product-price">22,000원</div>
+                    </div>
+                </div>
+
+                <div class="recommend-product" onclick="location.href='../products/detail.html'">
+                    <img src="https://images.unsplash.com/photo-1585059895524-72359e06133a?w=300&h=300&fit=crop" alt="수박" class="recommend-product-image">
+                    <div class="recommend-product-info">
+                        <div class="recommend-product-name">당도선별 수박</div>
+                        <div class="recommend-product-price">18,900원</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Confetti Animation
+        const canvas = document.getElementById('confetti-canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const confettiColors = ['#6FCF3F', '#FF6B35', '#FFD93D', '#4CAF50', '#FF9800'];
+        const confettiPieces = [];
+        const confettiCount = 80;
+
+        class Confetti {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height - canvas.height;
+                this.size = Math.random() * 8 + 4;
+                this.speedY = Math.random() * 3 + 2;
+                this.speedX = Math.random() * 2 - 1;
+                this.color = confettiColors[Math.floor(Math.random() * confettiColors.length)];
+                this.rotation = Math.random() * 360;
+                this.rotationSpeed = Math.random() * 10 - 5;
+            }
+
+            update() {
+                this.y += this.speedY;
+                this.x += this.speedX;
+                this.rotation += this.rotationSpeed;
+
+                if (this.y > canvas.height) {
+                    this.y = -10;
+                    this.x = Math.random() * canvas.width;
+                }
+            }
+
+            draw() {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.rotate(this.rotation * Math.PI / 180);
+                ctx.fillStyle = this.color;
+                ctx.fillRect(-this.size / 2, -this.size / 2, this.size, this.size);
+                ctx.restore();
+            }
+        }
+
+        // Initialize confetti
+        for (let i = 0; i < confettiCount; i++) {
+            confettiPieces.push(new Confetti());
+        }
+
+        let animationFrame = 0;
+        const maxFrames = 300; // 5 seconds at 60fps
+
+        function animateConfetti() {
+            if (animationFrame >= maxFrames) {
+                // Fade out
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                canvas.style.opacity = '0';
+                canvas.style.transition = 'opacity 1s';
+                setTimeout(() => {
+                    canvas.remove();
+                }, 1000);
+                return;
+            }
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            confettiPieces.forEach(piece => {
+                piece.update();
+                piece.draw();
+            });
+
+            animationFrame++;
+            requestAnimationFrame(animateConfetti);
+        }
+
+        // Start confetti animation
+        animateConfetti();
+
+        // Generate random order number
+        function generateOrderNumber() {
+            const date = new Date();
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const day = String(date.getDate()).padStart(2, '0');
+            const random = Math.floor(Math.random() * 900000) + 100000;
+            return `${year}${month}${day}-${random}`;
+        }
+
+        document.getElementById('orderNumber').textContent = generateOrderNumber();
+
+        // Add haptic feedback for buttons (if supported)
+        document.querySelectorAll('.action-button, .recommend-product').forEach(element => {
+            element.addEventListener('click', () => {
+                if (navigator.vibrate) {
+                    navigator.vibrate(10);
+                }
+            });
+        });
+
+        // Scroll to top on load
+        window.scrollTo(0, 0);
+
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            if (canvas.parentElement) {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            }
+        });
+
+        // Add celebration sound effect (optional - only if audio is enabled)
+        function playSuccessSound() {
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+
+            oscillator.frequency.value = 800;
+            oscillator.type = 'sine';
+
+            gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
+
+            oscillator.start(audioContext.currentTime);
+            oscillator.stop(audioContext.currentTime + 0.3);
+        }
+
+        // Play sound on page load (user interaction may be required)
+        document.addEventListener('click', () => {
+            try {
+                playSuccessSound();
+            } catch (e) {
+                // Silently fail if audio is not supported
+            }
+        }, { once: true });
+
+        // Copy order number functionality
+        document.getElementById('orderNumber').addEventListener('click', function() {
+            const orderNumber = this.textContent;
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(orderNumber).then(() => {
+                    // Show toast notification
+                    showToast('주문번호가 복사되었습니다');
+                });
+            }
+        });
+
+        // Toast notification
+        function showToast(message) {
+            const toast = document.createElement('div');
+            toast.textContent = message;
+            toast.style.cssText = `
+                position: fixed;
+                bottom: 100px;
+                left: 50%;
+                transform: translateX(-50%);
+                background: rgba(0, 0, 0, 0.8);
+                color: white;
+                padding: 12px 24px;
+                border-radius: 24px;
+                font-size: 14px;
+                z-index: 10000;
+                animation: toastIn 0.3s ease-out;
+            `;
+            document.body.appendChild(toast);
+
+            setTimeout(() => {
+                toast.style.animation = 'toastOut 0.3s ease-out';
+                setTimeout(() => toast.remove(), 300);
+            }, 2000);
+        }
+
+        // Add toast animations
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes toastIn {
+                from {
+                    opacity: 0;
+                    transform: translateX(-50%) translateY(20px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateX(-50%) translateY(0);
+                }
+            }
+            @keyframes toastOut {
+                from {
+                    opacity: 1;
+                    transform: translateX(-50%) translateY(0);
+                }
+                to {
+                    opacity: 0;
+                    transform: translateX(-50%) translateY(20px);
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>

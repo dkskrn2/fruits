@@ -1,0 +1,1095 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>취소/반품 관리 - 과일다리</title>
+    <link rel="stylesheet" href="../../styles/design-system.css">
+    <link rel="stylesheet" href="../../styles/components.css">
+    <style>
+        /* Mobile Container */
+        body {
+            max-width: 430px;
+            margin: 0 auto;
+            background: var(--color-gray-50);
+            padding-bottom: calc(var(--bottom-nav-height) + 20px);
+        }
+
+        /* Header */
+        .header {
+            position: sticky;
+            top: 0;
+            z-index: var(--z-sticky);
+            background: var(--color-white);
+            border-bottom: 1px solid var(--color-gray-200);
+            padding: var(--space-4);
+            display: flex;
+            align-items: center;
+            gap: var(--space-4);
+        }
+
+        .header__back {
+            font-size: 24px;
+            cursor: pointer;
+            padding: var(--space-2);
+            margin: calc(var(--space-2) * -1);
+        }
+
+        .header__title {
+            font-size: var(--font-size-md);
+            font-weight: var(--font-weight-semibold);
+            color: var(--color-gray-900);
+            flex: 1;
+            text-align: center;
+            margin-right: 32px;
+        }
+
+        /* Tab Navigation */
+        .tab-nav {
+            background: var(--color-white);
+            border-bottom: 1px solid var(--color-gray-200);
+            display: flex;
+            position: sticky;
+            top: 64px;
+            z-index: var(--z-sticky);
+        }
+
+        .tab-nav__item {
+            flex: 1;
+            padding: var(--space-4);
+            font-size: var(--font-size-sm);
+            font-weight: var(--font-weight-medium);
+            color: var(--color-gray-600);
+            background: transparent;
+            border: none;
+            border-bottom: 2px solid transparent;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            position: relative;
+        }
+
+        .tab-nav__item.active {
+            color: var(--color-primary);
+            border-bottom-color: var(--color-primary);
+        }
+
+        .tab-nav__count {
+            display: inline-block;
+            margin-left: var(--space-1);
+            padding: 2px 6px;
+            background: var(--color-primary-light);
+            color: var(--color-primary-dark);
+            font-size: 11px;
+            font-weight: var(--font-weight-bold);
+            border-radius: var(--radius-full);
+        }
+
+        .tab-nav__item.active .tab-nav__count {
+            background: var(--color-primary);
+            color: var(--color-white);
+        }
+
+        /* Content Area */
+        .content {
+            padding: var(--space-4);
+        }
+
+        .tab-panel {
+            display: none;
+        }
+
+        .tab-panel.active {
+            display: block;
+        }
+
+        /* Order Card */
+        .order-card {
+            background: var(--color-white);
+            border-radius: var(--radius-lg);
+            padding: var(--space-4);
+            margin-bottom: var(--space-3);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .order-card__header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: var(--space-3);
+            border-bottom: 1px solid var(--color-gray-100);
+            margin-bottom: var(--space-3);
+        }
+
+        .order-card__date {
+            font-size: var(--font-size-sm);
+            color: var(--color-gray-600);
+        }
+
+        .order-card__number {
+            font-size: var(--font-size-xs);
+            color: var(--color-gray-500);
+            margin-top: var(--space-1);
+        }
+
+        .order-card__status {
+            display: inline-flex;
+            align-items: center;
+            padding: var(--space-1) var(--space-3);
+            font-size: var(--font-size-xs);
+            font-weight: var(--font-weight-semibold);
+            border-radius: var(--radius-full);
+        }
+
+        .order-card__status--cancel {
+            background: #E3F2FD;
+            color: #1565C0;
+        }
+
+        .order-card__status--return {
+            background: #FFF3E0;
+            color: #E65100;
+        }
+
+        .order-card__status--processing {
+            background: #F3E5F5;
+            color: #6A1B9A;
+        }
+
+        .order-card__status--complete {
+            background: #E8F5E9;
+            color: #2E7D32;
+        }
+
+        /* Product Info */
+        .product-info {
+            display: flex;
+            gap: var(--space-3);
+            margin-bottom: var(--space-4);
+        }
+
+        .product-info__image {
+            width: 80px;
+            height: 80px;
+            border-radius: var(--radius-md);
+            background: var(--color-gray-100);
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .product-info__image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .product-info__details {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-1);
+        }
+
+        .product-info__name {
+            font-size: var(--font-size-base);
+            font-weight: var(--font-weight-medium);
+            color: var(--color-gray-900);
+            line-height: var(--line-height-tight);
+        }
+
+        .product-info__option {
+            font-size: var(--font-size-sm);
+            color: var(--color-gray-600);
+        }
+
+        .product-info__quantity {
+            font-size: var(--font-size-sm);
+            color: var(--color-gray-600);
+        }
+
+        .product-info__price {
+            font-size: var(--font-size-md);
+            font-weight: var(--font-weight-bold);
+            color: var(--color-gray-900);
+            margin-top: auto;
+        }
+
+        /* Refund Info */
+        .refund-info {
+            background: var(--color-gray-50);
+            border-radius: var(--radius-md);
+            padding: var(--space-3);
+            margin-bottom: var(--space-4);
+        }
+
+        .refund-info__row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--space-2);
+        }
+
+        .refund-info__row:last-child {
+            margin-bottom: 0;
+            padding-top: var(--space-2);
+            border-top: 1px solid var(--color-gray-200);
+        }
+
+        .refund-info__label {
+            font-size: var(--font-size-sm);
+            color: var(--color-gray-600);
+        }
+
+        .refund-info__value {
+            font-size: var(--font-size-sm);
+            color: var(--color-gray-900);
+            font-weight: var(--font-weight-medium);
+        }
+
+        .refund-info__total {
+            font-size: var(--font-size-md);
+            font-weight: var(--font-weight-bold);
+            color: var(--color-primary);
+        }
+
+        /* Action Buttons */
+        .order-card__actions {
+            display: flex;
+            gap: var(--space-2);
+        }
+
+        /* Policy Box */
+        .policy-box {
+            background: var(--color-white);
+            border-radius: var(--radius-lg);
+            padding: var(--space-4);
+            margin-bottom: var(--space-3);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .policy-box__title {
+            font-size: var(--font-size-base);
+            font-weight: var(--font-weight-semibold);
+            color: var(--color-gray-900);
+            margin-bottom: var(--space-3);
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+        }
+
+        .policy-box__content {
+            font-size: var(--font-size-sm);
+            color: var(--color-gray-600);
+            line-height: var(--line-height-relaxed);
+        }
+
+        .policy-box__list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .policy-box__list li {
+            padding-left: var(--space-4);
+            margin-bottom: var(--space-2);
+            position: relative;
+        }
+
+        .policy-box__list li:before {
+            content: "•";
+            position: absolute;
+            left: var(--space-2);
+            color: var(--color-primary);
+            font-weight: bold;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 430px;
+            height: 100%;
+            z-index: var(--z-modal);
+            animation: modalFadeIn 0.3s ease;
+        }
+
+        .modal.active {
+            display: flex;
+            flex-direction: column;
+        }
+
+        @keyframes modalFadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .modal__overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .modal__content {
+            position: relative;
+            margin-top: auto;
+            background: var(--color-white);
+            border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+            max-height: 90vh;
+            overflow-y: auto;
+            animation: slideUp 0.3s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(100%);
+            }
+            to {
+                transform: translateY(0);
+            }
+        }
+
+        .modal__header {
+            padding: var(--space-5) var(--space-4);
+            border-bottom: 1px solid var(--color-gray-200);
+            position: sticky;
+            top: 0;
+            background: var(--color-white);
+            z-index: 1;
+        }
+
+        .modal__title {
+            font-size: var(--font-size-lg);
+            font-weight: var(--font-weight-bold);
+            color: var(--color-gray-900);
+        }
+
+        .modal__close {
+            position: absolute;
+            top: var(--space-4);
+            right: var(--space-4);
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: transparent;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--color-gray-600);
+        }
+
+        .modal__body {
+            padding: var(--space-5) var(--space-4);
+        }
+
+        .modal__footer {
+            padding: var(--space-4);
+            border-top: 1px solid var(--color-gray-200);
+            position: sticky;
+            bottom: 0;
+            background: var(--color-white);
+        }
+
+        /* Request Form */
+        .request-form__group {
+            margin-bottom: var(--space-5);
+        }
+
+        .request-form__label {
+            display: block;
+            font-size: var(--font-size-sm);
+            font-weight: var(--font-weight-medium);
+            color: var(--color-gray-900);
+            margin-bottom: var(--space-2);
+        }
+
+        .request-form__label--required::after {
+            content: ' *';
+            color: var(--color-error);
+        }
+
+        .request-form__select {
+            width: 100%;
+            padding: var(--space-3) var(--space-4);
+            font-size: var(--font-size-base);
+            font-family: inherit;
+            border: 1px solid var(--color-gray-300);
+            border-radius: var(--radius-lg);
+            background: var(--color-white);
+            color: var(--color-gray-900);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+
+        .request-form__select:focus {
+            outline: none;
+            border-color: var(--color-primary);
+            box-shadow: 0 0 0 3px rgba(111, 207, 63, 0.1);
+        }
+
+        .request-form__textarea {
+            width: 100%;
+            min-height: 120px;
+            padding: var(--space-3) var(--space-4);
+            font-size: var(--font-size-base);
+            font-family: inherit;
+            border: 1px solid var(--color-gray-300);
+            border-radius: var(--radius-lg);
+            background: var(--color-white);
+            resize: vertical;
+            transition: all var(--transition-fast);
+        }
+
+        .request-form__textarea:focus {
+            outline: none;
+            border-color: var(--color-primary);
+            box-shadow: 0 0 0 3px rgba(111, 207, 63, 0.1);
+        }
+
+        .request-form__info {
+            background: var(--color-gray-50);
+            border-radius: var(--radius-md);
+            padding: var(--space-3);
+            margin-bottom: var(--space-5);
+        }
+
+        .request-form__info-title {
+            font-size: var(--font-size-sm);
+            font-weight: var(--font-weight-semibold);
+            color: var(--color-gray-900);
+            margin-bottom: var(--space-2);
+        }
+
+        .request-form__info-text {
+            font-size: var(--font-size-sm);
+            color: var(--color-gray-600);
+            line-height: var(--line-height-relaxed);
+        }
+
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 430px;
+            background: var(--color-white);
+            border-top: 1px solid var(--color-gray-200);
+            display: flex;
+            justify-content: space-around;
+            padding: var(--space-2) 0;
+            z-index: var(--z-sticky);
+        }
+
+        .nav-item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--space-1);
+            padding: var(--space-2);
+            color: var(--color-gray-600);
+            text-decoration: none;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+
+        .nav-item.active {
+            color: var(--color-primary);
+        }
+
+        .nav-item__icon {
+            font-size: 24px;
+        }
+
+        .nav-item__label {
+            font-size: var(--font-size-xs);
+            font-weight: var(--font-weight-medium);
+        }
+
+        /* Empty State */
+        .empty-state {
+            padding: var(--space-12) var(--space-6);
+            text-align: center;
+        }
+
+        .empty-state__icon {
+            font-size: 64px;
+            margin-bottom: var(--space-4);
+            opacity: 0.3;
+        }
+
+        .empty-state__title {
+            font-size: var(--font-size-md);
+            font-weight: var(--font-weight-medium);
+            color: var(--color-gray-700);
+            margin-bottom: var(--space-2);
+        }
+
+        .empty-state__desc {
+            font-size: var(--font-size-sm);
+            color: var(--color-gray-500);
+            line-height: var(--line-height-relaxed);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <span class="header__back" onclick="history.back()">←</span>
+        <h1 class="header__title">취소/반품 관리</h1>
+    </header>
+
+    <!-- Tab Navigation -->
+    <nav class="tab-nav">
+        <button class="tab-nav__item active" data-tab="cancelable">
+            취소 가능
+            <span class="tab-nav__count">2</span>
+        </button>
+        <button class="tab-nav__item" data-tab="returnable">
+            반품 가능
+            <span class="tab-nav__count">3</span>
+        </button>
+        <button class="tab-nav__item" data-tab="completed">
+            처리 완료
+            <span class="tab-nav__count">1</span>
+        </button>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="content">
+        <!-- Tab Panel: 취소 가능 -->
+        <div class="tab-panel active" data-panel="cancelable">
+            <!-- Order Card 1 -->
+            <div class="order-card">
+                <div class="order-card__header">
+                    <div>
+                        <div class="order-card__date">2024.03.15 주문</div>
+                        <div class="order-card__number">주문번호: 2024031512345</div>
+                    </div>
+                    <span class="order-card__status order-card__status--cancel">취소가능</span>
+                </div>
+
+                <div class="product-info">
+                    <div class="product-info__image">
+                        <div style="width: 100%; height: 100%; background: linear-gradient(135deg, #FFE5B4 0%, #FFD700 100%); display: flex; align-items: center; justify-content: center; font-size: 40px;">🍊</div>
+                    </div>
+                    <div class="product-info__details">
+                        <div class="product-info__name">제주 천혜향</div>
+                        <div class="product-info__option">2kg / 고급</div>
+                        <div class="product-info__quantity">수량: 1개</div>
+                        <div class="product-info__price">28,000원</div>
+                    </div>
+                </div>
+
+                <div class="refund-info">
+                    <div class="refund-info__row">
+                        <span class="refund-info__label">상품금액</span>
+                        <span class="refund-info__value">28,000원</span>
+                    </div>
+                    <div class="refund-info__row">
+                        <span class="refund-info__label">배송비</span>
+                        <span class="refund-info__value">3,000원</span>
+                    </div>
+                    <div class="refund-info__row">
+                        <span class="refund-info__label">환불 예정 금액</span>
+                        <span class="refund-info__total">31,000원</span>
+                    </div>
+                </div>
+
+                <div class="order-card__actions">
+                    <button class="btn btn-outline btn-full" onclick="openRequestModal('cancel', '제주 천혜향', '2024031512345')">
+                        주문 취소 신청
+                    </button>
+                </div>
+            </div>
+
+            <!-- Order Card 2 -->
+            <div class="order-card">
+                <div class="order-card__header">
+                    <div>
+                        <div class="order-card__date">2024.03.14 주문</div>
+                        <div class="order-card__number">주문번호: 2024031498765</div>
+                    </div>
+                    <span class="order-card__status order-card__status--cancel">취소가능</span>
+                </div>
+
+                <div class="product-info">
+                    <div class="product-info__image">
+                        <div style="width: 100%; height: 100%; background: linear-gradient(135deg, #FFB6C1 0%, #FF69B4 100%); display: flex; align-items: center; justify-content: center; font-size: 40px;">🍓</div>
+                    </div>
+                    <div class="product-info__details">
+                        <div class="product-info__name">설중딸기</div>
+                        <div class="product-info__option">500g / 특선</div>
+                        <div class="product-info__quantity">수량: 2개</div>
+                        <div class="product-info__price">45,000원</div>
+                    </div>
+                </div>
+
+                <div class="refund-info">
+                    <div class="refund-info__row">
+                        <span class="refund-info__label">상품금액</span>
+                        <span class="refund-info__value">45,000원</span>
+                    </div>
+                    <div class="refund-info__row">
+                        <span class="refund-info__label">배송비</span>
+                        <span class="refund-info__value">무료</span>
+                    </div>
+                    <div class="refund-info__row">
+                        <span class="refund-info__label">환불 예정 금액</span>
+                        <span class="refund-info__total">45,000원</span>
+                    </div>
+                </div>
+
+                <div class="order-card__actions">
+                    <button class="btn btn-outline btn-full" onclick="openRequestModal('cancel', '설중딸기', '2024031498765')">
+                        주문 취소 신청
+                    </button>
+                </div>
+            </div>
+
+            <!-- Policy Box -->
+            <div class="policy-box">
+                <div class="policy-box__title">
+                    <span>📋</span>
+                    취소 안내
+                </div>
+                <div class="policy-box__content">
+                    <ul class="policy-box__list">
+                        <li>배송 준비 중 상태까지 취소가 가능합니다</li>
+                        <li>배송 시작 후에는 취소가 불가능합니다</li>
+                        <li>결제 수단에 따라 환불까지 3-5일 소요됩니다</li>
+                        <li>취소 시 적립금과 쿠폰은 자동으로 복원됩니다</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab Panel: 반품 가능 -->
+        <div class="tab-panel" data-panel="returnable">
+            <!-- Order Card 3 -->
+            <div class="order-card">
+                <div class="order-card__header">
+                    <div>
+                        <div class="order-card__date">2024.03.12 배송완료</div>
+                        <div class="order-card__number">주문번호: 2024031267890</div>
+                    </div>
+                    <span class="order-card__status order-card__status--return">반품가능</span>
+                </div>
+
+                <div class="product-info">
+                    <div class="product-info__image">
+                        <div style="width: 100%; height: 100%; background: linear-gradient(135deg, #98FB98 0%, #32CD32 100%); display: flex; align-items: center; justify-content: center; font-size: 40px;">🍏</div>
+                    </div>
+                    <div class="product-info__details">
+                        <div class="product-info__name">청송 샤인머스캣</div>
+                        <div class="product-info__option">1kg / 프리미엄</div>
+                        <div class="product-info__quantity">수량: 1개</div>
+                        <div class="product-info__price">42,000원</div>
+                    </div>
+                </div>
+
+                <div class="refund-info">
+                    <div class="refund-info__row">
+                        <span class="refund-info__label">상품금액</span>
+                        <span class="refund-info__value">42,000원</span>
+                    </div>
+                    <div class="refund-info__row">
+                        <span class="refund-info__label">배송비</span>
+                        <span class="refund-info__value">무료</span>
+                    </div>
+                    <div class="refund-info__row">
+                        <span class="refund-info__label">반품 배송비</span>
+                        <span class="refund-info__value">-6,000원</span>
+                    </div>
+                    <div class="refund-info__row">
+                        <span class="refund-info__label">환불 예정 금액</span>
+                        <span class="refund-info__total">36,000원</span>
+                    </div>
+                </div>
+
+                <div class="order-card__actions">
+                    <button class="btn btn-primary btn-full" onclick="openRequestModal('return', '청송 샤인머스캣', '2024031267890')">
+                        반품 신청
+                    </button>
+                </div>
+            </div>
+
+            <!-- Order Card 4 -->
+            <div class="order-card">
+                <div class="order-card__header">
+                    <div>
+                        <div class="order-card__date">2024.03.11 배송완료</div>
+                        <div class="order-card__number">주문번호: 2024031154321</div>
+                    </div>
+                    <span class="order-card__status order-card__status--return">반품가능</span>
+                </div>
+
+                <div class="product-info">
+                    <div class="product-info__image">
+                        <div style="width: 100%; height: 100%; background: linear-gradient(135deg, #FFFFE0 0%, #FFD700 100%); display: flex; align-items: center; justify-content: center; font-size: 40px;">🍋</div>
+                    </div>
+                    <div class="product-info__details">
+                        <div class="product-info__name">레드향</div>
+                        <div class="product-info__option">3kg / 가정용</div>
+                        <div class="product-info__quantity">수량: 1개</div>
+                        <div class="product-info__price">32,000원</div>
+                    </div>
+                </div>
+
+                <div class="refund-info">
+                    <div class="refund-info__row">
+                        <span class="refund-info__label">상품금액</span>
+                        <span class="refund-info__value">32,000원</span>
+                    </div>
+                    <div class="refund-info__row">
+                        <span class="refund-info__label">배송비</span>
+                        <span class="refund-info__value">3,000원</span>
+                    </div>
+                    <div class="refund-info__row">
+                        <span class="refund-info__label">반품 배송비</span>
+                        <span class="refund-info__value">-6,000원</span>
+                    </div>
+                    <div class="refund-info__row">
+                        <span class="refund-info__label">환불 예정 금액</span>
+                        <span class="refund-info__total">29,000원</span>
+                    </div>
+                </div>
+
+                <div class="order-card__actions">
+                    <button class="btn btn-primary btn-full" onclick="openRequestModal('return', '레드향', '2024031154321')">
+                        반품 신청
+                    </button>
+                </div>
+            </div>
+
+            <!-- Order Card 5 -->
+            <div class="order-card">
+                <div class="order-card__header">
+                    <div>
+                        <div class="order-card__date">2024.03.10 배송완료</div>
+                        <div class="order-card__number">주문번호: 2024031098765</div>
+                    </div>
+                    <span class="order-card__status order-card__status--return">반품가능</span>
+                </div>
+
+                <div class="product-info">
+                    <div class="product-info__image">
+                        <div style="width: 100%; height: 100%; background: linear-gradient(135deg, #FFE4E1 0%, #FF6347 100%); display: flex; align-items: center; justify-content: center; font-size: 40px;">🍑</div>
+                    </div>
+                    <div class="product-info__details">
+                        <div class="product-info__name">경산 백도복숭아</div>
+                        <div class="product-info__option">2kg / 특급</div>
+                        <div class="product-info__quantity">수량: 1개</div>
+                        <div class="product-info__price">38,000원</div>
+                    </div>
+                </div>
+
+                <div class="refund-info">
+                    <div class="refund-info__row">
+                        <span class="refund-info__label">상품금액</span>
+                        <span class="refund-info__value">38,000원</span>
+                    </div>
+                    <div class="refund-info__row">
+                        <span class="refund-info__label">배송비</span>
+                        <span class="refund-info__value">무료</span>
+                    </div>
+                    <div class="refund-info__row">
+                        <span class="refund-info__label">반품 배송비</span>
+                        <span class="refund-info__value">-6,000원</span>
+                    </div>
+                    <div class="refund-info__row">
+                        <span class="refund-info__label">환불 예정 금액</span>
+                        <span class="refund-info__total">32,000원</span>
+                    </div>
+                </div>
+
+                <div class="order-card__actions">
+                    <button class="btn btn-primary btn-full" onclick="openRequestModal('return', '경산 백도복숭아', '2024031098765')">
+                        반품 신청
+                    </button>
+                </div>
+            </div>
+
+            <!-- Policy Box -->
+            <div class="policy-box">
+                <div class="policy-box__title">
+                    <span>📋</span>
+                    반품 안내
+                </div>
+                <div class="policy-box__content">
+                    <ul class="policy-box__list">
+                        <li>배송완료 후 7일 이내 반품 신청이 가능합니다</li>
+                        <li>신선식품 특성상 단순 변심 반품 시 왕복 배송비가 발생합니다</li>
+                        <li>상품 하자의 경우 배송비 없이 반품 가능합니다</li>
+                        <li>반품 택배 수거 후 2-3일 이내 환불 처리됩니다</li>
+                        <li>개봉 또는 섭취한 상품은 반품이 불가능합니다</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab Panel: 처리 완료 -->
+        <div class="tab-panel" data-panel="completed">
+            <!-- Order Card 6 -->
+            <div class="order-card">
+                <div class="order-card__header">
+                    <div>
+                        <div class="order-card__date">2024.03.08 처리완료</div>
+                        <div class="order-card__number">주문번호: 2024030845678</div>
+                    </div>
+                    <span class="order-card__status order-card__status--complete">환불완료</span>
+                </div>
+
+                <div class="product-info">
+                    <div class="product-info__image">
+                        <div style="width: 100%; height: 100%; background: linear-gradient(135deg, #DDA0DD 0%, #9370DB 100%); display: flex; align-items: center; justify-content: center; font-size: 40px;">🍇</div>
+                    </div>
+                    <div class="product-info__details">
+                        <div class="product-info__name">거봉 포도</div>
+                        <div class="product-info__option">2kg / 고급</div>
+                        <div class="product-info__quantity">수량: 1개</div>
+                        <div class="product-info__price">35,000원</div>
+                    </div>
+                </div>
+
+                <div class="refund-info">
+                    <div class="refund-info__row">
+                        <span class="refund-info__label">반품 사유</span>
+                        <span class="refund-info__value">상품 하자</span>
+                    </div>
+                    <div class="refund-info__row">
+                        <span class="refund-info__label">처리일</span>
+                        <span class="refund-info__value">2024.03.08</span>
+                    </div>
+                    <div class="refund-info__row">
+                        <span class="refund-info__label">환불 금액</span>
+                        <span class="refund-info__total">35,000원</span>
+                    </div>
+                </div>
+
+                <div class="order-card__actions">
+                    <button class="btn btn-secondary btn-full" disabled>
+                        처리 완료
+                    </button>
+                </div>
+            </div>
+
+            <!-- Policy Box -->
+            <div class="policy-box">
+                <div class="policy-box__title">
+                    <span>✅</span>
+                    처리 완료 안내
+                </div>
+                <div class="policy-box__content">
+                    <ul class="policy-box__list">
+                        <li>환불이 완료된 주문입니다</li>
+                        <li>결제 수단에 따라 입금까지 시간이 소요될 수 있습니다</li>
+                        <li>신용카드: 3-5영업일 소요</li>
+                        <li>계좌이체: 즉시 환불 처리</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Request Modal -->
+    <div class="modal" id="requestModal">
+        <div class="modal__overlay" onclick="closeRequestModal()"></div>
+        <div class="modal__content">
+            <div class="modal__header">
+                <h2 class="modal__title" id="modalTitle">취소 신청</h2>
+                <button class="modal__close" onclick="closeRequestModal()">×</button>
+            </div>
+            <div class="modal__body">
+                <div class="request-form__info">
+                    <div class="request-form__info-title" id="modalProductName">제주 천혜향</div>
+                    <div class="request-form__info-text">
+                        주문번호: <span id="modalOrderNumber">2024031512345</span>
+                    </div>
+                </div>
+
+                <form id="requestForm">
+                    <div class="request-form__group">
+                        <label class="request-form__label request-form__label--required" for="reason">
+                            사유 선택
+                        </label>
+                        <select class="request-form__select" id="reason" required>
+                            <option value="">사유를 선택해주세요</option>
+                        </select>
+                    </div>
+
+                    <div class="request-form__group">
+                        <label class="request-form__label" for="detail">
+                            상세 내용
+                        </label>
+                        <textarea
+                            class="request-form__textarea"
+                            id="detail"
+                            placeholder="상세한 내용을 입력해주세요 (선택사항)"
+                        ></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal__footer">
+                <button class="btn btn-primary btn-full" onclick="submitRequest()">
+                    신청하기
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+        <a href="../home/index.html" class="nav-item">
+            <span class="nav-item__icon">🏠</span>
+            <span class="nav-item__label">홈</span>
+        </a>
+        <a href="../products/index.html" class="nav-item">
+            <span class="nav-item__icon">🍎</span>
+            <span class="nav-item__label">상품</span>
+        </a>
+        <a href="../mypage/index.html" class="nav-item active">
+            <span class="nav-item__icon">👤</span>
+            <span class="nav-item__label">마이</span>
+        </a>
+        <a href="../support/index.html" class="nav-item">
+            <span class="nav-item__icon">💬</span>
+            <span class="nav-item__label">고객지원</span>
+        </a>
+    </nav>
+
+    <script>
+        // Tab switching
+        const tabButtons = document.querySelectorAll('.tab-nav__item');
+        const tabPanels = document.querySelectorAll('.tab-panel');
+
+        tabButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const tabName = button.dataset.tab;
+
+                // Remove active class from all tabs
+                tabButtons.forEach(btn => btn.classList.remove('active'));
+                tabPanels.forEach(panel => panel.classList.remove('active'));
+
+                // Add active class to clicked tab
+                button.classList.add('active');
+                document.querySelector(`[data-panel="${tabName}"]`).classList.add('active');
+            });
+        });
+
+        // Modal handling
+        let currentRequestType = 'cancel';
+
+        const cancelReasons = [
+            '단순 변심',
+            '다른 상품 주문',
+            '배송 지연',
+            '상품 정보 불일치',
+            '기타'
+        ];
+
+        const returnReasons = [
+            '상품 하자',
+            '신선도 불량',
+            '다른 상품 배송',
+            '파손 및 훼손',
+            '단순 변심',
+            '기타'
+        ];
+
+        function openRequestModal(type, productName, orderNumber) {
+            currentRequestType = type;
+            const modal = document.getElementById('requestModal');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalProductName = document.getElementById('modalProductName');
+            const modalOrderNumber = document.getElementById('modalOrderNumber');
+            const reasonSelect = document.getElementById('reason');
+
+            // Set modal title
+            modalTitle.textContent = type === 'cancel' ? '취소 신청' : '반품 신청';
+            modalProductName.textContent = productName;
+            modalOrderNumber.textContent = orderNumber;
+
+            // Populate reason dropdown
+            reasonSelect.innerHTML = '<option value="">사유를 선택해주세요</option>';
+            const reasons = type === 'cancel' ? cancelReasons : returnReasons;
+            reasons.forEach(reason => {
+                const option = document.createElement('option');
+                option.value = reason;
+                option.textContent = reason;
+                reasonSelect.appendChild(option);
+            });
+
+            // Show modal
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeRequestModal() {
+            const modal = document.getElementById('requestModal');
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+
+            // Reset form
+            document.getElementById('requestForm').reset();
+        }
+
+        function submitRequest() {
+            const reason = document.getElementById('reason').value;
+            const detail = document.getElementById('detail').value;
+
+            if (!reason) {
+                alert('사유를 선택해주세요.');
+                return;
+            }
+
+            // Simulate request submission
+            alert(`${currentRequestType === 'cancel' ? '취소' : '반품'} 신청이 완료되었습니다.\n\n처리 현황은 마이페이지에서 확인하실 수 있습니다.`);
+            closeRequestModal();
+
+            // In a real app, you would send the request to the server here
+            console.log('Request submitted:', {
+                type: currentRequestType,
+                reason: reason,
+                detail: detail
+            });
+        }
+
+        // Close modal when pressing ESC key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeRequestModal();
+            }
+        });
+
+        // Prevent body scroll when modal is open
+        const modal = document.getElementById('requestModal');
+        modal.addEventListener('wheel', (e) => {
+            e.stopPropagation();
+        }, { passive: true });
+    </script>
+</body>
+</html>

@@ -1,0 +1,1261 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <title>주문내역 - 과일다리</title>
+
+    <!-- Design System CSS -->
+    <link rel="stylesheet" href="../../styles/design-system.css">
+    <link rel="stylesheet" href="../../styles/components.css">
+
+    <style>
+        /* Page Specific Styles */
+        body {
+            background: #f8f9fa;
+        }
+
+        .mobile-container {
+            padding-top: 0;
+        }
+
+        /* App Header */
+        .app-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 20px;
+            background: white;
+            border-bottom: 1px solid var(--color-gray-100);
+            position: sticky;
+            top: 0;
+            z-index: var(--z-sticky);
+        }
+
+        .app-header__left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .back-button {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: transparent;
+            border: none;
+            border-radius: var(--radius-full);
+            cursor: pointer;
+            font-size: 20px;
+            transition: all var(--transition-fast);
+        }
+
+        .back-button:active {
+            background: var(--color-gray-100);
+            transform: scale(0.95);
+        }
+
+        .app-header__title {
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .app-header__actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .icon-button {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: transparent;
+            border: none;
+            border-radius: var(--radius-full);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            font-size: 20px;
+        }
+
+        .icon-button:active {
+            background: var(--color-gray-100);
+            transform: scale(0.95);
+        }
+
+        /* Main Content */
+        .main-content {
+            padding-bottom: 80px;
+        }
+
+        /* Date Filter Tabs */
+        .filter-tabs {
+            display: flex;
+            gap: 8px;
+            padding: 16px 20px;
+            background: white;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        .filter-tabs::-webkit-scrollbar {
+            display: none;
+        }
+
+        .filter-tab {
+            padding: 8px 16px;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--color-gray-700);
+            background: var(--color-gray-50);
+            border: 1px solid var(--color-gray-200);
+            border-radius: var(--radius-full);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        .filter-tab:active {
+            transform: scale(0.95);
+        }
+
+        .filter-tab.active {
+            background: var(--color-primary);
+            color: white;
+            border-color: var(--color-primary);
+        }
+
+        /* Status Filter */
+        .status-filter {
+            padding: 16px 20px;
+            background: white;
+            border-bottom: 1px solid var(--color-gray-100);
+        }
+
+        .status-chips {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .status-chip {
+            padding: 6px 12px;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--color-gray-700);
+            background: var(--color-gray-50);
+            border: 1px solid var(--color-gray-200);
+            border-radius: var(--radius-full);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+
+        .status-chip:active {
+            transform: scale(0.95);
+        }
+
+        .status-chip.active {
+            background: var(--color-primary-light);
+            color: var(--color-primary-dark);
+            border-color: var(--color-primary);
+        }
+
+        /* Order List */
+        .order-list {
+            padding: 16px 20px;
+        }
+
+        /* Order Card */
+        .order-card {
+            background: white;
+            border-radius: var(--radius-xl);
+            padding: 20px;
+            margin-bottom: 16px;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--color-gray-100);
+        }
+
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 12px;
+            margin-bottom: 16px;
+            border-bottom: 1px solid var(--color-gray-100);
+        }
+
+        .order-date-info {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .order-date {
+            font-size: 13px;
+            color: var(--color-gray-600);
+        }
+
+        .order-number {
+            font-size: 12px;
+            color: var(--color-gray-500);
+        }
+
+        .order-status-badge {
+            padding: 6px 12px;
+            font-size: 12px;
+            font-weight: 600;
+            border-radius: var(--radius-full);
+            white-space: nowrap;
+        }
+
+        .status-ordered {
+            background: #E3F2FD;
+            color: #1976D2;
+        }
+
+        .status-paid {
+            background: #E8F5E9;
+            color: #2E7D32;
+        }
+
+        .status-preparing {
+            background: #FFF3E0;
+            color: #E65100;
+        }
+
+        .status-shipping {
+            background: #F3E5F5;
+            color: #7B1FA2;
+        }
+
+        .status-delivered {
+            background: #E8F5E9;
+            color: #388E3C;
+        }
+
+        .status-confirmed {
+            background: #F5F5F5;
+            color: #616161;
+        }
+
+        .status-cancelled {
+            background: #FFEBEE;
+            color: #C62828;
+        }
+
+        /* Order Items */
+        .order-items {
+            margin-bottom: 16px;
+        }
+
+        .order-item {
+            display: flex;
+            gap: 12px;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--color-gray-50);
+        }
+
+        .order-item:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .order-item:first-child {
+            padding-top: 0;
+        }
+
+        .item-image {
+            width: 80px;
+            height: 80px;
+            background: var(--color-gray-100);
+            border-radius: var(--radius-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            flex-shrink: 0;
+        }
+
+        .item-info {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-width: 0;
+        }
+
+        .item-name {
+            font-size: 15px;
+            font-weight: 500;
+            color: var(--color-gray-900);
+            margin-bottom: 4px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+        }
+
+        .item-option {
+            font-size: 12px;
+            color: var(--color-gray-600);
+            margin-bottom: 8px;
+        }
+
+        .item-quantity-price {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .item-quantity {
+            font-size: 13px;
+            color: var(--color-gray-600);
+        }
+
+        .item-price {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--color-gray-900);
+        }
+
+        /* More Items Indicator */
+        .more-items {
+            padding: 8px 12px;
+            margin-top: 8px;
+            background: var(--color-gray-50);
+            border-radius: var(--radius-md);
+            text-align: center;
+            font-size: 13px;
+            color: var(--color-gray-600);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+
+        .more-items:active {
+            background: var(--color-gray-100);
+        }
+
+        /* Order Summary */
+        .order-summary {
+            background: var(--color-gray-50);
+            padding: 12px;
+            border-radius: var(--radius-md);
+            margin-bottom: 16px;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .summary-row:last-child {
+            margin-bottom: 0;
+            padding-top: 8px;
+            border-top: 1px solid var(--color-gray-200);
+        }
+
+        .summary-label {
+            font-size: 13px;
+            color: var(--color-gray-700);
+        }
+
+        .summary-value {
+            font-size: 13px;
+            color: var(--color-gray-900);
+        }
+
+        .summary-total .summary-label {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--color-gray-900);
+        }
+
+        .summary-total .summary-value {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--color-primary);
+        }
+
+        /* Order Actions */
+        .order-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .action-btn {
+            flex: 1;
+            padding: 12px 16px;
+            font-size: 14px;
+            font-weight: 500;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--color-gray-300);
+            background: white;
+            color: var(--color-gray-700);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+        }
+
+        .action-btn:active {
+            transform: scale(0.97);
+            background: var(--color-gray-50);
+        }
+
+        .action-btn.primary {
+            background: var(--color-primary);
+            color: white;
+            border-color: var(--color-primary);
+        }
+
+        .action-btn.primary:active {
+            background: var(--color-primary-dark);
+        }
+
+        /* Expandable Detail */
+        .order-detail {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .order-detail.expanded {
+            max-height: 1000px;
+        }
+
+        .detail-section {
+            padding-top: 16px;
+            margin-top: 16px;
+            border-top: 1px solid var(--color-gray-100);
+        }
+
+        .detail-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--color-gray-900);
+            margin-bottom: 8px;
+        }
+
+        .detail-content {
+            font-size: 13px;
+            color: var(--color-gray-700);
+            line-height: 1.6;
+        }
+
+        /* Empty State */
+        .empty-state {
+            padding: 80px 40px;
+            text-align: center;
+        }
+
+        .empty-icon {
+            font-size: 64px;
+            margin-bottom: 16px;
+            opacity: 0.5;
+        }
+
+        .empty-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--color-gray-700);
+            margin-bottom: 8px;
+        }
+
+        .empty-desc {
+            font-size: 14px;
+            color: var(--color-gray-500);
+            margin-bottom: 24px;
+        }
+
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 430px;
+            background: white;
+            border-top: 1px solid var(--color-gray-100);
+            display: flex;
+            justify-content: space-around;
+            padding: 8px 0 env(safe-area-inset-bottom);
+            z-index: var(--z-sticky);
+        }
+
+        .nav-item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            padding: 4px;
+            color: var(--color-gray-500);
+            text-decoration: none;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+
+        .nav-item:active {
+            transform: scale(0.95);
+        }
+
+        .nav-item.active {
+            color: var(--color-primary);
+        }
+
+        .nav-item__icon {
+            font-size: 22px;
+        }
+
+        .nav-item__label {
+            font-size: 11px;
+            font-weight: 500;
+        }
+
+        /* Load More Button */
+        .load-more {
+            padding: 16px;
+            text-align: center;
+        }
+
+        .load-more-btn {
+            width: 100%;
+            padding: 14px 20px;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--color-gray-700);
+            background: white;
+            border: 1px solid var(--color-gray-300);
+            border-radius: var(--radius-lg);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+
+        .load-more-btn:active {
+            transform: scale(0.98);
+            background: var(--color-gray-50);
+        }
+
+        /* Order Info Summary */
+        .order-info-summary {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 0;
+            margin-bottom: 16px;
+        }
+
+        .order-info-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .order-count-badge {
+            width: 36px;
+            height: 36px;
+            background: var(--color-primary-light);
+            color: var(--color-primary-dark);
+            border-radius: var(--radius-full);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .order-info-text {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--color-gray-900);
+        }
+
+        .toggle-detail {
+            color: var(--color-gray-500);
+            font-size: 18px;
+            transition: transform var(--transition-fast);
+        }
+
+        .toggle-detail.expanded {
+            transform: rotate(180deg);
+        }
+    </style>
+</head>
+<body>
+    <div class="mobile-container">
+        <!-- App Header -->
+        <header class="app-header">
+            <div class="app-header__left">
+                <button class="back-button" onclick="history.back()">←</button>
+                <h1 class="app-header__title">주문내역</h1>
+            </div>
+            <div class="app-header__actions">
+                <button class="icon-button" onclick="location.href='../home/main.html'">🏠</button>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Date Filter Tabs -->
+            <div class="filter-tabs">
+                <button class="filter-tab active" data-period="1" onclick="filterByPeriod(this, 1)">1개월</button>
+                <button class="filter-tab" data-period="3" onclick="filterByPeriod(this, 3)">3개월</button>
+                <button class="filter-tab" data-period="6" onclick="filterByPeriod(this, 6)">6개월</button>
+                <button class="filter-tab" data-period="12" onclick="filterByPeriod(this, 12)">1년</button>
+                <button class="filter-tab" onclick="openDatePicker()">기간설정</button>
+            </div>
+
+            <!-- Status Filter -->
+            <div class="status-filter">
+                <div class="status-chips">
+                    <button class="status-chip active" data-status="all" onclick="filterByStatus(this, 'all')">전체</button>
+                    <button class="status-chip" data-status="paid" onclick="filterByStatus(this, 'paid')">결제완료</button>
+                    <button class="status-chip" data-status="preparing" onclick="filterByStatus(this, 'preparing')">배송준비</button>
+                    <button class="status-chip" data-status="shipping" onclick="filterByStatus(this, 'shipping')">배송중</button>
+                    <button class="status-chip" data-status="delivered" onclick="filterByStatus(this, 'delivered')">배송완료</button>
+                    <button class="status-chip" data-status="confirmed" onclick="filterByStatus(this, 'confirmed')">구매확정</button>
+                </div>
+            </div>
+
+            <!-- Order List -->
+            <div class="order-list" id="orderList">
+                <!-- Order Card 1: 배송완료 -->
+                <div class="order-card" data-status="delivered" data-date="2026-03-15">
+                    <div class="order-header">
+                        <div class="order-date-info">
+                            <div class="order-date">2026.03.15</div>
+                            <div class="order-number">주문번호: 20260315001</div>
+                        </div>
+                        <span class="order-status-badge status-delivered">배송완료</span>
+                    </div>
+
+                    <div class="order-items">
+                        <div class="order-item">
+                            <div class="item-image" style="background: linear-gradient(135deg, #FFE0B2, #FFCC80);">🍊</div>
+                            <div class="item-info">
+                                <div class="item-name">제주 한라봉 프리미엄 2kg</div>
+                                <div class="item-option">특대과 / 당도 13Brix 이상</div>
+                                <div class="item-quantity-price">
+                                    <span class="item-quantity">수량: 1개</span>
+                                    <span class="item-price">32,000원</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="order-item">
+                            <div class="item-image" style="background: linear-gradient(135deg, #FFCDD2, #EF9A9A);">🍓</div>
+                            <div class="item-info">
+                                <div class="item-name">논산 설향 딸기 1kg</div>
+                                <div class="item-option">특선 / 아이스팩 포장</div>
+                                <div class="item-quantity-price">
+                                    <span class="item-quantity">수량: 2개</span>
+                                    <span class="item-price">56,000원</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="order-summary">
+                        <div class="summary-row">
+                            <span class="summary-label">상품금액</span>
+                            <span class="summary-value">88,000원</span>
+                        </div>
+                        <div class="summary-row">
+                            <span class="summary-label">배송비</span>
+                            <span class="summary-value">무료</span>
+                        </div>
+                        <div class="summary-row">
+                            <span class="summary-label">할인</span>
+                            <span class="summary-value">-8,000원</span>
+                        </div>
+                        <div class="summary-row summary-total">
+                            <span class="summary-label">결제금액</span>
+                            <span class="summary-value">80,000원</span>
+                        </div>
+                    </div>
+
+                    <div class="order-actions">
+                        <button class="action-btn" onclick="writeReview('20260315001')">⭐ 리뷰쓰기</button>
+                        <button class="action-btn" onclick="reorder('20260315001')">🔄 재구매</button>
+                        <button class="action-btn" onclick="toggleDetail(this)">📋 상세보기</button>
+                    </div>
+
+                    <div class="order-detail">
+                        <div class="detail-section">
+                            <div class="detail-title">배송지 정보</div>
+                            <div class="detail-content">
+                                김건강 (010-1234-5678)<br>
+                                서울시 강남구 테헤란로 123 (역삼동)<br>
+                                과일다리아파트 101동 1001호<br>
+                                문 앞에 놓아주세요
+                            </div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-title">결제 정보</div>
+                            <div class="detail-content">
+                                신용카드 (KB국민카드 **** **** **** 1234)<br>
+                                무이자 할부 3개월
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Order Card 2: 배송중 -->
+                <div class="order-card" data-status="shipping" data-date="2026-03-12">
+                    <div class="order-header">
+                        <div class="order-date-info">
+                            <div class="order-date">2026.03.12</div>
+                            <div class="order-number">주문번호: 20260312002</div>
+                        </div>
+                        <span class="order-status-badge status-shipping">배송중</span>
+                    </div>
+
+                    <div class="order-items">
+                        <div class="order-item">
+                            <div class="item-image" style="background: linear-gradient(135deg, #C8E6C9, #A5D6A7);">🍇</div>
+                            <div class="item-info">
+                                <div class="item-name">샤인머스켓 프리미엄 1.5kg</div>
+                                <div class="item-option">특대과 / 당도 18Brix 이상</div>
+                                <div class="item-quantity-price">
+                                    <span class="item-quantity">수량: 1개</span>
+                                    <span class="item-price">45,000원</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="order-summary">
+                        <div class="summary-row">
+                            <span class="summary-label">상품금액</span>
+                            <span class="summary-value">45,000원</span>
+                        </div>
+                        <div class="summary-row">
+                            <span class="summary-label">배송비</span>
+                            <span class="summary-value">3,000원</span>
+                        </div>
+                        <div class="summary-row">
+                            <span class="summary-label">할인</span>
+                            <span class="summary-value">-3,000원</span>
+                        </div>
+                        <div class="summary-row summary-total">
+                            <span class="summary-label">결제금액</span>
+                            <span class="summary-value">45,000원</span>
+                        </div>
+                    </div>
+
+                    <div class="order-actions">
+                        <button class="action-btn primary" onclick="trackDelivery('20260312002')">🚚 배송추적</button>
+                        <button class="action-btn" onclick="contactSupport('20260312002')">💬 문의하기</button>
+                    </div>
+                </div>
+
+                <!-- Order Card 3: 배송준비 -->
+                <div class="order-card" data-status="preparing" data-date="2026-03-10">
+                    <div class="order-header">
+                        <div class="order-date-info">
+                            <div class="order-date">2026.03.10</div>
+                            <div class="order-number">주문번호: 20260310003</div>
+                        </div>
+                        <span class="order-status-badge status-preparing">배송준비</span>
+                    </div>
+
+                    <div class="order-items">
+                        <div class="order-item">
+                            <div class="item-image" style="background: linear-gradient(135deg, #FFF9C4, #FFF59D);">🍎</div>
+                            <div class="item-info">
+                                <div class="item-name">청송 꿀사과 3kg (12입)</div>
+                                <div class="item-option">특선 / 선물포장</div>
+                                <div class="item-quantity-price">
+                                    <span class="item-quantity">수량: 1개</span>
+                                    <span class="item-price">38,000원</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="order-item">
+                            <div class="item-image" style="background: linear-gradient(135deg, #FFE0B2, #FFCC80);">🍊</div>
+                            <div class="item-info">
+                                <div class="item-name">천혜향 프리미엄 2.5kg</div>
+                                <div class="item-option">특대과</div>
+                                <div class="item-quantity-price">
+                                    <span class="item-quantity">수량: 1개</span>
+                                    <span class="item-price">28,000원</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="order-summary">
+                        <div class="summary-row">
+                            <span class="summary-label">상품금액</span>
+                            <span class="summary-value">66,000원</span>
+                        </div>
+                        <div class="summary-row">
+                            <span class="summary-label">배송비</span>
+                            <span class="summary-value">무료</span>
+                        </div>
+                        <div class="summary-row summary-total">
+                            <span class="summary-label">결제금액</span>
+                            <span class="summary-value">66,000원</span>
+                        </div>
+                    </div>
+
+                    <div class="order-actions">
+                        <button class="action-btn" onclick="cancelOrder('20260310003')">❌ 주문취소</button>
+                        <button class="action-btn" onclick="toggleDetail(this)">📋 상세보기</button>
+                    </div>
+
+                    <div class="order-detail">
+                        <div class="detail-section">
+                            <div class="detail-title">배송지 정보</div>
+                            <div class="detail-content">
+                                이선물 (010-9876-5432)<br>
+                                경기도 성남시 분당구 판교역로 235<br>
+                                판교테크노밸리 A동 5층<br>
+                                배송 전 연락 부탁드립니다
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Order Card 4: 결제완료 -->
+                <div class="order-card" data-status="paid" data-date="2026-03-08">
+                    <div class="order-header">
+                        <div class="order-date-info">
+                            <div class="order-date">2026.03.08</div>
+                            <div class="order-number">주문번호: 20260308004</div>
+                        </div>
+                        <span class="order-status-badge status-paid">결제완료</span>
+                    </div>
+
+                    <div class="order-items">
+                        <div class="order-item">
+                            <div class="item-image" style="background: linear-gradient(135deg, #F8BBD0, #F48FB1);">🍑</div>
+                            <div class="item-info">
+                                <div class="item-name">나주 배 프리미엄 5kg (6~8입)</div>
+                                <div class="item-option">특대과 / 당도 13Brix 이상</div>
+                                <div class="item-quantity-price">
+                                    <span class="item-quantity">수량: 1개</span>
+                                    <span class="item-price">42,000원</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="order-summary">
+                        <div class="summary-row">
+                            <span class="summary-label">상품금액</span>
+                            <span class="summary-value">42,000원</span>
+                        </div>
+                        <div class="summary-row">
+                            <span class="summary-label">배송비</span>
+                            <span class="summary-value">무료</span>
+                        </div>
+                        <div class="summary-row">
+                            <span class="summary-label">쿠폰할인</span>
+                            <span class="summary-value">-2,000원</span>
+                        </div>
+                        <div class="summary-row summary-total">
+                            <span class="summary-label">결제금액</span>
+                            <span class="summary-value">40,000원</span>
+                        </div>
+                    </div>
+
+                    <div class="order-actions">
+                        <button class="action-btn" onclick="cancelOrder('20260308004')">❌ 주문취소</button>
+                        <button class="action-btn" onclick="changeAddress('20260308004')">📍 배송지변경</button>
+                    </div>
+                </div>
+
+                <!-- Order Card 5: 구매확정 -->
+                <div class="order-card" data-status="confirmed" data-date="2026-02-28">
+                    <div class="order-header">
+                        <div class="order-date-info">
+                            <div class="order-date">2026.02.28</div>
+                            <div class="order-number">주문번호: 20260228005</div>
+                        </div>
+                        <span class="order-status-badge status-confirmed">구매확정</span>
+                    </div>
+
+                    <div class="order-items">
+                        <div class="order-item">
+                            <div class="item-image" style="background: linear-gradient(135deg, #B2DFDB, #80CBC4);">🥝</div>
+                            <div class="item-info">
+                                <div class="item-name">제스프리 골드키위 1.5kg</div>
+                                <div class="item-option">대과 / 16~18입</div>
+                                <div class="item-quantity-price">
+                                    <span class="item-quantity">수량: 2개</span>
+                                    <span class="item-price">48,000원</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="order-item">
+                            <div class="item-image" style="background: linear-gradient(135deg, #FFE082, #FFD54F);">🍌</div>
+                            <div class="item-info">
+                                <div class="item-name">필리핀 고당도 바나나 1.2kg</div>
+                                <div class="item-option">유기농 / 12~14입</div>
+                                <div class="item-quantity-price">
+                                    <span class="item-quantity">수량: 1개</span>
+                                    <span class="item-price">12,000원</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="order-summary">
+                        <div class="summary-row">
+                            <span class="summary-label">상품금액</span>
+                            <span class="summary-value">60,000원</span>
+                        </div>
+                        <div class="summary-row">
+                            <span class="summary-label">배송비</span>
+                            <span class="summary-value">무료</span>
+                        </div>
+                        <div class="summary-row">
+                            <span class="summary-label">포인트 사용</span>
+                            <span class="summary-value">-5,000원</span>
+                        </div>
+                        <div class="summary-row summary-total">
+                            <span class="summary-label">결제금액</span>
+                            <span class="summary-value">55,000원</span>
+                        </div>
+                    </div>
+
+                    <div class="order-actions">
+                        <button class="action-btn" onclick="viewReview('20260228005')">⭐ 내 리뷰보기</button>
+                        <button class="action-btn" onclick="reorder('20260228005')">🔄 재구매</button>
+                    </div>
+                </div>
+
+                <!-- Order Card 6: 배송완료 (리뷰 작성 전) -->
+                <div class="order-card" data-status="delivered" data-date="2026-02-20">
+                    <div class="order-header">
+                        <div class="order-date-info">
+                            <div class="order-date">2026.02.20</div>
+                            <div class="order-number">주문번호: 20260220006</div>
+                        </div>
+                        <span class="order-status-badge status-delivered">배송완료</span>
+                    </div>
+
+                    <div class="order-items">
+                        <div class="order-item">
+                            <div class="item-image" style="background: linear-gradient(135deg, #CE93D8, #BA68C8);">🍇</div>
+                            <div class="item-info">
+                                <div class="item-name">경북 캠벨포도 2kg</div>
+                                <div class="item-option">특선 / 3~4송이</div>
+                                <div class="item-quantity-price">
+                                    <span class="item-quantity">수량: 1개</span>
+                                    <span class="item-price">18,000원</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="order-summary">
+                        <div class="summary-row">
+                            <span class="summary-label">상품금액</span>
+                            <span class="summary-value">18,000원</span>
+                        </div>
+                        <div class="summary-row">
+                            <span class="summary-label">배송비</span>
+                            <span class="summary-value">3,000원</span>
+                        </div>
+                        <div class="summary-row summary-total">
+                            <span class="summary-label">결제금액</span>
+                            <span class="summary-value">21,000원</span>
+                        </div>
+                    </div>
+
+                    <div class="order-actions">
+                        <button class="action-btn primary" onclick="confirmPurchase('20260220006')">✓ 구매확정</button>
+                        <button class="action-btn" onclick="writeReview('20260220006')">⭐ 리뷰쓰기</button>
+                        <button class="action-btn" onclick="requestReturn('20260220006')">↩️ 반품신청</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Load More Button -->
+            <div class="load-more" id="loadMoreSection">
+                <button class="load-more-btn" onclick="loadMoreOrders()">
+                    더보기 (15개 남음)
+                </button>
+            </div>
+
+            <!-- Empty State (hidden by default) -->
+            <div class="empty-state" id="emptyState" style="display: none;">
+                <div class="empty-icon">📦</div>
+                <div class="empty-title">주문내역이 없습니다</div>
+                <div class="empty-desc">선택하신 기간에 주문하신 내역이 없습니다.<br>다른 기간을 선택해보세요.</div>
+                <button class="btn btn-primary" onclick="location.href='../products/index.html'">
+                    상품 둘러보기
+                </button>
+            </div>
+        </main>
+
+        <!-- Bottom Navigation -->
+        <nav class="bottom-nav">
+            <a href="../home/main.html" class="nav-item">
+                <span class="nav-item__icon">🏠</span>
+                <span class="nav-item__label">홈</span>
+            </a>
+            <a href="../products/index.html" class="nav-item">
+                <span class="nav-item__icon">🍎</span>
+                <span class="nav-item__label">상품</span>
+            </a>
+            <a href="./index.html" class="nav-item active">
+                <span class="nav-item__icon">👤</span>
+                <span class="nav-item__label">마이</span>
+            </a>
+            <a href="../support/index.html" class="nav-item">
+                <span class="nav-item__icon">💬</span>
+                <span class="nav-item__label">고객지원</span>
+            </a>
+        </nav>
+    </div>
+
+    <script>
+        // Global state
+        let currentPeriod = 1;
+        let currentStatus = 'all';
+
+        // Filter by date period
+        function filterByPeriod(button, months) {
+            // Update active state
+            document.querySelectorAll('.filter-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            button.classList.add('active');
+
+            currentPeriod = months;
+            filterOrders();
+        }
+
+        // Open date picker (custom date range)
+        function openDatePicker() {
+            alert('기간 설정 기능은 준비중입니다.\n원하시는 시작일과 종료일을 선택할 수 있습니다.');
+        }
+
+        // Filter by order status
+        function filterByStatus(button, status) {
+            // Update active state
+            document.querySelectorAll('.status-chip').forEach(chip => {
+                chip.classList.remove('active');
+            });
+            button.classList.add('active');
+
+            currentStatus = status;
+            filterOrders();
+        }
+
+        // Apply filters to orders
+        function filterOrders() {
+            const orderCards = document.querySelectorAll('.order-card');
+            const orderList = document.getElementById('orderList');
+            const emptyState = document.getElementById('emptyState');
+            const loadMoreSection = document.getElementById('loadMoreSection');
+
+            let visibleCount = 0;
+            const today = new Date();
+            const filterDate = new Date();
+            filterDate.setMonth(filterDate.getMonth() - currentPeriod);
+
+            orderCards.forEach(card => {
+                const orderStatus = card.getAttribute('data-status');
+                const orderDate = new Date(card.getAttribute('data-date'));
+
+                // Check status filter
+                const statusMatch = currentStatus === 'all' || orderStatus === currentStatus;
+
+                // Check date filter
+                const dateMatch = orderDate >= filterDate;
+
+                if (statusMatch && dateMatch) {
+                    card.style.display = 'block';
+                    visibleCount++;
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+
+            // Show/hide empty state
+            if (visibleCount === 0) {
+                orderList.style.display = 'none';
+                loadMoreSection.style.display = 'none';
+                emptyState.style.display = 'block';
+            } else {
+                orderList.style.display = 'block';
+                loadMoreSection.style.display = 'block';
+                emptyState.style.display = 'none';
+            }
+        }
+
+        // Toggle order detail expansion
+        function toggleDetail(button) {
+            const orderCard = button.closest('.order-card');
+            const detailSection = orderCard.querySelector('.order-detail');
+            const isExpanded = detailSection.classList.contains('expanded');
+
+            if (isExpanded) {
+                detailSection.classList.remove('expanded');
+                button.textContent = '📋 상세보기';
+            } else {
+                detailSection.classList.add('expanded');
+                button.textContent = '📋 접기';
+            }
+        }
+
+        // Action: Track delivery
+        function trackDelivery(orderNumber) {
+            alert(`주문번호 ${orderNumber}의 배송을 추적합니다.\n\n현재 위치: 서울 송파구 물류센터\n예상 도착: 오늘 오후 6시\n운송장번호: 123456789012`);
+            // In real app: location.href = `../order/track/template.html?order=${orderNumber}`;
+        }
+
+        // Action: Write review
+        function writeReview(orderNumber) {
+            alert(`주문번호 ${orderNumber}에 대한 리뷰를 작성합니다.\n\n상품은 만족스러우셨나요?\n리뷰를 작성하고 포인트를 받아보세요!`);
+            // In real app: location.href = `./reviews.html?order=${orderNumber}&action=write`;
+        }
+
+        // Action: View review
+        function viewReview(orderNumber) {
+            alert(`작성하신 리뷰를 확인합니다.\n\n⭐⭐⭐⭐⭐ 5점\n"신선하고 맛있어요! 다음에도 구매할게요."\n\n도움이 됨: 24명`);
+            // In real app: location.href = `./reviews.html?order=${orderNumber}&action=view`;
+        }
+
+        // Action: Reorder
+        function reorder(orderNumber) {
+            if (confirm('같은 상품을 다시 주문하시겠습니까?')) {
+                alert(`장바구니에 상품이 담겼습니다.\n주문번호 ${orderNumber}의 상품을 다시 구매하실 수 있습니다.`);
+                // In real app: Add items to cart and redirect
+                // location.href = '../cart/index.html';
+            }
+        }
+
+        // Action: Cancel order
+        function cancelOrder(orderNumber) {
+            if (confirm('정말 주문을 취소하시겠습니까?\n\n취소 후 영업일 기준 3-5일 이내에\n결제 금액이 환불됩니다.')) {
+                alert(`주문번호 ${orderNumber}이(가) 취소되었습니다.\n환불은 영업일 기준 3-5일 소요됩니다.`);
+                // In real app: Send cancel request to server
+                location.reload();
+            }
+        }
+
+        // Action: Change delivery address
+        function changeAddress(orderNumber) {
+            alert(`주문번호 ${orderNumber}의 배송지를 변경합니다.\n\n배송 준비 전에만 변경이 가능합니다.`);
+            // In real app: location.href = `./address.html?order=${orderNumber}`;
+        }
+
+        // Action: Confirm purchase
+        function confirmPurchase(orderNumber) {
+            if (confirm('구매를 확정하시겠습니까?\n\n구매확정 시 500포인트가 적립되며,\n교환/반품이 불가능합니다.')) {
+                alert(`구매가 확정되었습니다!\n500포인트가 적립되었습니다.\n\n리뷰를 작성하시면 추가로 500포인트를 받으실 수 있습니다.`);
+                location.reload();
+            }
+        }
+
+        // Action: Request return
+        function requestReturn(orderNumber) {
+            if (confirm('반품을 신청하시겠습니까?\n\n배송완료 후 7일 이내에만 신청 가능하며,\n상품 확인 후 승인됩니다.')) {
+                alert(`반품 신청이 접수되었습니다.\n고객센터에서 확인 후 연락드리겠습니다.`);
+                // In real app: location.href = `./cancel.html?order=${orderNumber}&type=return`;
+            }
+        }
+
+        // Action: Contact support
+        function contactSupport(orderNumber) {
+            if (confirm('고객센터에 문의하시겠습니까?')) {
+                location.href = `../support/inquiry.html?order=${orderNumber}`;
+            }
+        }
+
+        // Load more orders
+        function loadMoreOrders() {
+            alert('더 많은 주문내역을 불러옵니다.\n\n과거 주문내역을 확인하실 수 있습니다.');
+            // In real app: Load more orders via AJAX
+            document.getElementById('loadMoreSection').style.display = 'none';
+        }
+
+        // Add touch feedback for all clickable elements
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add haptic-like feedback for buttons
+            const allButtons = document.querySelectorAll('button, .nav-item, .order-card');
+            allButtons.forEach(button => {
+                button.addEventListener('touchstart', function() {
+                    this.style.opacity = '0.7';
+                });
+                button.addEventListener('touchend', function() {
+                    this.style.opacity = '1';
+                });
+                button.addEventListener('touchcancel', function() {
+                    this.style.opacity = '1';
+                });
+            });
+
+            // Initialize with default filters
+            filterOrders();
+
+            // Check URL parameters for initial filters
+            const urlParams = new URLSearchParams(window.location.search);
+            const statusParam = urlParams.get('status');
+
+            if (statusParam) {
+                const statusChip = document.querySelector(`[data-status="${statusParam}"]`);
+                if (statusChip) {
+                    filterByStatus(statusChip, statusParam);
+                }
+            }
+        });
+
+        // Animate order cards on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Apply animation to order cards
+        document.querySelectorAll('.order-card').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            card.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+            observer.observe(card);
+        });
+
+        // Handle back button
+        window.addEventListener('popstate', function(event) {
+            // Handle browser back button if needed
+        });
+
+        // Prevent double-tap zoom on buttons
+        let lastTouchEnd = 0;
+        document.addEventListener('touchend', function(event) {
+            const now = Date.now();
+            if (now - lastTouchEnd <= 300) {
+                event.preventDefault();
+            }
+            lastTouchEnd = now;
+        }, false);
+    </script>
+</body>
+</html>

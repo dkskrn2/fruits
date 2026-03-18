@@ -1,0 +1,1141 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>이벤트 - 과일다리</title>
+    <link rel="stylesheet" href="../../styles/design-system.css">
+    <link rel="stylesheet" href="../../styles/components.css">
+    <style>
+        /* Header */
+        .header {
+            position: sticky;
+            top: 0;
+            background: var(--color-white);
+            border-bottom: 1px solid var(--color-gray-200);
+            z-index: var(--z-sticky);
+            padding: var(--space-3) var(--space-4);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+        }
+
+        .header-back {
+            font-size: 24px;
+            cursor: pointer;
+            padding: var(--space-1);
+            margin-left: calc(var(--space-2) * -1);
+        }
+
+        .header-title {
+            font-size: var(--font-size-md);
+            font-weight: var(--font-weight-semibold);
+            color: var(--color-gray-900);
+        }
+
+        .header-actions {
+            display: flex;
+            gap: var(--space-3);
+            font-size: 24px;
+        }
+
+        .header-icon {
+            cursor: pointer;
+            padding: var(--space-1);
+        }
+
+        /* Hero Banner */
+        .hero-banner {
+            position: relative;
+            height: 240px;
+            background: linear-gradient(135deg, #6FCF3F 0%, #5CB82F 100%);
+            overflow: hidden;
+            margin-bottom: var(--space-4);
+        }
+
+        .hero-content {
+            position: absolute;
+            inset: 0;
+            padding: var(--space-6) var(--space-4);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            color: var(--color-white);
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="15" fill="rgba(255,255,255,0.1)"/><circle cx="80" cy="70" r="20" fill="rgba(255,255,255,0.1)"/><circle cx="50" cy="50" r="10" fill="rgba(255,255,255,0.1)"/></svg>');
+            background-size: 200px;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            padding: var(--space-1) var(--space-3);
+            background: rgba(255, 255, 255, 0.25);
+            border-radius: var(--radius-full);
+            font-size: var(--font-size-xs);
+            font-weight: var(--font-weight-semibold);
+            margin-bottom: var(--space-3);
+            width: fit-content;
+        }
+
+        .hero-title {
+            font-size: var(--font-size-2xl);
+            font-weight: var(--font-weight-bold);
+            margin-bottom: var(--space-2);
+            line-height: var(--line-height-tight);
+        }
+
+        .hero-subtitle {
+            font-size: var(--font-size-base);
+            opacity: 0.95;
+            margin-bottom: var(--space-4);
+        }
+
+        .hero-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-2);
+            padding: var(--space-3) var(--space-5);
+            background: var(--color-white);
+            color: var(--color-primary);
+            border-radius: var(--radius-full);
+            font-weight: var(--font-weight-semibold);
+            font-size: var(--font-size-sm);
+            width: fit-content;
+            box-shadow: var(--shadow-lg);
+        }
+
+        /* Category Tabs */
+        .category-tabs {
+            position: sticky;
+            top: 56px;
+            background: var(--color-white);
+            border-bottom: 1px solid var(--color-gray-200);
+            z-index: var(--z-sticky);
+            display: flex;
+            padding: 0 var(--space-4);
+            gap: var(--space-2);
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+
+        .category-tabs::-webkit-scrollbar {
+            display: none;
+        }
+
+        .category-tab {
+            flex-shrink: 0;
+            padding: var(--space-3) var(--space-4);
+            font-size: var(--font-size-base);
+            font-weight: var(--font-weight-medium);
+            color: var(--color-gray-600);
+            background: transparent;
+            border: none;
+            border-bottom: 2px solid transparent;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            white-space: nowrap;
+        }
+
+        .category-tab.active {
+            color: var(--color-primary);
+            border-bottom-color: var(--color-primary);
+        }
+
+        /* Event Stats */
+        .event-stats {
+            padding: var(--space-4);
+            display: flex;
+            gap: var(--space-3);
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+
+        .event-stats::-webkit-scrollbar {
+            display: none;
+        }
+
+        .stat-card {
+            flex: 1;
+            min-width: 100px;
+            padding: var(--space-3);
+            background: var(--color-gray-50);
+            border-radius: var(--radius-lg);
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: var(--font-size-xl);
+            font-weight: var(--font-weight-bold);
+            color: var(--color-primary);
+            margin-bottom: var(--space-1);
+        }
+
+        .stat-label {
+            font-size: var(--font-size-xs);
+            color: var(--color-gray-600);
+        }
+
+        /* Event Cards */
+        .event-list {
+            padding: var(--space-4);
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-4);
+        }
+
+        .event-card {
+            background: var(--color-white);
+            border-radius: var(--radius-xl);
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+            cursor: pointer;
+            transition: all var(--transition-base);
+        }
+
+        .event-card:active {
+            transform: scale(0.98);
+        }
+
+        .event-card__banner {
+            position: relative;
+            height: 180px;
+            background: linear-gradient(135deg, var(--color-primary-light) 0%, var(--color-gray-100) 100%);
+            overflow: hidden;
+        }
+
+        .event-card__banner-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .event-card__banner-icon {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 64px;
+        }
+
+        .event-card__type-badge {
+            position: absolute;
+            top: var(--space-3);
+            left: var(--space-3);
+            padding: var(--space-1) var(--space-3);
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: var(--radius-full);
+            font-size: var(--font-size-xs);
+            font-weight: var(--font-weight-bold);
+            display: flex;
+            align-items: center;
+            gap: var(--space-1);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .event-card__status-badge {
+            position: absolute;
+            top: var(--space-3);
+            right: var(--space-3);
+            padding: var(--space-1) var(--space-3);
+            border-radius: var(--radius-full);
+            font-size: var(--font-size-xs);
+            font-weight: var(--font-weight-bold);
+            display: flex;
+            align-items: center;
+            gap: var(--space-1);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .status-ongoing {
+            background: #4CAF50;
+            color: var(--color-white);
+        }
+
+        .status-dday {
+            background: #FF6B35;
+            color: var(--color-white);
+            animation: pulse 2s infinite;
+        }
+
+        .status-ended {
+            background: var(--color-gray-500);
+            color: var(--color-white);
+        }
+
+        .status-winner {
+            background: #FFD93D;
+            color: var(--color-gray-900);
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        .event-card__content {
+            padding: var(--space-4);
+        }
+
+        .event-card__title {
+            font-size: var(--font-size-md);
+            font-weight: var(--font-weight-bold);
+            color: var(--color-gray-900);
+            margin-bottom: var(--space-2);
+            line-height: var(--line-height-tight);
+        }
+
+        .event-card__desc {
+            font-size: var(--font-size-sm);
+            color: var(--color-gray-600);
+            margin-bottom: var(--space-3);
+            line-height: 1.5;
+        }
+
+        .event-card__meta {
+            display: flex;
+            gap: var(--space-4);
+            padding-top: var(--space-3);
+            border-top: 1px solid var(--color-gray-200);
+        }
+
+        .event-meta-item {
+            display: flex;
+            align-items: center;
+            gap: var(--space-1);
+            font-size: var(--font-size-xs);
+            color: var(--color-gray-600);
+        }
+
+        .event-meta-icon {
+            font-size: 16px;
+        }
+
+        .event-card__footer {
+            padding: 0 var(--space-4) var(--space-4);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .event-card__participants {
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+            font-size: var(--font-size-sm);
+            color: var(--color-gray-600);
+        }
+
+        .participant-number {
+            font-weight: var(--font-weight-bold);
+            color: var(--color-primary);
+        }
+
+        .event-card__action {
+            padding: var(--space-2) var(--space-4);
+            background: var(--color-primary);
+            color: var(--color-white);
+            border-radius: var(--radius-lg);
+            font-size: var(--font-size-sm);
+            font-weight: var(--font-weight-semibold);
+            border: none;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+
+        .event-card__action:active {
+            background: var(--color-primary-dark);
+        }
+
+        .event-card__action.disabled {
+            background: var(--color-gray-300);
+            color: var(--color-gray-600);
+            cursor: not-allowed;
+        }
+
+        /* Floating Participation Button */
+        .floating-btn {
+            position: fixed;
+            bottom: calc(var(--bottom-nav-height) + var(--space-4));
+            left: 50%;
+            transform: translateX(-50%);
+            max-width: calc(var(--max-width-mobile) - var(--space-8));
+            width: calc(100% - var(--space-8));
+            padding: var(--space-4) var(--space-6);
+            background: var(--color-primary);
+            color: var(--color-white);
+            border-radius: var(--radius-full);
+            font-size: var(--font-size-base);
+            font-weight: var(--font-weight-bold);
+            border: none;
+            cursor: pointer;
+            box-shadow: var(--shadow-xl);
+            z-index: var(--z-sticky);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--space-2);
+            transition: all var(--transition-base);
+        }
+
+        .floating-btn:active {
+            transform: translateX(-50%) scale(0.95);
+        }
+
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: var(--max-width-mobile);
+            background: var(--color-white);
+            border-top: 1px solid var(--color-gray-200);
+            display: flex;
+            justify-content: space-around;
+            padding: var(--space-2) 0;
+            z-index: var(--z-sticky);
+        }
+
+        .nav-item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--space-1);
+            padding: var(--space-1);
+            color: var(--color-gray-600);
+            text-decoration: none;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+
+        .nav-item.active {
+            color: var(--color-primary);
+        }
+
+        .nav-item .icon {
+            font-size: 24px;
+        }
+
+        .nav-item .label {
+            font-size: var(--font-size-xs);
+            font-weight: var(--font-weight-medium);
+        }
+
+        /* Empty State */
+        .empty-state {
+            padding: var(--space-12) var(--space-6);
+            text-align: center;
+        }
+
+        .empty-state__icon {
+            font-size: 64px;
+            margin-bottom: var(--space-4);
+            opacity: 0.5;
+        }
+
+        .empty-state__title {
+            font-size: var(--font-size-md);
+            font-weight: var(--font-weight-medium);
+            color: var(--color-gray-700);
+            margin-bottom: var(--space-2);
+        }
+
+        .empty-state__desc {
+            font-size: var(--font-size-sm);
+            color: var(--color-gray-500);
+        }
+
+        /* Share Modal */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: var(--z-modal);
+            align-items: flex-end;
+        }
+
+        .modal-overlay.show {
+            display: flex;
+        }
+
+        .share-modal {
+            width: 100%;
+            max-width: var(--max-width-mobile);
+            margin: 0 auto;
+            background: var(--color-white);
+            border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+            padding: var(--space-6) var(--space-4);
+            animation: slideUp 0.3s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(100%);
+            }
+            to {
+                transform: translateY(0);
+            }
+        }
+
+        .share-modal__title {
+            font-size: var(--font-size-md);
+            font-weight: var(--font-weight-bold);
+            margin-bottom: var(--space-5);
+            text-align: center;
+        }
+
+        .share-options {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: var(--space-4);
+            margin-bottom: var(--space-5);
+        }
+
+        .share-option {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--space-2);
+            cursor: pointer;
+        }
+
+        .share-option__icon {
+            width: 56px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--color-gray-100);
+            border-radius: var(--radius-full);
+            font-size: 28px;
+        }
+
+        .share-option__label {
+            font-size: var(--font-size-xs);
+            color: var(--color-gray-700);
+        }
+
+        .share-modal__close {
+            width: 100%;
+            padding: var(--space-3);
+            background: var(--color-gray-100);
+            border: none;
+            border-radius: var(--radius-lg);
+            font-size: var(--font-size-base);
+            font-weight: var(--font-weight-medium);
+            cursor: pointer;
+        }
+
+        /* Hidden class for filtering */
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="mobile-container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-left">
+                <span class="header-back" onclick="history.back()">←</span>
+                <h1 class="header-title">이벤트</h1>
+            </div>
+            <div class="header-actions">
+                <span class="header-icon" onclick="openShareModal()">🔗</span>
+                <span class="header-icon" onclick="location.href='../home/main.html'">🏠</span>
+            </div>
+        </header>
+
+        <!-- Hero Banner -->
+        <section class="hero-banner">
+            <div class="hero-content">
+                <span class="hero-badge">🎁 특별한 혜택</span>
+                <h2 class="hero-title">3월 신학기<br>이벤트 특가</h2>
+                <p class="hero-subtitle">최대 50% 할인과 풍성한 경품을 받아가세요!</p>
+                <button class="hero-cta" onclick="scrollToEvent('featured')">
+                    자세히 보기
+                    <span>→</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- Category Tabs -->
+        <div class="category-tabs">
+            <button class="category-tab active" data-filter="all" onclick="filterEvents('all')">
+                전체
+            </button>
+            <button class="category-tab" data-filter="ongoing" onclick="filterEvents('ongoing')">
+                진행중
+            </button>
+            <button class="category-tab" data-filter="ending-soon" onclick="filterEvents('ending-soon')">
+                마감임박
+            </button>
+            <button class="category-tab" data-filter="ended" onclick="filterEvents('ended')">
+                종료
+            </button>
+            <button class="category-tab" data-filter="winner" onclick="filterEvents('winner')">
+                당첨자발표
+            </button>
+        </div>
+
+        <!-- Event Stats -->
+        <div class="event-stats">
+            <div class="stat-card">
+                <div class="stat-number" id="ongoingCount">5</div>
+                <div class="stat-label">진행중</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="participantCount">1,234</div>
+                <div class="stat-label">참여자</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="endingSoonCount">2</div>
+                <div class="stat-label">마감임박</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="winnerCount">1</div>
+                <div class="stat-label">당첨발표</div>
+            </div>
+        </div>
+
+        <!-- Event List -->
+        <div class="event-list" id="eventList">
+            <!-- Featured Event -->
+            <article class="event-card" data-category="ongoing" data-type="discount" id="featured">
+                <div class="event-card__banner" style="background: linear-gradient(135deg, #FFE0B2 0%, #FF9800 100%);">
+                    <div class="event-card__banner-icon">🎉</div>
+                    <span class="event-card__type-badge">
+                        <span>🏷️</span>
+                        할인
+                    </span>
+                    <span class="event-card__status-badge status-ongoing">
+                        진행중
+                    </span>
+                </div>
+                <div class="event-card__content">
+                    <h3 class="event-card__title">3월 신학기 맞이 최대 50% 할인</h3>
+                    <p class="event-card__desc">봄맞이 신선한 과일을 특가로 만나보세요. 국내산 딸기, 사과, 배 등 인기 상품 대폭 할인!</p>
+                    <div class="event-card__meta">
+                        <div class="event-meta-item">
+                            <span class="event-meta-icon">📅</span>
+                            <span>2026.03.01 - 03.31</span>
+                        </div>
+                        <div class="event-meta-item">
+                            <span class="event-meta-icon">⏱️</span>
+                            <span class="countdown" data-end="2026-03-31T23:59:59">D-13</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="event-card__footer">
+                    <div class="event-card__participants">
+                        <span>🙋</span>
+                        <span><span class="participant-number">3,456</span>명 참여중</span>
+                    </div>
+                    <button class="event-card__action" onclick="participateEvent('spring-sale')">
+                        참여하기
+                    </button>
+                </div>
+            </article>
+
+            <!-- Prize Draw Event -->
+            <article class="event-card" data-category="ending-soon" data-type="prize">
+                <div class="event-card__banner" style="background: linear-gradient(135deg, #FFD93D 0%, #FFA500 100%);">
+                    <div class="event-card__banner-icon">🎁</div>
+                    <span class="event-card__type-badge">
+                        <span>🎯</span>
+                        경품추첨
+                    </span>
+                    <span class="event-card__status-badge status-dday">
+                        D-3
+                    </span>
+                </div>
+                <div class="event-card__content">
+                    <h3 class="event-card__title">럭키드로우! 아이패드 & 스타벅스 쿠폰</h3>
+                    <p class="event-card__desc">앱 로그인만 하면 자동 응모! 아이패드 프로 1명, 스타벅스 기프티콘 100명 추첨</p>
+                    <div class="event-card__meta">
+                        <div class="event-meta-item">
+                            <span class="event-meta-icon">📅</span>
+                            <span>2026.03.01 - 03.21</span>
+                        </div>
+                        <div class="event-meta-item">
+                            <span class="event-meta-icon">⏱️</span>
+                            <span class="countdown" data-end="2026-03-21T23:59:59">D-3</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="event-card__footer">
+                    <div class="event-card__participants">
+                        <span>🙋</span>
+                        <span><span class="participant-number">5,789</span>명 참여중</span>
+                    </div>
+                    <button class="event-card__action" onclick="participateEvent('lucky-draw')">
+                        응모하기
+                    </button>
+                </div>
+            </article>
+
+            <!-- Review Event -->
+            <article class="event-card" data-category="ongoing" data-type="review">
+                <div class="event-card__banner" style="background: linear-gradient(135deg, #E8F5E9 0%, #4CAF50 100%);">
+                    <div class="event-card__banner-icon">✍️</div>
+                    <span class="event-card__type-badge">
+                        <span>⭐</span>
+                        리뷰이벤트
+                    </span>
+                    <span class="event-card__status-badge status-ongoing">
+                        진행중
+                    </span>
+                </div>
+                <div class="event-card__content">
+                    <h3 class="event-card__title">후기 작성하고 포인트 받자!</h3>
+                    <p class="event-card__desc">구매 후기 작성 시 1,000P 적립! 포토 리뷰는 2,000P 추가 지급</p>
+                    <div class="event-card__meta">
+                        <div class="event-meta-item">
+                            <span class="event-meta-icon">📅</span>
+                            <span>2026.03.01 - 03.31</span>
+                        </div>
+                        <div class="event-meta-item">
+                            <span class="event-meta-icon">⏱️</span>
+                            <span class="countdown" data-end="2026-03-31T23:59:59">D-13</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="event-card__footer">
+                    <div class="event-card__participants">
+                        <span>🙋</span>
+                        <span><span class="participant-number">2,341</span>명 참여중</span>
+                    </div>
+                    <button class="event-card__action" onclick="participateEvent('review-event')">
+                        리뷰쓰기
+                    </button>
+                </div>
+            </article>
+
+            <!-- New Member Event -->
+            <article class="event-card" data-category="ongoing" data-type="newmember">
+                <div class="event-card__banner" style="background: linear-gradient(135deg, #E1F5FE 0%, #03A9F4 100%);">
+                    <div class="event-card__banner-icon">🎊</div>
+                    <span class="event-card__type-badge">
+                        <span>👋</span>
+                        신규회원
+                    </span>
+                    <span class="event-card__status-badge status-ongoing">
+                        진행중
+                    </span>
+                </div>
+                <div class="event-card__content">
+                    <h3 class="event-card__title">신규 가입 웰컴 쿠폰팩</h3>
+                    <p class="event-card__desc">첫 구매 5,000원 할인 + 무료배송 쿠폰 + 10% 추가할인까지!</p>
+                    <div class="event-card__meta">
+                        <div class="event-meta-item">
+                            <span class="event-meta-icon">📅</span>
+                            <span>상시 진행</span>
+                        </div>
+                        <div class="event-meta-item">
+                            <span class="event-meta-icon">⏱️</span>
+                            <span>가입일로부터 7일</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="event-card__footer">
+                    <div class="event-card__participants">
+                        <span>🙋</span>
+                        <span><span class="participant-number">892</span>명 참여중</span>
+                    </div>
+                    <button class="event-card__action" onclick="participateEvent('newmember')">
+                        쿠폰받기
+                    </button>
+                </div>
+            </article>
+
+            <!-- Friend Invite Event -->
+            <article class="event-card" data-category="ongoing" data-type="invite">
+                <div class="event-card__banner" style="background: linear-gradient(135deg, #FCE4EC 0%, #E91E63 100%);">
+                    <div class="event-card__banner-icon">💝</div>
+                    <span class="event-card__type-badge">
+                        <span>👥</span>
+                        친구초대
+                    </span>
+                    <span class="event-card__status-badge status-ongoing">
+                        진행중
+                    </span>
+                </div>
+                <div class="event-card__content">
+                    <h3 class="event-card__title">친구 초대하고 함께 혜택 받기</h3>
+                    <p class="event-card__desc">친구 1명당 3,000P 적립! 친구도 3,000P 받고 서로서로 Win-Win</p>
+                    <div class="event-card__meta">
+                        <div class="event-meta-item">
+                            <span class="event-meta-icon">📅</span>
+                            <span>상시 진행</span>
+                        </div>
+                        <div class="event-meta-item">
+                            <span class="event-meta-icon">⏱️</span>
+                            <span>무제한</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="event-card__footer">
+                    <div class="event-card__participants">
+                        <span>🙋</span>
+                        <span><span class="participant-number">1,567</span>명 참여중</span>
+                    </div>
+                    <button class="event-card__action" onclick="participateEvent('invite')">
+                        초대하기
+                    </button>
+                </div>
+            </article>
+
+            <!-- Time Sale Event -->
+            <article class="event-card" data-category="ending-soon" data-type="timesale">
+                <div class="event-card__banner" style="background: linear-gradient(135deg, #FFEBEE 0%, #F44336 100%);">
+                    <div class="event-card__banner-icon">⚡</div>
+                    <span class="event-card__type-badge">
+                        <span>🔥</span>
+                        타임특가
+                    </span>
+                    <span class="event-card__status-badge status-dday">
+                        D-1
+                    </span>
+                </div>
+                <div class="event-card__content">
+                    <h3 class="event-card__title">오늘만! 딸기 40% 긴급 특가</h3>
+                    <p class="event-card__desc">프리미엄 설향딸기 1kg 단 하루만! 선착순 100박스 한정 판매</p>
+                    <div class="event-card__meta">
+                        <div class="event-meta-item">
+                            <span class="event-meta-icon">📅</span>
+                            <span>2026.03.19 하루만</span>
+                        </div>
+                        <div class="event-meta-item">
+                            <span class="event-meta-icon">⏱️</span>
+                            <span class="countdown" data-end="2026-03-19T23:59:59">D-1</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="event-card__footer">
+                    <div class="event-card__participants">
+                        <span>🙋</span>
+                        <span><span class="participant-number">67/100</span>박스 남음</span>
+                    </div>
+                    <button class="event-card__action" onclick="participateEvent('timesale')">
+                        구매하기
+                    </button>
+                </div>
+            </article>
+
+            <!-- Winner Announcement Event -->
+            <article class="event-card" data-category="winner" data-type="winner">
+                <div class="event-card__banner" style="background: linear-gradient(135deg, #FFF9C4 0%, #F9A825 100%);">
+                    <div class="event-card__banner-icon">🏆</div>
+                    <span class="event-card__type-badge">
+                        <span>🎊</span>
+                        당첨발표
+                    </span>
+                    <span class="event-card__status-badge status-winner">
+                        발표완료
+                    </span>
+                </div>
+                <div class="event-card__content">
+                    <h3 class="event-card__title">2월 럭키박스 당첨자 발표</h3>
+                    <p class="event-card__desc">2월 한 달간 진행된 럭키박스 이벤트 당첨자를 발표합니다. 총 50명 선정!</p>
+                    <div class="event-card__meta">
+                        <div class="event-meta-item">
+                            <span class="event-meta-icon">📅</span>
+                            <span>발표일: 2026.03.01</span>
+                        </div>
+                        <div class="event-meta-item">
+                            <span class="event-meta-icon">🎯</span>
+                            <span>당첨자 50명</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="event-card__footer">
+                    <div class="event-card__participants">
+                        <span>🙋</span>
+                        <span><span class="participant-number">4,892</span>명 참여함</span>
+                    </div>
+                    <button class="event-card__action" onclick="participateEvent('winners')">
+                        명단보기
+                    </button>
+                </div>
+            </article>
+
+            <!-- Ended Event -->
+            <article class="event-card" data-category="ended" data-type="discount">
+                <div class="event-card__banner" style="background: linear-gradient(135deg, #F5F5F5 0%, #9E9E9E 100%);">
+                    <div class="event-card__banner-icon">🎈</div>
+                    <span class="event-card__type-badge">
+                        <span>🏷️</span>
+                        할인
+                    </span>
+                    <span class="event-card__status-badge status-ended">
+                        종료됨
+                    </span>
+                </div>
+                <div class="event-card__content">
+                    <h3 class="event-card__title">밸런타인데이 초콜릿 딸기 세트</h3>
+                    <p class="event-card__desc">달콤한 밸런타인데이 기념 초콜릿 딸기 특별 구성 세트 판매 이벤트</p>
+                    <div class="event-card__meta">
+                        <div class="event-meta-item">
+                            <span class="event-meta-icon">📅</span>
+                            <span>2026.02.01 - 02.14</span>
+                        </div>
+                        <div class="event-meta-item">
+                            <span class="event-meta-icon">⏱️</span>
+                            <span>종료</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="event-card__footer">
+                    <div class="event-card__participants">
+                        <span>🙋</span>
+                        <span><span class="participant-number">2,156</span>명 참여함</span>
+                    </div>
+                    <button class="event-card__action disabled" disabled>
+                        종료됨
+                    </button>
+                </div>
+            </article>
+        </div>
+
+        <!-- Floating Participation Button -->
+        <button class="floating-btn" onclick="scrollToTop()">
+            <span>🎁</span>
+            <span>전체 이벤트 보기</span>
+        </button>
+
+        <!-- Bottom Navigation -->
+        <nav class="bottom-nav">
+            <a href="../home/main.html" class="nav-item">
+                <span class="icon">🏠</span>
+                <span class="label">홈</span>
+            </a>
+            <a href="../products/index.html" class="nav-item">
+                <span class="icon">🍎</span>
+                <span class="label">상품</span>
+            </a>
+            <a href="../event/index.html" class="nav-item active">
+                <span class="icon">🎉</span>
+                <span class="label">이벤트</span>
+            </a>
+            <a href="../mypage/index.html" class="nav-item">
+                <span class="icon">👤</span>
+                <span class="label">마이</span>
+            </a>
+        </nav>
+
+        <!-- Share Modal -->
+        <div class="modal-overlay" id="shareModal" onclick="closeShareModal(event)">
+            <div class="share-modal" onclick="event.stopPropagation()">
+                <h3 class="share-modal__title">이벤트 공유하기</h3>
+                <div class="share-options">
+                    <div class="share-option" onclick="shareVia('kakao')">
+                        <div class="share-option__icon">💬</div>
+                        <div class="share-option__label">카카오톡</div>
+                    </div>
+                    <div class="share-option" onclick="shareVia('link')">
+                        <div class="share-option__icon">🔗</div>
+                        <div class="share-option__label">링크복사</div>
+                    </div>
+                    <div class="share-option" onclick="shareVia('facebook')">
+                        <div class="share-option__icon">📘</div>
+                        <div class="share-option__label">페이스북</div>
+                    </div>
+                    <div class="share-option" onclick="shareVia('twitter')">
+                        <div class="share-option__icon">🐦</div>
+                        <div class="share-option__label">트위터</div>
+                    </div>
+                </div>
+                <button class="share-modal__close" onclick="closeShareModal()">닫기</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Category Filtering
+        function filterEvents(category) {
+            const tabs = document.querySelectorAll('.category-tab');
+            const events = document.querySelectorAll('.event-card');
+
+            // Update active tab
+            tabs.forEach(tab => {
+                if (tab.dataset.filter === category) {
+                    tab.classList.add('active');
+                } else {
+                    tab.classList.remove('active');
+                }
+            });
+
+            // Filter events
+            events.forEach(event => {
+                if (category === 'all') {
+                    event.classList.remove('hidden');
+                } else {
+                    if (event.dataset.category === category) {
+                        event.classList.remove('hidden');
+                    } else {
+                        event.classList.add('hidden');
+                    }
+                }
+            });
+
+            // Update stats
+            updateStats();
+        }
+
+        // Update Statistics
+        function updateStats() {
+            const events = document.querySelectorAll('.event-card:not(.hidden)');
+            let ongoingCount = 0;
+            let endingSoonCount = 0;
+            let winnerCount = 0;
+            let totalParticipants = 0;
+
+            events.forEach(event => {
+                const category = event.dataset.category;
+                if (category === 'ongoing') ongoingCount++;
+                if (category === 'ending-soon') endingSoonCount++;
+                if (category === 'winner') winnerCount++;
+
+                // Count participants
+                const participantText = event.querySelector('.participant-number')?.textContent || '0';
+                const count = parseInt(participantText.replace(/,/g, '').replace(/[^0-9]/g, ''));
+                if (!isNaN(count)) totalParticipants += count;
+            });
+
+            document.getElementById('ongoingCount').textContent = ongoingCount;
+            document.getElementById('endingSoonCount').textContent = endingSoonCount;
+            document.getElementById('winnerCount').textContent = winnerCount;
+            document.getElementById('participantCount').textContent = totalParticipants.toLocaleString();
+        }
+
+        // Countdown Timer
+        function updateCountdowns() {
+            const countdowns = document.querySelectorAll('.countdown');
+            const now = new Date();
+
+            countdowns.forEach(countdown => {
+                const endDate = new Date(countdown.dataset.end);
+                const diff = endDate - now;
+
+                if (diff > 0) {
+                    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+
+                    if (days > 0) {
+                        countdown.textContent = `D-${days}`;
+                    } else if (hours > 0) {
+                        countdown.textContent = `${hours}시간 남음`;
+                    } else {
+                        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                        countdown.textContent = `${minutes}분 남음`;
+                    }
+                } else {
+                    countdown.textContent = '종료';
+                }
+            });
+        }
+
+        // Update countdowns every minute
+        setInterval(updateCountdowns, 60000);
+        updateCountdowns();
+
+        // Event Participation
+        function participateEvent(eventId) {
+            // Track participation
+            const participants = localStorage.getItem(`event_${eventId}_participants`) || 0;
+            localStorage.setItem(`event_${eventId}_participants`, parseInt(participants) + 1);
+
+            // Show success message
+            alert('이벤트에 참여하였습니다!\n마이페이지에서 참여 내역을 확인하세요.');
+
+            // Update participant count (in real app, this would be from server)
+            const card = event.target.closest('.event-card');
+            const countElement = card.querySelector('.participant-number');
+            if (countElement) {
+                const currentCount = parseInt(countElement.textContent.replace(/,/g, ''));
+                countElement.textContent = (currentCount + 1).toLocaleString();
+            }
+        }
+
+        // Share Modal
+        function openShareModal() {
+            document.getElementById('shareModal').classList.add('show');
+        }
+
+        function closeShareModal(event) {
+            if (!event || event.target.id === 'shareModal') {
+                document.getElementById('shareModal').classList.remove('show');
+            }
+        }
+
+        function shareVia(platform) {
+            const url = window.location.href;
+            const title = '과일다리 - 신선한 과일 특가 이벤트';
+
+            switch(platform) {
+                case 'kakao':
+                    alert('카카오톡 공유 기능은 SDK 설치 후 이용 가능합니다.');
+                    break;
+                case 'link':
+                    navigator.clipboard.writeText(url).then(() => {
+                        alert('링크가 복사되었습니다!');
+                        closeShareModal();
+                    });
+                    break;
+                case 'facebook':
+                    window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`, '_blank');
+                    break;
+                case 'twitter':
+                    window.open(`https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}&text=${encodeURIComponent(title)}`, '_blank');
+                    break;
+            }
+        }
+
+        // Scroll Functions
+        function scrollToEvent(eventId) {
+            const element = document.getElementById(eventId);
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        }
+
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            updateStats();
+            updateCountdowns();
+
+            // Track page view
+            console.log('이벤트 페이지 로드:', new Date().toISOString());
+
+            // Load user participation data
+            const viewedEvents = localStorage.getItem('viewed_events') || '[]';
+            console.log('조회한 이벤트:', JSON.parse(viewedEvents));
+        });
+
+        // Track scroll depth
+        let maxScroll = 0;
+        window.addEventListener('scroll', function() {
+            const scrollPercent = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+            if (scrollPercent > maxScroll) {
+                maxScroll = scrollPercent;
+                if (maxScroll > 75) {
+                    console.log('75% 이상 스크롤됨');
+                }
+            }
+        });
+    </script>
+</body>
+</html>

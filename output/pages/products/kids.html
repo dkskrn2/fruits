@@ -1,0 +1,1180 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>아이간식 - 과일다리</title>
+    <link rel="stylesheet" href="../../styles/design-system.css">
+    <link rel="stylesheet" href="../../styles/components.css">
+    <style>
+        body {
+            padding-bottom: 60px;
+            background: #FFF9F0;
+        }
+
+        /* Desktop centering */
+        @media (min-width: 768px) {
+            body {
+                max-width: 430px;
+                margin: 0 auto;
+                box-shadow: 0 0 50px rgba(0,0,0,0.1);
+            }
+        }
+
+        /* Header */
+        .header {
+            background: var(--color-white);
+            border-bottom: 1px solid var(--color-gray-300);
+            position: sticky;
+            top: 0;
+            z-index: var(--z-sticky);
+            padding: var(--space-3) var(--space-4);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .header-back {
+            font-size: 24px;
+            cursor: pointer;
+            padding: var(--space-2);
+            margin-left: calc(var(--space-2) * -1);
+        }
+
+        .header-title {
+            font-size: var(--font-size-md);
+            font-weight: var(--font-weight-semibold);
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .header-actions {
+            display: flex;
+            gap: var(--space-3);
+        }
+
+        .header-icon {
+            font-size: 24px;
+            cursor: pointer;
+            padding: var(--space-1);
+        }
+
+        /* Hero Banner */
+        .hero-banner {
+            background: linear-gradient(135deg, #FFE66D 0%, #FF6B9D 50%, #C06CF8 100%);
+            padding: var(--space-8) var(--space-5);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-banner::before {
+            content: '';
+            position: absolute;
+            top: -50px;
+            right: -50px;
+            width: 200px;
+            height: 200px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+        }
+
+        .hero-banner::after {
+            content: '';
+            position: absolute;
+            bottom: -30px;
+            left: -30px;
+            width: 150px;
+            height: 150px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-icon {
+            font-size: 64px;
+            margin-bottom: var(--space-3);
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .hero-title {
+            font-size: var(--font-size-2xl);
+            font-weight: var(--font-weight-bold);
+            color: var(--color-white);
+            margin-bottom: var(--space-2);
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .hero-subtitle {
+            font-size: var(--font-size-base);
+            color: rgba(255, 255, 255, 0.95);
+            font-weight: var(--font-weight-medium);
+        }
+
+        /* Age Filter */
+        .age-filter {
+            padding: var(--space-4);
+            background: var(--color-white);
+        }
+
+        .age-filter-title {
+            font-size: var(--font-size-sm);
+            font-weight: var(--font-weight-semibold);
+            color: var(--color-gray-700);
+            margin-bottom: var(--space-3);
+        }
+
+        .age-chips {
+            display: flex;
+            gap: var(--space-2);
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .age-chips::-webkit-scrollbar {
+            display: none;
+        }
+
+        .age-chip {
+            flex-shrink: 0;
+            padding: var(--space-2) var(--space-4);
+            border: 2px solid var(--color-gray-300);
+            border-radius: var(--radius-full);
+            font-size: var(--font-size-sm);
+            font-weight: var(--font-weight-medium);
+            color: var(--color-gray-700);
+            background: var(--color-white);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            white-space: nowrap;
+        }
+
+        .age-chip:active {
+            transform: scale(0.95);
+        }
+
+        .age-chip.active {
+            background: linear-gradient(135deg, #FF6B9D, #C06CF8);
+            color: var(--color-white);
+            border-color: transparent;
+        }
+
+        /* Safety Badges */
+        .safety-section {
+            padding: var(--space-5) var(--space-4);
+            background: var(--color-white);
+            border-bottom: 8px solid #FFF9F0;
+        }
+
+        .safety-title {
+            font-size: var(--font-size-base);
+            font-weight: var(--font-weight-bold);
+            color: var(--color-gray-900);
+            margin-bottom: var(--space-3);
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+        }
+
+        .safety-badges {
+            display: flex;
+            gap: var(--space-2);
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            padding-bottom: var(--space-1);
+        }
+
+        .safety-badges::-webkit-scrollbar {
+            display: none;
+        }
+
+        .safety-badge {
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+            padding: var(--space-3) var(--space-4);
+            background: linear-gradient(135deg, #E8F5E9, #C8E6C9);
+            border-radius: var(--radius-lg);
+            border: 2px solid #4CAF50;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+
+        .safety-badge:active {
+            transform: scale(0.95);
+        }
+
+        .safety-badge.active {
+            background: linear-gradient(135deg, #4CAF50, #2E7D32);
+            box-shadow: var(--shadow-md);
+        }
+
+        .safety-badge.active .safety-badge-text {
+            color: var(--color-white);
+        }
+
+        .safety-badge-icon {
+            font-size: 24px;
+        }
+
+        .safety-badge-text {
+            font-size: var(--font-size-sm);
+            font-weight: var(--font-weight-semibold);
+            color: #2E7D32;
+            white-space: nowrap;
+        }
+
+        /* Products Section */
+        .products-section {
+            padding: var(--space-5) var(--space-4);
+        }
+
+        .products-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--space-4);
+        }
+
+        .products-title {
+            font-size: var(--font-size-lg);
+            font-weight: var(--font-weight-bold);
+            color: var(--color-gray-900);
+        }
+
+        .products-count {
+            font-size: var(--font-size-sm);
+            color: var(--color-gray-600);
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--space-3);
+        }
+
+        /* Kid Product Card */
+        .kid-product-card {
+            background: var(--color-white);
+            border-radius: var(--radius-xl);
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+            transition: all var(--transition-base);
+            cursor: pointer;
+        }
+
+        .kid-product-card:active {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .kid-product-image {
+            height: 140px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 72px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .kid-product-badge {
+            position: absolute;
+            top: var(--space-2);
+            left: var(--space-2);
+            padding: 4px var(--space-2);
+            background: rgba(255, 255, 255, 0.95);
+            color: #E65100;
+            font-size: 10px;
+            font-weight: var(--font-weight-bold);
+            border-radius: var(--radius-full);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .kid-product-content {
+            padding: var(--space-3);
+        }
+
+        .kid-product-title {
+            font-size: var(--font-size-sm);
+            font-weight: var(--font-weight-bold);
+            color: var(--color-gray-900);
+            margin-bottom: var(--space-1);
+            line-height: var(--line-height-tight);
+        }
+
+        .kid-product-desc {
+            font-size: 11px;
+            color: var(--color-gray-600);
+            margin-bottom: var(--space-2);
+            line-height: 1.3;
+        }
+
+        .kid-product-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+            margin-bottom: var(--space-2);
+        }
+
+        .kid-product-tag {
+            padding: 2px 6px;
+            background: var(--color-primary-light);
+            color: var(--color-primary-dark);
+            font-size: 9px;
+            font-weight: var(--font-weight-semibold);
+            border-radius: var(--radius-sm);
+        }
+
+        .kid-product-nutrition {
+            display: flex;
+            gap: var(--space-2);
+            margin-bottom: var(--space-3);
+            padding: var(--space-2);
+            background: #FFF9F0;
+            border-radius: var(--radius-md);
+        }
+
+        .nutrition-item {
+            flex: 1;
+            text-align: center;
+        }
+
+        .nutrition-icon {
+            font-size: 16px;
+            margin-bottom: 2px;
+        }
+
+        .nutrition-label {
+            font-size: 9px;
+            color: var(--color-gray-600);
+            font-weight: var(--font-weight-medium);
+        }
+
+        .kid-product-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .kid-product-price {
+            font-size: var(--font-size-base);
+            font-weight: var(--font-weight-bold);
+            color: #FF6B9D;
+        }
+
+        .kid-product-action {
+            padding: var(--space-2) var(--space-3);
+            background: linear-gradient(135deg, #FFE66D, #FF6B9D);
+            color: var(--color-white);
+            border: none;
+            border-radius: var(--radius-full);
+            font-size: 11px;
+            font-weight: var(--font-weight-bold);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .kid-product-action:active {
+            transform: scale(0.9);
+        }
+
+        /* Reviews Section */
+        .reviews-section {
+            padding: var(--space-5) var(--space-4);
+            background: var(--color-white);
+            margin-top: var(--space-4);
+            border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+        }
+
+        .reviews-header {
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+            margin-bottom: var(--space-4);
+        }
+
+        .reviews-title {
+            font-size: var(--font-size-lg);
+            font-weight: var(--font-weight-bold);
+            color: var(--color-gray-900);
+        }
+
+        .reviews-count {
+            font-size: var(--font-size-sm);
+            color: var(--color-gray-600);
+            font-weight: var(--font-weight-medium);
+        }
+
+        .review-card {
+            background: #FFF9F0;
+            border-radius: var(--radius-lg);
+            padding: var(--space-4);
+            margin-bottom: var(--space-3);
+        }
+
+        .review-header {
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+            margin-bottom: var(--space-3);
+        }
+
+        .review-avatar {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #FFE66D, #FF6B9D);
+            border-radius: var(--radius-full);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .review-info {
+            flex: 1;
+        }
+
+        .review-author {
+            font-size: var(--font-size-sm);
+            font-weight: var(--font-weight-semibold);
+            color: var(--color-gray-900);
+            margin-bottom: 2px;
+        }
+
+        .review-meta {
+            font-size: var(--font-size-xs);
+            color: var(--color-gray-600);
+        }
+
+        .review-rating {
+            display: flex;
+            gap: 2px;
+        }
+
+        .review-content {
+            font-size: var(--font-size-sm);
+            color: var(--color-gray-700);
+            line-height: var(--line-height-relaxed);
+            margin-bottom: var(--space-2);
+        }
+
+        .review-product {
+            font-size: var(--font-size-xs);
+            color: var(--color-primary);
+            font-weight: var(--font-weight-medium);
+        }
+
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 430px;
+            background: var(--color-white);
+            border-top: 1px solid var(--color-gray-300);
+            display: flex;
+            justify-content: space-around;
+            padding: var(--space-2) 0;
+            z-index: var(--z-sticky);
+        }
+
+        .nav-item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            padding: var(--space-1);
+            color: var(--color-gray-500);
+            text-decoration: none;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+
+        .nav-item.active {
+            color: var(--color-primary);
+        }
+
+        .nav-item .icon {
+            font-size: 24px;
+        }
+
+        .nav-item .label {
+            font-size: 11px;
+            font-weight: var(--font-weight-medium);
+        }
+
+        /* Filter active indicator */
+        .filter-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-1);
+            padding: var(--space-1) var(--space-2);
+            background: var(--color-primary-light);
+            color: var(--color-primary-dark);
+            font-size: 11px;
+            font-weight: var(--font-weight-semibold);
+            border-radius: var(--radius-full);
+            margin-bottom: var(--space-2);
+        }
+
+        /* Hidden class for filtering */
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <span class="header-back" onclick="history.back()">←</span>
+        <h1 class="header-title">아이간식 🍓</h1>
+        <div class="header-actions">
+            <span class="header-icon">🏠</span>
+        </div>
+    </header>
+
+    <!-- Hero Banner -->
+    <section class="hero-banner">
+        <div class="hero-content">
+            <div class="hero-icon">🎈</div>
+            <h2 class="hero-title">건강한 아이 간식</h2>
+            <p class="hero-subtitle">우리 아이를 위한 안전하고 맛있는 과일</p>
+        </div>
+    </section>
+
+    <!-- Age Filter -->
+    <section class="age-filter">
+        <h3 class="age-filter-title">👶 연령대별 추천</h3>
+        <div class="age-chips">
+            <button class="age-chip active" data-age="all" onclick="filterByAge('all')">
+                전체
+            </button>
+            <button class="age-chip" data-age="infant" onclick="filterByAge('infant')">
+                🍼 유아 (0-5세)
+            </button>
+            <button class="age-chip" data-age="elementary" onclick="filterByAge('elementary')">
+                📚 초등학생 (6-12세)
+            </button>
+            <button class="age-chip" data-age="teen" onclick="filterByAge('teen')">
+                🎒 청소년 (13-18세)
+            </button>
+        </div>
+    </section>
+
+    <!-- Safety Badges -->
+    <section class="safety-section">
+        <h3 class="safety-title">
+            <span>🛡️</span>
+            안전 인증
+        </h3>
+        <div class="safety-badges">
+            <div class="safety-badge active" data-safety="organic" onclick="toggleSafety(this, 'organic')">
+                <span class="safety-badge-icon">🌿</span>
+                <span class="safety-badge-text">무농약</span>
+            </div>
+            <div class="safety-badge active" data-safety="certified" onclick="toggleSafety(this, 'certified')">
+                <span class="safety-badge-icon">✓</span>
+                <span class="safety-badge-text">유기농 인증</span>
+            </div>
+            <div class="safety-badge active" data-safety="allergen" onclick="toggleSafety(this, 'allergen')">
+                <span class="safety-badge-icon">🔒</span>
+                <span class="safety-badge-text">알러지프리</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section class="products-section">
+        <div class="products-header">
+            <h3 class="products-title">아이 추천 과일</h3>
+            <span class="products-count" id="product-count">10개 상품</span>
+        </div>
+
+        <div class="products-grid" id="products-grid">
+            <!-- Product 1 -->
+            <div class="kid-product-card" data-age="infant,elementary" data-safety="organic,certified,allergen">
+                <div class="kid-product-image" style="background: linear-gradient(135deg, #FFE0B2, #FFCC80);">
+                    🍓
+                    <span class="kid-product-badge">인기</span>
+                </div>
+                <div class="kid-product-content">
+                    <h4 class="kid-product-title">달콤 미니 딸기</h4>
+                    <p class="kid-product-desc">한입 크기로 먹기 좋아요! 비타민 가득 🎀</p>
+                    <div class="kid-product-tags">
+                        <span class="kid-product-tag">무농약</span>
+                        <span class="kid-product-tag">비타민C</span>
+                    </div>
+                    <div class="kid-product-nutrition">
+                        <div class="nutrition-item">
+                            <div class="nutrition-icon">💪</div>
+                            <div class="nutrition-label">비타민</div>
+                        </div>
+                        <div class="nutrition-item">
+                            <div class="nutrition-icon">🦴</div>
+                            <div class="nutrition-label">칼슘</div>
+                        </div>
+                        <div class="nutrition-item">
+                            <div class="nutrition-icon">⚡</div>
+                            <div class="nutrition-label">에너지</div>
+                        </div>
+                    </div>
+                    <div class="kid-product-footer">
+                        <span class="kid-product-price">12,900원</span>
+                        <button class="kid-product-action" onclick="addToCart(this)">담기</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 2 -->
+            <div class="kid-product-card" data-age="infant,elementary,teen" data-safety="organic,certified,allergen">
+                <div class="kid-product-image" style="background: linear-gradient(135deg, #FFF9C4, #FFF59D);">
+                    🍌
+                </div>
+                <div class="kid-product-content">
+                    <h4 class="kid-product-title">스마일 바나나</h4>
+                    <p class="kid-product-desc">부드럽고 소화 잘되는 바나나 🍌</p>
+                    <div class="kid-product-tags">
+                        <span class="kid-product-tag">유기농</span>
+                        <span class="kid-product-tag">칼륨</span>
+                    </div>
+                    <div class="kid-product-nutrition">
+                        <div class="nutrition-item">
+                            <div class="nutrition-icon">💪</div>
+                            <div class="nutrition-label">칼륨</div>
+                        </div>
+                        <div class="nutrition-item">
+                            <div class="nutrition-icon">🧠</div>
+                            <div class="nutrition-label">집중력</div>
+                        </div>
+                        <div class="nutrition-item">
+                            <div class="nutrition-icon">⚡</div>
+                            <div class="nutrition-label">에너지</div>
+                        </div>
+                    </div>
+                    <div class="kid-product-footer">
+                        <span class="kid-product-price">5,900원</span>
+                        <button class="kid-product-action" onclick="addToCart(this)">담기</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 3 -->
+            <div class="kid-product-card" data-age="elementary,teen" data-safety="organic,certified,allergen">
+                <div class="kid-product-image" style="background: linear-gradient(135deg, #E1F5FE, #B3E5FC);">
+                    🫐
+                    <span class="kid-product-badge">신상</span>
+                </div>
+                <div class="kid-product-content">
+                    <h4 class="kid-product-title">똑똑 블루베리</h4>
+                    <p class="kid-product-desc">눈 건강에 좋은 슈퍼푸드! 👀</p>
+                    <div class="kid-product-tags">
+                        <span class="kid-product-tag">무농약</span>
+                        <span class="kid-product-tag">안토시아닌</span>
+                    </div>
+                    <div class="kid-product-nutrition">
+                        <div class="nutrition-item">
+                            <div class="nutrition-icon">👁️</div>
+                            <div class="nutrition-label">시력</div>
+                        </div>
+                        <div class="nutrition-item">
+                            <div class="nutrition-icon">🧠</div>
+                            <div class="nutrition-label">두뇌</div>
+                        </div>
+                        <div class="nutrition-item">
+                            <div class="nutrition-icon">💪</div>
+                            <div class="nutrition-label">항산화</div>
+                        </div>
+                    </div>
+                    <div class="kid-product-footer">
+                        <span class="kid-product-price">18,500원</span>
+                        <button class="kid-product-action" onclick="addToCart(this)">담기</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 4 -->
+            <div class="kid-product-card" data-age="infant,elementary" data-safety="organic,certified,allergen">
+                <div class="kid-product-image" style="background: linear-gradient(135deg, #F8BBD0, #F48FB1);">
+                    🍑
+                </div>
+                <div class="kid-product-content">
+                    <h4 class="kid-product-title">복숭아 큐티</h4>
+                    <p class="kid-product-desc">과즙 팡팡! 부드러운 복숭아 🍑</p>
+                    <div class="kid-product-tags">
+                        <span class="kid-product-tag">유기농</span>
+                        <span class="kid-product-tag">식이섬유</span>
+                    </div>
+                    <div class="kid-product-nutrition">
+                        <div class="nutrition-item">
+                            <div class="nutrition-icon">💧</div>
+                            <div class="nutrition-label">수분</div>
+                        </div>
+                        <div class="nutrition-item">
+                            <div class="nutrition-icon">🌟</div>
+                            <div class="nutrition-label">피부</div>
+                        </div>
+                        <div class="nutrition-item">
+                            <div class="nutrition-icon">💪</div>
+                            <div class="nutrition-label">비타민</div>
+                        </div>
+                    </div>
+                    <div class="kid-product-footer">
+                        <span class="kid-product-price">14,200원</span>
+                        <button class="kid-product-action" onclick="addToCart(this)">담기</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 5 -->
+            <div class="kid-product-card" data-age="elementary,teen" data-safety="organic,certified">
+                <div class="kid-product-image" style="background: linear-gradient(135deg, #C5E1A5, #AED581);">
+                    🥝
+                </div>
+                <div class="kid-product-content">
+                    <h4 class="kid-product-title">새콤달콤 키위</h4>
+                    <p class="kid-product-desc">비타민C 폭탄! 면역력 쑥쑥 🥝</p>
+                    <div class="kid-product-tags">
+                        <span class="kid-product-tag">비타민C</span>
+                        <span class="kid-product-tag">면역력</span>
+                    </div>
+                    <div class="kid-product-nutrition">
+                        <div class="nutrition-item">
+                            <div class="nutrition-icon">💪</div>
+                            <div class="nutrition-label">비타민C</div>
+                        </div>
+                        <div class="nutrition-item">
+                            <div class="nutrition-icon">🛡️</div>
+                            <div class="nutrition-label">면역</div>
+                        </div>
+                        <div class="nutrition-item">
+                            <div class="nutrition-icon">⚡</div>
+                            <div class="nutrition-label">에너지</div>
+                        </div>
+                    </div>
+                    <div class="kid-product-footer">
+                        <span class="kid-product-price">9,800원</span>
+                        <button class="kid-product-action" onclick="addToCart(this)">담기</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 6 -->
+            <div class="kid-product-card" data-age="infant,elementary,teen" data-safety="organic,certified,allergen">
+                <div class="kid-product-image" style="background: linear-gradient(135deg, #FFCCBC, #FFAB91);">
+                    🍊
+                    <span class="kid-product-badge">베스트</span>
+                </div>
+                <div class="kid-product-content">
+                    <h4 class="kid-product-title">한라봉 스위티</h4>
+                    <p class="kid-product-desc">껍질 까기 쉬워요! 당도 최고 🍊</p>
+                    <div class="kid-product-tags">
+                        <span class="kid-product-tag">무농약</span>
+                        <span class="kid-product-tag">당도13°</span>
+                    </div>
+                    <div class="kid-product-nutrition">
+                        <div class="nutrition-item">
+                            <div class="nutrition-icon">💪</div>
+                            <div class="nutrition-label">비타민</div>
+                        </div>
+                        <div class="nutrition-item">
+                            <div class="nutrition-icon">🛡️</div>
+                            <div class="nutrition-label">감기예방</div>
+                        </div>
+                        <div class="nutrition-item">
+                            <div class="nutrition-icon">⚡</div>
+                            <div class="nutrition-label">에너지</div>
+                        </div>
+                    </div>
+                    <div class="kid-product-footer">
+                        <span class="kid-product-price">16,500원</span>
+                        <button class="kid-product-action" onclick="addToCart(this)">담기</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 7 -->
+            <div class="kid-product-card" data-age="elementary,teen" data-safety="organic,certified,allergen">
+                <div class="kid-product-image" style="background: linear-gradient(135deg, #E1BEE7, #CE93D8);">
+                    🍇
+                </div>
+                <div class="kid-product-content">
+                    <h4 class="kid-product-title">샤인머스캣</h4>
+                    <p class="kid-product-desc">씨없이 먹기 편한 고급 포도 🍇</p>
+                    <div class="kid-product-tags">
+                        <span class="kid-product-tag">유기농</span>
+                        <span class="kid-product-tag">씨없음</span>
+                    </div>
+                    <div class="kid-product-nutrition">
+                        <div class="nutrition-item">
+                            <div class="nutrition-icon">🦴</div>
+                            <div class="nutrition-label">뼈건강</div>
+                        </div>
+                        <div class="nutrition-item">
+                            <div class="nutrition-icon">💪</div>
+                            <div class="nutrition-label">항산화</div>
+                        </div>
+                        <div class="nutrition-item">
+                            <div class="nutrition-icon">⚡</div>
+                            <div class="nutrition-label">에너지</div>
+                        </div>
+                    </div>
+                    <div class="kid-product-footer">
+                        <span class="kid-product-price">24,900원</span>
+                        <button class="kid-product-action" onclick="addToCart(this)">담기</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 8 -->
+            <div class="kid-product-card" data-age="infant,elementary" data-safety="organic,certified,allergen">
+                <div class="kid-product-image" style="background: linear-gradient(135deg, #FFF9C4, #FFF59D);">
+                    🍈
+                </div>
+                <div class="kid-product-content">
+                    <h4 class="kid-product-title">꿀맛 참외</h4>
+                    <p class="kid-product-desc">여름 대표 과일! 시원하고 달콤 🍈</p>
+                    <div class="kid-product-tags">
+                        <span class="kid-product-tag">무농약</span>
+                        <span class="kid-product-tag">당도11°</span>
+                    </div>
+                    <div class="kid-product-nutrition">
+                        <div class="nutrition-item">
+                            <div class="nutrition-icon">💧</div>
+                            <div class="nutrition-label">수분</div>
+                        </div>
+                        <div class="nutrition-item">
+                            <div class="nutrition-icon">🦴</div>
+                            <div class="nutrition-label">칼륨</div>
+                        </div>
+                        <div class="nutrition-item">
+                            <div class="nutrition-icon">⚡</div>
+                            <div class="nutrition-label">에너지</div>
+                        </div>
+                    </div>
+                    <div class="kid-product-footer">
+                        <span class="kid-product-price">11,500원</span>
+                        <button class="kid-product-action" onclick="addToCart(this)">담기</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 9 -->
+            <div class="kid-product-card" data-age="elementary,teen" data-safety="organic,certified">
+                <div class="kid-product-image" style="background: linear-gradient(135deg, #FFCCBC, #FFAB91);">
+                    🥭
+                    <span class="kid-product-badge">한정</span>
+                </div>
+                <div class="kid-product-content">
+                    <h4 class="kid-product-title">트로피컬 망고</h4>
+                    <p class="kid-product-desc">달콤 촉촉 애플망고! 간식으로 최고 🥭</p>
+                    <div class="kid-product-tags">
+                        <span class="kid-product-tag">유기농</span>
+                        <span class="kid-product-tag">비타민A</span>
+                    </div>
+                    <div class="kid-product-nutrition">
+                        <div class="nutrition-item">
+                            <div class="nutrition-icon">👁️</div>
+                            <div class="nutrition-label">시력</div>
+                        </div>
+                        <div class="nutrition-item">
+                            <div class="nutrition-icon">🌟</div>
+                            <div class="nutrition-label">피부</div>
+                        </div>
+                        <div class="nutrition-item">
+                            <div class="nutrition-icon">💪</div>
+                            <div class="nutrition-label">비타민</div>
+                        </div>
+                    </div>
+                    <div class="kid-product-footer">
+                        <span class="kid-product-price">19,900원</span>
+                        <button class="kid-product-action" onclick="addToCart(this)">담기</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 10 -->
+            <div class="kid-product-card" data-age="infant,elementary,teen" data-safety="organic,certified,allergen">
+                <div class="kid-product-image" style="background: linear-gradient(135deg, #FFEBEE, #FFCDD2);">
+                    🍎
+                </div>
+                <div class="kid-product-content">
+                    <h4 class="kid-product-title">사과 크런치</h4>
+                    <p class="kid-product-desc">아삭아삭 신선한 사과! 매일 먹어요 🍎</p>
+                    <div class="kid-product-tags">
+                        <span class="kid-product-tag">무농약</span>
+                        <span class="kid-product-tag">식이섬유</span>
+                    </div>
+                    <div class="kid-product-nutrition">
+                        <div class="nutrition-item">
+                            <div class="nutrition-icon">💪</div>
+                            <div class="nutrition-label">비타민</div>
+                        </div>
+                        <div class="nutrition-item">
+                            <div class="nutrition-icon">🦷</div>
+                            <div class="nutrition-label">치아</div>
+                        </div>
+                        <div class="nutrition-item">
+                            <div class="nutrition-icon">⚡</div>
+                            <div class="nutrition-label">에너지</div>
+                        </div>
+                    </div>
+                    <div class="kid-product-footer">
+                        <span class="kid-product-price">8,900원</span>
+                        <button class="kid-product-action" onclick="addToCart(this)">담기</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Reviews Section -->
+    <section class="reviews-section">
+        <div class="reviews-header">
+            <h3 class="reviews-title">부모님 후기</h3>
+            <span class="reviews-count">💬 128개</span>
+        </div>
+
+        <div class="review-card">
+            <div class="review-header">
+                <div class="review-avatar">👩</div>
+                <div class="review-info">
+                    <div class="review-author">김*미 님</div>
+                    <div class="review-meta">7세 아이 엄마 • 2일 전</div>
+                </div>
+                <div class="review-rating">⭐⭐⭐⭐⭐</div>
+            </div>
+            <p class="review-content">
+                딸기가 정말 달고 신선해요! 아이가 너무 잘 먹어서 매주 주문하고 있어요. 무농약이라 안심하고 먹일 수 있어서 좋습니다 😊
+            </p>
+            <div class="review-product">🍓 달콤 미니 딸기</div>
+        </div>
+
+        <div class="review-card">
+            <div class="review-header">
+                <div class="review-avatar">👨</div>
+                <div class="review-info">
+                    <div class="review-author">이*준 님</div>
+                    <div class="review-meta">11세 아이 아빠 • 5일 전</div>
+                </div>
+                <div class="review-rating">⭐⭐⭐⭐⭐</div>
+            </div>
+            <p class="review-content">
+                아들이 블루베리 먹고 눈 건강 좋아졌다고 해요. 게임 많이 하는데 걱정이었는데 다행이에요. 매일 간식으로 챙겨주고 있습니다!
+            </p>
+            <div class="review-product">🫐 똑똑 블루베리</div>
+        </div>
+
+        <div class="review-card">
+            <div class="review-header">
+                <div class="review-avatar">👩</div>
+                <div class="review-info">
+                    <div class="review-author">박*영 님</div>
+                    <div class="review-meta">5세, 9세 두 아이 엄마 • 1주일 전</div>
+                </div>
+                <div class="review-rating">⭐⭐⭐⭐⭐</div>
+            </div>
+            <p class="review-content">
+                두 아이 모두 좋아해요! 특히 한라봉은 껍질 까기 쉬워서 아이들이 스스로 먹을 수 있어서 좋아요. 과즙도 풍부하고 달달해요 👍
+            </p>
+            <div class="review-product">🍊 한라봉 스위티</div>
+        </div>
+    </section>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+        <a href="../home/index.html" class="nav-item">
+            <span class="icon">🏠</span>
+            <span class="label">홈</span>
+        </a>
+        <a href="../products/index.html" class="nav-item active">
+            <span class="icon">🍎</span>
+            <span class="label">상품</span>
+        </a>
+        <a href="../cart/index.html" class="nav-item">
+            <span class="icon">🛒</span>
+            <span class="label">장바구니</span>
+        </a>
+        <a href="../mypage/index.html" class="nav-item">
+            <span class="icon">👤</span>
+            <span class="label">마이</span>
+        </a>
+    </nav>
+
+    <script>
+        // Global state
+        let currentAge = 'all';
+        let activeSafetyFilters = ['organic', 'certified', 'allergen'];
+
+        // Filter by age group
+        function filterByAge(age) {
+            currentAge = age;
+
+            // Update active chip
+            document.querySelectorAll('.age-chip').forEach(chip => {
+                chip.classList.remove('active');
+            });
+            document.querySelector(`[data-age="${age}"]`).classList.add('active');
+
+            // Filter products
+            filterProducts();
+        }
+
+        // Toggle safety badge filter
+        function toggleSafety(element, safety) {
+            element.classList.toggle('active');
+
+            if (element.classList.contains('active')) {
+                if (!activeSafetyFilters.includes(safety)) {
+                    activeSafetyFilters.push(safety);
+                }
+            } else {
+                activeSafetyFilters = activeSafetyFilters.filter(f => f !== safety);
+            }
+
+            // Filter products
+            filterProducts();
+        }
+
+        // Main filter function
+        function filterProducts() {
+            const products = document.querySelectorAll('.kid-product-card');
+            let visibleCount = 0;
+
+            products.forEach(product => {
+                const productAges = product.dataset.age.split(',');
+                const productSafety = product.dataset.safety.split(',');
+
+                // Check age filter
+                const ageMatch = currentAge === 'all' || productAges.includes(currentAge);
+
+                // Check safety filter (product must have all active safety filters)
+                const safetyMatch = activeSafetyFilters.length === 0 ||
+                    activeSafetyFilters.every(filter => productSafety.includes(filter));
+
+                if (ageMatch && safetyMatch) {
+                    product.classList.remove('hidden');
+                    visibleCount++;
+                } else {
+                    product.classList.add('hidden');
+                }
+            });
+
+            // Update product count
+            document.getElementById('product-count').textContent = `${visibleCount}개 상품`;
+        }
+
+        // Add to cart with animation
+        function addToCart(button) {
+            const originalText = button.textContent;
+            button.textContent = '✓';
+            button.style.background = 'linear-gradient(135deg, #4CAF50, #2E7D32)';
+
+            // Vibration feedback if supported
+            if ('vibrate' in navigator) {
+                navigator.vibrate(50);
+            }
+
+            setTimeout(() => {
+                button.textContent = originalText;
+                button.style.background = '';
+            }, 1000);
+
+            // Show toast notification
+            showToast('장바구니에 담았어요! 🎉');
+        }
+
+        // Toast notification
+        function showToast(message) {
+            const existingToast = document.querySelector('.toast');
+            if (existingToast) {
+                existingToast.remove();
+            }
+
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            toast.textContent = message;
+            toast.style.cssText = `
+                position: fixed;
+                bottom: 80px;
+                left: 50%;
+                transform: translateX(-50%);
+                background: rgba(0, 0, 0, 0.8);
+                color: white;
+                padding: 12px 24px;
+                border-radius: 24px;
+                font-size: 14px;
+                font-weight: 500;
+                z-index: 1000;
+                animation: slideUp 0.3s ease;
+            `;
+
+            document.body.appendChild(toast);
+
+            setTimeout(() => {
+                toast.style.animation = 'slideDown 0.3s ease';
+                setTimeout(() => toast.remove(), 300);
+            }, 2000);
+        }
+
+        // Add animations
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideUp {
+                from {
+                    opacity: 0;
+                    transform: translate(-50%, 20px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translate(-50%, 0);
+                }
+            }
+            @keyframes slideDown {
+                from {
+                    opacity: 1;
+                    transform: translate(-50%, 0);
+                }
+                to {
+                    opacity: 0;
+                    transform: translate(-50%, 20px);
+                }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            filterProducts();
+
+            // Add smooth scroll behavior
+            document.documentElement.style.scrollBehavior = 'smooth';
+        });
+
+        // Prevent default navigation for demo
+        document.querySelectorAll('.nav-item, .header-icon').forEach(item => {
+            item.addEventListener('click', (e) => {
+                if (item.getAttribute('href') && !item.getAttribute('href').includes('kids.html')) {
+                    e.preventDefault();
+                    showToast('데모 페이지입니다 😊');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

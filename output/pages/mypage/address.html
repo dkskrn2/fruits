@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>배송지 관리 - 과일다리</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../styles/design-system.css">
+    <link rel="stylesheet" href="../../styles/components.css">
+    <style>
+        /* Mobile Container */
+        @media (min-width: 768px) {
+            body {
+                max-width: 430px;
+                margin: 0 auto;
+                box-shadow: 0 0 50px rgba(0,0,0,0.1);
+            }
+        }
+
+        body {
+            padding-bottom: calc(var(--bottom-nav-height) + var(--safe-area-bottom));
+            background: var(--color-gray-50);
+        }
+
+        /* Header */
+        .header {
+            position: sticky;
+            top: 0;
+            z-index: var(--z-sticky);
+            background: var(--color-white);
+            border-bottom: 1px solid var(--color-gray-200);
+            padding: var(--space-3) var(--space-4);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: var(--header-height);
+        }
+
+        .header__back {
+            font-size: 24px;
+            cursor: pointer;
+            padding: var(--space-2);
+            margin-left: calc(var(--space-2) * -1);
+            color: var(--color-gray-900);
+        }
+
+        .header__title {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: var(--font-size-md);
+            font-weight: var(--font-weight-semibold);
+            color: var(--color-gray-900);
+        }
+
+        .header__action {
+            font-size: 24px;
+            cursor: pointer;
+            padding: var(--space-2);
+            margin-right: calc(var(--space-2) * -1);
+        }
+
+        /* Content */
+        .content {
+            padding: var(--space-4);
+            min-height: calc(100vh - var(--header-height) - var(--bottom-nav-height));
+        }
+
+        /* Add Address Button */
+        .add-address-btn {
+            margin-bottom: var(--space-5);
+        }
+
+        /* Address Card */
+        .address-card {
+            background: var(--color-white);
+            border-radius: var(--radius-lg);
+            padding: var(--space-4);
+            margin-bottom: var(--space-3);
+            box-shadow: var(--shadow-sm);
+            position: relative;
+            border: 2px solid transparent;
+            transition: all var(--transition-fast);
+        }
+
+        .address-card.default {
+            border-color: var(--color-primary);
+            background: linear-gradient(to bottom, rgba(111, 207, 63, 0.02), var(--color-white));
+        }
+
+        .address-card__header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            margin-bottom: var(--space-3);
+        }
+
+        .address-card__info {
+            flex: 1;
+        }
+
+        .address-card__name {
+            font-size: var(--font-size-md);
+            font-weight: var(--font-weight-semibold);
+            color: var(--color-gray-900);
+            margin-bottom: var(--space-1);
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+        }
+
+        .address-card__phone {
+            font-size: var(--font-size-sm);
+            color: var(--color-gray-600);
+        }
+
+        .address-card__address {
+            font-size: var(--font-size-base);
+            color: var(--color-gray-700);
+            line-height: var(--line-height-relaxed);
+            margin-bottom: var(--space-4);
+        }
+
+        .address-card__address-detail {
+            font-size: var(--font-size-sm);
+            color: var(--color-gray-600);
+            margin-top: var(--space-1);
+        }
+
+        .address-card__actions {
+            display: flex;
+            gap: var(--space-2);
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 430px;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: var(--z-modal);
+            align-items: flex-end;
+            animation: fadeIn var(--transition-base);
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(100%); }
+            to { transform: translateY(0); }
+        }
+
+        .modal__content {
+            background: var(--color-white);
+            border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: var(--space-5) var(--space-4);
+            animation: slideUp var(--transition-base);
+        }
+
+        .modal__header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: var(--space-5);
+        }
+
+        .modal__title {
+            font-size: var(--font-size-lg);
+            font-weight: var(--font-weight-bold);
+            color: var(--color-gray-900);
+        }
+
+        .modal__close {
+            font-size: 28px;
+            cursor: pointer;
+            color: var(--color-gray-600);
+            padding: var(--space-2);
+            margin-right: calc(var(--space-2) * -1);
+        }
+
+        /* Address Search */
+        .address-search {
+            display: flex;
+            gap: var(--space-2);
+            margin-bottom: var(--space-4);
+        }
+
+        .address-search__input {
+            flex: 1;
+        }
+
+        .address-search__result {
+            background: var(--color-gray-50);
+            padding: var(--space-3);
+            border-radius: var(--radius-md);
+            margin-bottom: var(--space-4);
+            font-size: var(--font-size-sm);
+            color: var(--color-gray-700);
+            display: none;
+        }
+
+        .address-search__result.active {
+            display: block;
+        }
+
+        /* Checkbox */
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+            margin-bottom: var(--space-4);
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            accent-color: var(--color-primary);
+        }
+
+        .checkbox-group label {
+            font-size: var(--font-size-base);
+            color: var(--color-gray-700);
+            cursor: pointer;
+        }
+
+        /* Info Banner */
+        .info-banner {
+            background: var(--color-primary-light);
+            border-left: 3px solid var(--color-primary);
+            padding: var(--space-3);
+            border-radius: var(--radius-md);
+            margin-bottom: var(--space-4);
+        }
+
+        .info-banner__text {
+            font-size: var(--font-size-sm);
+            color: var(--color-primary-dark);
+            line-height: var(--line-height-relaxed);
+        }
+
+        /* Empty State */
+        .empty-addresses {
+            text-align: center;
+            padding: var(--space-12) var(--space-4);
+        }
+
+        .empty-addresses__icon {
+            font-size: 64px;
+            margin-bottom: var(--space-4);
+            opacity: 0.3;
+        }
+
+        .empty-addresses__text {
+            font-size: var(--font-size-base);
+            color: var(--color-gray-600);
+            margin-bottom: var(--space-2);
+        }
+
+        .empty-addresses__subtext {
+            font-size: var(--font-size-sm);
+            color: var(--color-gray-500);
+        }
+
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 430px;
+            background: var(--color-white);
+            border-top: 1px solid var(--color-gray-200);
+            display: flex;
+            justify-content: space-around;
+            padding: var(--space-2) 0;
+            z-index: var(--z-sticky);
+            height: var(--bottom-nav-height);
+        }
+
+        .nav-item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--space-1);
+            padding: var(--space-1);
+            color: var(--color-gray-500);
+            text-decoration: none;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+
+        .nav-item.active {
+            color: var(--color-primary);
+        }
+
+        .nav-item__icon {
+            font-size: 24px;
+        }
+
+        .nav-item__label {
+            font-size: var(--font-size-xs);
+            font-weight: var(--font-weight-medium);
+        }
+
+        /* Button Group */
+        .btn-group {
+            display: flex;
+            gap: var(--space-2);
+            margin-top: var(--space-5);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <span class="header__back" onclick="history.back()">←</span>
+        <h1 class="header__title">배송지 관리</h1>
+        <span class="header__action">🏠</span>
+    </header>
+
+    <!-- Main Content -->
+    <main class="content">
+        <!-- Add Address Button -->
+        <button class="btn btn-primary btn-full add-address-btn" onclick="openAddressModal()">
+            + 새 배송지 추가
+        </button>
+
+        <!-- Info Banner -->
+        <div class="info-banner">
+            <p class="info-banner__text">최대 5개까지 배송지를 등록할 수 있습니다.</p>
+        </div>
+
+        <!-- Address List -->
+        <div id="addressList">
+            <!-- Addresses will be dynamically inserted here -->
+        </div>
+
+        <!-- Empty State (shown when no addresses) -->
+        <div id="emptyState" class="empty-addresses" style="display: none;">
+            <div class="empty-addresses__icon">📦</div>
+            <p class="empty-addresses__text">등록된 배송지가 없습니다</p>
+            <p class="empty-addresses__subtext">새 배송지를 추가해주세요</p>
+        </div>
+    </main>
+
+    <!-- Address Modal -->
+    <div id="addressModal" class="modal">
+        <div class="modal__content">
+            <div class="modal__header">
+                <h2 class="modal__title" id="modalTitle">새 배송지 추가</h2>
+                <span class="modal__close" onclick="closeAddressModal()">×</span>
+            </div>
+
+            <form id="addressForm" onsubmit="saveAddress(event)">
+                <!-- Recipient Name -->
+                <div class="form-group">
+                    <label class="form-label form-label-required">받는 분</label>
+                    <input type="text" id="recipientName" class="input" placeholder="이름을 입력하세요" required>
+                </div>
+
+                <!-- Phone Number -->
+                <div class="form-group">
+                    <label class="form-label form-label-required">연락처</label>
+                    <input type="tel" id="phone" class="input" placeholder="010-0000-0000" required>
+                </div>
+
+                <!-- Address Search -->
+                <div class="form-group">
+                    <label class="form-label form-label-required">주소</label>
+                    <div class="address-search">
+                        <input type="text" id="postalCode" class="input address-search__input" placeholder="우편번호" readonly required>
+                        <button type="button" class="btn btn-secondary" onclick="searchAddress()">주소 검색</button>
+                    </div>
+                    <div id="searchResult" class="address-search__result">
+                        <p><strong>검색된 주소:</strong> 서울특별시 강남구 테헤란로 123</p>
+                    </div>
+                    <input type="text" id="address" class="input" placeholder="기본 주소" readonly required style="margin-top: 8px;">
+                </div>
+
+                <!-- Detailed Address -->
+                <div class="form-group">
+                    <label class="form-label form-label-required">상세 주소</label>
+                    <input type="text" id="detailAddress" class="input" placeholder="상세 주소를 입력하세요 (예: 101동 1001호)" required>
+                </div>
+
+                <!-- Set as Default -->
+                <div class="checkbox-group">
+                    <input type="checkbox" id="isDefault">
+                    <label for="isDefault">기본 배송지로 설정</label>
+                </div>
+
+                <!-- Submit Buttons -->
+                <div class="btn-group">
+                    <button type="button" class="btn btn-secondary flex-1" onclick="closeAddressModal()">취소</button>
+                    <button type="submit" class="btn btn-primary flex-1">저장</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+        <a href="../home/index.html" class="nav-item">
+            <span class="nav-item__icon">🏠</span>
+            <span class="nav-item__label">홈</span>
+        </a>
+        <a href="../products/index.html" class="nav-item">
+            <span class="nav-item__icon">🍎</span>
+            <span class="nav-item__label">상품</span>
+        </a>
+        <a href="index.html" class="nav-item active">
+            <span class="nav-item__icon">👤</span>
+            <span class="nav-item__label">마이</span>
+        </a>
+        <a href="../support/index.html" class="nav-item">
+            <span class="nav-item__icon">💬</span>
+            <span class="nav-item__label">고객지원</span>
+        </a>
+    </nav>
+
+    <script>
+        // Address data storage
+        let addresses = [
+            {
+                id: 1,
+                name: '김민수',
+                phone: '010-1234-5678',
+                postalCode: '06234',
+                address: '서울특별시 강남구 테헤란로 123',
+                detailAddress: '삼성빌딩 101동 1001호',
+                isDefault: true
+            },
+            {
+                id: 2,
+                name: '홍길동',
+                phone: '010-9876-5432',
+                postalCode: '13529',
+                address: '경기도 성남시 분당구 판교역로 235',
+                detailAddress: '에이치스퀘어 N동 2401호',
+                isDefault: false
+            },
+            {
+                id: 3,
+                name: '박영희',
+                phone: '010-5555-6666',
+                postalCode: '04524',
+                address: '서울특별시 중구 세종대로 110',
+                detailAddress: '더플라자 1층',
+                isDefault: false
+            }
+        ];
+
+        let editingAddressId = null;
+        let nextId = 4;
+
+        // Initialize page
+        function init() {
+            renderAddresses();
+        }
+
+        // Render address list
+        function renderAddresses() {
+            const addressList = document.getElementById('addressList');
+            const emptyState = document.getElementById('emptyState');
+
+            if (addresses.length === 0) {
+                addressList.innerHTML = '';
+                emptyState.style.display = 'block';
+                return;
+            }
+
+            emptyState.style.display = 'none';
+
+            // Sort addresses - default first
+            const sortedAddresses = [...addresses].sort((a, b) => {
+                if (a.isDefault && !b.isDefault) return -1;
+                if (!a.isDefault && b.isDefault) return 1;
+                return 0;
+            });
+
+            addressList.innerHTML = sortedAddresses.map(addr => `
+                <div class="address-card ${addr.isDefault ? 'default' : ''}">
+                    <div class="address-card__header">
+                        <div class="address-card__info">
+                            <div class="address-card__name">
+                                ${addr.name}
+                                ${addr.isDefault ? '<span class="badge badge-primary">기본 배송지</span>' : ''}
+                            </div>
+                            <div class="address-card__phone">${addr.phone}</div>
+                        </div>
+                    </div>
+                    <div class="address-card__address">
+                        <div>[${addr.postalCode}] ${addr.address}</div>
+                        <div class="address-card__address-detail">${addr.detailAddress}</div>
+                    </div>
+                    <div class="address-card__actions">
+                        ${!addr.isDefault ? `<button class="btn btn-outline btn-sm flex-1" onclick="setAsDefault(${addr.id})">기본 배송지 설정</button>` : '<div class="flex-1"></div>'}
+                        <button class="btn btn-secondary btn-sm" onclick="editAddress(${addr.id})">수정</button>
+                        <button class="btn btn-outline btn-sm" onclick="deleteAddress(${addr.id})">삭제</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Open add/edit modal
+        function openAddressModal(addressId = null) {
+            const modal = document.getElementById('addressModal');
+            const modalTitle = document.getElementById('modalTitle');
+            const form = document.getElementById('addressForm');
+
+            editingAddressId = addressId;
+
+            if (addressId) {
+                // Edit mode
+                const address = addresses.find(a => a.id === addressId);
+                modalTitle.textContent = '배송지 수정';
+                document.getElementById('recipientName').value = address.name;
+                document.getElementById('phone').value = address.phone;
+                document.getElementById('postalCode').value = address.postalCode;
+                document.getElementById('address').value = address.address;
+                document.getElementById('detailAddress').value = address.detailAddress;
+                document.getElementById('isDefault').checked = address.isDefault;
+            } else {
+                // Add mode
+                modalTitle.textContent = '새 배송지 추가';
+                form.reset();
+            }
+
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        // Close modal
+        function closeAddressModal() {
+            const modal = document.getElementById('addressModal');
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+            editingAddressId = null;
+
+            // Clear search result
+            document.getElementById('searchResult').classList.remove('active');
+        }
+
+        // Address search simulation
+        function searchAddress() {
+            const postalCode = document.getElementById('postalCode');
+            const address = document.getElementById('address');
+            const searchResult = document.getElementById('searchResult');
+
+            // Simulate address search
+            const mockAddresses = [
+                { code: '06234', addr: '서울특별시 강남구 테헤란로 123' },
+                { code: '13529', addr: '경기도 성남시 분당구 판교역로 235' },
+                { code: '04524', addr: '서울특별시 중구 세종대로 110' },
+                { code: '48058', addr: '부산광역시 해운대구 센텀중앙로 79' }
+            ];
+
+            const randomAddress = mockAddresses[Math.floor(Math.random() * mockAddresses.length)];
+
+            postalCode.value = randomAddress.code;
+            address.value = randomAddress.addr;
+
+            searchResult.innerHTML = `<p><strong>검색된 주소:</strong> ${randomAddress.addr}</p>`;
+            searchResult.classList.add('active');
+
+            // Auto-focus on detail address
+            setTimeout(() => {
+                document.getElementById('detailAddress').focus();
+            }, 100);
+        }
+
+        // Save address
+        function saveAddress(event) {
+            event.preventDefault();
+
+            // Check maximum addresses limit
+            if (!editingAddressId && addresses.length >= 5) {
+                alert('최대 5개까지만 배송지를 등록할 수 있습니다.');
+                return;
+            }
+
+            const addressData = {
+                name: document.getElementById('recipientName').value,
+                phone: document.getElementById('phone').value,
+                postalCode: document.getElementById('postalCode').value,
+                address: document.getElementById('address').value,
+                detailAddress: document.getElementById('detailAddress').value,
+                isDefault: document.getElementById('isDefault').checked
+            };
+
+            if (editingAddressId) {
+                // Edit existing address
+                const index = addresses.findIndex(a => a.id === editingAddressId);
+                addresses[index] = { ...addresses[index], ...addressData };
+
+                // If set as default, remove default from others
+                if (addressData.isDefault) {
+                    addresses.forEach(addr => {
+                        if (addr.id !== editingAddressId) {
+                            addr.isDefault = false;
+                        }
+                    });
+                }
+            } else {
+                // Add new address
+                const newAddress = {
+                    id: nextId++,
+                    ...addressData
+                };
+
+                // If set as default, remove default from others
+                if (addressData.isDefault) {
+                    addresses.forEach(addr => {
+                        addr.isDefault = false;
+                    });
+                }
+
+                addresses.push(newAddress);
+            }
+
+            closeAddressModal();
+            renderAddresses();
+
+            alert(editingAddressId ? '배송지가 수정되었습니다.' : '새 배송지가 추가되었습니다.');
+        }
+
+        // Edit address
+        function editAddress(addressId) {
+            openAddressModal(addressId);
+        }
+
+        // Delete address
+        function deleteAddress(addressId) {
+            const address = addresses.find(a => a.id === addressId);
+
+            if (!confirm(`"${address.name}"님의 배송지를 삭제하시겠습니까?`)) {
+                return;
+            }
+
+            addresses = addresses.filter(a => a.id !== addressId);
+
+            // If deleted address was default, set first address as default
+            if (address.isDefault && addresses.length > 0) {
+                addresses[0].isDefault = true;
+            }
+
+            renderAddresses();
+            alert('배송지가 삭제되었습니다.');
+        }
+
+        // Set as default address
+        function setAsDefault(addressId) {
+            addresses.forEach(addr => {
+                addr.isDefault = addr.id === addressId;
+            });
+
+            renderAddresses();
+            alert('기본 배송지로 설정되었습니다.');
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('addressModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeAddressModal();
+            }
+        });
+
+        // Format phone number on input
+        document.getElementById('phone').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/[^0-9]/g, '');
+
+            if (value.length <= 3) {
+                e.target.value = value;
+            } else if (value.length <= 7) {
+                e.target.value = value.slice(0, 3) + '-' + value.slice(3);
+            } else {
+                e.target.value = value.slice(0, 3) + '-' + value.slice(3, 7) + '-' + value.slice(7, 11);
+            }
+        });
+
+        // Initialize on page load
+        init();
+    </script>
+</body>
+</html>

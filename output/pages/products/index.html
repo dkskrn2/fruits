@@ -1,0 +1,1145 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <title>상품 - 과일다리</title>
+
+    <!-- Design System CSS -->
+    <link rel="stylesheet" href="../../styles/design-system.css">
+    <link rel="stylesheet" href="../../styles/components.css">
+
+    <style>
+        /* Page Specific Styles */
+        body {
+            background: var(--color-gray-50);
+        }
+
+        .mobile-container {
+            padding-top: 0;
+        }
+
+        /* App Header */
+        .app-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 20px;
+            background: white;
+            border-bottom: 1px solid var(--color-gray-100);
+            position: sticky;
+            top: 0;
+            z-index: var(--z-sticky);
+        }
+
+        .app-header__title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--color-gray-900);
+        }
+
+        .app-header__actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .icon-button {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: transparent;
+            border: none;
+            border-radius: var(--radius-full);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            font-size: 20px;
+        }
+
+        .icon-button:active {
+            background: var(--color-gray-100);
+            transform: scale(0.95);
+        }
+
+        /* Hero Banner */
+        .hero-banner {
+            position: relative;
+            overflow: hidden;
+            background: white;
+        }
+
+        .banner-carousel {
+            position: relative;
+            height: 220px;
+        }
+
+        .banner-slide {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 0.6s ease;
+        }
+
+        .banner-slide.active {
+            opacity: 1;
+        }
+
+        .banner-bg {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+
+        .banner-content {
+            position: relative;
+            padding: 32px 24px;
+            color: white;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .banner-badge {
+            display: inline-block;
+            padding: 6px 14px;
+            background: rgba(255, 255, 255, 0.25);
+            border-radius: var(--radius-full);
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            width: fit-content;
+            backdrop-filter: blur(10px);
+        }
+
+        .banner-title {
+            font-size: 26px;
+            font-weight: 800;
+            line-height: 1.3;
+            margin-bottom: 8px;
+        }
+
+        .banner-subtitle {
+            font-size: 14px;
+            opacity: 0.95;
+            margin-bottom: 20px;
+        }
+
+        .banner-cta {
+            display: inline-flex;
+            padding: 12px 24px;
+            background: white;
+            color: var(--color-primary);
+            border-radius: var(--radius-full);
+            font-size: 14px;
+            font-weight: 700;
+            text-decoration: none;
+            width: fit-content;
+            transition: all var(--transition-fast);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .banner-cta:active {
+            transform: scale(0.95);
+        }
+
+        .carousel-indicators {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 6px;
+            z-index: 10;
+        }
+
+        .indicator {
+            width: 6px;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.4);
+            border-radius: var(--radius-full);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+
+        .indicator.active {
+            width: 24px;
+            background: white;
+        }
+
+        /* Category Grid */
+        .category-section {
+            padding: 20px;
+            background: white;
+            margin-top: 8px;
+        }
+
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+        }
+
+        .category-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+
+        .category-item:active {
+            transform: scale(0.95);
+        }
+
+        .category-icon {
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--color-gray-50);
+            border-radius: var(--radius-xl);
+            font-size: 30px;
+            transition: all var(--transition-fast);
+        }
+
+        .category-item:active .category-icon {
+            background: var(--color-primary-light);
+        }
+
+        .category-label {
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--color-gray-700);
+            text-align: center;
+        }
+
+        /* Product Section */
+        .product-section {
+            padding: 24px 20px;
+            background: white;
+            margin-top: 8px;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--color-gray-900);
+        }
+
+        .section-subtitle {
+            font-size: 13px;
+            color: var(--color-gray-600);
+            margin-top: 4px;
+        }
+
+        .section-more {
+            font-size: 13px;
+            color: var(--color-gray-600);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        /* Horizontal Scroll Section */
+        .product-scroll {
+            display: flex;
+            gap: 12px;
+            overflow-x: auto;
+            padding: 4px 0;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+        }
+
+        .product-scroll::-webkit-scrollbar {
+            display: none;
+        }
+
+        .product-card-wide {
+            min-width: 280px;
+            background: var(--color-white);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            transition: all var(--transition-base);
+            cursor: pointer;
+        }
+
+        .product-card-wide:active {
+            transform: scale(0.98);
+        }
+
+        .product-card-wide__image {
+            position: relative;
+            padding-top: 75%;
+            background: var(--color-gray-100);
+            overflow: hidden;
+        }
+
+        .product-card-wide__image img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Time Sale Badge */
+        .time-sale-badge {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            padding: 6px 12px;
+            background: var(--color-error);
+            color: white;
+            font-size: 12px;
+            font-weight: 700;
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .timer {
+            font-family: 'Courier New', monospace;
+            font-size: 11px;
+        }
+
+        /* Special Deal Section */
+        .special-deal-section {
+            background: linear-gradient(135deg, #FFE0B2, #FFCC80);
+            padding: 24px 20px;
+            margin-top: 8px;
+        }
+
+        .deal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+        }
+
+        .deal-title {
+            font-size: 20px;
+            font-weight: 800;
+            color: var(--color-gray-900);
+        }
+
+        .deal-timer {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 14px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: var(--radius-full);
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--color-error);
+        }
+
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 430px;
+            background: white;
+            border-top: 1px solid var(--color-gray-100);
+            display: flex;
+            justify-content: space-around;
+            padding: 8px 0 env(safe-area-inset-bottom);
+            z-index: var(--z-sticky);
+        }
+
+        .nav-item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            padding: 4px;
+            color: var(--color-gray-500);
+            text-decoration: none;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+
+        .nav-item:active {
+            transform: scale(0.95);
+        }
+
+        .nav-item.active {
+            color: var(--color-primary);
+        }
+
+        .nav-item__icon {
+            font-size: 22px;
+        }
+
+        .nav-item__label {
+            font-size: 11px;
+            font-weight: 500;
+        }
+
+        /* Content Padding for Fixed Navigation */
+        .main-content {
+            padding-bottom: 80px;
+        }
+
+        /* New Badge */
+        .new-badge {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            padding: 4px 8px;
+            background: var(--color-secondary);
+            color: white;
+            font-size: 10px;
+            font-weight: 700;
+            border-radius: var(--radius-sm);
+        }
+
+        /* Quick Filter Chips */
+        .filter-chips {
+            display: flex;
+            gap: 8px;
+            padding: 16px 20px;
+            background: white;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+        }
+
+        .filter-chips::-webkit-scrollbar {
+            display: none;
+        }
+
+        .filter-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 16px;
+            background: var(--color-gray-100);
+            border-radius: var(--radius-full);
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--color-gray-700);
+            white-space: nowrap;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            border: 2px solid transparent;
+        }
+
+        .filter-chip:active,
+        .filter-chip.active {
+            background: var(--color-primary-light);
+            color: var(--color-primary-dark);
+            border-color: var(--color-primary);
+        }
+
+        /* Season Badge */
+        .season-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 8px;
+            background: linear-gradient(135deg, #FFE0B2, #FFCC80);
+            color: var(--color-gray-900);
+            font-size: 10px;
+            font-weight: 700;
+            border-radius: var(--radius-sm);
+        }
+    </style>
+</head>
+<body>
+    <div class="mobile-container">
+        <!-- App Header -->
+        <header class="app-header">
+            <h1 class="app-header__title">상품</h1>
+            <div class="app-header__actions">
+                <button class="icon-button" onclick="location.href='../search/index.html'">
+                    🔍
+                </button>
+                <button class="icon-button" onclick="location.href='../cart/index.html'">
+                    🛒
+                </button>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Hero Banner Carousel -->
+            <div class="hero-banner">
+                <div class="banner-carousel">
+                    <!-- Slide 1: 제철과일 프로모션 -->
+                    <div class="banner-slide active">
+                        <div class="banner-bg" style="background: linear-gradient(135deg, #FF6F00, #FFB74D);"></div>
+                        <div class="banner-content">
+                            <span class="banner-badge">🍊 12월 제철과일</span>
+                            <h2 class="banner-title">겨울의 맛<br>달콤한 귤과 한라봉</h2>
+                            <p class="banner-subtitle">당도 13Brix 이상 보장</p>
+                            <a href="seasonal.html" class="banner-cta">지금 보러가기</a>
+                        </div>
+                    </div>
+
+                    <!-- Slide 2: 신규가입 혜택 -->
+                    <div class="banner-slide">
+                        <div class="banner-bg" style="background: linear-gradient(135deg, #6FCF3F, #5CB82F);"></div>
+                        <div class="banner-content">
+                            <span class="banner-badge">🎉 신규가입 혜택</span>
+                            <h2 class="banner-title">첫 구매 50% 할인<br>+ 무료배송</h2>
+                            <p class="banner-subtitle">3만원 이상 구매 시 적용</p>
+                            <a href="../auth/signup.html" class="banner-cta">가입하고 혜택받기</a>
+                        </div>
+                    </div>
+
+                    <!-- Slide 3: 타임세일 -->
+                    <div class="banner-slide">
+                        <div class="banner-bg" style="background: linear-gradient(135deg, #F44336, #EF5350);"></div>
+                        <div class="banner-content">
+                            <span class="banner-badge">⏰ 오늘만 특가</span>
+                            <h2 class="banner-title">타임세일<br>최대 70% 할인</h2>
+                            <p class="banner-subtitle">매일 오전 10시 오픈</p>
+                            <a href="timesale.html" class="banner-cta">특가 확인하기</a>
+                        </div>
+                    </div>
+
+                    <!-- Carousel Indicators -->
+                    <div class="carousel-indicators">
+                        <span class="indicator active" data-slide="0"></span>
+                        <span class="indicator" data-slide="1"></span>
+                        <span class="indicator" data-slide="2"></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Category Grid -->
+            <section class="category-section">
+                <div class="category-grid">
+                    <a href="family.html" class="category-item">
+                        <div class="category-icon">👨‍👩‍👧‍👦</div>
+                        <span class="category-label">가족루틴</span>
+                    </a>
+                    <a href="kids.html" class="category-item">
+                        <div class="category-icon">🧒</div>
+                        <span class="category-label">아이간식</span>
+                    </a>
+                    <a href="greeting.html" class="category-item">
+                        <div class="category-icon">💝</div>
+                        <span class="category-label">안부전하기</span>
+                    </a>
+                    <a href="donation.html" class="category-item">
+                        <div class="category-icon">🤝</div>
+                        <span class="category-label">나눔과일</span>
+                    </a>
+                    <a href="seasonal.html" class="category-item">
+                        <div class="category-icon">🍊</div>
+                        <span class="category-label">제철과일</span>
+                    </a>
+                    <a href="subscription.html" class="category-item">
+                        <div class="category-icon">📦</div>
+                        <span class="category-label">정기배송</span>
+                    </a>
+                    <a href="best.html" class="category-item">
+                        <div class="category-icon">🏆</div>
+                        <span class="category-label">베스트</span>
+                    </a>
+                    <a href="new.html" class="category-item">
+                        <div class="category-icon">✨</div>
+                        <span class="category-label">신상품</span>
+                    </a>
+                </div>
+            </section>
+
+            <!-- Filter Chips -->
+            <div class="filter-chips">
+                <button class="filter-chip active">
+                    🔥 전체
+                </button>
+                <button class="filter-chip">
+                    🍎 사과/배
+                </button>
+                <button class="filter-chip">
+                    🍊 감귤류
+                </button>
+                <button class="filter-chip">
+                    🍇 포도/베리
+                </button>
+                <button class="filter-chip">
+                    🍑 복숭아/자두
+                </button>
+                <button class="filter-chip">
+                    🥭 열대과일
+                </button>
+            </div>
+
+            <!-- Time Sale Section -->
+            <section class="special-deal-section">
+                <div class="deal-header">
+                    <h2 class="deal-title">⏰ 오늘만 특가</h2>
+                    <div class="deal-timer">
+                        <span>⏱️</span>
+                        <span id="timer">02:34:12</span>
+                    </div>
+                </div>
+                <div class="product-scroll">
+                    <div class="product-card-wide">
+                        <div class="product-card-wide__image">
+                            <div style="background: linear-gradient(135deg, #E8F5E9, #C8E6C9); height: 100%; display: flex; align-items: center; justify-content: center; font-size: 64px;">
+                                🍇
+                            </div>
+                            <div class="time-sale-badge">
+                                <span>⚡</span>
+                                <span>70% 할인</span>
+                            </div>
+                        </div>
+                        <div class="product-card__content">
+                            <h3 class="product-card__title">프리미엄 샤인머스켓</h3>
+                            <p class="product-card__desc">껍질째 먹는 청포도</p>
+                            <div class="product-card__info">
+                                <span class="product-card__brix">당도 18.0°</span>
+                                <span class="product-card__origin">영동</span>
+                            </div>
+                            <div class="product-card__footer">
+                                <div class="product-card__price">
+                                    <span class="product-card__price-original">60,000원</span>
+                                    18,000원
+                                </div>
+                                <button class="product-card__action">🛒</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="product-card-wide">
+                        <div class="product-card-wide__image">
+                            <div style="background: linear-gradient(135deg, #FFE0B2, #FFCC80); height: 100%; display: flex; align-items: center; justify-content: center; font-size: 64px;">
+                                🍊
+                            </div>
+                            <div class="time-sale-badge">
+                                <span>⚡</span>
+                                <span>50% 할인</span>
+                            </div>
+                        </div>
+                        <div class="product-card__content">
+                            <h3 class="product-card__title">제주 프리미엄 한라봉</h3>
+                            <p class="product-card__desc">새콤달콤 제주 특산품</p>
+                            <div class="product-card__info">
+                                <span class="product-card__brix">당도 14.0°</span>
+                                <span class="product-card__origin">제주</span>
+                            </div>
+                            <div class="product-card__footer">
+                                <div class="product-card__price">
+                                    <span class="product-card__price-original">45,000원</span>
+                                    22,500원
+                                </div>
+                                <button class="product-card__action">🛒</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="product-card-wide">
+                        <div class="product-card-wide__image">
+                            <div style="background: linear-gradient(135deg, #FFEBEE, #FFCDD2); height: 100%; display: flex; align-items: center; justify-content: center; font-size: 64px;">
+                                🍓
+                            </div>
+                            <div class="time-sale-badge">
+                                <span>⚡</span>
+                                <span>40% 할인</span>
+                            </div>
+                        </div>
+                        <div class="product-card__content">
+                            <h3 class="product-card__title">설향 딸기 특선</h3>
+                            <p class="product-card__desc">달콤한 비타민 폭탄</p>
+                            <div class="product-card__info">
+                                <span class="product-card__brix">당도 11.5°</span>
+                                <span class="product-card__origin">담양</span>
+                            </div>
+                            <div class="product-card__footer">
+                                <div class="product-card__price">
+                                    <span class="product-card__price-original">30,000원</span>
+                                    18,000원
+                                </div>
+                                <button class="product-card__action">🛒</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Best Sellers -->
+            <section class="product-section">
+                <div class="section-header">
+                    <div>
+                        <h2 class="section-title">🔥 베스트셀러</h2>
+                        <p class="section-subtitle">가장 많이 선택한 과일</p>
+                    </div>
+                    <a href="best.html" class="section-more">더보기 →</a>
+                </div>
+                <div class="product-grid">
+                    <div class="product-card">
+                        <div class="product-card__image">
+                            <div style="background: linear-gradient(135deg, #FFE0B2, #FFCC80); height: 100%; display: flex; align-items: center; justify-content: center; font-size: 48px;">
+                                🍊
+                            </div>
+                            <span class="product-card__badge">1위</span>
+                        </div>
+                        <div class="product-card__content">
+                            <h3 class="product-card__title">제주 한라봉</h3>
+                            <p class="product-card__desc">새콤달콤 제주 특산품</p>
+                            <div class="product-card__info">
+                                <span class="product-card__brix">당도 13.5°</span>
+                                <span class="product-card__origin">제주</span>
+                            </div>
+                            <div class="product-card__footer">
+                                <div class="product-card__price">32,000원</div>
+                                <button class="product-card__action">🛒</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="product-card">
+                        <div class="product-card__image">
+                            <div style="background: linear-gradient(135deg, #E8F5E9, #C8E6C9); height: 100%; display: flex; align-items: center; justify-content: center; font-size: 48px;">
+                                🍇
+                            </div>
+                            <span class="product-card__badge">2위</span>
+                        </div>
+                        <div class="product-card__content">
+                            <h3 class="product-card__title">샤인머스켓</h3>
+                            <p class="product-card__desc">달콤한 청포도의 정석</p>
+                            <div class="product-card__info">
+                                <span class="product-card__brix">당도 16.0°</span>
+                                <span class="product-card__origin">영동</span>
+                            </div>
+                            <div class="product-card__footer">
+                                <div class="product-card__price">45,000원</div>
+                                <button class="product-card__action">🛒</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="product-card">
+                        <div class="product-card__image">
+                            <div style="background: linear-gradient(135deg, #FFF9C4, #FFE082); height: 100%; display: flex; align-items: center; justify-content: center; font-size: 48px;">
+                                🍎
+                            </div>
+                            <span class="product-card__badge">3위</span>
+                        </div>
+                        <div class="product-card__content">
+                            <h3 class="product-card__title">청송 꿀사과</h3>
+                            <p class="product-card__desc">아삭하고 달콤한 사과</p>
+                            <div class="product-card__info">
+                                <span class="product-card__brix">당도 14.0°</span>
+                                <span class="product-card__origin">청송</span>
+                            </div>
+                            <div class="product-card__footer">
+                                <div class="product-card__price">25,000원</div>
+                                <button class="product-card__action">🛒</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="product-card">
+                        <div class="product-card__image">
+                            <div style="background: linear-gradient(135deg, #FFEBEE, #FFCDD2); height: 100%; display: flex; align-items: center; justify-content: center; font-size: 48px;">
+                                🍓
+                            </div>
+                            <span class="product-card__badge">4위</span>
+                        </div>
+                        <div class="product-card__content">
+                            <h3 class="product-card__title">담양 설향 딸기</h3>
+                            <p class="product-card__desc">새콤달콤 비타민C</p>
+                            <div class="product-card__info">
+                                <span class="product-card__brix">당도 10.5°</span>
+                                <span class="product-card__origin">담양</span>
+                            </div>
+                            <div class="product-card__footer">
+                                <div class="product-card__price">18,000원</div>
+                                <button class="product-card__action">🛒</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- New Arrivals -->
+            <section class="product-section">
+                <div class="section-header">
+                    <div>
+                        <h2 class="section-title">✨ 신상품</h2>
+                        <p class="section-subtitle">이번주 새로 입고된 상품</p>
+                    </div>
+                    <a href="new.html" class="section-more">더보기 →</a>
+                </div>
+                <div class="product-grid">
+                    <div class="product-card">
+                        <div class="product-card__image">
+                            <div style="background: linear-gradient(135deg, #F3E5F5, #E1BEE7); height: 100%; display: flex; align-items: center; justify-content: center; font-size: 48px;">
+                                🥝
+                            </div>
+                            <span class="new-badge">NEW</span>
+                        </div>
+                        <div class="product-card__content">
+                            <h3 class="product-card__title">뉴질랜드 골드키위</h3>
+                            <p class="product-card__desc">달콤한 황금 키위</p>
+                            <div class="product-card__info">
+                                <span class="product-card__brix">당도 15.0°</span>
+                                <span class="product-card__origin">뉴질랜드</span>
+                            </div>
+                            <div class="product-card__footer">
+                                <div class="product-card__price">19,000원</div>
+                                <button class="product-card__action">🛒</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="product-card">
+                        <div class="product-card__image">
+                            <div style="background: linear-gradient(135deg, #E0F2F1, #B2DFDB); height: 100%; display: flex; align-items: center; justify-content: center; font-size: 48px;">
+                                🥑
+                            </div>
+                            <span class="new-badge">NEW</span>
+                        </div>
+                        <div class="product-card__content">
+                            <h3 class="product-card__title">프리미엄 아보카도</h3>
+                            <p class="product-card__desc">부드러운 슈퍼푸드</p>
+                            <div class="product-card__info">
+                                <span class="product-card__origin">멕시코</span>
+                            </div>
+                            <div class="product-card__footer">
+                                <div class="product-card__price">12,000원</div>
+                                <button class="product-card__action">🛒</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="product-card">
+                        <div class="product-card__image">
+                            <div style="background: linear-gradient(135deg, #FFF8E1, #FFECB3); height: 100%; display: flex; align-items: center; justify-content: center; font-size: 48px;">
+                                🥭
+                            </div>
+                            <span class="new-badge">NEW</span>
+                        </div>
+                        <div class="product-card__content">
+                            <h3 class="product-card__title">태국 애플망고</h3>
+                            <p class="product-card__desc">달콤한 열대 과일</p>
+                            <div class="product-card__info">
+                                <span class="product-card__brix">당도 17.0°</span>
+                                <span class="product-card__origin">태국</span>
+                            </div>
+                            <div class="product-card__footer">
+                                <div class="product-card__price">28,000원</div>
+                                <button class="product-card__action">🛒</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="product-card">
+                        <div class="product-card__image">
+                            <div style="background: linear-gradient(135deg, #FCE4EC, #F8BBD0); height: 100%; display: flex; align-items: center; justify-content: center; font-size: 48px;">
+                                🍒
+                            </div>
+                            <span class="new-badge">NEW</span>
+                        </div>
+                        <div class="product-card__content">
+                            <h3 class="product-card__title">미국산 체리</h3>
+                            <p class="product-card__desc">새콤달콤한 체리</p>
+                            <div class="product-card__info">
+                                <span class="product-card__brix">당도 19.0°</span>
+                                <span class="product-card__origin">미국</span>
+                            </div>
+                            <div class="product-card__footer">
+                                <div class="product-card__price">38,000원</div>
+                                <button class="product-card__action">🛒</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Seasonal Recommendations -->
+            <section class="product-section">
+                <div class="section-header">
+                    <div>
+                        <h2 class="section-title">🍊 12월 제철과일</h2>
+                        <p class="section-subtitle">지금이 가장 맛있어요</p>
+                    </div>
+                    <a href="seasonal.html" class="section-more">더보기 →</a>
+                </div>
+                <div class="product-grid">
+                    <div class="product-card">
+                        <div class="product-card__image">
+                            <div style="background: linear-gradient(135deg, #FFE0B2, #FFCC80); height: 100%; display: flex; align-items: center; justify-content: center; font-size: 48px;">
+                                🍊
+                            </div>
+                            <span class="season-badge">🌟 제철</span>
+                        </div>
+                        <div class="product-card__content">
+                            <h3 class="product-card__title">감평 로얄감</h3>
+                            <p class="product-card__desc">달콤한 겨울 귤</p>
+                            <div class="product-card__info">
+                                <span class="product-card__brix">당도 12.5°</span>
+                                <span class="product-card__origin">제주</span>
+                            </div>
+                            <div class="product-card__footer">
+                                <div class="product-card__price">22,000원</div>
+                                <button class="product-card__action">🛒</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="product-card">
+                        <div class="product-card__image">
+                            <div style="background: linear-gradient(135deg, #FFF3E0, #FFE0B2); height: 100%; display: flex; align-items: center; justify-content: center; font-size: 48px;">
+                                🍊
+                            </div>
+                            <span class="season-badge">🌟 제철</span>
+                        </div>
+                        <div class="product-card__content">
+                            <h3 class="product-card__title">천혜향</h3>
+                            <p class="product-card__desc">향기로운 감귤</p>
+                            <div class="product-card__info">
+                                <span class="product-card__brix">당도 13.0°</span>
+                                <span class="product-card__origin">제주</span>
+                            </div>
+                            <div class="product-card__footer">
+                                <div class="product-card__price">28,000원</div>
+                                <button class="product-card__action">🛒</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="product-card">
+                        <div class="product-card__image">
+                            <div style="background: linear-gradient(135deg, #F3E5F5, #E1BEE7); height: 100%; display: flex; align-items: center; justify-content: center; font-size: 48px;">
+                                🍐
+                            </div>
+                            <span class="season-badge">🌟 제철</span>
+                        </div>
+                        <div class="product-card__content">
+                            <h3 class="product-card__title">나주 배</h3>
+                            <p class="product-card__desc">시원하고 아삭한 배</p>
+                            <div class="product-card__info">
+                                <span class="product-card__brix">당도 12.0°</span>
+                                <span class="product-card__origin">나주</span>
+                            </div>
+                            <div class="product-card__footer">
+                                <div class="product-card__price">28,000원</div>
+                                <button class="product-card__action">🛒</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="product-card">
+                        <div class="product-card__image">
+                            <div style="background: linear-gradient(135deg, #E8F5E9, #C8E6C9); height: 100%; display: flex; align-items: center; justify-content: center; font-size: 48px;">
+                                🍏
+                            </div>
+                            <span class="season-badge">🌟 제철</span>
+                        </div>
+                        <div class="product-card__content">
+                            <h3 class="product-card__title">왕림 사과</h3>
+                            <p class="product-card__desc">새콤달콤한 사과</p>
+                            <div class="product-card__info">
+                                <span class="product-card__brix">당도 13.5°</span>
+                                <span class="product-card__origin">충주</span>
+                            </div>
+                            <div class="product-card__footer">
+                                <div class="product-card__price">23,000원</div>
+                                <button class="product-card__action">🛒</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Special Category: Mom's Pick -->
+            <section class="product-section">
+                <div class="section-header">
+                    <div>
+                        <h2 class="section-title">💚 엄마가 고른 과일</h2>
+                        <p class="section-subtitle">아이에게 안심하고 먹일 수 있는</p>
+                    </div>
+                    <a href="moms-pick.html" class="section-more">더보기 →</a>
+                </div>
+                <div class="product-grid">
+                    <div class="product-card">
+                        <div class="product-card__image">
+                            <div style="background: linear-gradient(135deg, #FFEBEE, #FFCDD2); height: 100%; display: flex; align-items: center; justify-content: center; font-size: 48px;">
+                                🍓
+                            </div>
+                            <span class="product-card__badge">친환경</span>
+                        </div>
+                        <div class="product-card__content">
+                            <h3 class="product-card__title">무농약 딸기</h3>
+                            <p class="product-card__desc">아이 간식으로 안심</p>
+                            <div class="product-card__info">
+                                <span class="product-card__brix">당도 11.0°</span>
+                                <span class="product-card__origin">논산</span>
+                            </div>
+                            <div class="product-card__footer">
+                                <div class="product-card__price">22,000원</div>
+                                <button class="product-card__action">🛒</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="product-card">
+                        <div class="product-card__image">
+                            <div style="background: linear-gradient(135deg, #E8F5E9, #C8E6C9); height: 100%; display: flex; align-items: center; justify-content: center; font-size: 48px;">
+                                🍎
+                            </div>
+                            <span class="product-card__badge">유기농</span>
+                        </div>
+                        <div class="product-card__content">
+                            <h3 class="product-card__title">유기농 사과</h3>
+                            <p class="product-card__desc">껍질째 먹는 사과</p>
+                            <div class="product-card__info">
+                                <span class="product-card__brix">당도 13.0°</span>
+                                <span class="product-card__origin">예산</span>
+                            </div>
+                            <div class="product-card__footer">
+                                <div class="product-card__price">29,000원</div>
+                                <button class="product-card__action">🛒</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Bottom Navigation -->
+        <nav class="bottom-nav">
+            <a href="../home/main.html" class="nav-item">
+                <span class="nav-item__icon">🏠</span>
+                <span class="nav-item__label">홈</span>
+            </a>
+            <a href="index.html" class="nav-item active">
+                <span class="nav-item__icon">🍎</span>
+                <span class="nav-item__label">상품</span>
+            </a>
+            <a href="../mypage/index.html" class="nav-item">
+                <span class="nav-item__icon">👤</span>
+                <span class="nav-item__label">마이</span>
+            </a>
+            <a href="../support/index.html" class="nav-item">
+                <span class="nav-item__icon">💬</span>
+                <span class="nav-item__label">고객지원</span>
+            </a>
+        </nav>
+    </div>
+
+    <script>
+        // Banner Carousel
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.banner-slide');
+        const indicators = document.querySelectorAll('.indicator');
+
+        function showSlide(index) {
+            slides.forEach(slide => slide.classList.remove('active'));
+            indicators.forEach(indicator => indicator.classList.remove('active'));
+
+            slides[index].classList.add('active');
+            indicators[index].classList.add('active');
+            currentSlide = index;
+        }
+
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % slides.length;
+            showSlide(currentSlide);
+        }
+
+        // Auto-play carousel (4 seconds)
+        setInterval(nextSlide, 4000);
+
+        // Indicator click
+        indicators.forEach((indicator, index) => {
+            indicator.addEventListener('click', () => showSlide(index));
+        });
+
+        // Time Sale Countdown Timer
+        function updateTimer() {
+            const now = new Date();
+            const endOfDay = new Date();
+            endOfDay.setHours(23, 59, 59, 999);
+
+            const diff = endOfDay - now;
+
+            const hours = Math.floor(diff / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+            const timerElement = document.getElementById('timer');
+            if (timerElement) {
+                timerElement.textContent =
+                    `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+            }
+        }
+
+        // Update timer every second
+        updateTimer();
+        setInterval(updateTimer, 1000);
+
+        // Filter Chips Interaction
+        const filterChips = document.querySelectorAll('.filter-chip');
+        filterChips.forEach(chip => {
+            chip.addEventListener('click', function() {
+                filterChips.forEach(c => c.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        // Product Card Click Handler
+        document.querySelectorAll('.product-card, .product-card-wide').forEach(card => {
+            card.addEventListener('click', function(e) {
+                // Don't navigate if clicking the cart button
+                if (e.target.classList.contains('product-card__action') ||
+                    e.target.closest('.product-card__action')) {
+                    e.stopPropagation();
+                    // Add to cart functionality would go here
+                    alert('장바구니에 담았습니다!');
+                    return;
+                }
+
+                // Navigate to product detail page
+                window.location.href = 'detail.html';
+            });
+        });
+
+        // Category Item Click Handler
+        document.querySelectorAll('.category-item').forEach(item => {
+            item.addEventListener('click', function(e) {
+                e.preventDefault();
+                const href = this.getAttribute('href');
+                console.log('Navigating to:', href);
+                // In production, this would navigate to the category page
+                // window.location.href = href;
+            });
+        });
+    </script>
+</body>
+</html>

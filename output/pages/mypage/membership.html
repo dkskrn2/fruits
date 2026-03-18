@@ -1,0 +1,1194 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>멤버십 - 과일다리</title>
+    <link rel="stylesheet" href="../../styles/design-system.css">
+    <link rel="stylesheet" href="../../styles/components.css">
+    <style>
+        body {
+            background: var(--color-gray-50);
+            padding-bottom: calc(var(--bottom-nav-height) + var(--space-4));
+        }
+
+        /* Header */
+        .header {
+            position: sticky;
+            top: 0;
+            z-index: var(--z-sticky);
+            background: var(--color-white);
+            border-bottom: 1px solid var(--color-gray-200);
+            padding: var(--space-3) var(--space-4);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .header-back {
+            font-size: 24px;
+            cursor: pointer;
+            padding: var(--space-2);
+            margin-left: calc(var(--space-2) * -1);
+        }
+
+        .header-title {
+            font-size: var(--font-size-md);
+            font-weight: var(--font-weight-semibold);
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .header-icon {
+            font-size: 24px;
+            cursor: pointer;
+            padding: var(--space-2);
+        }
+
+        /* Membership Hero */
+        .membership-hero {
+            background: linear-gradient(135deg, #6FCF3F 0%, #5CB82F 100%);
+            padding: var(--space-6) var(--space-4);
+            color: var(--color-white);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .membership-hero::before {
+            content: '';
+            position: absolute;
+            top: -50px;
+            right: -50px;
+            width: 200px;
+            height: 200px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+        }
+
+        .membership-hero::after {
+            content: '';
+            position: absolute;
+            bottom: -30px;
+            left: -30px;
+            width: 150px;
+            height: 150px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .current-tier {
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+            margin-bottom: var(--space-4);
+        }
+
+        .tier-badge {
+            width: 60px;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: var(--radius-xl);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            backdrop-filter: blur(10px);
+        }
+
+        .tier-info h2 {
+            font-size: var(--font-size-2xl);
+            font-weight: var(--font-weight-bold);
+            margin-bottom: var(--space-1);
+        }
+
+        .tier-info p {
+            font-size: var(--font-size-sm);
+            opacity: 0.9;
+        }
+
+        .tier-progress {
+            margin-top: var(--space-4);
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: var(--space-2);
+            font-size: var(--font-size-sm);
+        }
+
+        .progress-bar-container {
+            height: 8px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: var(--radius-full);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: var(--color-white);
+            border-radius: var(--radius-full);
+            transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            margin-top: var(--space-2);
+            font-size: var(--font-size-xs);
+            opacity: 0.9;
+        }
+
+        /* VIP Lounge Banner */
+        .vip-banner {
+            margin: var(--space-4);
+            background: linear-gradient(135deg, #FFD93D 0%, #FFAA00 100%);
+            border-radius: var(--radius-xl);
+            padding: var(--space-5);
+            display: flex;
+            align-items: center;
+            gap: var(--space-4);
+            box-shadow: var(--shadow-lg);
+            cursor: pointer;
+            transition: all var(--transition-base);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .vip-banner::before {
+            content: '';
+            position: absolute;
+            top: -20px;
+            right: -20px;
+            width: 100px;
+            height: 100px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+        }
+
+        .vip-banner:active {
+            transform: scale(0.98);
+        }
+
+        .vip-icon {
+            font-size: 48px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .vip-content {
+            flex: 1;
+            position: relative;
+            z-index: 1;
+        }
+
+        .vip-content h3 {
+            font-size: var(--font-size-lg);
+            font-weight: var(--font-weight-bold);
+            color: var(--color-gray-900);
+            margin-bottom: var(--space-1);
+        }
+
+        .vip-content p {
+            font-size: var(--font-size-sm);
+            color: var(--color-gray-800);
+        }
+
+        /* Stats Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--space-3);
+            padding: 0 var(--space-4);
+            margin-bottom: var(--space-4);
+        }
+
+        .stat-card {
+            background: var(--color-white);
+            border-radius: var(--radius-lg);
+            padding: var(--space-4);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .stat-label {
+            font-size: var(--font-size-xs);
+            color: var(--color-gray-600);
+            margin-bottom: var(--space-2);
+        }
+
+        .stat-value {
+            font-size: var(--font-size-2xl);
+            font-weight: var(--font-weight-bold);
+            color: var(--color-primary);
+            margin-bottom: var(--space-1);
+        }
+
+        .stat-unit {
+            font-size: var(--font-size-sm);
+            color: var(--color-gray-600);
+        }
+
+        /* Section */
+        .section {
+            padding: var(--space-5) var(--space-4);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--space-4);
+        }
+
+        .section-title {
+            font-size: var(--font-size-lg);
+            font-weight: var(--font-weight-bold);
+            color: var(--color-gray-900);
+        }
+
+        .section-action {
+            font-size: var(--font-size-sm);
+            color: var(--color-primary);
+            cursor: pointer;
+        }
+
+        /* Tier Cards */
+        .tier-cards {
+            display: grid;
+            gap: var(--space-3);
+        }
+
+        .tier-card {
+            background: var(--color-white);
+            border-radius: var(--radius-xl);
+            padding: var(--space-5);
+            box-shadow: var(--shadow-sm);
+            border: 2px solid transparent;
+            transition: all var(--transition-base);
+            cursor: pointer;
+        }
+
+        .tier-card.current {
+            border-color: var(--color-primary);
+            box-shadow: var(--shadow-md);
+        }
+
+        .tier-card:active {
+            transform: scale(0.98);
+        }
+
+        .tier-header {
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+            margin-bottom: var(--space-4);
+        }
+
+        .tier-icon {
+            font-size: 40px;
+        }
+
+        .tier-name {
+            font-size: var(--font-size-xl);
+            font-weight: var(--font-weight-bold);
+            color: var(--color-gray-900);
+        }
+
+        .tier-requirement {
+            font-size: var(--font-size-xs);
+            color: var(--color-gray-600);
+            margin-top: var(--space-1);
+        }
+
+        .tier-benefits {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-2);
+        }
+
+        .benefit-item {
+            display: flex;
+            align-items: start;
+            gap: var(--space-2);
+            font-size: var(--font-size-sm);
+            color: var(--color-gray-700);
+        }
+
+        .benefit-icon {
+            color: var(--color-primary);
+            font-size: 18px;
+            margin-top: 2px;
+        }
+
+        /* Benefits Comparison Table */
+        .comparison-table {
+            background: var(--color-white);
+            border-radius: var(--radius-xl);
+            padding: var(--space-5);
+            box-shadow: var(--shadow-sm);
+            overflow-x: auto;
+        }
+
+        .table-wrapper {
+            min-width: 100%;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            background: var(--color-gray-50);
+        }
+
+        th {
+            padding: var(--space-3);
+            font-size: var(--font-size-sm);
+            font-weight: var(--font-weight-semibold);
+            color: var(--color-gray-700);
+            text-align: left;
+            border-bottom: 2px solid var(--color-gray-200);
+        }
+
+        td {
+            padding: var(--space-3);
+            font-size: var(--font-size-sm);
+            color: var(--color-gray-700);
+            border-bottom: 1px solid var(--color-gray-100);
+        }
+
+        .table-tier {
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+        }
+
+        .table-tier-icon {
+            font-size: 20px;
+        }
+
+        .check-icon {
+            color: var(--color-primary);
+            font-size: 20px;
+        }
+
+        .cross-icon {
+            color: var(--color-gray-300);
+            font-size: 20px;
+        }
+
+        /* Calculator */
+        .calculator-card {
+            background: var(--color-white);
+            border-radius: var(--radius-xl);
+            padding: var(--space-5);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .calculator-input {
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+            margin-bottom: var(--space-4);
+        }
+
+        .input-wrapper {
+            flex: 1;
+            position: relative;
+        }
+
+        .currency-symbol {
+            position: absolute;
+            right: var(--space-4);
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: var(--font-size-base);
+            color: var(--color-gray-600);
+        }
+
+        .calculator-result {
+            background: var(--color-primary-light);
+            border-radius: var(--radius-lg);
+            padding: var(--space-4);
+            text-align: center;
+        }
+
+        .result-label {
+            font-size: var(--font-size-sm);
+            color: var(--color-gray-700);
+            margin-bottom: var(--space-2);
+        }
+
+        .result-value {
+            font-size: var(--font-size-3xl);
+            font-weight: var(--font-weight-bold);
+            color: var(--color-primary);
+        }
+
+        .result-desc {
+            font-size: var(--font-size-xs);
+            color: var(--color-gray-600);
+            margin-top: var(--space-2);
+        }
+
+        /* Benefits Grid */
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--space-3);
+        }
+
+        .benefit-card {
+            background: var(--color-white);
+            border-radius: var(--radius-lg);
+            padding: var(--space-4);
+            text-align: center;
+            box-shadow: var(--shadow-sm);
+            transition: all var(--transition-base);
+            cursor: pointer;
+        }
+
+        .benefit-card:active {
+            transform: scale(0.95);
+        }
+
+        .benefit-card-icon {
+            font-size: 36px;
+            margin-bottom: var(--space-2);
+        }
+
+        .benefit-card-title {
+            font-size: var(--font-size-sm);
+            font-weight: var(--font-weight-semibold);
+            color: var(--color-gray-900);
+            margin-bottom: var(--space-1);
+        }
+
+        .benefit-card-desc {
+            font-size: var(--font-size-xs);
+            color: var(--color-gray-600);
+        }
+
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: var(--max-width-mobile);
+            background: var(--color-white);
+            border-top: 1px solid var(--color-gray-200);
+            display: flex;
+            justify-content: space-around;
+            padding: var(--space-2) 0;
+            z-index: var(--z-sticky);
+        }
+
+        .nav-item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--space-1);
+            padding: var(--space-1);
+            color: var(--color-gray-500);
+            text-decoration: none;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+
+        .nav-item.active {
+            color: var(--color-primary);
+        }
+
+        .nav-item .icon {
+            font-size: 24px;
+        }
+
+        .nav-item .label {
+            font-size: var(--font-size-xs);
+            font-weight: var(--font-weight-medium);
+        }
+
+        /* Toggle View */
+        .view-toggle {
+            display: flex;
+            background: var(--color-gray-100);
+            border-radius: var(--radius-lg);
+            padding: var(--space-1);
+            gap: var(--space-1);
+        }
+
+        .toggle-btn {
+            flex: 1;
+            padding: var(--space-2) var(--space-3);
+            background: transparent;
+            border: none;
+            border-radius: var(--radius-md);
+            font-size: var(--font-size-sm);
+            font-weight: var(--font-weight-medium);
+            color: var(--color-gray-600);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+
+        .toggle-btn.active {
+            background: var(--color-white);
+            color: var(--color-gray-900);
+            box-shadow: var(--shadow-sm);
+        }
+
+        /* Spending Tracker */
+        .spending-tracker {
+            background: var(--color-white);
+            border-radius: var(--radius-xl);
+            padding: var(--space-5);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .tracker-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--space-4);
+        }
+
+        .tracker-period {
+            display: flex;
+            gap: var(--space-2);
+        }
+
+        .period-btn {
+            padding: var(--space-2) var(--space-3);
+            background: var(--color-gray-100);
+            border: none;
+            border-radius: var(--radius-md);
+            font-size: var(--font-size-sm);
+            color: var(--color-gray-700);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+
+        .period-btn.active {
+            background: var(--color-primary);
+            color: var(--color-white);
+        }
+
+        .spending-amount {
+            text-align: center;
+            margin-bottom: var(--space-4);
+        }
+
+        .amount-label {
+            font-size: var(--font-size-sm);
+            color: var(--color-gray-600);
+            margin-bottom: var(--space-2);
+        }
+
+        .amount-value {
+            font-size: var(--font-size-3xl);
+            font-weight: var(--font-weight-bold);
+            color: var(--color-gray-900);
+        }
+
+        .amount-change {
+            font-size: var(--font-size-sm);
+            color: var(--color-success);
+            margin-top: var(--space-1);
+        }
+
+        .spending-chart {
+            height: 200px;
+            background: var(--color-gray-50);
+            border-radius: var(--radius-lg);
+            display: flex;
+            align-items: flex-end;
+            gap: var(--space-2);
+            padding: var(--space-3);
+        }
+
+        .chart-bar {
+            flex: 1;
+            background: var(--color-primary);
+            border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+            transition: all var(--transition-base);
+            opacity: 0.7;
+            position: relative;
+        }
+
+        .chart-bar.active {
+            opacity: 1;
+            background: var(--color-primary-dark);
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-in {
+            animation: fadeInUp 0.5s ease-out forwards;
+        }
+
+        /* Mobile Optimization */
+        @media (max-width: 430px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .benefits-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .vip-banner {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <span class="header-back" onclick="history.back()">←</span>
+        <h1 class="header-title">멤버십</h1>
+        <div class="header-actions">
+            <span class="header-icon">🏠</span>
+        </div>
+    </header>
+
+    <!-- Membership Hero -->
+    <section class="membership-hero">
+        <div class="hero-content">
+            <div class="current-tier">
+                <div class="tier-badge">🥈</div>
+                <div class="tier-info">
+                    <h2>실버 회원</h2>
+                    <p>김과일님, 환영합니다!</p>
+                </div>
+            </div>
+
+            <div class="tier-progress">
+                <div class="progress-header">
+                    <span>다음 등급까지</span>
+                    <span><strong>125,000원</strong></span>
+                </div>
+                <div class="progress-bar-container">
+                    <div class="progress-bar" data-progress="65"></div>
+                </div>
+                <div class="progress-info">
+                    <span>현재 375,000원</span>
+                    <span>골드 500,000원</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- VIP Lounge Banner -->
+    <div class="vip-banner" onclick="showVipLounge()">
+        <div class="vip-icon">👑</div>
+        <div class="vip-content">
+            <h3>VIP 라운지</h3>
+            <p>최상위 회원을 위한 특별한 혜택</p>
+        </div>
+        <div style="font-size: 24px;">→</div>
+    </div>
+
+    <!-- Stats Grid -->
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-label">이번 달 적립</div>
+            <div class="stat-value">15,750<span class="stat-unit">P</span></div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-label">적립률</div>
+            <div class="stat-value">3<span class="stat-unit">%</span></div>
+        </div>
+    </div>
+
+    <!-- Spending Tracker Section -->
+    <section class="section">
+        <div class="section-header">
+            <h3 class="section-title">구매 현황</h3>
+        </div>
+        <div class="spending-tracker">
+            <div class="tracker-header">
+                <div class="tracker-period">
+                    <button class="period-btn active" data-period="monthly">월별</button>
+                    <button class="period-btn" data-period="yearly">연간</button>
+                </div>
+            </div>
+            <div class="spending-amount">
+                <div class="amount-label">이번 달 구매금액</div>
+                <div class="amount-value">375,000원</div>
+                <div class="amount-change">↑ 지난달 대비 15% 증가</div>
+            </div>
+            <div class="spending-chart" id="spendingChart">
+                <div class="chart-bar" style="height: 45%;" title="1월"></div>
+                <div class="chart-bar" style="height: 60%;" title="2월"></div>
+                <div class="chart-bar" style="height: 55%;" title="3월"></div>
+                <div class="chart-bar" style="height: 70%;" title="4월"></div>
+                <div class="chart-bar" style="height: 65%;" title="5월"></div>
+                <div class="chart-bar active" style="height: 85%;" title="6월"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Calculator Section -->
+    <section class="section">
+        <div class="section-header">
+            <h3 class="section-title">적립금 계산기</h3>
+        </div>
+        <div class="calculator-card">
+            <div class="calculator-input">
+                <div class="input-wrapper">
+                    <input type="number" class="input" id="calcAmount" placeholder="구매 금액 입력" value="100000">
+                    <span class="currency-symbol">원</span>
+                </div>
+                <button class="btn btn-primary" onclick="calculatePoints()">계산</button>
+            </div>
+            <div class="calculator-result" id="calcResult">
+                <div class="result-label">예상 적립 포인트</div>
+                <div class="result-value">3,000P</div>
+                <div class="result-desc">실버 등급 3% 적립률 기준</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefits Section -->
+    <section class="section">
+        <div class="section-header">
+            <h3 class="section-title">등급별 혜택</h3>
+            <div class="view-toggle">
+                <button class="toggle-btn active" data-view="cards" onclick="toggleView('cards')">카드형</button>
+                <button class="toggle-btn" data-view="table" onclick="toggleView('table')">표형</button>
+            </div>
+        </div>
+
+        <!-- Card View -->
+        <div id="cardsView" class="tier-cards">
+            <div class="tier-card">
+                <div class="tier-header">
+                    <div class="tier-icon">🥉</div>
+                    <div>
+                        <div class="tier-name">브론즈</div>
+                        <div class="tier-requirement">가입 즉시</div>
+                    </div>
+                </div>
+                <div class="tier-benefits">
+                    <div class="benefit-item">
+                        <span class="benefit-icon">✓</span>
+                        <span>구매금액의 1% 적립</span>
+                    </div>
+                    <div class="benefit-item">
+                        <span class="benefit-icon">✓</span>
+                        <span>생일 쿠폰 3,000원</span>
+                    </div>
+                    <div class="benefit-item">
+                        <span class="benefit-icon">✓</span>
+                        <span>무료 배송 (3만원 이상)</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tier-card current">
+                <div class="tier-header">
+                    <div class="tier-icon">🥈</div>
+                    <div>
+                        <div class="tier-name">실버</div>
+                        <div class="tier-requirement">최근 3개월 누적 20만원</div>
+                    </div>
+                </div>
+                <div class="tier-benefits">
+                    <div class="benefit-item">
+                        <span class="benefit-icon">✓</span>
+                        <span>구매금액의 3% 적립</span>
+                    </div>
+                    <div class="benefit-item">
+                        <span class="benefit-icon">✓</span>
+                        <span>생일 쿠폰 5,000원</span>
+                    </div>
+                    <div class="benefit-item">
+                        <span class="benefit-icon">✓</span>
+                        <span>무료 배송 (2만원 이상)</span>
+                    </div>
+                    <div class="benefit-item">
+                        <span class="benefit-icon">✓</span>
+                        <span>매월 특별 할인 쿠폰</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tier-card">
+                <div class="tier-header">
+                    <div class="tier-icon">🥇</div>
+                    <div>
+                        <div class="tier-name">골드</div>
+                        <div class="tier-requirement">최근 3개월 누적 50만원</div>
+                    </div>
+                </div>
+                <div class="tier-benefits">
+                    <div class="benefit-item">
+                        <span class="benefit-icon">✓</span>
+                        <span>구매금액의 5% 적립</span>
+                    </div>
+                    <div class="benefit-item">
+                        <span class="benefit-icon">✓</span>
+                        <span>생일 쿠폰 10,000원</span>
+                    </div>
+                    <div class="benefit-item">
+                        <span class="benefit-icon">✓</span>
+                        <span>무료 배송 (1만원 이상)</span>
+                    </div>
+                    <div class="benefit-item">
+                        <span class="benefit-icon">✓</span>
+                        <span>매월 프리미엄 쿠폰팩</span>
+                    </div>
+                    <div class="benefit-item">
+                        <span class="benefit-icon">✓</span>
+                        <span>신상품 우선 구매</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tier-card" style="background: linear-gradient(135deg, #FFD93D 0%, #FFAA00 50%); border-color: #FFAA00;">
+                <div class="tier-header">
+                    <div class="tier-icon">👑</div>
+                    <div>
+                        <div class="tier-name">VIP</div>
+                        <div class="tier-requirement">최근 3개월 누적 100만원</div>
+                    </div>
+                </div>
+                <div class="tier-benefits">
+                    <div class="benefit-item">
+                        <span class="benefit-icon">✓</span>
+                        <span>구매금액의 7% 적립</span>
+                    </div>
+                    <div class="benefit-item">
+                        <span class="benefit-icon">✓</span>
+                        <span>생일 쿠폰 20,000원</span>
+                    </div>
+                    <div class="benefit-item">
+                        <span class="benefit-icon">✓</span>
+                        <span>무료 배송 (금액 제한 없음)</span>
+                    </div>
+                    <div class="benefit-item">
+                        <span class="benefit-icon">✓</span>
+                        <span>전용 프리미엄 쿠폰팩</span>
+                    </div>
+                    <div class="benefit-item">
+                        <span class="benefit-icon">✓</span>
+                        <span>신상품 우선 구매 + 10% 할인</span>
+                    </div>
+                    <div class="benefit-item">
+                        <span class="benefit-icon">✓</span>
+                        <span>VIP 전용 고객센터</span>
+                    </div>
+                    <div class="benefit-item">
+                        <span class="benefit-icon">✓</span>
+                        <span>프리미엄 포장 서비스</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Table View (Hidden by default) -->
+        <div id="tableView" class="comparison-table" style="display: none;">
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>혜택</th>
+                            <th>브론즈</th>
+                            <th>실버</th>
+                            <th>골드</th>
+                            <th>VIP</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>적립률</strong></td>
+                            <td>1%</td>
+                            <td>3%</td>
+                            <td>5%</td>
+                            <td>7%</td>
+                        </tr>
+                        <tr>
+                            <td><strong>생일쿠폰</strong></td>
+                            <td>3,000원</td>
+                            <td>5,000원</td>
+                            <td>10,000원</td>
+                            <td>20,000원</td>
+                        </tr>
+                        <tr>
+                            <td><strong>무료배송</strong></td>
+                            <td>3만원↑</td>
+                            <td>2만원↑</td>
+                            <td>1만원↑</td>
+                            <td>무제한</td>
+                        </tr>
+                        <tr>
+                            <td><strong>월간쿠폰</strong></td>
+                            <td><span class="cross-icon">✗</span></td>
+                            <td><span class="check-icon">✓</span></td>
+                            <td><span class="check-icon">✓</span></td>
+                            <td><span class="check-icon">✓</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>신상품 우선구매</strong></td>
+                            <td><span class="cross-icon">✗</span></td>
+                            <td><span class="cross-icon">✗</span></td>
+                            <td><span class="check-icon">✓</span></td>
+                            <td><span class="check-icon">✓</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>VIP 전용 서비스</strong></td>
+                            <td><span class="cross-icon">✗</span></td>
+                            <td><span class="cross-icon">✗</span></td>
+                            <td><span class="cross-icon">✗</span></td>
+                            <td><span class="check-icon">✓</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>프리미엄 포장</strong></td>
+                            <td><span class="cross-icon">✗</span></td>
+                            <td><span class="cross-icon">✗</span></td>
+                            <td><span class="cross-icon">✗</span></td>
+                            <td><span class="check-icon">✓</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Exclusive Benefits Section -->
+    <section class="section">
+        <div class="section-header">
+            <h3 class="section-title">특별 혜택</h3>
+        </div>
+        <div class="benefits-grid">
+            <div class="benefit-card">
+                <div class="benefit-card-icon">🎁</div>
+                <div class="benefit-card-title">웰컴 선물</div>
+                <div class="benefit-card-desc">등급 달성 시 특별 선물</div>
+            </div>
+            <div class="benefit-card">
+                <div class="benefit-card-icon">🎂</div>
+                <div class="benefit-card-title">생일 축하</div>
+                <div class="benefit-card-desc">생일 월 특별 쿠폰</div>
+            </div>
+            <div class="benefit-card">
+                <div class="benefit-card-icon">⚡</div>
+                <div class="benefit-card-title">얼리버드</div>
+                <div class="benefit-card-desc">신상품 우선 구매</div>
+            </div>
+            <div class="benefit-card">
+                <div class="benefit-card-icon">💝</div>
+                <div class="benefit-card-title">프리미엄 포장</div>
+                <div class="benefit-card-desc">VIP 전용 포장</div>
+            </div>
+            <div class="benefit-card">
+                <div class="benefit-card-icon">📞</div>
+                <div class="benefit-card-title">전용 상담</div>
+                <div class="benefit-card-desc">VIP 고객센터</div>
+            </div>
+            <div class="benefit-card">
+                <div class="benefit-card-icon">🎪</div>
+                <div class="benefit-card-title">특별 이벤트</div>
+                <div class="benefit-card-desc">회원 전용 행사</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+        <a href="/pages/home/index.html" class="nav-item">
+            <span class="icon">🏠</span>
+            <span class="label">홈</span>
+        </a>
+        <a href="/pages/products/index.html" class="nav-item">
+            <span class="icon">🍎</span>
+            <span class="label">상품</span>
+        </a>
+        <a href="/pages/mypage/index.html" class="nav-item active">
+            <span class="icon">👤</span>
+            <span class="label">마이</span>
+        </a>
+        <a href="/pages/support/index.html" class="nav-item">
+            <span class="icon">💬</span>
+            <span class="label">고객지원</span>
+        </a>
+    </nav>
+
+    <script>
+        // Progress Bar Animation
+        document.addEventListener('DOMContentLoaded', function() {
+            const progressBar = document.querySelector('.progress-bar');
+            const progress = progressBar.getAttribute('data-progress');
+
+            setTimeout(() => {
+                progressBar.style.width = progress + '%';
+            }, 300);
+
+            // Animate cards on scroll
+            const cards = document.querySelectorAll('.tier-card, .stat-card, .benefit-card');
+            cards.forEach((card, index) => {
+                setTimeout(() => {
+                    card.classList.add('animate-in');
+                }, index * 50);
+            });
+
+            // Period toggle
+            const periodBtns = document.querySelectorAll('.period-btn');
+            periodBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    periodBtns.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    updateSpendingChart(this.dataset.period);
+                });
+            });
+        });
+
+        // Toggle View Function
+        function toggleView(view) {
+            const cardsView = document.getElementById('cardsView');
+            const tableView = document.getElementById('tableView');
+            const toggleBtns = document.querySelectorAll('.toggle-btn');
+
+            toggleBtns.forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.dataset.view === view) {
+                    btn.classList.add('active');
+                }
+            });
+
+            if (view === 'cards') {
+                cardsView.style.display = 'grid';
+                tableView.style.display = 'none';
+            } else {
+                cardsView.style.display = 'none';
+                tableView.style.display = 'block';
+            }
+        }
+
+        // Calculate Points Function
+        function calculatePoints() {
+            const amount = document.getElementById('calcAmount').value;
+            const currentTierRate = 0.03; // 실버 등급 3%
+            const points = Math.floor(amount * currentTierRate);
+
+            const resultValue = document.querySelector('.result-value');
+            resultValue.style.transform = 'scale(1.1)';
+            resultValue.textContent = points.toLocaleString() + 'P';
+
+            setTimeout(() => {
+                resultValue.style.transform = 'scale(1)';
+            }, 200);
+        }
+
+        // Update Spending Chart
+        function updateSpendingChart(period) {
+            const chartBars = document.querySelectorAll('.chart-bar');
+            const amountLabel = document.querySelector('.amount-label');
+            const amountValue = document.querySelector('.amount-value');
+            const amountChange = document.querySelector('.amount-change');
+
+            if (period === 'monthly') {
+                amountLabel.textContent = '이번 달 구매금액';
+                amountValue.textContent = '375,000원';
+                amountChange.textContent = '↑ 지난달 대비 15% 증가';
+                amountChange.style.color = 'var(--color-success)';
+            } else {
+                amountLabel.textContent = '올해 구매금액';
+                amountValue.textContent = '2,250,000원';
+                amountChange.textContent = '↑ 작년 대비 28% 증가';
+                amountChange.style.color = 'var(--color-success)';
+            }
+
+            // Animate chart bars
+            chartBars.forEach((bar, index) => {
+                bar.style.opacity = '0';
+                setTimeout(() => {
+                    bar.style.opacity = index === chartBars.length - 1 ? '1' : '0.7';
+                }, index * 50);
+            });
+        }
+
+        // Show VIP Lounge
+        function showVipLounge() {
+            alert('VIP 라운지는 VIP 회원만 이용하실 수 있습니다.\n\n최근 3개월 누적 구매금액 100만원을 달성하시면\nVIP 회원으로 승급되어 특별한 혜택을 누리실 수 있습니다!');
+        }
+
+        // Real-time Input Calculation
+        const calcInput = document.getElementById('calcAmount');
+        calcInput.addEventListener('input', function() {
+            if (this.value) {
+                calculatePoints();
+            }
+        });
+
+        // Chart Bar Hover Effect
+        const chartBars = document.querySelectorAll('.chart-bar');
+        chartBars.forEach(bar => {
+            bar.addEventListener('click', function() {
+                chartBars.forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        // Benefit Cards Click Effect
+        const benefitCards = document.querySelectorAll('.benefit-card');
+        benefitCards.forEach(card => {
+            card.addEventListener('click', function() {
+                const title = this.querySelector('.benefit-card-title').textContent;
+                const desc = this.querySelector('.benefit-card-desc').textContent;
+                alert(`${title}\n\n${desc}\n\n자세한 내용은 고객센터에 문의해주세요.`);
+            });
+        });
+
+        // Tier Card Click Effect
+        const tierCards = document.querySelectorAll('.tier-card');
+        tierCards.forEach(card => {
+            card.addEventListener('click', function() {
+                const tierName = this.querySelector('.tier-name').textContent;
+                const requirement = this.querySelector('.tier-requirement').textContent;
+
+                if (!this.classList.contains('current')) {
+                    alert(`${tierName} 등급\n\n${requirement}\n\n더 많은 구매로 등급 혜택을 누려보세요!`);
+                }
+            });
+        });
+
+        // Smooth scroll behavior
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

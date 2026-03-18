@@ -1,0 +1,1430 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>자주 묻는 질문 - 과일다리</title>
+    <link rel="stylesheet" href="../../styles/design-system.css">
+    <link rel="stylesheet" href="../../styles/components.css">
+    <style>
+        /* FAQ Specific Styles */
+        body {
+            background: var(--color-gray-50);
+        }
+
+        /* Header */
+        .faq-header {
+            background: var(--color-white);
+            position: sticky;
+            top: 0;
+            z-index: var(--z-sticky);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .faq-header__top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: var(--space-4);
+            height: var(--header-height);
+        }
+
+        .faq-header__back {
+            font-size: 24px;
+            cursor: pointer;
+            padding: var(--space-2);
+            margin-left: calc(var(--space-2) * -1);
+            color: var(--color-gray-900);
+        }
+
+        .faq-header__title {
+            font-size: var(--font-size-md);
+            font-weight: var(--font-weight-semibold);
+            color: var(--color-gray-900);
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .faq-header__home {
+            font-size: 22px;
+            cursor: pointer;
+            padding: var(--space-2);
+        }
+
+        /* Search Bar */
+        .search-bar {
+            padding: var(--space-3) var(--space-4);
+            background: var(--color-white);
+            border-bottom: 1px solid var(--color-gray-200);
+        }
+
+        .search-bar__input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .search-bar__icon {
+            position: absolute;
+            left: var(--space-4);
+            font-size: 18px;
+            color: var(--color-gray-500);
+        }
+
+        .search-bar__input {
+            width: 100%;
+            padding: var(--space-3) var(--space-4) var(--space-3) 44px;
+            border: 1px solid var(--color-gray-300);
+            border-radius: var(--radius-lg);
+            font-size: var(--font-size-base);
+            background: var(--color-gray-50);
+            transition: all var(--transition-fast);
+        }
+
+        .search-bar__input:focus {
+            outline: none;
+            border-color: var(--color-primary);
+            background: var(--color-white);
+            box-shadow: 0 0 0 3px rgba(111, 207, 63, 0.1);
+        }
+
+        .search-bar__input::placeholder {
+            color: var(--color-gray-500);
+        }
+
+        .search-bar__clear {
+            position: absolute;
+            right: var(--space-4);
+            font-size: 18px;
+            color: var(--color-gray-400);
+            cursor: pointer;
+            display: none;
+            padding: var(--space-2);
+        }
+
+        .search-bar__clear.show {
+            display: block;
+        }
+
+        /* Category Tabs */
+        .category-tabs {
+            background: var(--color-white);
+            border-bottom: 1px solid var(--color-gray-200);
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        .category-tabs::-webkit-scrollbar {
+            display: none;
+        }
+
+        .category-tabs__list {
+            display: flex;
+            padding: var(--space-2) var(--space-4);
+            gap: var(--space-2);
+            min-width: min-content;
+        }
+
+        .category-tab {
+            padding: var(--space-2) var(--space-4);
+            font-size: var(--font-size-sm);
+            font-weight: var(--font-weight-medium);
+            color: var(--color-gray-600);
+            background: var(--color-white);
+            border: 1px solid var(--color-gray-300);
+            border-radius: var(--radius-full);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            white-space: nowrap;
+            user-select: none;
+        }
+
+        .category-tab:active {
+            transform: scale(0.95);
+        }
+
+        .category-tab.active {
+            background: var(--color-primary);
+            color: var(--color-white);
+            border-color: var(--color-primary);
+        }
+
+        /* FAQ List */
+        .faq-list {
+            padding: var(--space-4);
+            padding-bottom: calc(var(--bottom-nav-height) + var(--space-4));
+        }
+
+        .faq-item {
+            background: var(--color-white);
+            border-radius: var(--radius-lg);
+            margin-bottom: var(--space-3);
+            box-shadow: var(--shadow-sm);
+            overflow: hidden;
+            transition: all var(--transition-base);
+        }
+
+        .faq-item.hidden {
+            display: none;
+        }
+
+        .faq-item__question {
+            padding: var(--space-4);
+            cursor: pointer;
+            user-select: none;
+            display: flex;
+            align-items: flex-start;
+            gap: var(--space-3);
+            transition: background var(--transition-fast);
+        }
+
+        .faq-item__question:active {
+            background: var(--color-gray-50);
+        }
+
+        .faq-item.open .faq-item__question {
+            border-bottom: 1px solid var(--color-gray-200);
+        }
+
+        .faq-item__q-icon {
+            flex-shrink: 0;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--color-primary-light);
+            color: var(--color-primary);
+            font-weight: var(--font-weight-bold);
+            font-size: var(--font-size-sm);
+            border-radius: var(--radius-sm);
+        }
+
+        .faq-item__q-content {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .faq-item__category {
+            display: inline-block;
+            font-size: var(--font-size-xs);
+            color: var(--color-primary);
+            font-weight: var(--font-weight-medium);
+            margin-bottom: var(--space-1);
+        }
+
+        .faq-item__q-text {
+            font-size: var(--font-size-base);
+            font-weight: var(--font-weight-medium);
+            color: var(--color-gray-900);
+            line-height: var(--line-height-normal);
+        }
+
+        .faq-item__toggle {
+            flex-shrink: 0;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--color-gray-400);
+            font-size: 20px;
+            transition: transform var(--transition-base);
+        }
+
+        .faq-item.open .faq-item__toggle {
+            transform: rotate(90deg);
+        }
+
+        .faq-item__answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height var(--transition-base);
+        }
+
+        .faq-item.open .faq-item__answer {
+            max-height: 1000px;
+        }
+
+        .faq-item__answer-content {
+            padding: var(--space-4);
+            display: flex;
+            gap: var(--space-3);
+        }
+
+        .faq-item__a-icon {
+            flex-shrink: 0;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--color-gray-100);
+            color: var(--color-gray-700);
+            font-weight: var(--font-weight-bold);
+            font-size: var(--font-size-sm);
+            border-radius: var(--radius-sm);
+        }
+
+        .faq-item__a-text {
+            flex: 1;
+            font-size: var(--font-size-sm);
+            color: var(--color-gray-700);
+            line-height: var(--line-height-relaxed);
+        }
+
+        .faq-item__a-text ul {
+            margin: var(--space-2) 0;
+            padding-left: var(--space-5);
+        }
+
+        .faq-item__a-text li {
+            margin: var(--space-1) 0;
+        }
+
+        .faq-item__a-text strong {
+            color: var(--color-gray-900);
+            font-weight: var(--font-weight-semibold);
+        }
+
+        /* Voting */
+        .faq-item__voting {
+            padding: var(--space-3) var(--space-4);
+            border-top: 1px solid var(--color-gray-100);
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+        }
+
+        .faq-item__voting-text {
+            font-size: var(--font-size-sm);
+            color: var(--color-gray-600);
+        }
+
+        .faq-item__voting-buttons {
+            display: flex;
+            gap: var(--space-2);
+            margin-left: auto;
+        }
+
+        .vote-btn {
+            padding: var(--space-2) var(--space-3);
+            font-size: var(--font-size-sm);
+            border: 1px solid var(--color-gray-300);
+            background: var(--color-white);
+            color: var(--color-gray-700);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .vote-btn:active {
+            transform: scale(0.95);
+        }
+
+        .vote-btn.voted {
+            background: var(--color-primary-light);
+            color: var(--color-primary);
+            border-color: var(--color-primary);
+        }
+
+        .vote-btn.vote-no.voted {
+            background: #FFEBEE;
+            color: var(--color-error);
+            border-color: var(--color-error);
+        }
+
+        /* Contact Section */
+        .contact-section {
+            background: var(--color-white);
+            border-radius: var(--radius-lg);
+            padding: var(--space-5);
+            margin: var(--space-4);
+            margin-bottom: calc(var(--bottom-nav-height) + var(--space-4));
+            box-shadow: var(--shadow-sm);
+            text-align: center;
+        }
+
+        .contact-section__icon {
+            font-size: 48px;
+            margin-bottom: var(--space-3);
+        }
+
+        .contact-section__title {
+            font-size: var(--font-size-lg);
+            font-weight: var(--font-weight-bold);
+            color: var(--color-gray-900);
+            margin-bottom: var(--space-2);
+        }
+
+        .contact-section__desc {
+            font-size: var(--font-size-sm);
+            color: var(--color-gray-600);
+            line-height: var(--line-height-relaxed);
+            margin-bottom: var(--space-4);
+        }
+
+        .contact-section__methods {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--space-3);
+        }
+
+        .contact-method {
+            padding: var(--space-4);
+            background: var(--color-gray-50);
+            border-radius: var(--radius-lg);
+            text-decoration: none;
+            transition: all var(--transition-fast);
+            cursor: pointer;
+        }
+
+        .contact-method:active {
+            transform: scale(0.97);
+            background: var(--color-gray-100);
+        }
+
+        .contact-method__icon {
+            font-size: 28px;
+            margin-bottom: var(--space-2);
+        }
+
+        .contact-method__label {
+            font-size: var(--font-size-sm);
+            font-weight: var(--font-weight-medium);
+            color: var(--color-gray-900);
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .contact-method__value {
+            font-size: var(--font-size-xs);
+            color: var(--color-gray-600);
+        }
+
+        /* Empty State */
+        .empty-state {
+            padding: var(--space-12) var(--space-6);
+            text-align: center;
+        }
+
+        .empty-state__icon {
+            font-size: 64px;
+            margin-bottom: var(--space-4);
+            opacity: 0.3;
+        }
+
+        .empty-state__title {
+            font-size: var(--font-size-md);
+            font-weight: var(--font-weight-medium);
+            color: var(--color-gray-700);
+            margin-bottom: var(--space-2);
+        }
+
+        .empty-state__desc {
+            font-size: var(--font-size-sm);
+            color: var(--color-gray-500);
+            line-height: var(--line-height-relaxed);
+        }
+
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: var(--max-width-mobile);
+            background: var(--color-white);
+            border-top: 1px solid var(--color-gray-200);
+            display: flex;
+            justify-content: space-around;
+            padding: var(--space-2) 0;
+            z-index: var(--z-sticky);
+            height: var(--bottom-nav-height);
+        }
+
+        .nav-item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            color: var(--color-gray-500);
+            text-decoration: none;
+            cursor: pointer;
+            transition: color var(--transition-fast);
+        }
+
+        .nav-item.active {
+            color: var(--color-primary);
+        }
+
+        .nav-item__icon {
+            font-size: 24px;
+        }
+
+        .nav-item__label {
+            font-size: var(--font-size-xs);
+            font-weight: var(--font-weight-medium);
+        }
+
+        /* Responsive */
+        @media (min-width: 768px) {
+            body {
+                max-width: var(--max-width-mobile);
+                margin: 0 auto;
+                box-shadow: 0 0 40px rgba(0, 0, 0, 0.1);
+            }
+        }
+
+        /* Animation for search highlight */
+        @keyframes highlight {
+            0%, 100% {
+                background-color: transparent;
+            }
+            50% {
+                background-color: rgba(111, 207, 63, 0.1);
+            }
+        }
+
+        .faq-item.highlight {
+            animation: highlight 1s ease-in-out;
+        }
+    </style>
+</head>
+<body>
+    <div class="mobile-container">
+        <!-- Header -->
+        <header class="faq-header">
+            <div class="faq-header__top">
+                <div class="faq-header__back" onclick="history.back()">←</div>
+                <h1 class="faq-header__title">자주 묻는 질문</h1>
+                <div class="faq-header__home" onclick="location.href='../home/main.html'">🏠</div>
+            </div>
+
+            <!-- Search Bar -->
+            <div class="search-bar">
+                <div class="search-bar__input-wrapper">
+                    <span class="search-bar__icon">🔍</span>
+                    <input
+                        type="text"
+                        class="search-bar__input"
+                        id="searchInput"
+                        placeholder="궁금한 내용을 검색해보세요"
+                        autocomplete="off"
+                    >
+                    <span class="search-bar__clear" id="clearSearch">✕</span>
+                </div>
+            </div>
+
+            <!-- Category Tabs -->
+            <div class="category-tabs">
+                <div class="category-tabs__list">
+                    <button class="category-tab active" data-category="전체">전체</button>
+                    <button class="category-tab" data-category="주문/결제">주문/결제</button>
+                    <button class="category-tab" data-category="배송">배송</button>
+                    <button class="category-tab" data-category="취소/반품">취소/반품</button>
+                    <button class="category-tab" data-category="상품">상품</button>
+                    <button class="category-tab" data-category="회원">회원</button>
+                    <button class="category-tab" data-category="기타">기타</button>
+                </div>
+            </div>
+        </header>
+
+        <!-- FAQ List -->
+        <div class="faq-list" id="faqList">
+            <!-- 주문/결제 -->
+            <div class="faq-item" data-category="주문/결제">
+                <div class="faq-item__question">
+                    <div class="faq-item__q-icon">Q</div>
+                    <div class="faq-item__q-content">
+                        <span class="faq-item__category">주문/결제</span>
+                        <div class="faq-item__q-text">주문은 어떻게 하나요?</div>
+                    </div>
+                    <div class="faq-item__toggle">›</div>
+                </div>
+                <div class="faq-item__answer">
+                    <div class="faq-item__answer-content">
+                        <div class="faq-item__a-icon">A</div>
+                        <div class="faq-item__a-text">
+                            과일다리에서 주문하는 방법은 간단합니다:
+                            <ul>
+                                <li><strong>상품 선택:</strong> 원하시는 과일을 둘러보고 장바구니에 담아주세요</li>
+                                <li><strong>장바구니 확인:</strong> 수량과 옵션을 확인하고 주문하기를 눌러주세요</li>
+                                <li><strong>배송지 입력:</strong> 신선하게 받으실 주소를 입력해주세요</li>
+                                <li><strong>결제:</strong> 카드, 계좌이체, 간편결제 등 편한 방법으로 결제하시면 완료됩니다</li>
+                            </ul>
+                            회원가입 없이도 구매 가능하지만, 회원가입 시 적립금과 다양한 혜택을 받으실 수 있습니다.
+                        </div>
+                    </div>
+                    <div class="faq-item__voting">
+                        <span class="faq-item__voting-text">도움이 되었나요?</span>
+                        <div class="faq-item__voting-buttons">
+                            <button class="vote-btn vote-yes" onclick="handleVote(this, 'yes')">
+                                <span>👍</span> 도움됨
+                            </button>
+                            <button class="vote-btn vote-no" onclick="handleVote(this, 'no')">
+                                <span>👎</span> 아니요
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item" data-category="주문/결제">
+                <div class="faq-item__question">
+                    <div class="faq-item__q-icon">Q</div>
+                    <div class="faq-item__q-content">
+                        <span class="faq-item__category">주문/결제</span>
+                        <div class="faq-item__q-text">어떤 결제 방법을 사용할 수 있나요?</div>
+                    </div>
+                    <div class="faq-item__toggle">›</div>
+                </div>
+                <div class="faq-item__answer">
+                    <div class="faq-item__answer-content">
+                        <div class="faq-item__a-icon">A</div>
+                        <div class="faq-item__a-text">
+                            과일다리는 다양한 결제 수단을 지원합니다:
+                            <ul>
+                                <li><strong>신용/체크카드:</strong> 모든 카드사 이용 가능하며 무이자 할부도 제공됩니다</li>
+                                <li><strong>간편결제:</strong> 카카오페이, 네이버페이, 토스 등</li>
+                                <li><strong>계좌이체:</strong> 실시간 계좌이체 가능</li>
+                                <li><strong>휴대폰 결제:</strong> 통신사 소액결제 지원</li>
+                            </ul>
+                            결제 시 적립금이나 쿠폰도 함께 사용하실 수 있습니다.
+                        </div>
+                    </div>
+                    <div class="faq-item__voting">
+                        <span class="faq-item__voting-text">도움이 되었나요?</span>
+                        <div class="faq-item__voting-buttons">
+                            <button class="vote-btn vote-yes" onclick="handleVote(this, 'yes')">
+                                <span>👍</span> 도움됨
+                            </button>
+                            <button class="vote-btn vote-no" onclick="handleVote(this, 'no')">
+                                <span>👎</span> 아니요
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item" data-category="주문/결제">
+                <div class="faq-item__question">
+                    <div class="faq-item__q-icon">Q</div>
+                    <div class="faq-item__q-content">
+                        <span class="faq-item__category">주문/결제</span>
+                        <div class="faq-item__q-text">무이자 할부가 가능한가요?</div>
+                    </div>
+                    <div class="faq-item__toggle">›</div>
+                </div>
+                <div class="faq-item__answer">
+                    <div class="faq-item__answer-content">
+                        <div class="faq-item__a-icon">A</div>
+                        <div class="faq-item__a-text">
+                            네, 5만원 이상 구매 시 2-3개월 무이자 할부가 가능합니다. 카드사별로 혜택이 다르니 결제 시 확인해주세요.
+                            주요 카드사(삼성, 현대, 신한, KB국민, 롯데, NH농협 등)에서 무이자 할부를 제공하고 있으며,
+                            매월 특정 카드사에서 추가 할인 이벤트도 진행됩니다.
+                        </div>
+                    </div>
+                    <div class="faq-item__voting">
+                        <span class="faq-item__voting-text">도움이 되었나요?</span>
+                        <div class="faq-item__voting-buttons">
+                            <button class="vote-btn vote-yes" onclick="handleVote(this, 'yes')">
+                                <span>👍</span> 도움됨
+                            </button>
+                            <button class="vote-btn vote-no" onclick="handleVote(this, 'no')">
+                                <span>👎</span> 아니요
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 배송 -->
+            <div class="faq-item" data-category="배송">
+                <div class="faq-item__question">
+                    <div class="faq-item__q-icon">Q</div>
+                    <div class="faq-item__q-content">
+                        <span class="faq-item__category">배송</span>
+                        <div class="faq-item__q-text">배송은 얼마나 걸리나요?</div>
+                    </div>
+                    <div class="faq-item__toggle">›</div>
+                </div>
+                <div class="faq-item__answer">
+                    <div class="faq-item__answer-content">
+                        <div class="faq-item__a-icon">A</div>
+                        <div class="faq-item__a-text">
+                            <strong>주문 후 1-2일 내 신선하게 배송됩니다:</strong>
+                            <ul>
+                                <li><strong>수도권:</strong> 주문 다음날 새벽 배송 가능 (새벽 6-8시)</li>
+                                <li><strong>전국:</strong> 주문 후 1-2일 내 배송</li>
+                                <li><strong>제주/도서:</strong> 2-3일 소요 (추가 배송비 발생)</li>
+                            </ul>
+                            과일은 신선도가 생명입니다. 저희는 주문 즉시 산지에서 당일 수확하여 콜드체인 시스템으로
+                            신선하게 배송해드립니다. 배송 전 품질검수를 거쳐 최상의 상태로 보내드립니다.
+                        </div>
+                    </div>
+                    <div class="faq-item__voting">
+                        <span class="faq-item__voting-text">도움이 되었나요?</span>
+                        <div class="faq-item__voting-buttons">
+                            <button class="vote-btn vote-yes" onclick="handleVote(this, 'yes')">
+                                <span>👍</span> 도움됨
+                            </button>
+                            <button class="vote-btn vote-no" onclick="handleVote(this, 'no')">
+                                <span>👎</span> 아니요
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item" data-category="배송">
+                <div class="faq-item__question">
+                    <div class="faq-item__q-icon">Q</div>
+                    <div class="faq-item__q-content">
+                        <span class="faq-item__category">배송</span>
+                        <div class="faq-item__q-text">배송비는 얼마인가요?</div>
+                    </div>
+                    <div class="faq-item__toggle">›</div>
+                </div>
+                <div class="faq-item__answer">
+                    <div class="faq-item__answer-content">
+                        <div class="faq-item__a-icon">A</div>
+                        <div class="faq-item__a-text">
+                            배송비 안내:
+                            <ul>
+                                <li><strong>3만원 이상:</strong> 무료배송</li>
+                                <li><strong>3만원 미만:</strong> 3,000원</li>
+                                <li><strong>제주/도서:</strong> 추가 3,000원</li>
+                                <li><strong>새벽배송:</strong> 추가 2,000원</li>
+                            </ul>
+                            정기구독 회원님은 매 배송마다 무료배송 혜택이 제공됩니다.
+                        </div>
+                    </div>
+                    <div class="faq-item__voting">
+                        <span class="faq-item__voting-text">도움이 되었나요?</span>
+                        <div class="faq-item__voting-buttons">
+                            <button class="vote-btn vote-yes" onclick="handleVote(this, 'yes')">
+                                <span>👍</span> 도움됨
+                            </button>
+                            <button class="vote-btn vote-no" onclick="handleVote(this, 'no')">
+                                <span>👎</span> 아니요
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item" data-category="배송">
+                <div class="faq-item__question">
+                    <div class="faq-item__q-icon">Q</div>
+                    <div class="faq-item__q-content">
+                        <span class="faq-item__category">배송</span>
+                        <div class="faq-item__q-text">배송 조회는 어떻게 하나요?</div>
+                    </div>
+                    <div class="faq-item__toggle">›</div>
+                </div>
+                <div class="faq-item__answer">
+                    <div class="faq-item__answer-content">
+                        <div class="faq-item__a-icon">A</div>
+                        <div class="faq-item__a-text">
+                            마이페이지 > 주문/배송 조회에서 실시간으로 배송 현황을 확인하실 수 있습니다.
+                            상품 출고 시 문자와 카카오톡으로 송장번호가 발송되며, 택배사 홈페이지에서도 조회 가능합니다.
+                            배송 단계별로 알림을 보내드리니 놓치지 마세요!
+                        </div>
+                    </div>
+                    <div class="faq-item__voting">
+                        <span class="faq-item__voting-text">도움이 되었나요?</span>
+                        <div class="faq-item__voting-buttons">
+                            <button class="vote-btn vote-yes" onclick="handleVote(this, 'yes')">
+                                <span>👍</span> 도움됨
+                            </button>
+                            <button class="vote-btn vote-no" onclick="handleVote(this, 'no')">
+                                <span>👎</span> 아니요
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 취소/반품 -->
+            <div class="faq-item" data-category="취소/반품">
+                <div class="faq-item__question">
+                    <div class="faq-item__q-icon">Q</div>
+                    <div class="faq-item__q-content">
+                        <span class="faq-item__category">취소/반품</span>
+                        <div class="faq-item__q-text">교환/반품이 가능한가요?</div>
+                    </div>
+                    <div class="faq-item__toggle">›</div>
+                </div>
+                <div class="faq-item__answer">
+                    <div class="faq-item__answer-content">
+                        <div class="faq-item__a-icon">A</div>
+                        <div class="faq-item__a-text">
+                            <strong>물론 가능합니다!</strong> 과일다리는 100% 고객만족을 약속합니다:
+                            <ul>
+                                <li><strong>신선도 문제:</strong> 상품 수령 후 24시간 이내 사진과 함께 신고 시 100% 교환/환불</li>
+                                <li><strong>배송 문제:</strong> 배송 중 파손이나 손상 발생 시 즉시 교환</li>
+                                <li><strong>단순 변심:</strong> 상품 미개봉 시 수령 후 24시간 이내 반품 가능 (배송비 고객 부담)</li>
+                            </ul>
+                            신선식품 특성상 개봉 후 단순 변심 반품은 어렵습니다. 문제가 있으시면 사진과 함께
+                            고객센터로 연락주시면 빠르게 처리해드리겠습니다.
+                        </div>
+                    </div>
+                    <div class="faq-item__voting">
+                        <span class="faq-item__voting-text">도움이 되었나요?</span>
+                        <div class="faq-item__voting-buttons">
+                            <button class="vote-btn vote-yes" onclick="handleVote(this, 'yes')">
+                                <span>👍</span> 도움됨
+                            </button>
+                            <button class="vote-btn vote-no" onclick="handleVote(this, 'no')">
+                                <span>👎</span> 아니요
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item" data-category="취소/반품">
+                <div class="faq-item__question">
+                    <div class="faq-item__q-icon">Q</div>
+                    <div class="faq-item__q-content">
+                        <span class="faq-item__category">취소/반품</span>
+                        <div class="faq-item__q-text">주문 취소는 어떻게 하나요?</div>
+                    </div>
+                    <div class="faq-item__toggle">›</div>
+                </div>
+                <div class="faq-item__answer">
+                    <div class="faq-item__answer-content">
+                        <div class="faq-item__a-icon">A</div>
+                        <div class="faq-item__a-text">
+                            주문 취소는 <strong>상품 출고 전까지만</strong> 가능합니다. 마이페이지 > 주문내역에서
+                            '주문취소' 버튼을 클릭하시면 즉시 취소 처리됩니다. 이미 출고된 상품은 취소가 불가하며,
+                            수령 후 반품 절차를 진행하셔야 합니다. 신선식품 특성상 빠른 배송을 위해
+                            주문 후 신속하게 포장/출고되오니 취소는 가능한 빨리 해주세요.
+                        </div>
+                    </div>
+                    <div class="faq-item__voting">
+                        <span class="faq-item__voting-text">도움이 되었나요?</span>
+                        <div class="faq-item__voting-buttons">
+                            <button class="vote-btn vote-yes" onclick="handleVote(this, 'yes')">
+                                <span>👍</span> 도움됨
+                            </button>
+                            <button class="vote-btn vote-no" onclick="handleVote(this, 'no')">
+                                <span>👎</span> 아니요
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item" data-category="취소/반품">
+                <div class="faq-item__question">
+                    <div class="faq-item__q-icon">Q</div>
+                    <div class="faq-item__q-content">
+                        <span class="faq-item__category">취소/반품</span>
+                        <div class="faq-item__q-text">환불은 언제 되나요?</div>
+                    </div>
+                    <div class="faq-item__toggle">›</div>
+                </div>
+                <div class="faq-item__answer">
+                    <div class="faq-item__answer-content">
+                        <div class="faq-item__a-icon">A</div>
+                        <div class="faq-item__a-text">
+                            환불 일정은 결제 수단에 따라 다릅니다:
+                            <ul>
+                                <li><strong>카드 결제:</strong> 취소 요청 후 2-5영업일 (카드사 정책에 따라 차이)</li>
+                                <li><strong>실시간 계좌이체:</strong> 취소 요청 후 1-2영업일</li>
+                                <li><strong>간편결제:</strong> 취소 요청 후 1-3영업일</li>
+                            </ul>
+                            부분 취소의 경우 취소 금액만큼 환불되며, 마이페이지에서 환불 진행 상황을
+                            실시간으로 확인하실 수 있습니다.
+                        </div>
+                    </div>
+                    <div class="faq-item__voting">
+                        <span class="faq-item__voting-text">도움이 되었나요?</span>
+                        <div class="faq-item__voting-buttons">
+                            <button class="vote-btn vote-yes" onclick="handleVote(this, 'yes')">
+                                <span>👍</span> 도움됨
+                            </button>
+                            <button class="vote-btn vote-no" onclick="handleVote(this, 'no')">
+                                <span>👎</span> 아니요
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 상품 -->
+            <div class="faq-item" data-category="상품">
+                <div class="faq-item__question">
+                    <div class="faq-item__q-icon">Q</div>
+                    <div class="faq-item__q-content">
+                        <span class="faq-item__category">상품</span>
+                        <div class="faq-item__q-text">Brix 당도는 무엇인가요?</div>
+                    </div>
+                    <div class="faq-item__toggle">›</div>
+                </div>
+                <div class="faq-item__answer">
+                    <div class="faq-item__answer-content">
+                        <div class="faq-item__a-icon">A</div>
+                        <div class="faq-item__a-text">
+                            <strong>Brix(브릭스)</strong>는 과일의 당도를 측정하는 국제 표준 단위입니다.
+                            숫자가 높을수록 더 달콤합니다. 과일다리는 모든 과일의 당도를 측정하여 표시하고 있습니다:
+                            <ul>
+                                <li><strong>딸기:</strong> 10~12° 이상</li>
+                                <li><strong>사과:</strong> 13~15° 이상</li>
+                                <li><strong>수박:</strong> 11~13° 이상</li>
+                                <li><strong>샤인머스캣:</strong> 18~20° 이상</li>
+                            </ul>
+                            저희는 산지에서 직접 당도를 측정하고, 높은 당도의 과일만 엄선하여 판매합니다.
+                        </div>
+                    </div>
+                    <div class="faq-item__voting">
+                        <span class="faq-item__voting-text">도움이 되었나요?</span>
+                        <div class="faq-item__voting-buttons">
+                            <button class="vote-btn vote-yes" onclick="handleVote(this, 'yes')">
+                                <span>👍</span> 도움됨
+                            </button>
+                            <button class="vote-btn vote-no" onclick="handleVote(this, 'no')">
+                                <span>👎</span> 아니요
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item" data-category="상품">
+                <div class="faq-item__question">
+                    <div class="faq-item__q-icon">Q</div>
+                    <div class="faq-item__q-content">
+                        <span class="faq-item__category">상품</span>
+                        <div class="faq-item__q-text">과일 보관은 어떻게 하나요?</div>
+                    </div>
+                    <div class="faq-item__toggle">›</div>
+                </div>
+                <div class="faq-item__answer">
+                    <div class="faq-item__answer-content">
+                        <div class="faq-item__a-icon">A</div>
+                        <div class="faq-item__a-text">
+                            과일별 최적의 보관 방법:
+                            <ul>
+                                <li><strong>냉장 보관:</strong> 딸기, 포도, 블루베리 등 베리류 (1-2주)</li>
+                                <li><strong>실온 보관 후 냉장:</strong> 복숭아, 자두, 키위 등 (숙성 후 냉장)</li>
+                                <li><strong>실온 보관:</strong> 바나나, 망고 등 열대과일</li>
+                                <li><strong>통풍 좋은 곳:</strong> 수박, 멜론 (자른 후 냉장)</li>
+                            </ul>
+                            자세한 보관법은 상품 상세페이지 또는 '과일 보관 가이드' 메뉴를 참고해주세요.
+                        </div>
+                    </div>
+                    <div class="faq-item__voting">
+                        <span class="faq-item__voting-text">도움이 되었나요?</span>
+                        <div class="faq-item__voting-buttons">
+                            <button class="vote-btn vote-yes" onclick="handleVote(this, 'yes')">
+                                <span>👍</span> 도움됨
+                            </button>
+                            <button class="vote-btn vote-no" onclick="handleVote(this, 'no')">
+                                <span>👎</span> 아니요
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item" data-category="상품">
+                <div class="faq-item__question">
+                    <div class="faq-item__q-icon">Q</div>
+                    <div class="faq-item__q-content">
+                        <span class="faq-item__category">상품</span>
+                        <div class="faq-item__q-text">정기배송은 어떻게 신청하나요?</div>
+                    </div>
+                    <div class="faq-item__toggle">›</div>
+                </div>
+                <div class="faq-item__answer">
+                    <div class="faq-item__answer-content">
+                        <div class="faq-item__a-icon">A</div>
+                        <div class="faq-item__a-text">
+                            정기배송은 상품 페이지에서 '정기배송' 옵션을 선택하시면 됩니다.
+                            매주 또는 격주로 신선한 제철 과일을 자동으로 배송해드리며,
+                            정기구독 고객님께는 <strong>15% 할인 + 무료배송</strong> 혜택을 제공합니다.
+                            배송 주기와 수량은 언제든지 변경 가능하며, 마이페이지에서 일시정지나 해지도 할 수 있습니다.
+                        </div>
+                    </div>
+                    <div class="faq-item__voting">
+                        <span class="faq-item__voting-text">도움이 되었나요?</span>
+                        <div class="faq-item__voting-buttons">
+                            <button class="vote-btn vote-yes" onclick="handleVote(this, 'yes')">
+                                <span>👍</span> 도움됨
+                            </button>
+                            <button class="vote-btn vote-no" onclick="handleVote(this, 'no')">
+                                <span>👎</span> 아니요
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 회원 -->
+            <div class="faq-item" data-category="회원">
+                <div class="faq-item__question">
+                    <div class="faq-item__q-icon">Q</div>
+                    <div class="faq-item__q-content">
+                        <span class="faq-item__category">회원</span>
+                        <div class="faq-item__q-text">회원가입 혜택이 있나요?</div>
+                    </div>
+                    <div class="faq-item__toggle">›</div>
+                </div>
+                <div class="faq-item__answer">
+                    <div class="faq-item__answer-content">
+                        <div class="faq-item__a-icon">A</div>
+                        <div class="faq-item__a-text">
+                            과일다리 회원님께는 특별한 혜택이 가득합니다:
+                            <ul>
+                                <li><strong>가입 즉시:</strong> 3,000원 적립금 + 10% 할인 쿠폰</li>
+                                <li><strong>구매 시마다:</strong> 구매금액의 3% 적립</li>
+                                <li><strong>생일 축하:</strong> 생일 달 특별 쿠폰 제공</li>
+                                <li><strong>등급별 혜택:</strong> 실버/골드/다이아 등급별 최대 5% 추가 할인</li>
+                                <li><strong>후기 작성:</strong> 포토후기 작성 시 1,000원 적립금</li>
+                            </ul>
+                            지금 가입하시고 다양한 혜택을 누려보세요!
+                        </div>
+                    </div>
+                    <div class="faq-item__voting">
+                        <span class="faq-item__voting-text">도움이 되었나요?</span>
+                        <div class="faq-item__voting-buttons">
+                            <button class="vote-btn vote-yes" onclick="handleVote(this, 'yes')">
+                                <span>👍</span> 도움됨
+                            </button>
+                            <button class="vote-btn vote-no" onclick="handleVote(this, 'no')">
+                                <span>👎</span> 아니요
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item" data-category="회원">
+                <div class="faq-item__question">
+                    <div class="faq-item__q-icon">Q</div>
+                    <div class="faq-item__q-content">
+                        <span class="faq-item__category">회원</span>
+                        <div class="faq-item__q-text">적립금은 어떻게 사용하나요?</div>
+                    </div>
+                    <div class="faq-item__toggle">›</div>
+                </div>
+                <div class="faq-item__answer">
+                    <div class="faq-item__answer-content">
+                        <div class="faq-item__a-icon">A</div>
+                        <div class="faq-item__a-text">
+                            적립금은 1,000원 이상부터 사용 가능하며, 결제 시 현금처럼 사용하실 수 있습니다.
+                            마이페이지 > 적립금 내역에서 확인 가능하며, 적립금 유효기간은 적립일로부터 1년입니다.
+                            구매금액의 최대 30%까지 적립금으로 결제할 수 있으며, 쿠폰과 함께 사용 가능합니다.
+                        </div>
+                    </div>
+                    <div class="faq-item__voting">
+                        <span class="faq-item__voting-text">도움이 되었나요?</span>
+                        <div class="faq-item__voting-buttons">
+                            <button class="vote-btn vote-yes" onclick="handleVote(this, 'yes')">
+                                <span>👍</span> 도움됨
+                            </button>
+                            <button class="vote-btn vote-no" onclick="handleVote(this, 'no')">
+                                <span>👎</span> 아니요
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 기타 -->
+            <div class="faq-item" data-category="기타">
+                <div class="faq-item__question">
+                    <div class="faq-item__q-icon">Q</div>
+                    <div class="faq-item__q-content">
+                        <span class="faq-item__category">기타</span>
+                        <div class="faq-item__q-text">나눔 과일은 어떻게 기부되나요?</div>
+                    </div>
+                    <div class="faq-item__toggle">›</div>
+                </div>
+                <div class="faq-item__answer">
+                    <div class="faq-item__answer-content">
+                        <div class="faq-item__a-icon">A</div>
+                        <div class="faq-item__a-text">
+                            과일다리는 <strong>'과일 나눔 프로젝트'</strong>를 운영하고 있습니다.
+                            고객님의 구매금액 중 일부가 자동으로 나눔 포인트로 적립되며,
+                            매월 1회 지역 복지시설, 아동센터, 요양원 등에 신선한 과일을 기부합니다.
+                            원하시면 직접 나눔 과일 상품을 구매하여 기부처를 지정하실 수도 있습니다.
+                            마이페이지 > 나눔 내역에서 기부 현황을 확인하실 수 있습니다.
+                        </div>
+                    </div>
+                    <div class="faq-item__voting">
+                        <span class="faq-item__voting-text">도움이 되었나요?</span>
+                        <div class="faq-item__voting-buttons">
+                            <button class="vote-btn vote-yes" onclick="handleVote(this, 'yes')">
+                                <span>👍</span> 도움됨
+                            </button>
+                            <button class="vote-btn vote-no" onclick="handleVote(this, 'no')">
+                                <span>👎</span> 아니요
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item" data-category="기타">
+                <div class="faq-item__question">
+                    <div class="faq-item__q-icon">Q</div>
+                    <div class="faq-item__q-content">
+                        <span class="faq-item__category">기타</span>
+                        <div class="faq-item__q-text">선물 포장이 가능한가요?</div>
+                    </div>
+                    <div class="faq-item__toggle">›</div>
+                </div>
+                <div class="faq-item__answer">
+                    <div class="faq-item__answer-content">
+                        <div class="faq-item__a-icon">A</div>
+                        <div class="faq-item__a-text">
+                            네, 선물용 포장 서비스를 제공합니다! 주문 시 '선물 포장' 옵션을 선택하시면
+                            예쁜 선물 박스와 리본으로 포장해드리며, 무료 메시지 카드도 함께 동봉됩니다.
+                            선물 포장 비용은 3,000원이며, 명절이나 특별한 날에는 시즌 한정
+                            프리미엄 선물세트도 준비되어 있습니다. 소중한 분께 신선한 과일 선물을 전해보세요!
+                        </div>
+                    </div>
+                    <div class="faq-item__voting">
+                        <span class="faq-item__voting-text">도움이 되었나요?</span>
+                        <div class="faq-item__voting-buttons">
+                            <button class="vote-btn vote-yes" onclick="handleVote(this, 'yes')">
+                                <span>👍</span> 도움됨
+                            </button>
+                            <button class="vote-btn vote-no" onclick="handleVote(this, 'no')">
+                                <span>👎</span> 아니요
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item" data-category="기타">
+                <div class="faq-item__question">
+                    <div class="faq-item__q-icon">Q</div>
+                    <div class="faq-item__q-content">
+                        <span class="faq-item__category">기타</span>
+                        <div class="faq-item__q-text">고객센터 운영시간은 언제인가요?</div>
+                    </div>
+                    <div class="faq-item__toggle">›</div>
+                </div>
+                <div class="faq-item__answer">
+                    <div class="faq-item__answer-content">
+                        <div class="faq-item__a-icon">A</div>
+                        <div class="faq-item__a-text">
+                            과일다리 고객센터 운영 안내:
+                            <ul>
+                                <li><strong>전화 상담:</strong> 평일 09:00-18:00 (주말/공휴일 휴무)</li>
+                                <li><strong>카카오톡 상담:</strong> 평일 09:00-22:00, 주말 10:00-18:00</li>
+                                <li><strong>1:1 문의:</strong> 24시간 접수 가능 (순차 답변)</li>
+                                <li><strong>챗봇:</strong> 24시간 자동 응답</li>
+                            </ul>
+                            점심시간(12:00-13:00)에는 상담이 지연될 수 있습니다.
+                        </div>
+                    </div>
+                    <div class="faq-item__voting">
+                        <span class="faq-item__voting-text">도움이 되었나요?</span>
+                        <div class="faq-item__voting-buttons">
+                            <button class="vote-btn vote-yes" onclick="handleVote(this, 'yes')">
+                                <span>👍</span> 도움됨
+                            </button>
+                            <button class="vote-btn vote-no" onclick="handleVote(this, 'no')">
+                                <span>👎</span> 아니요
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Empty State (숨김 처리, 검색 결과 없을 때 표시) -->
+        <div class="empty-state" id="emptyState" style="display: none;">
+            <div class="empty-state__icon">🔍</div>
+            <div class="empty-state__title">검색 결과가 없습니다</div>
+            <div class="empty-state__desc">
+                다른 검색어로 다시 시도해보시거나<br>
+                아래 고객센터로 문의해주세요
+            </div>
+        </div>
+
+        <!-- Contact Support Section -->
+        <div class="contact-section">
+            <div class="contact-section__icon">💬</div>
+            <div class="contact-section__title">찾으시는 답변이 없으신가요?</div>
+            <div class="contact-section__desc">
+                과일다리 고객센터가 친절하게 도와드리겠습니다
+            </div>
+            <div class="contact-section__methods">
+                <a href="tel:1588-0000" class="contact-method">
+                    <div class="contact-method__icon">📞</div>
+                    <span class="contact-method__label">전화 상담</span>
+                    <span class="contact-method__value">1588-0000</span>
+                </a>
+                <a href="inquiry.html" class="contact-method">
+                    <div class="contact-method__icon">✉️</div>
+                    <span class="contact-method__label">1:1 문의</span>
+                    <span class="contact-method__value">24시간 접수</span>
+                </a>
+                <a href="#" class="contact-method">
+                    <div class="contact-method__icon">💬</div>
+                    <span class="contact-method__label">카카오톡</span>
+                    <span class="contact-method__value">@과일다리</span>
+                </a>
+                <a href="#" class="contact-method">
+                    <div class="contact-method__icon">🤖</div>
+                    <span class="contact-method__label">챗봇 상담</span>
+                    <span class="contact-method__value">즉시 응답</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Bottom Navigation -->
+        <nav class="bottom-nav">
+            <a href="../home/main.html" class="nav-item">
+                <div class="nav-item__icon">🏠</div>
+                <div class="nav-item__label">홈</div>
+            </a>
+            <a href="../products/index.html" class="nav-item">
+                <div class="nav-item__icon">🍎</div>
+                <div class="nav-item__label">상품</div>
+            </a>
+            <a href="../mypage/index.html" class="nav-item">
+                <div class="nav-item__icon">👤</div>
+                <div class="nav-item__label">마이</div>
+            </a>
+            <a href="index.html" class="nav-item active">
+                <div class="nav-item__icon">💬</div>
+                <div class="nav-item__label">고객센터</div>
+            </a>
+        </nav>
+    </div>
+
+    <script>
+        // State
+        let currentCategory = '전체';
+        let searchQuery = '';
+
+        // DOM Elements
+        const searchInput = document.getElementById('searchInput');
+        const clearSearch = document.getElementById('clearSearch');
+        const categoryTabs = document.querySelectorAll('.category-tab');
+        const faqItems = document.querySelectorAll('.faq-item');
+        const faqList = document.getElementById('faqList');
+        const emptyState = document.getElementById('emptyState');
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            // Add click handlers to FAQ items
+            faqItems.forEach(item => {
+                const question = item.querySelector('.faq-item__question');
+                question.addEventListener('click', () => toggleFAQ(item));
+            });
+
+            // Search functionality
+            searchInput.addEventListener('input', (e) => {
+                searchQuery = e.target.value.toLowerCase().trim();
+                if (searchQuery) {
+                    clearSearch.classList.add('show');
+                } else {
+                    clearSearch.classList.remove('show');
+                }
+                filterFAQs();
+            });
+
+            clearSearch.addEventListener('click', () => {
+                searchInput.value = '';
+                searchQuery = '';
+                clearSearch.classList.remove('show');
+                filterFAQs();
+                searchInput.focus();
+            });
+
+            // Category tabs
+            categoryTabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    currentCategory = tab.dataset.category;
+                    categoryTabs.forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+                    filterFAQs();
+                });
+            });
+        });
+
+        // Toggle FAQ accordion
+        function toggleFAQ(item) {
+            const isOpen = item.classList.contains('open');
+
+            if (isOpen) {
+                item.classList.remove('open');
+            } else {
+                // Close other open items (optional - remove these lines for multiple open items)
+                faqItems.forEach(i => i.classList.remove('open'));
+                item.classList.add('open');
+            }
+        }
+
+        // Filter FAQs based on category and search
+        function filterFAQs() {
+            let visibleCount = 0;
+
+            faqItems.forEach(item => {
+                const category = item.dataset.category;
+                const questionText = item.querySelector('.faq-item__q-text').textContent.toLowerCase();
+                const answerText = item.querySelector('.faq-item__a-text').textContent.toLowerCase();
+
+                // Check category match
+                const categoryMatch = currentCategory === '전체' || category === currentCategory;
+
+                // Check search match
+                const searchMatch = !searchQuery ||
+                    questionText.includes(searchQuery) ||
+                    answerText.includes(searchQuery);
+
+                if (categoryMatch && searchMatch) {
+                    item.classList.remove('hidden');
+                    visibleCount++;
+
+                    // Highlight if search query exists
+                    if (searchQuery && searchMatch) {
+                        item.classList.add('highlight');
+                        setTimeout(() => item.classList.remove('highlight'), 1000);
+                    }
+                } else {
+                    item.classList.add('hidden');
+                    item.classList.remove('open');
+                }
+            });
+
+            // Show/hide empty state
+            if (visibleCount === 0) {
+                faqList.style.display = 'none';
+                emptyState.style.display = 'block';
+            } else {
+                faqList.style.display = 'block';
+                emptyState.style.display = 'none';
+            }
+        }
+
+        // Handle voting
+        function handleVote(button, voteType) {
+            const votingSection = button.closest('.faq-item__voting');
+            const buttons = votingSection.querySelectorAll('.vote-btn');
+
+            // Check if already voted
+            const alreadyVoted = button.classList.contains('voted');
+
+            if (alreadyVoted) {
+                // Remove vote
+                button.classList.remove('voted');
+                return;
+            }
+
+            // Remove previous votes
+            buttons.forEach(btn => btn.classList.remove('voted'));
+
+            // Add new vote
+            button.classList.add('voted');
+
+            // Show feedback
+            const feedbackText = voteType === 'yes' ?
+                '도움이 되었다니 기쁩니다! 😊' :
+                '불편을 드려 죄송합니다. 더 나은 답변을 준비하겠습니다.';
+
+            showToast(feedbackText);
+
+            // Analytics tracking (optional)
+            // trackVote(voteType);
+        }
+
+        // Toast notification
+        function showToast(message) {
+            // Remove existing toast
+            const existingToast = document.querySelector('.toast');
+            if (existingToast) {
+                existingToast.remove();
+            }
+
+            // Create toast
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            toast.textContent = message;
+            toast.style.cssText = `
+                position: fixed;
+                bottom: calc(var(--bottom-nav-height) + 20px);
+                left: 50%;
+                transform: translateX(-50%);
+                background: rgba(0, 0, 0, 0.8);
+                color: white;
+                padding: 12px 24px;
+                border-radius: 24px;
+                font-size: 14px;
+                z-index: 1000;
+                animation: fadeInOut 2s ease-in-out;
+                max-width: 90%;
+                text-align: center;
+            `;
+
+            // Add animation
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes fadeInOut {
+                    0% { opacity: 0; transform: translateX(-50%) translateY(10px); }
+                    15% { opacity: 1; transform: translateX(-50%) translateY(0); }
+                    85% { opacity: 1; transform: translateX(-50%) translateY(0); }
+                    100% { opacity: 0; transform: translateX(-50%) translateY(10px); }
+                }
+            `;
+            document.head.appendChild(style);
+
+            document.body.appendChild(toast);
+
+            // Remove after animation
+            setTimeout(() => {
+                toast.remove();
+                style.remove();
+            }, 2000);
+        }
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            // Ctrl/Cmd + K to focus search
+            if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+                e.preventDefault();
+                searchInput.focus();
+            }
+
+            // Escape to clear search
+            if (e.key === 'Escape' && document.activeElement === searchInput) {
+                searchInput.value = '';
+                searchQuery = '';
+                clearSearch.classList.remove('show');
+                filterFAQs();
+            }
+        });
+
+        // Auto-expand FAQ if coming from URL hash
+        if (window.location.hash) {
+            const targetId = window.location.hash.substring(1);
+            const targetFaq = document.getElementById(targetId);
+            if (targetFaq && targetFaq.classList.contains('faq-item')) {
+                setTimeout(() => {
+                    targetFaq.classList.add('open');
+                    targetFaq.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }, 300);
+            }
+        }
+    </script>
+</body>
+</html>
