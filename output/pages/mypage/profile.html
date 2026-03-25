@@ -6,401 +6,7 @@
     <title>프로필 관리 - 과일다리</title>
     <link rel="stylesheet" href="../../styles/design-system.css">
     <link rel="stylesheet" href="../../styles/components.css">
-    <style>
-        /* Profile Page Specific Styles */
-        body {
-            background: var(--color-gray-50);
-        }
-
-        /* PC에서 모바일 너비 유지 */
-        @media (min-width: 768px) {
-            body {
-                max-width: 430px;
-                margin: 0 auto;
-                box-shadow: 0 0 50px rgba(0,0,0,0.1);
-            }
-        }
-
-        /* Header */
-        .header {
-            background: var(--color-white);
-            border-bottom: 1px solid var(--color-gray-200);
-            position: sticky;
-            top: 0;
-            z-index: var(--z-sticky);
-            padding: var(--space-3) var(--space-4);
-            display: flex;
-            align-items: center;
-            height: var(--header-height);
-        }
-
-        .header-back {
-            font-size: 24px;
-            cursor: pointer;
-            padding: var(--space-2);
-            margin-left: calc(var(--space-2) * -1);
-            color: var(--color-gray-900);
-        }
-
-        .header-title {
-            font-size: var(--font-size-md);
-            font-weight: var(--font-weight-semibold);
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
-        }
-
-        /* Profile Photo Section */
-        .profile-photo-section {
-            background: var(--color-white);
-            padding: var(--space-8) var(--space-4) var(--space-6);
-            text-align: center;
-            border-bottom: 8px solid var(--color-gray-100);
-        }
-
-        .profile-photo-container {
-            position: relative;
-            display: inline-block;
-            margin-bottom: var(--space-3);
-        }
-
-        .profile-photo {
-            width: 100px;
-            height: 100px;
-            border-radius: var(--radius-full);
-            background: var(--color-gray-100);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 48px;
-            overflow: hidden;
-            border: 3px solid var(--color-white);
-            box-shadow: var(--shadow-md);
-        }
-
-        .profile-photo img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .photo-upload-btn {
-            position: absolute;
-            bottom: 0;
-            right: 0;
-            width: 32px;
-            height: 32px;
-            background: var(--color-primary);
-            color: var(--color-white);
-            border-radius: var(--radius-full);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 16px;
-            cursor: pointer;
-            border: 3px solid var(--color-white);
-            box-shadow: var(--shadow-sm);
-        }
-
-        .photo-upload-btn:active {
-            transform: scale(0.95);
-        }
-
-        #photoInput {
-            display: none;
-        }
-
-        .profile-name {
-            font-size: var(--font-size-lg);
-            font-weight: var(--font-weight-bold);
-            color: var(--color-gray-900);
-            margin-bottom: var(--space-1);
-        }
-
-        .profile-email {
-            font-size: var(--font-size-sm);
-            color: var(--color-gray-600);
-        }
-
-        /* Form Sections */
-        .form-section {
-            background: var(--color-white);
-            padding: var(--space-5) var(--space-4);
-            margin-bottom: var(--space-2);
-        }
-
-        .form-section-title {
-            font-size: var(--font-size-md);
-            font-weight: var(--font-weight-semibold);
-            color: var(--color-gray-900);
-            margin-bottom: var(--space-4);
-        }
-
-        /* Password Strength Indicator */
-        .password-strength {
-            margin-top: var(--space-2);
-            display: none;
-        }
-
-        .password-strength.show {
-            display: block;
-        }
-
-        .strength-bar {
-            height: 4px;
-            background: var(--color-gray-200);
-            border-radius: var(--radius-full);
-            overflow: hidden;
-            margin-bottom: var(--space-2);
-        }
-
-        .strength-fill {
-            height: 100%;
-            width: 0%;
-            transition: all var(--transition-base);
-            border-radius: var(--radius-full);
-        }
-
-        .strength-fill.weak {
-            width: 33%;
-            background: var(--color-error);
-        }
-
-        .strength-fill.medium {
-            width: 66%;
-            background: var(--color-warning);
-        }
-
-        .strength-fill.strong {
-            width: 100%;
-            background: var(--color-success);
-        }
-
-        .strength-text {
-            font-size: var(--font-size-xs);
-            color: var(--color-gray-600);
-        }
-
-        /* Toggle Switch */
-        .toggle-group {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: var(--space-3) 0;
-        }
-
-        .toggle-label {
-            font-size: var(--font-size-base);
-            color: var(--color-gray-900);
-        }
-
-        .toggle-desc {
-            font-size: var(--font-size-xs);
-            color: var(--color-gray-600);
-            margin-top: var(--space-1);
-        }
-
-        .toggle-switch {
-            position: relative;
-            width: 48px;
-            height: 28px;
-            background: var(--color-gray-300);
-            border-radius: var(--radius-full);
-            cursor: pointer;
-            transition: background var(--transition-fast);
-        }
-
-        .toggle-switch.active {
-            background: var(--color-primary);
-        }
-
-        .toggle-slider {
-            position: absolute;
-            top: 2px;
-            left: 2px;
-            width: 24px;
-            height: 24px;
-            background: var(--color-white);
-            border-radius: var(--radius-full);
-            transition: transform var(--transition-fast);
-            box-shadow: var(--shadow-sm);
-        }
-
-        .toggle-switch.active .toggle-slider {
-            transform: translateX(20px);
-        }
-
-        /* Danger Zone */
-        .danger-zone {
-            background: var(--color-white);
-            padding: var(--space-5) var(--space-4);
-            margin-bottom: var(--space-2);
-            border-top: 2px solid #FFEBEE;
-        }
-
-        .danger-zone-title {
-            font-size: var(--font-size-md);
-            font-weight: var(--font-weight-semibold);
-            color: var(--color-error);
-            margin-bottom: var(--space-2);
-        }
-
-        .danger-zone-desc {
-            font-size: var(--font-size-sm);
-            color: var(--color-gray-600);
-            margin-bottom: var(--space-4);
-            line-height: var(--line-height-relaxed);
-        }
-
-        .btn-danger {
-            background: transparent;
-            border: 1px solid var(--color-error);
-            color: var(--color-error);
-        }
-
-        .btn-danger:active {
-            background: #FFEBEE;
-        }
-
-        /* Save Button */
-        .save-button-container {
-            padding: var(--space-4);
-            background: var(--color-white);
-            border-top: 1px solid var(--color-gray-200);
-            position: sticky;
-            bottom: var(--bottom-nav-height);
-            z-index: var(--z-sticky);
-        }
-
-        /* Toast Notification */
-        .toast {
-            position: fixed;
-            bottom: calc(var(--bottom-nav-height) + var(--space-6));
-            left: 50%;
-            transform: translateX(-50%) translateY(100px);
-            background: var(--color-gray-900);
-            color: var(--color-white);
-            padding: var(--space-3) var(--space-5);
-            border-radius: var(--radius-lg);
-            font-size: var(--font-size-sm);
-            box-shadow: var(--shadow-xl);
-            opacity: 0;
-            transition: all var(--transition-base);
-            z-index: var(--z-notification);
-            max-width: 90%;
-        }
-
-        .toast.show {
-            transform: translateX(-50%) translateY(0);
-            opacity: 1;
-        }
-
-        .toast.success {
-            background: var(--color-success);
-        }
-
-        .toast.error {
-            background: var(--color-error);
-        }
-
-        /* Bottom Navigation */
-        .bottom-nav {
-            position: fixed;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100%;
-            max-width: 430px;
-            background: var(--color-white);
-            border-top: 1px solid var(--color-gray-200);
-            display: flex;
-            justify-content: space-around;
-            padding: var(--space-2) 0;
-            z-index: var(--z-sticky);
-            height: var(--bottom-nav-height);
-        }
-
-        .nav-item {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: var(--space-1);
-            padding: var(--space-1);
-            color: var(--color-gray-500);
-            text-decoration: none;
-            cursor: pointer;
-            transition: color var(--transition-fast);
-        }
-
-        .nav-item.active {
-            color: var(--color-primary);
-        }
-
-        .nav-item .icon {
-            font-size: 24px;
-        }
-
-        .nav-item .label {
-            font-size: var(--font-size-xs);
-            font-weight: var(--font-weight-medium);
-        }
-
-        /* Modal */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.5);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: var(--z-modal);
-            padding: var(--space-4);
-        }
-
-        .modal-overlay.show {
-            display: flex;
-        }
-
-        .modal {
-            background: var(--color-white);
-            border-radius: var(--radius-xl);
-            padding: var(--space-6);
-            max-width: 340px;
-            width: 100%;
-            box-shadow: var(--shadow-2xl);
-        }
-
-        .modal-title {
-            font-size: var(--font-size-lg);
-            font-weight: var(--font-weight-bold);
-            color: var(--color-gray-900);
-            margin-bottom: var(--space-2);
-            text-align: center;
-        }
-
-        .modal-desc {
-            font-size: var(--font-size-sm);
-            color: var(--color-gray-600);
-            line-height: var(--line-height-relaxed);
-            margin-bottom: var(--space-6);
-            text-align: center;
-        }
-
-        .modal-actions {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: var(--space-2);
-        }
-
-        /* Content Padding */
-        .content {
-            padding-bottom: calc(var(--bottom-nav-height) + var(--space-16));
-        }
-    </style>
+    <link rel="stylesheet" href="../../styles/common-layout.css">
 </head>
 <body>
     <!-- Header -->
@@ -431,26 +37,26 @@
         <section class="form-section">
             <h2 class="form-section-title">기본 정보</h2>
 
-            <div class="form-group">
+            <div class="field">
                 <label class="form-label form-label-required">이름</label>
                 <input type="text" class="input" id="userName" placeholder="이름을 입력하세요" value="홍길동">
                 <div class="form-error" id="nameError"></div>
             </div>
 
-            <div class="form-group">
+            <div class="field">
                 <label class="form-label form-label-required">이메일</label>
                 <input type="email" class="input" id="userEmail" placeholder="example@email.com" value="user@example.com">
                 <div class="form-error" id="emailError"></div>
             </div>
 
-            <div class="form-group">
+            <div class="field">
                 <label class="form-label form-label-required">휴대폰 번호</label>
                 <input type="tel" class="input" id="userPhone" placeholder="010-0000-0000" value="010-1234-5678">
                 <div class="form-helper">하이픈(-)을 포함하여 입력해주세요</div>
                 <div class="form-error" id="phoneError"></div>
             </div>
 
-            <div class="form-group">
+            <div class="field">
                 <label class="form-label">생년월일</label>
                 <input type="date" class="input" id="userBirthdate" value="1990-01-01">
                 <div class="form-helper">생일 쿠폰 혜택을 받으실 수 있습니다</div>
@@ -461,13 +67,13 @@
         <section class="form-section">
             <h2 class="form-section-title">비밀번호 변경</h2>
 
-            <div class="form-group">
+            <div class="field">
                 <label class="form-label">현재 비밀번호</label>
                 <input type="password" class="input" id="currentPassword" placeholder="현재 비밀번호를 입력하세요">
                 <div class="form-error" id="currentPasswordError"></div>
             </div>
 
-            <div class="form-group">
+            <div class="field">
                 <label class="form-label">새 비밀번호</label>
                 <input type="password" class="input" id="newPassword" placeholder="새 비밀번호를 입력하세요">
                 <div class="password-strength" id="passwordStrength">
@@ -480,7 +86,7 @@
                 <div class="form-error" id="newPasswordError"></div>
             </div>
 
-            <div class="form-group">
+            <div class="field">
                 <label class="form-label">새 비밀번호 확인</label>
                 <input type="password" class="input" id="confirmPassword" placeholder="새 비밀번호를 다시 입력하세요">
                 <div class="form-error" id="confirmPasswordError"></div>
@@ -513,8 +119,8 @@
                 </div>
             </div>
 
-            <div style="margin-top: var(--space-4); padding: var(--space-3); background: var(--color-gray-50); border-radius: var(--radius-md);">
-                <p style="font-size: var(--font-size-xs); color: var(--color-gray-600); line-height: var(--line-height-relaxed);">
+            <div style="margin-top: var(--space-4); padding: var(--space-3); background: var(var(--color-bg-page)); border-radius: var(--radius-md);">
+                <p style="font-size: var(--font-size-xs); color: var(var(--color-text-secondary)); line-height: var(--line-height-relaxed);">
                     마케팅 정보 수신 동의는 선택사항이며, 동의하지 않으셔도 과일다리 서비스를 이용하실 수 있습니다. 언제든지 설정을 변경하실 수 있습니다.
                 </p>
             </div>
@@ -537,19 +143,19 @@
 
     <!-- Bottom Navigation -->
     <nav class="bottom-nav">
-        <a href="../home/index.html" class="nav-item">
+        <a href="../home/index.html" class="nav-link">
             <span class="icon">🏠</span>
             <span class="label">홈</span>
         </a>
-        <a href="../products/index.html" class="nav-item">
+        <a href="../products/index.html" class="nav-link">
             <span class="icon">🍎</span>
             <span class="label">상품</span>
         </a>
-        <a href="../mypage/index.html" class="nav-item active">
+        <a href="../mypage/index.html" class="nav-link active">
             <span class="icon">👤</span>
             <span class="label">마이</span>
         </a>
-        <a href="../support/index.html" class="nav-item">
+        <a href="../support/index.html" class="nav-link">
             <span class="icon">💬</span>
             <span class="label">고객지원</span>
         </a>
@@ -702,7 +308,7 @@
             if (strength.score === 1) {
                 strengthFill.classList.add('weak');
                 strengthText.textContent = '약함: ' + strength.message;
-                strengthText.style.color = 'var(--color-error)';
+                strengthText.style.color = 'var(var(--color-danger))';
             } else if (strength.score === 2) {
                 strengthFill.classList.add('medium');
                 strengthText.textContent = '보통: ' + strength.message;

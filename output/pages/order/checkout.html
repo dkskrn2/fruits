@@ -6,437 +6,10 @@
     <title>주문서 작성 - 과일다리</title>
     <link rel="stylesheet" href="../../styles/design-system.css">
     <link rel="stylesheet" href="../../styles/components.css">
-    <style>
-        /* Layout */
-        body {
-            background: var(--color-gray-50);
-            padding-bottom: 80px;
-        }
-
-        .checkout-container {
-            background: var(--color-white);
-            min-height: 100vh;
-        }
-
-        /* Header */
-        .checkout-header {
-            position: sticky;
-            top: 0;
-            background: var(--color-white);
-            border-bottom: 1px solid var(--color-gray-200);
-            padding: var(--space-4);
-            display: flex;
-            align-items: center;
-            z-index: var(--z-sticky);
-        }
-
-        .back-btn {
-            font-size: 24px;
-            cursor: pointer;
-            padding: var(--space-2);
-            margin-left: calc(var(--space-2) * -1);
-            color: var(--color-gray-900);
-        }
-
-        .checkout-header h1 {
-            flex: 1;
-            text-align: center;
-            font-size: var(--font-size-md);
-            font-weight: var(--font-weight-semibold);
-            margin-right: 32px;
-        }
-
-        /* Section */
-        .section {
-            background: var(--color-white);
-            margin-bottom: var(--space-2);
-        }
-
-        .section-header {
-            padding: var(--space-5) var(--space-4) var(--space-3);
-        }
-
-        .section-title {
-            font-size: var(--font-size-md);
-            font-weight: var(--font-weight-bold);
-            color: var(--color-gray-900);
-            margin-bottom: var(--space-1);
-        }
-
-        .section-subtitle {
-            font-size: var(--font-size-sm);
-            color: var(--color-gray-600);
-        }
-
-        .section-content {
-            padding: 0 var(--space-4) var(--space-5);
-        }
-
-        /* Order Items */
-        .order-item {
-            display: flex;
-            gap: var(--space-3);
-            padding: var(--space-4);
-            background: var(--color-white);
-            border-radius: var(--radius-lg);
-            margin-bottom: var(--space-2);
-            border: 1px solid var(--color-gray-200);
-        }
-
-        .order-item-image {
-            width: 80px;
-            height: 80px;
-            border-radius: var(--radius-md);
-            background: var(--color-gray-100);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 36px;
-            flex-shrink: 0;
-        }
-
-        .order-item-info {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            gap: var(--space-1);
-        }
-
-        .order-item-name {
-            font-size: var(--font-size-base);
-            font-weight: var(--font-weight-medium);
-            color: var(--color-gray-900);
-        }
-
-        .order-item-desc {
-            font-size: var(--font-size-sm);
-            color: var(--color-gray-600);
-        }
-
-        .order-item-quantity {
-            font-size: var(--font-size-sm);
-            color: var(--color-gray-700);
-        }
-
-        .order-item-price {
-            font-size: var(--font-size-md);
-            font-weight: var(--font-weight-bold);
-            color: var(--color-gray-900);
-            margin-top: auto;
-        }
-
-        /* Address Selection */
-        .address-select {
-            display: flex;
-            gap: var(--space-2);
-            margin-bottom: var(--space-4);
-        }
-
-        .address-btn {
-            flex: 1;
-            padding: var(--space-3);
-            border: 1px solid var(--color-gray-300);
-            background: var(--color-white);
-            border-radius: var(--radius-lg);
-            font-size: var(--font-size-sm);
-            font-weight: var(--font-weight-medium);
-            cursor: pointer;
-            transition: all var(--transition-fast);
-        }
-
-        .address-btn.active {
-            background: var(--color-primary-light);
-            border-color: var(--color-primary);
-            color: var(--color-primary-dark);
-        }
-
-        .address-btn:active {
-            transform: scale(0.98);
-        }
-
-        /* Form */
-        .form-row {
-            display: flex;
-            gap: var(--space-2);
-        }
-
-        .form-row .form-group {
-            flex: 1;
-        }
-
-        .input-with-btn {
-            display: flex;
-            gap: var(--space-2);
-        }
-
-        .input-with-btn .input {
-            flex: 1;
-        }
-
-        .search-btn {
-            padding: 0 var(--space-5);
-            background: var(--color-gray-800);
-            color: var(--color-white);
-            border: none;
-            border-radius: var(--radius-lg);
-            font-size: var(--font-size-sm);
-            font-weight: var(--font-weight-medium);
-            cursor: pointer;
-            white-space: nowrap;
-        }
-
-        .search-btn:active {
-            background: var(--color-gray-900);
-        }
-
-        textarea.input {
-            min-height: 100px;
-            resize: vertical;
-            padding: var(--space-3) var(--space-4);
-            font-family: inherit;
-            line-height: 1.5;
-        }
-
-        /* Payment Methods */
-        .payment-methods {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: var(--space-2);
-        }
-
-        .payment-method {
-            padding: var(--space-4);
-            border: 1px solid var(--color-gray-300);
-            border-radius: var(--radius-lg);
-            background: var(--color-white);
-            cursor: pointer;
-            transition: all var(--transition-fast);
-            text-align: center;
-        }
-
-        .payment-method:active {
-            transform: scale(0.98);
-        }
-
-        .payment-method.active {
-            background: var(--color-primary-light);
-            border-color: var(--color-primary);
-            color: var(--color-primary-dark);
-        }
-
-        .payment-method-icon {
-            font-size: 32px;
-            margin-bottom: var(--space-2);
-        }
-
-        .payment-method-name {
-            font-size: var(--font-size-sm);
-            font-weight: var(--font-weight-medium);
-        }
-
-        /* Discount Section */
-        .discount-item {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: var(--space-4);
-            background: var(--color-gray-50);
-            border-radius: var(--radius-lg);
-            margin-bottom: var(--space-2);
-            cursor: pointer;
-        }
-
-        .discount-item:active {
-            background: var(--color-gray-100);
-        }
-
-        .discount-info {
-            display: flex;
-            align-items: center;
-            gap: var(--space-3);
-        }
-
-        .discount-icon {
-            width: 40px;
-            height: 40px;
-            background: var(--color-primary-light);
-            border-radius: var(--radius-full);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
-        }
-
-        .discount-text {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .discount-label {
-            font-size: var(--font-size-base);
-            font-weight: var(--font-weight-medium);
-            color: var(--color-gray-900);
-        }
-
-        .discount-available {
-            font-size: var(--font-size-xs);
-            color: var(--color-gray-600);
-        }
-
-        .discount-value {
-            font-size: var(--font-size-base);
-            font-weight: var(--font-weight-bold);
-            color: var(--color-primary);
-        }
-
-        /* Price Summary */
-        .price-summary {
-            background: var(--color-white);
-            border-radius: var(--radius-lg);
-            padding: var(--space-5);
-            border: 1px solid var(--color-gray-200);
-        }
-
-        .price-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: var(--space-3) 0;
-        }
-
-        .price-row:not(:last-child) {
-            border-bottom: 1px solid var(--color-gray-100);
-        }
-
-        .price-label {
-            font-size: var(--font-size-base);
-            color: var(--color-gray-700);
-        }
-
-        .price-value {
-            font-size: var(--font-size-base);
-            font-weight: var(--font-weight-medium);
-            color: var(--color-gray-900);
-        }
-
-        .price-value.discount {
-            color: var(--color-error);
-        }
-
-        .price-row.total {
-            padding-top: var(--space-4);
-            margin-top: var(--space-2);
-        }
-
-        .price-row.total .price-label {
-            font-size: var(--font-size-md);
-            font-weight: var(--font-weight-bold);
-            color: var(--color-gray-900);
-        }
-
-        .price-row.total .price-value {
-            font-size: var(--font-size-xl);
-            font-weight: var(--font-weight-bold);
-            color: var(--color-primary);
-        }
-
-        /* Checkbox */
-        .checkbox-group {
-            display: flex;
-            flex-direction: column;
-            gap: var(--space-3);
-        }
-
-        .checkbox-item {
-            display: flex;
-            align-items: center;
-            gap: var(--space-2);
-        }
-
-        .checkbox-item input[type="checkbox"] {
-            width: 20px;
-            height: 20px;
-            cursor: pointer;
-            accent-color: var(--color-primary);
-        }
-
-        .checkbox-item label {
-            font-size: var(--font-size-sm);
-            color: var(--color-gray-700);
-            cursor: pointer;
-            user-select: none;
-        }
-
-        .checkbox-item.all label {
-            font-weight: var(--font-weight-bold);
-            color: var(--color-gray-900);
-        }
-
-        .checkbox-link {
-            color: var(--color-gray-500);
-            text-decoration: underline;
-            margin-left: auto;
-            font-size: var(--font-size-xs);
-        }
-
-        /* Bottom Fixed */
-        .bottom-fixed {
-            position: fixed;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100%;
-            max-width: var(--max-width-mobile);
-            background: var(--color-white);
-            border-top: 1px solid var(--color-gray-200);
-            padding: var(--space-4);
-            box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.05);
-            z-index: var(--z-sticky);
-        }
-
-        .checkout-btn {
-            width: 100%;
-            padding: var(--space-4);
-            background: var(--color-primary);
-            color: var(--color-white);
-            border: none;
-            border-radius: var(--radius-lg);
-            font-size: var(--font-size-md);
-            font-weight: var(--font-weight-bold);
-            cursor: pointer;
-            transition: all var(--transition-fast);
-        }
-
-        .checkout-btn:active {
-            background: var(--color-primary-dark);
-            transform: scale(0.98);
-        }
-
-        .checkout-btn:disabled {
-            background: var(--color-gray-300);
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        /* Divider */
-        .thick-divider {
-            height: 8px;
-            background: var(--color-gray-100);
-            margin: 0;
-        }
-
-        /* Select */
-        select.input {
-            appearance: none;
-            background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L6 6L11 1' stroke='%23757575' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");
-            background-repeat: no-repeat;
-            background-position: right 16px center;
-            padding-right: var(--space-10);
-        }
-    </style>
+    <link rel="stylesheet" href="../../styles/common-layout.css">
 </head>
 <body>
-    <div class="mobile-container checkout-container">
+    <div class="page-container checkout-container">
         <!-- Header -->
         <header class="checkout-header">
             <span class="back-btn" onclick="history.back()">←</span>
@@ -494,17 +67,17 @@
                     <button class="address-btn" id="savedAddressBtn">배송지 목록</button>
                 </div>
 
-                <div class="form-group">
+                <div class="field">
                     <label class="form-label form-label-required">받는 분</label>
                     <input type="text" class="input" placeholder="이름을 입력하세요" id="recipientName">
                 </div>
 
-                <div class="form-group">
+                <div class="field">
                     <label class="form-label form-label-required">휴대폰 번호</label>
                     <input type="tel" class="input" placeholder="010-0000-0000" id="recipientPhone">
                 </div>
 
-                <div class="form-group">
+                <div class="field">
                     <label class="form-label form-label-required">우편번호</label>
                     <div class="input-with-btn">
                         <input type="text" class="input" placeholder="우편번호" id="zipCode" readonly>
@@ -512,17 +85,17 @@
                     </div>
                 </div>
 
-                <div class="form-group">
+                <div class="field">
                     <label class="form-label form-label-required">주소</label>
                     <input type="text" class="input" placeholder="주소" id="address" readonly>
                 </div>
 
-                <div class="form-group">
+                <div class="field">
                     <label class="form-label form-label-required">상세주소</label>
                     <input type="text" class="input" placeholder="상세주소를 입력하세요" id="addressDetail">
                 </div>
 
-                <div class="form-group">
+                <div class="field">
                     <label class="form-label">배송 요청사항</label>
                     <select class="input" id="deliveryRequest">
                         <option value="">배송 시 요청사항을 선택하세요</option>
@@ -534,7 +107,7 @@
                     </select>
                 </div>
 
-                <div class="form-group" id="customRequestGroup" style="display: none;">
+                <div class="field" id="customRequestGroup" style="display: none;">
                     <label class="form-label">요청사항 입력</label>
                     <textarea class="input" placeholder="요청사항을 입력하세요" id="customRequest"></textarea>
                 </div>

@@ -1,0 +1,58 @@
+/* FruitBridge shared design entrypoint */
+
+@import url('fruitbridge-core.css');
+@import url('fruitbridge-base.css');
+
+:root {
+  /* Legacy color aliases */
+  --color-primary: var(--color-brand-primary);
+  --color-primary-dark: var(--color-brand-primary-hover);
+  --color-secondary: var(--color-brand-secondary);
+  --color-secondary-dark: #d79274;
+  --color-brand-secondary-hover: #d79274;
+  --color-accent: var(--color-brand-accent);
+
+  --color-white: var(--color-surface);
+  --color-black: var(--color-text-primary);
+  --color-error: var(--color-danger);
+
+  /* Legacy neutrals */
+  --color-gray-50: var(--color-bg-page);
+  --color-gray-100: var(--color-bg-soft);
+  --color-gray-200: var(--color-line);
+  --color-gray-300: #cdbfa8;
+  --color-gray-400: #b3a591;
+  --color-gray-500: var(--color-text-muted);
+  --color-gray-600: var(--color-text-secondary);
+  --color-gray-700: #556051;
+  --color-gray-800: #494f47;
+  --color-gray-900: var(--color-text-primary);
+  --color-bg-muted: var(--color-bg-section);
+
+  /* Legacy spacing aliases */
+  --spacing-1: var(--space-1);
+  --spacing-2: var(--space-2);
+  --spacing-3: var(--space-3);
+  --spacing-4: var(--space-4);
+  --spacing-5: var(--space-5);
+  --spacing-6: var(--space-6);
+  --spacing-7: var(--space-7);
+  --spacing-8: var(--space-8);
+  --spacing-10: var(--space-10);
+  --spacing-12: var(--space-12);
+  --spacing-16: var(--space-16);
+  --spacing-20: var(--space-20);
+
+  /* Legacy radius alias */
+  --radius-base: var(--radius-md);
+}
+
+html {
+  font-family: var(--font-family-sans);
+}
+
+body {
+  margin: 0;
+  background: var(--color-bg-page);
+  color: var(--color-text-primary);
+}

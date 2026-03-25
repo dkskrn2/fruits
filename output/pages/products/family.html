@@ -6,478 +6,7 @@
     <title>가족루틴 - 과일다리</title>
     <link rel="stylesheet" href="../../styles/design-system.css">
     <link rel="stylesheet" href="../../styles/components.css">
-    <style>
-        /* Page Layout */
-        body {
-            padding-bottom: var(--bottom-nav-height);
-            background: var(--color-gray-50);
-        }
-
-        @media (min-width: 768px) {
-            body {
-                max-width: 430px;
-                margin: 0 auto;
-                box-shadow: 0 0 40px rgba(0, 0, 0, 0.1);
-            }
-        }
-
-        /* Header */
-        .header {
-            position: sticky;
-            top: 0;
-            z-index: var(--z-sticky);
-            background: var(--color-white);
-            border-bottom: 1px solid var(--color-gray-200);
-            padding: var(--space-3) var(--space-4);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .header__back {
-            font-size: 24px;
-            cursor: pointer;
-            padding: var(--space-2);
-            margin-left: calc(var(--space-2) * -1);
-        }
-
-        .header__title {
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: var(--font-size-md);
-            font-weight: var(--font-weight-semibold);
-        }
-
-        .header__actions {
-            display: flex;
-            gap: var(--space-3);
-        }
-
-        .header__icon {
-            font-size: 22px;
-            cursor: pointer;
-            padding: var(--space-2);
-        }
-
-        /* Hero Banner */
-        .hero-banner {
-            background: linear-gradient(135deg, #E8F5E9 0%, #C8E6C9 100%);
-            padding: var(--space-8) var(--space-4) var(--space-6);
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .hero-banner::before {
-            content: '👨‍👩‍👧‍👦';
-            position: absolute;
-            font-size: 120px;
-            opacity: 0.1;
-            top: -20px;
-            right: 20px;
-        }
-
-        .hero-banner__title {
-            font-size: var(--font-size-2xl);
-            font-weight: var(--font-weight-bold);
-            color: var(--color-gray-900);
-            margin-bottom: var(--space-2);
-        }
-
-        .hero-banner__subtitle {
-            font-size: var(--font-size-base);
-            color: var(--color-gray-700);
-            line-height: var(--line-height-relaxed);
-        }
-
-        .hero-banner__highlight {
-            color: var(--color-primary);
-            font-weight: var(--font-weight-bold);
-        }
-
-        /* Package Recommendations */
-        .recommendations {
-            padding: var(--space-5) var(--space-4);
-            background: var(--color-white);
-        }
-
-        .recommendations__title {
-            font-size: var(--font-size-md);
-            font-weight: var(--font-weight-bold);
-            color: var(--color-gray-900);
-            margin-bottom: var(--space-4);
-        }
-
-        .recommendation-cards {
-            display: flex;
-            gap: var(--space-3);
-            overflow-x: auto;
-            padding-bottom: var(--space-2);
-            -webkit-overflow-scrolling: touch;
-        }
-
-        .recommendation-cards::-webkit-scrollbar {
-            display: none;
-        }
-
-        .recommendation-card {
-            min-width: 140px;
-            background: var(--color-white);
-            border: 2px solid var(--color-gray-200);
-            border-radius: var(--radius-xl);
-            padding: var(--space-4);
-            text-align: center;
-            cursor: pointer;
-            transition: all var(--transition-fast);
-        }
-
-        .recommendation-card:active {
-            transform: scale(0.95);
-        }
-
-        .recommendation-card.active {
-            border-color: var(--color-primary);
-            background: var(--color-primary-light);
-        }
-
-        .recommendation-card__icon {
-            font-size: 32px;
-            margin-bottom: var(--space-2);
-        }
-
-        .recommendation-card__title {
-            font-size: var(--font-size-sm);
-            font-weight: var(--font-weight-semibold);
-            color: var(--color-gray-900);
-            margin-bottom: var(--space-1);
-        }
-
-        .recommendation-card__desc {
-            font-size: var(--font-size-xs);
-            color: var(--color-gray-600);
-        }
-
-        /* Filter Section */
-        .filter-section {
-            padding: var(--space-4);
-            background: var(--color-white);
-            border-top: 1px solid var(--color-gray-100);
-            border-bottom: 1px solid var(--color-gray-100);
-        }
-
-        .filter-section__title {
-            font-size: var(--font-size-sm);
-            font-weight: var(--font-weight-medium);
-            color: var(--color-gray-700);
-            margin-bottom: var(--space-3);
-        }
-
-        .filter-chips {
-            display: flex;
-            gap: var(--space-2);
-            overflow-x: auto;
-            padding-bottom: var(--space-2);
-            -webkit-overflow-scrolling: touch;
-        }
-
-        .filter-chips::-webkit-scrollbar {
-            display: none;
-        }
-
-        .filter-chip {
-            flex-shrink: 0;
-            padding: var(--space-2) var(--space-4);
-            font-size: var(--font-size-sm);
-            font-weight: var(--font-weight-medium);
-            background: var(--color-white);
-            color: var(--color-gray-700);
-            border: 1px solid var(--color-gray-300);
-            border-radius: var(--radius-full);
-            cursor: pointer;
-            transition: all var(--transition-fast);
-            white-space: nowrap;
-        }
-
-        .filter-chip:active {
-            transform: scale(0.95);
-        }
-
-        .filter-chip.active {
-            background: var(--color-primary);
-            color: var(--color-white);
-            border-color: var(--color-primary);
-        }
-
-        /* Sort Bar */
-        .sort-bar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: var(--space-3) var(--space-4);
-            background: var(--color-white);
-            border-bottom: 1px solid var(--color-gray-100);
-        }
-
-        .sort-bar__count {
-            font-size: var(--font-size-sm);
-            color: var(--color-gray-600);
-        }
-
-        .sort-bar__count strong {
-            color: var(--color-primary);
-            font-weight: var(--font-weight-bold);
-        }
-
-        .sort-options {
-            display: flex;
-            gap: var(--space-2);
-        }
-
-        .sort-option {
-            padding: var(--space-1) var(--space-3);
-            font-size: var(--font-size-sm);
-            color: var(--color-gray-600);
-            background: transparent;
-            border: none;
-            cursor: pointer;
-            position: relative;
-        }
-
-        .sort-option.active {
-            color: var(--color-gray-900);
-            font-weight: var(--font-weight-semibold);
-        }
-
-        .sort-option.active::after {
-            content: '';
-            position: absolute;
-            bottom: -2px;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background: var(--color-gray-900);
-        }
-
-        /* Products Grid */
-        .products-container {
-            padding: var(--space-4);
-            background: var(--color-gray-50);
-        }
-
-        .products-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: var(--space-3);
-        }
-
-        /* Family Product Card */
-        .family-product-card {
-            background: var(--color-white);
-            border-radius: var(--radius-xl);
-            overflow: hidden;
-            box-shadow: var(--shadow-sm);
-            transition: all var(--transition-base);
-            cursor: pointer;
-        }
-
-        .family-product-card:active {
-            transform: scale(0.98);
-        }
-
-        .family-product-card__image {
-            position: relative;
-            padding-top: 100%;
-            background: linear-gradient(135deg, #FFE0B2 0%, #FFCC80 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .family-product-card__emoji {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 56px;
-        }
-
-        .family-product-card__badge {
-            position: absolute;
-            top: var(--space-2);
-            left: var(--space-2);
-            padding: var(--space-1) var(--space-2);
-            background: var(--color-error);
-            color: var(--color-white);
-            font-size: 10px;
-            font-weight: var(--font-weight-bold);
-            border-radius: var(--radius-sm);
-        }
-
-        .family-product-card__subscription {
-            position: absolute;
-            top: var(--space-2);
-            right: var(--space-2);
-            padding: var(--space-1) var(--space-2);
-            background: rgba(255, 255, 255, 0.95);
-            color: var(--color-primary);
-            font-size: 10px;
-            font-weight: var(--font-weight-bold);
-            border-radius: var(--radius-sm);
-        }
-
-        .family-product-card__content {
-            padding: var(--space-3);
-        }
-
-        .family-product-card__title {
-            font-size: var(--font-size-sm);
-            font-weight: var(--font-weight-semibold);
-            color: var(--color-gray-900);
-            margin-bottom: var(--space-1);
-            overflow: hidden;
-            text-overflow: ellipsis;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            min-height: 34px;
-        }
-
-        .family-product-card__composition {
-            font-size: 10px;
-            color: var(--color-gray-600);
-            margin-bottom: var(--space-2);
-            line-height: 1.4;
-        }
-
-        .family-product-card__people {
-            display: inline-flex;
-            align-items: center;
-            gap: var(--space-1);
-            padding: 2px var(--space-2);
-            background: var(--color-primary-light);
-            color: var(--color-primary-dark);
-            font-size: 10px;
-            font-weight: var(--font-weight-semibold);
-            border-radius: var(--radius-sm);
-            margin-bottom: var(--space-2);
-        }
-
-        .family-product-card__price-row {
-            display: flex;
-            flex-direction: column;
-            gap: var(--space-1);
-            margin-bottom: var(--space-2);
-        }
-
-        .family-product-card__price-main {
-            display: flex;
-            align-items: baseline;
-            gap: var(--space-1);
-        }
-
-        .family-product-card__price {
-            font-size: var(--font-size-md);
-            font-weight: var(--font-weight-bold);
-            color: var(--color-gray-900);
-        }
-
-        .family-product-card__price-original {
-            font-size: var(--font-size-xs);
-            color: var(--color-gray-500);
-            text-decoration: line-through;
-        }
-
-        .family-product-card__subscription-price {
-            font-size: var(--font-size-xs);
-            color: var(--color-primary);
-            font-weight: var(--font-weight-medium);
-        }
-
-        .family-product-card__action {
-            width: 100%;
-            padding: var(--space-2);
-            background: var(--color-primary);
-            color: var(--color-white);
-            border: none;
-            border-radius: var(--radius-md);
-            font-size: var(--font-size-sm);
-            font-weight: var(--font-weight-medium);
-            cursor: pointer;
-            transition: all var(--transition-fast);
-        }
-
-        .family-product-card__action:active {
-            background: var(--color-primary-dark);
-        }
-
-        /* Bottom Navigation */
-        .bottom-nav {
-            position: fixed;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100%;
-            max-width: 430px;
-            background: var(--color-white);
-            border-top: 1px solid var(--color-gray-200);
-            display: flex;
-            justify-content: space-around;
-            padding: var(--space-2) 0;
-            z-index: var(--z-sticky);
-        }
-
-        .nav-item {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: var(--space-1);
-            padding: var(--space-1);
-            color: var(--color-gray-500);
-            text-decoration: none;
-            cursor: pointer;
-            transition: color var(--transition-fast);
-        }
-
-        .nav-item.active {
-            color: var(--color-primary);
-        }
-
-        .nav-item__icon {
-            font-size: 24px;
-        }
-
-        .nav-item__label {
-            font-size: 11px;
-            font-weight: var(--font-weight-medium);
-        }
-
-        /* Gradient Backgrounds */
-        .gradient-red {
-            background: linear-gradient(135deg, #FFCDD2 0%, #EF9A9A 100%);
-        }
-
-        .gradient-orange {
-            background: linear-gradient(135deg, #FFE0B2 0%, #FFCC80 100%);
-        }
-
-        .gradient-yellow {
-            background: linear-gradient(135deg, #FFF9C4 0%, #FFF59D 100%);
-        }
-
-        .gradient-green {
-            background: linear-gradient(135deg, #C8E6C9 0%, #A5D6A7 100%);
-        }
-
-        .gradient-purple {
-            background: linear-gradient(135deg, #E1BEE7 0%, #CE93D8 100%);
-        }
-
-        .gradient-blue {
-            background: linear-gradient(135deg, #BBDEFB 0%, #90CAF9 100%);
-        }
-    </style>
+    <link rel="stylesheet" href="../../styles/common-layout.css">
 </head>
 <body>
     <!-- Header -->
@@ -553,7 +82,7 @@
             <div class="family-product-card" data-category="all" data-people="4" data-price="45000">
                 <div class="family-product-card__image gradient-red">
                     <span class="family-product-card__emoji">🍎</span>
-                    <span class="family-product-card__badge">10% 할인</span>
+                    <span class="family-product-card__chip">10% 할인</span>
                     <span class="family-product-card__subscription">정기배송</span>
                 </div>
                 <div class="family-product-card__content">
@@ -575,7 +104,7 @@
             <div class="family-product-card" data-category="kids" data-people="2" data-price="28000">
                 <div class="family-product-card__image gradient-orange">
                     <span class="family-product-card__emoji">🍊</span>
-                    <span class="family-product-card__badge">당도보장</span>
+                    <span class="family-product-card__chip">당도보장</span>
                     <span class="family-product-card__subscription">정기배송</span>
                 </div>
                 <div class="family-product-card__content">
@@ -596,7 +125,7 @@
             <div class="family-product-card" data-category="parents" data-people="2" data-price="38000">
                 <div class="family-product-card__image gradient-green">
                     <span class="family-product-card__emoji">🍇</span>
-                    <span class="family-product-card__badge">프리미엄</span>
+                    <span class="family-product-card__chip">프리미엄</span>
                     <span class="family-product-card__subscription">정기배송</span>
                 </div>
                 <div class="family-product-card__content">
@@ -618,7 +147,7 @@
             <div class="family-product-card" data-category="all" data-people="6" data-price="68000">
                 <div class="family-product-card__image gradient-purple">
                     <span class="family-product-card__emoji">🍑</span>
-                    <span class="family-product-card__badge">베스트</span>
+                    <span class="family-product-card__chip">베스트</span>
                     <span class="family-product-card__subscription">정기배송</span>
                 </div>
                 <div class="family-product-card__content">
@@ -660,7 +189,7 @@
             <div class="family-product-card" data-category="kids" data-people="2" data-price="32000">
                 <div class="family-product-card__image gradient-red">
                     <span class="family-product-card__emoji">🍓</span>
-                    <span class="family-product-card__badge">신선보장</span>
+                    <span class="family-product-card__chip">신선보장</span>
                     <span class="family-product-card__subscription">정기배송</span>
                 </div>
                 <div class="family-product-card__content">
@@ -681,7 +210,7 @@
             <div class="family-product-card" data-category="parents" data-people="2" data-price="42000">
                 <div class="family-product-card__image gradient-blue">
                     <span class="family-product-card__emoji">🫐</span>
-                    <span class="family-product-card__badge">건강추천</span>
+                    <span class="family-product-card__chip">건강추천</span>
                     <span class="family-product-card__subscription">정기배송</span>
                 </div>
                 <div class="family-product-card__content">
@@ -703,7 +232,7 @@
             <div class="family-product-card" data-category="all" data-people="4" data-price="55000">
                 <div class="family-product-card__image gradient-orange">
                     <span class="family-product-card__emoji">🥭</span>
-                    <span class="family-product-card__badge">시즌특가</span>
+                    <span class="family-product-card__chip">시즌특가</span>
                     <span class="family-product-card__subscription">정기배송</span>
                 </div>
                 <div class="family-product-card__content">
@@ -725,7 +254,7 @@
             <div class="family-product-card" data-category="all" data-people="6" data-price="72000">
                 <div class="family-product-card__image gradient-green">
                     <span class="family-product-card__emoji">🍈</span>
-                    <span class="family-product-card__badge">프리미엄</span>
+                    <span class="family-product-card__chip">프리미엄</span>
                     <span class="family-product-card__subscription">정기배송</span>
                 </div>
                 <div class="family-product-card__content">
@@ -767,21 +296,21 @@
 
     <!-- Bottom Navigation -->
     <nav class="bottom-nav">
-        <a href="../home/index.html" class="nav-item">
-            <span class="nav-item__icon">🏠</span>
-            <span class="nav-item__label">홈</span>
+        <a href="../home/index.html" class="nav-link">
+            <span class="nav-link__icon">🏠</span>
+            <span class="nav-link__label">홈</span>
         </a>
-        <a href="../products/index.html" class="nav-item active">
-            <span class="nav-item__icon">🍎</span>
-            <span class="nav-item__label">상품</span>
+        <a href="../products/index.html" class="nav-link active">
+            <span class="nav-link__icon">🍎</span>
+            <span class="nav-link__label">상품</span>
         </a>
-        <a href="../mypage/index.html" class="nav-item">
-            <span class="nav-item__icon">👤</span>
-            <span class="nav-item__label">마이</span>
+        <a href="../mypage/index.html" class="nav-link">
+            <span class="nav-link__icon">👤</span>
+            <span class="nav-link__label">마이</span>
         </a>
-        <a href="../support/index.html" class="nav-item">
-            <span class="nav-item__icon">💬</span>
-            <span class="nav-item__label">고객지원</span>
+        <a href="../support/index.html" class="nav-link">
+            <span class="nav-link__icon">💬</span>
+            <span class="nav-link__label">고객지원</span>
         </a>
     </nav>
 

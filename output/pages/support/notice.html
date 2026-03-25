@@ -6,493 +6,10 @@
     <title>공지사항 - 과일다리</title>
     <link rel="stylesheet" href="../../styles/design-system.css">
     <link rel="stylesheet" href="../../styles/components.css">
-    <style>
-        /* Notice Page Specific Styles */
-        body {
-            background: var(--color-gray-50);
-        }
-
-        /* Header */
-        .notice-header {
-            background: var(--color-white);
-            position: sticky;
-            top: 0;
-            z-index: var(--z-sticky);
-            box-shadow: var(--shadow-sm);
-        }
-
-        .notice-header__top {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: var(--space-4);
-            height: var(--header-height);
-        }
-
-        .notice-header__back {
-            font-size: 24px;
-            cursor: pointer;
-            padding: var(--space-2);
-            margin-left: calc(var(--space-2) * -1);
-            color: var(--color-gray-900);
-        }
-
-        .notice-header__title {
-            font-size: var(--font-size-md);
-            font-weight: var(--font-weight-semibold);
-            color: var(--color-gray-900);
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
-        }
-
-        .notice-header__home {
-            font-size: 22px;
-            cursor: pointer;
-            padding: var(--space-2);
-        }
-
-        /* Search Bar */
-        .search-bar {
-            padding: var(--space-3) var(--space-4);
-            background: var(--color-white);
-            border-bottom: 1px solid var(--color-gray-200);
-        }
-
-        .search-bar__input-wrapper {
-            position: relative;
-            display: flex;
-            align-items: center;
-        }
-
-        .search-bar__icon {
-            position: absolute;
-            left: var(--space-4);
-            font-size: 18px;
-            color: var(--color-gray-500);
-        }
-
-        .search-bar__input {
-            width: 100%;
-            padding: var(--space-3) var(--space-4) var(--space-3) 44px;
-            border: 1px solid var(--color-gray-300);
-            border-radius: var(--radius-lg);
-            font-size: var(--font-size-base);
-            background: var(--color-gray-50);
-            transition: all var(--transition-fast);
-        }
-
-        .search-bar__input:focus {
-            outline: none;
-            border-color: var(--color-primary);
-            background: var(--color-white);
-            box-shadow: 0 0 0 3px rgba(111, 207, 63, 0.1);
-        }
-
-        .search-bar__input::placeholder {
-            color: var(--color-gray-500);
-        }
-
-        .search-bar__clear {
-            position: absolute;
-            right: var(--space-4);
-            font-size: 18px;
-            color: var(--color-gray-400);
-            cursor: pointer;
-            display: none;
-            padding: var(--space-2);
-        }
-
-        .search-bar__clear.show {
-            display: block;
-        }
-
-        /* Category Tabs */
-        .category-tabs {
-            background: var(--color-white);
-            border-bottom: 1px solid var(--color-gray-200);
-            overflow-x: auto;
-            -webkit-overflow-scrolling: touch;
-            scrollbar-width: none;
-            -ms-overflow-style: none;
-        }
-
-        .category-tabs::-webkit-scrollbar {
-            display: none;
-        }
-
-        .category-tabs__list {
-            display: flex;
-            padding: var(--space-2) var(--space-4);
-            gap: var(--space-2);
-            min-width: min-content;
-        }
-
-        .category-tab {
-            padding: var(--space-2) var(--space-4);
-            font-size: var(--font-size-sm);
-            font-weight: var(--font-weight-medium);
-            color: var(--color-gray-600);
-            background: var(--color-white);
-            border: 1px solid var(--color-gray-300);
-            border-radius: var(--radius-full);
-            cursor: pointer;
-            transition: all var(--transition-fast);
-            white-space: nowrap;
-            user-select: none;
-        }
-
-        .category-tab:active {
-            transform: scale(0.95);
-        }
-
-        .category-tab.active {
-            background: var(--color-primary);
-            color: var(--color-white);
-            border-color: var(--color-primary);
-        }
-
-        /* Notice List */
-        .notice-list {
-            padding: var(--space-4);
-            padding-bottom: calc(var(--bottom-nav-height) + var(--space-4));
-        }
-
-        /* Notice Item */
-        .notice-item {
-            background: var(--color-white);
-            border-radius: var(--radius-lg);
-            margin-bottom: var(--space-3);
-            box-shadow: var(--shadow-sm);
-            overflow: hidden;
-            transition: all var(--transition-base);
-        }
-
-        .notice-item.hidden {
-            display: none;
-        }
-
-        .notice-item.pinned {
-            border: 2px solid var(--color-primary);
-        }
-
-        .notice-item__header {
-            padding: var(--space-4);
-            cursor: pointer;
-            user-select: none;
-            transition: background var(--transition-fast);
-        }
-
-        .notice-item__header:active {
-            background: var(--color-gray-50);
-        }
-
-        .notice-item.open .notice-item__header {
-            border-bottom: 1px solid var(--color-gray-200);
-        }
-
-        .notice-item__top {
-            display: flex;
-            align-items: center;
-            gap: var(--space-2);
-            margin-bottom: var(--space-2);
-        }
-
-        /* Notice Badges */
-        .notice-badge {
-            display: inline-flex;
-            align-items: center;
-            padding: 3px var(--space-2);
-            font-size: var(--font-size-xs);
-            font-weight: var(--font-weight-bold);
-            border-radius: var(--radius-sm);
-            line-height: 1;
-        }
-
-        .notice-badge.badge-notice {
-            background: var(--color-primary-light);
-            color: var(--color-primary-dark);
-        }
-
-        .notice-badge.badge-important {
-            background: #FFEBEE;
-            color: var(--color-error);
-        }
-
-        .notice-badge.badge-new {
-            background: #E3F2FD;
-            color: #1976D2;
-        }
-
-        .notice-badge.badge-event {
-            background: #FFF3E0;
-            color: #E65100;
-        }
-
-        .notice-badge.badge-maintenance {
-            background: #F3E5F5;
-            color: #7B1FA2;
-        }
-
-        /* Pin Icon */
-        .notice-item__pin {
-            font-size: 16px;
-            color: var(--color-primary);
-            margin-left: auto;
-        }
-
-        /* Notice Title */
-        .notice-item__title {
-            font-size: var(--font-size-base);
-            font-weight: var(--font-weight-semibold);
-            color: var(--color-gray-900);
-            line-height: var(--line-height-normal);
-            margin-bottom: var(--space-2);
-        }
-
-        /* Notice Meta */
-        .notice-item__meta {
-            display: flex;
-            align-items: center;
-            gap: var(--space-3);
-            font-size: var(--font-size-xs);
-            color: var(--color-gray-500);
-        }
-
-        .notice-item__meta-item {
-            display: flex;
-            align-items: center;
-            gap: 4px;
-        }
-
-        .notice-item__meta-icon {
-            font-size: 14px;
-        }
-
-        /* Notice Content (Accordion) */
-        .notice-item__content {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height var(--transition-base);
-        }
-
-        .notice-item.open .notice-item__content {
-            max-height: 2000px;
-        }
-
-        .notice-item__body {
-            padding: var(--space-4);
-            font-size: var(--font-size-sm);
-            color: var(--color-gray-700);
-            line-height: var(--line-height-relaxed);
-        }
-
-        .notice-item__body p {
-            margin-bottom: var(--space-3);
-        }
-
-        .notice-item__body p:last-child {
-            margin-bottom: 0;
-        }
-
-        .notice-item__body ul {
-            margin: var(--space-2) 0;
-            padding-left: var(--space-5);
-        }
-
-        .notice-item__body li {
-            margin: var(--space-1) 0;
-        }
-
-        .notice-item__body strong {
-            color: var(--color-gray-900);
-            font-weight: var(--font-weight-semibold);
-        }
-
-        .notice-item__body .highlight {
-            background: var(--color-primary-light);
-            padding: 2px 4px;
-            border-radius: var(--radius-xs);
-            color: var(--color-primary-dark);
-        }
-
-        /* Notice Footer */
-        .notice-item__footer {
-            padding: var(--space-3) var(--space-4);
-            background: var(--color-gray-50);
-            display: flex;
-            align-items: center;
-            gap: var(--space-2);
-            font-size: var(--font-size-xs);
-            color: var(--color-gray-600);
-        }
-
-        .notice-item__footer-icon {
-            font-size: 14px;
-        }
-
-        /* Toggle Icon */
-        .notice-item__toggle {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 24px;
-            height: 24px;
-            margin-left: auto;
-            color: var(--color-gray-400);
-            font-size: 20px;
-            transition: transform var(--transition-base);
-        }
-
-        .notice-item.open .notice-item__toggle {
-            transform: rotate(90deg);
-        }
-
-        /* Pagination */
-        .pagination {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: var(--space-2);
-            padding: var(--space-4);
-            margin-bottom: calc(var(--bottom-nav-height) + var(--space-4));
-        }
-
-        .pagination__btn {
-            min-width: 36px;
-            height: 36px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 1px solid var(--color-gray-300);
-            border-radius: var(--radius-md);
-            background: var(--color-white);
-            color: var(--color-gray-700);
-            font-size: var(--font-size-sm);
-            font-weight: var(--font-weight-medium);
-            cursor: pointer;
-            transition: all var(--transition-fast);
-            user-select: none;
-        }
-
-        .pagination__btn:active {
-            transform: scale(0.95);
-        }
-
-        .pagination__btn:disabled {
-            opacity: 0.4;
-            cursor: not-allowed;
-        }
-
-        .pagination__btn:disabled:active {
-            transform: none;
-        }
-
-        .pagination__btn.active {
-            background: var(--color-primary);
-            color: var(--color-white);
-            border-color: var(--color-primary);
-        }
-
-        .pagination__dots {
-            padding: 0 var(--space-2);
-            color: var(--color-gray-400);
-        }
-
-        /* Empty State */
-        .empty-state {
-            padding: var(--space-12) var(--space-6);
-            text-align: center;
-        }
-
-        .empty-state__icon {
-            font-size: 64px;
-            margin-bottom: var(--space-4);
-            opacity: 0.3;
-        }
-
-        .empty-state__title {
-            font-size: var(--font-size-md);
-            font-weight: var(--font-weight-medium);
-            color: var(--color-gray-700);
-            margin-bottom: var(--space-2);
-        }
-
-        .empty-state__desc {
-            font-size: var(--font-size-sm);
-            color: var(--color-gray-500);
-            line-height: var(--line-height-relaxed);
-        }
-
-        /* Bottom Navigation */
-        .bottom-nav {
-            position: fixed;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100%;
-            max-width: var(--max-width-mobile);
-            background: var(--color-white);
-            border-top: 1px solid var(--color-gray-200);
-            display: flex;
-            justify-content: space-around;
-            padding: var(--space-2) 0;
-            z-index: var(--z-sticky);
-            height: var(--bottom-nav-height);
-        }
-
-        .nav-item {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 4px;
-            color: var(--color-gray-500);
-            text-decoration: none;
-            cursor: pointer;
-            transition: color var(--transition-fast);
-        }
-
-        .nav-item.active {
-            color: var(--color-primary);
-        }
-
-        .nav-item__icon {
-            font-size: 24px;
-        }
-
-        .nav-item__label {
-            font-size: var(--font-size-xs);
-            font-weight: var(--font-weight-medium);
-        }
-
-        /* Animations */
-        @keyframes highlight {
-            0%, 100% {
-                background-color: transparent;
-            }
-            50% {
-                background-color: rgba(111, 207, 63, 0.1);
-            }
-        }
-
-        .notice-item.highlight {
-            animation: highlight 1s ease-in-out;
-        }
-
-        /* Responsive */
-        @media (min-width: 768px) {
-            body {
-                max-width: var(--max-width-mobile);
-                margin: 0 auto;
-                box-shadow: 0 0 40px rgba(0, 0, 0, 0.1);
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="../../styles/common-layout.css">
 </head>
 <body>
-    <div class="mobile-container">
+    <div class="page-container">
         <!-- Header -->
         <header class="notice-header">
             <div class="notice-header__top">
@@ -534,8 +51,8 @@
             <div class="notice-item pinned" data-category="공지" data-id="1" data-date="2026-03-15">
                 <div class="notice-item__header">
                     <div class="notice-item__top">
-                        <span class="notice-badge badge-important">중요</span>
-                        <span class="notice-badge badge-new">NEW</span>
+                        <span class="notice-badge chip-important">중요</span>
+                        <span class="notice-badge chip-new">NEW</span>
                         <span class="notice-item__pin">📌</span>
                         <div class="notice-item__toggle">›</div>
                     </div>
@@ -577,8 +94,8 @@
             <div class="notice-item pinned" data-category="이벤트" data-id="2" data-date="2026-03-14">
                 <div class="notice-item__header">
                     <div class="notice-item__top">
-                        <span class="notice-badge badge-event">이벤트</span>
-                        <span class="notice-badge badge-new">NEW</span>
+                        <span class="notice-badge chip-event">이벤트</span>
+                        <span class="notice-badge chip-new">NEW</span>
                         <span class="notice-item__pin">📌</span>
                         <div class="notice-item__toggle">›</div>
                     </div>
@@ -623,8 +140,8 @@
             <div class="notice-item" data-category="안내" data-id="3" data-date="2026-03-13">
                 <div class="notice-item__header">
                     <div class="notice-item__top">
-                        <span class="notice-badge badge-notice">안내</span>
-                        <span class="notice-badge badge-new">NEW</span>
+                        <span class="notice-badge chip-notice">안내</span>
+                        <span class="notice-badge chip-new">NEW</span>
                         <div class="notice-item__toggle">›</div>
                     </div>
                     <div class="notice-item__title">제주 감귤 시즌 마감 안내 및 봄 과일 입고 소식</div>
@@ -663,7 +180,7 @@
             <div class="notice-item" data-category="점검" data-id="4" data-date="2026-03-12">
                 <div class="notice-item__header">
                     <div class="notice-item__top">
-                        <span class="notice-badge badge-maintenance">점검</span>
+                        <span class="notice-badge chip-maintenance">점검</span>
                         <div class="notice-item__toggle">›</div>
                     </div>
                     <div class="notice-item__title">[완료] 시스템 정기 점검 완료 안내 (3/12)</div>
@@ -702,7 +219,7 @@
             <div class="notice-item" data-category="공지" data-id="5" data-date="2026-03-10">
                 <div class="notice-item__header">
                     <div class="notice-item__top">
-                        <span class="notice-badge badge-notice">공지</span>
+                        <span class="notice-badge chip-notice">공지</span>
                         <div class="notice-item__toggle">›</div>
                     </div>
                     <div class="notice-item__title">개인정보 처리방침 개정 안내</div>
@@ -742,7 +259,7 @@
             <div class="notice-item" data-category="이벤트" data-id="6" data-date="2026-03-08">
                 <div class="notice-item__header">
                     <div class="notice-item__top">
-                        <span class="notice-badge badge-event">이벤트</span>
+                        <span class="notice-badge chip-event">이벤트</span>
                         <div class="notice-item__toggle">›</div>
                     </div>
                     <div class="notice-item__title">리뷰 작성 이벤트 - 매월 50분께 선물 증정</div>
@@ -785,7 +302,7 @@
             <div class="notice-item" data-category="안내" data-id="7" data-date="2026-03-05">
                 <div class="notice-item__header">
                     <div class="notice-item__top">
-                        <span class="notice-badge badge-notice">안내</span>
+                        <span class="notice-badge chip-notice">안내</span>
                         <div class="notice-item__toggle">›</div>
                     </div>
                     <div class="notice-item__title">새벽배송 지역 확대 안내</div>
@@ -830,7 +347,7 @@
             <div class="notice-item" data-category="공지" data-id="8" data-date="2026-03-03">
                 <div class="notice-item__header">
                     <div class="notice-item__top">
-                        <span class="notice-badge badge-notice">공지</span>
+                        <span class="notice-badge chip-notice">공지</span>
                         <div class="notice-item__toggle">›</div>
                     </div>
                     <div class="notice-item__title">설 연휴 배송 및 고객센터 운영 안내</div>
@@ -874,7 +391,7 @@
             <div class="notice-item" data-category="안내" data-id="9" data-date="2026-03-01">
                 <div class="notice-item__header">
                     <div class="notice-item__top">
-                        <span class="notice-badge badge-notice">안내</span>
+                        <span class="notice-badge chip-notice">안내</span>
                         <div class="notice-item__toggle">›</div>
                     </div>
                     <div class="notice-item__title">정기구독 서비스 혜택 업그레이드 안내</div>
@@ -919,7 +436,7 @@
             <div class="notice-item" data-category="이벤트" data-id="10" data-date="2026-02-28">
                 <div class="notice-item__header">
                     <div class="notice-item__top">
-                        <span class="notice-badge badge-event">이벤트</span>
+                        <span class="notice-badge chip-event">이벤트</span>
                         <div class="notice-item__toggle">›</div>
                     </div>
                     <div class="notice-item__title">친구 초대 이벤트 - 함께 나누는 5만원 혜택</div>
@@ -983,21 +500,21 @@
 
         <!-- Bottom Navigation -->
         <nav class="bottom-nav">
-            <a href="../home/main.html" class="nav-item">
-                <div class="nav-item__icon">🏠</div>
-                <div class="nav-item__label">홈</div>
+            <a href="../home/main.html" class="nav-link">
+                <div class="nav-link__icon">🏠</div>
+                <div class="nav-link__label">홈</div>
             </a>
-            <a href="../products/index.html" class="nav-item">
-                <div class="nav-item__icon">🍎</div>
-                <div class="nav-item__label">상품</div>
+            <a href="../products/index.html" class="nav-link">
+                <div class="nav-link__icon">🍎</div>
+                <div class="nav-link__label">상품</div>
             </a>
-            <a href="../mypage/index.html" class="nav-item">
-                <div class="nav-item__icon">👤</div>
-                <div class="nav-item__label">마이</div>
+            <a href="../mypage/index.html" class="nav-link">
+                <div class="nav-link__icon">👤</div>
+                <div class="nav-link__label">마이</div>
             </a>
-            <a href="index.html" class="nav-item active">
-                <div class="nav-item__icon">💬</div>
-                <div class="nav-item__label">고객센터</div>
+            <a href="index.html" class="nav-link active">
+                <div class="nav-link__icon">💬</div>
+                <div class="nav-link__label">고객센터</div>
             </a>
         </nav>
     </div>

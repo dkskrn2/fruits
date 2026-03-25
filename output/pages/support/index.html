@@ -6,529 +6,14 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <title>고객지원 - 과일다리</title>
-
-    <!-- Design System CSS -->
     <link rel="stylesheet" href="../../styles/design-system.css">
     <link rel="stylesheet" href="../../styles/components.css">
-
-    <style>
-        /* Page Specific Styles */
-        body {
-            background: #f8f9fa;
-        }
-
-        .mobile-container {
-            padding-top: 0;
-        }
-
-        /* Status Bar */
-        .status-bar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 8px 20px;
-            background: white;
-            font-size: 12px;
-            font-weight: 500;
-        }
-
-        .status-bar__time {
-            font-weight: 600;
-        }
-
-        .status-bar__icons {
-            display: flex;
-            gap: 4px;
-            align-items: center;
-        }
-
-        /* App Header */
-        .app-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 12px 20px;
-            background: white;
-            border-bottom: 1px solid var(--color-gray-100);
-            position: sticky;
-            top: 0;
-            z-index: var(--z-sticky);
-        }
-
-        .app-header__title {
-            font-size: 18px;
-            font-weight: 700;
-        }
-
-        .app-header__actions {
-            display: flex;
-            gap: 8px;
-        }
-
-        .icon-button {
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: transparent;
-            border: none;
-            border-radius: var(--radius-full);
-            cursor: pointer;
-            transition: all var(--transition-fast);
-            position: relative;
-        }
-
-        .icon-button:active {
-            background: var(--color-gray-100);
-            transform: scale(0.95);
-        }
-
-        /* Main Content */
-        .main-content {
-            padding-bottom: 80px;
-        }
-
-        /* Welcome Banner */
-        .welcome-banner {
-            background: linear-gradient(135deg, #6FCF3F, #5CB82F);
-            padding: 24px 20px;
-            color: white;
-        }
-
-        .welcome-title {
-            font-size: 20px;
-            font-weight: 700;
-            margin-bottom: 8px;
-        }
-
-        .welcome-subtitle {
-            font-size: 14px;
-            opacity: 0.9;
-            line-height: 1.5;
-        }
-
-        .welcome-time {
-            margin-top: 12px;
-            padding-top: 12px;
-            border-top: 1px solid rgba(255, 255, 255, 0.2);
-            font-size: 13px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        /* Contact Info Cards */
-        .contact-section {
-            padding: 20px;
-            background: white;
-        }
-
-        .section-title {
-            font-size: 16px;
-            font-weight: 700;
-            color: var(--color-gray-900);
-            margin-bottom: 16px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .contact-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
-        }
-
-        .contact-card {
-            background: var(--color-gray-50);
-            padding: 16px;
-            border-radius: var(--radius-lg);
-            cursor: pointer;
-            transition: all var(--transition-fast);
-            text-align: center;
-        }
-
-        .contact-card:active {
-            transform: scale(0.98);
-            background: var(--color-gray-100);
-        }
-
-        .contact-card.phone {
-            background: linear-gradient(135deg, #E3F2FD, #BBDEFB);
-        }
-
-        .contact-card.email {
-            background: linear-gradient(135deg, #FFF3E0, #FFE0B2);
-        }
-
-        .contact-card.kakao {
-            background: linear-gradient(135deg, #FFF9C4, #FFF59D);
-        }
-
-        .contact-card.hours {
-            background: linear-gradient(135deg, #F3E5F5, #E1BEE7);
-        }
-
-        .contact-icon {
-            font-size: 28px;
-            margin-bottom: 8px;
-        }
-
-        .contact-label {
-            font-size: 12px;
-            color: var(--color-gray-700);
-            margin-bottom: 4px;
-        }
-
-        .contact-value {
-            font-size: 15px;
-            font-weight: 700;
-            color: var(--color-gray-900);
-        }
-
-        /* Quick Help Menu Grid */
-        .quick-help-section {
-            padding: 20px;
-            background: white;
-            margin-top: 8px;
-        }
-
-        .help-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 16px;
-        }
-
-        .help-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 8px;
-            cursor: pointer;
-            transition: all var(--transition-fast);
-        }
-
-        .help-item:active {
-            transform: scale(0.95);
-        }
-
-        .help-icon {
-            width: 56px;
-            height: 56px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: var(--color-gray-50);
-            border-radius: var(--radius-xl);
-            font-size: 28px;
-            transition: all var(--transition-fast);
-        }
-
-        .help-item:active .help-icon {
-            background: var(--color-primary-light);
-        }
-
-        .help-label {
-            font-size: 12px;
-            color: var(--color-gray-700);
-            text-align: center;
-        }
-
-        /* Common Issues Quick Links */
-        .issues-section {
-            padding: 20px;
-            background: white;
-            margin-top: 8px;
-        }
-
-        .issue-card {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 16px;
-            background: var(--color-gray-50);
-            border-radius: var(--radius-lg);
-            margin-bottom: 10px;
-            cursor: pointer;
-            transition: all var(--transition-fast);
-        }
-
-        .issue-card:last-child {
-            margin-bottom: 0;
-        }
-
-        .issue-card:active {
-            transform: scale(0.98);
-            background: var(--color-gray-100);
-        }
-
-        .issue-icon {
-            width: 48px;
-            height: 48px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: white;
-            border-radius: var(--radius-lg);
-            font-size: 24px;
-            flex-shrink: 0;
-        }
-
-        .issue-content {
-            flex: 1;
-        }
-
-        .issue-title {
-            font-size: 15px;
-            font-weight: 600;
-            color: var(--color-gray-900);
-            margin-bottom: 4px;
-        }
-
-        .issue-desc {
-            font-size: 12px;
-            color: var(--color-gray-600);
-        }
-
-        .issue-arrow {
-            font-size: 18px;
-            color: var(--color-gray-400);
-        }
-
-        /* Popular FAQ */
-        .faq-section {
-            padding: 20px;
-            background: white;
-            margin-top: 8px;
-        }
-
-        .faq-item {
-            padding: 16px;
-            background: var(--color-gray-50);
-            border-radius: var(--radius-lg);
-            margin-bottom: 10px;
-            cursor: pointer;
-            transition: all var(--transition-fast);
-        }
-
-        .faq-item:last-child {
-            margin-bottom: 0;
-        }
-
-        .faq-item:active {
-            background: var(--color-gray-100);
-        }
-
-        .faq-question {
-            display: flex;
-            align-items: flex-start;
-            gap: 8px;
-            font-size: 14px;
-            font-weight: 600;
-            color: var(--color-gray-900);
-            margin-bottom: 8px;
-        }
-
-        .faq-badge {
-            display: inline-flex;
-            padding: 2px 8px;
-            background: var(--color-primary);
-            color: white;
-            border-radius: var(--radius-sm);
-            font-size: 11px;
-            font-weight: 700;
-            flex-shrink: 0;
-        }
-
-        .faq-answer {
-            font-size: 13px;
-            color: var(--color-gray-600);
-            line-height: 1.5;
-            padding-left: 36px;
-        }
-
-        /* Recent Notices */
-        .notice-section {
-            padding: 20px;
-            background: white;
-            margin-top: 8px;
-        }
-
-        .notice-item {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 16px 0;
-            border-bottom: 1px solid var(--color-gray-100);
-            cursor: pointer;
-            transition: all var(--transition-fast);
-        }
-
-        .notice-item:last-child {
-            border-bottom: none;
-        }
-
-        .notice-item:active {
-            background: var(--color-gray-50);
-            margin: 0 -20px;
-            padding: 16px 20px;
-        }
-
-        .notice-badge {
-            display: inline-flex;
-            padding: 4px 8px;
-            background: var(--color-error);
-            color: white;
-            border-radius: var(--radius-sm);
-            font-size: 10px;
-            font-weight: 700;
-            flex-shrink: 0;
-        }
-
-        .notice-badge.info {
-            background: var(--color-info);
-        }
-
-        .notice-content {
-            flex: 1;
-            min-width: 0;
-        }
-
-        .notice-title {
-            font-size: 14px;
-            font-weight: 600;
-            color: var(--color-gray-900);
-            margin-bottom: 4px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-
-        .notice-date {
-            font-size: 12px;
-            color: var(--color-gray-500);
-        }
-
-        .notice-arrow {
-            font-size: 16px;
-            color: var(--color-gray-400);
-        }
-
-        /* Live Chat Button */
-        .live-chat-button {
-            position: fixed;
-            bottom: 80px;
-            right: 20px;
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, #6FCF3F, #5CB82F);
-            border-radius: var(--radius-full);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 28px;
-            box-shadow: 0 4px 12px rgba(111, 207, 63, 0.4);
-            cursor: pointer;
-            transition: all var(--transition-base);
-            z-index: 100;
-            animation: pulse 2s infinite;
-        }
-
-        .live-chat-button:active {
-            transform: scale(0.95);
-        }
-
-        .chat-badge {
-            position: absolute;
-            top: 8px;
-            right: 8px;
-            width: 12px;
-            height: 12px;
-            background: var(--color-error);
-            border-radius: var(--radius-full);
-            border: 2px solid white;
-        }
-
-        @keyframes pulse {
-            0%, 100% {
-                box-shadow: 0 4px 12px rgba(111, 207, 63, 0.4);
-            }
-            50% {
-                box-shadow: 0 4px 20px rgba(111, 207, 63, 0.6);
-            }
-        }
-
-        /* Bottom Navigation */
-        .bottom-nav {
-            position: fixed;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100%;
-            max-width: 430px;
-            background: white;
-            border-top: 1px solid var(--color-gray-100);
-            display: flex;
-            justify-content: space-around;
-            padding: 8px 0 env(safe-area-inset-bottom);
-            z-index: var(--z-sticky);
-        }
-
-        .nav-item {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 4px;
-            padding: 4px;
-            color: var(--color-gray-500);
-            text-decoration: none;
-            cursor: pointer;
-            transition: all var(--transition-fast);
-        }
-
-        .nav-item:active {
-            transform: scale(0.95);
-        }
-
-        .nav-item.active {
-            color: var(--color-primary);
-        }
-
-        .nav-item__icon {
-            font-size: 22px;
-        }
-
-        .nav-item__label {
-            font-size: 11px;
-            font-weight: 500;
-        }
-
-        /* Divider */
-        .divider {
-            height: 8px;
-            background: var(--color-gray-100);
-        }
-
-        /* Section Link */
-        .section-link {
-            font-size: 13px;
-            color: var(--color-gray-600);
-            text-decoration: none;
-            margin-left: auto;
-        }
-
-        .section-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 16px;
-        }
-    </style>
-</head>
+    <link rel="stylesheet" href="../../styles/common-layout.css">
+<!-- Design System CSS -->
+        
+    </head>
 <body>
-    <div class="mobile-container">
+    <div class="page-container">
         <!-- Status Bar -->
         <div class="status-bar">
             <span class="status-bar__time">9:41</span>
@@ -698,7 +183,7 @@
 
                 <div class="faq-item" onclick="location.href='./faq.html#faq1'">
                     <div class="faq-question">
-                        <span class="faq-badge">Q</span>
+                        <span class="faq-chip">Q</span>
                         <span>배송은 얼마나 걸리나요?</span>
                     </div>
                     <div class="faq-answer">
@@ -708,7 +193,7 @@
 
                 <div class="faq-item" onclick="location.href='./faq.html#faq2'">
                     <div class="faq-question">
-                        <span class="faq-badge">Q</span>
+                        <span class="faq-chip">Q</span>
                         <span>신선도 보장이 되나요?</span>
                     </div>
                     <div class="faq-answer">
@@ -718,7 +203,7 @@
 
                 <div class="faq-item" onclick="location.href='./faq.html#faq3'">
                     <div class="faq-question">
-                        <span class="faq-badge">Q</span>
+                        <span class="faq-chip">Q</span>
                         <span>무료배송 조건이 어떻게 되나요?</span>
                     </div>
                     <div class="faq-answer">
@@ -740,7 +225,7 @@
                 </div>
 
                 <div class="notice-item" onclick="location.href='./notice.html#notice1'">
-                    <span class="notice-badge">NEW</span>
+                    <span class="notice-chip">NEW</span>
                     <div class="notice-content">
                         <div class="notice-title">설 명절 배송 일정 안내</div>
                         <div class="notice-date">2024.03.15</div>
@@ -749,7 +234,7 @@
                 </div>
 
                 <div class="notice-item" onclick="location.href='./notice.html#notice2'">
-                    <span class="notice-badge info">공지</span>
+                    <span class="notice-chip info">공지</span>
                     <div class="notice-content">
                         <div class="notice-title">봄맞이 특별 할인 이벤트</div>
                         <div class="notice-date">2024.03.10</div>
@@ -758,7 +243,7 @@
                 </div>
 
                 <div class="notice-item" onclick="location.href='./notice.html#notice3'">
-                    <span class="notice-badge info">안내</span>
+                    <span class="notice-chip info">안내</span>
                     <div class="notice-content">
                         <div class="notice-title">개인정보 처리방침 변경 안내</div>
                         <div class="notice-date">2024.03.01</div>
@@ -771,26 +256,26 @@
         <!-- Live Chat Button -->
         <div class="live-chat-button" onclick="openLiveChat()">
             💬
-            <span class="chat-badge"></span>
+            <span class="chat-chip"></span>
         </div>
 
         <!-- Bottom Navigation -->
         <nav class="bottom-nav">
-            <a href="../home/main.html" class="nav-item">
-                <span class="nav-item__icon">🏠</span>
-                <span class="nav-item__label">홈</span>
+            <a href="../home/main.html" class="nav-link">
+                <span class="nav-link__icon">🏠</span>
+                <span class="nav-link__label">홈</span>
             </a>
-            <a href="../products/index.html" class="nav-item">
-                <span class="nav-item__icon">🍎</span>
-                <span class="nav-item__label">상품</span>
+            <a href="../products/index.html" class="nav-link">
+                <span class="nav-link__icon">🍎</span>
+                <span class="nav-link__label">상품</span>
             </a>
-            <a href="../mypage/index.html" class="nav-item">
-                <span class="nav-item__icon">👤</span>
-                <span class="nav-item__label">마이</span>
+            <a href="../mypage/index.html" class="nav-link">
+                <span class="nav-link__icon">👤</span>
+                <span class="nav-link__label">마이</span>
             </a>
-            <a href="./index.html" class="nav-item active">
-                <span class="nav-item__icon">💬</span>
-                <span class="nav-item__label">고객지원</span>
+            <a href="./index.html" class="nav-link active">
+                <span class="nav-link__icon">💬</span>
+                <span class="nav-link__label">고객지원</span>
             </a>
         </nav>
     </div>

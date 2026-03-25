@@ -1,0 +1,72 @@
+</div>
+</main>
+<div class="page-actions">
+  <button type="button" class="page-action" id="prev-page">이전</button>
+  <button type="button" class="page-action" id="next-page">다음</button>
+</div>
+<script>
+  (() => {
+    const deck = document.getElementById('deck');
+    const slides = Array.from(document.querySelectorAll('.slide'));
+    const navButtons = Array.from(document.querySelectorAll('.nav-btn'));
+    const state = document.getElementById('page-state');
+    const bar = document.getElementById('progress-bar');
+    const prev = document.getElementById('prev-page');
+    const next = document.getElementById('next-page');
+    let currentIndex = 0;
+
+    function syncSlideMeta() {
+      slides.forEach((slide, i) => {
+        const counter = slide.querySelector('.slide-meta strong');
+        if (counter) counter.textContent = (i + 1) + ' / ' + slides.length;
+      });
+    }
+
+    function clamp(index) {
+      return Math.max(0, Math.min(index, slides.length - 1));
+    }
+
+    function syncUI(index) {
+      currentIndex = clamp(index);
+      slides.forEach((slide, i) => slide.classList.toggle('is-active', i === currentIndex));
+      const chapter = Number(slides[currentIndex].dataset.chapter);
+      navButtons.forEach((button, i) => button.classList.toggle('is-active', i === chapter));
+      state.textContent = (currentIndex + 1) + ' / ' + slides.length;
+      bar.style.width = (((currentIndex + 1) / slides.length) * 100) + '%';
+      prev.disabled = currentIndex === 0;
+      next.disabled = currentIndex === slides.length - 1;
+    }
+
+    function goToSlide(index) {
+      const safeIndex = clamp(index);
+      slides[safeIndex].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
+      syncUI(safeIndex);
+    }
+
+    navButtons.forEach((button) => {
+      button.addEventListener('click', () => goToSlide(Number(button.dataset.slideTarget)));
+    });
+
+    prev.addEventListener('click', () => goToSlide(currentIndex - 1));
+    next.addEventListener('click', () => goToSlide(currentIndex + 1));
+
+    deck.addEventListener('scroll', () => {
+      if (window.innerWidth <= 1100) return;
+      const nextIndex = Math.round(deck.scrollLeft / deck.clientWidth);
+      syncUI(nextIndex);
+    }, { passive: true });
+
+    window.addEventListener('keydown', (event) => {
+      if (window.innerWidth <= 1100) return;
+      if (event.key === 'ArrowRight') goToSlide(currentIndex + 1);
+      if (event.key === 'ArrowLeft') goToSlide(currentIndex - 1);
+    });
+
+    window.addEventListener('resize', () => syncUI(currentIndex));
+    syncSlideMeta();
+    syncUI(0);
+  })();
+</script>
+</body>
+
+</html>

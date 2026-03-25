@@ -1,0 +1,2887 @@
+﻿<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fruit Commerce Proposal</title>
+  <style>
+    :root {
+      --bg: #f5efe5;
+      --paper: #fffaf3;
+      --ink: #1f1a16;
+      --muted: #675f56;
+      --line: rgba(31, 26, 22, .10);
+      --accent: #cb5b2c;
+      --olive: #556548;
+      --berry: #a14253;
+      --gold: #a97828;
+      --shadow: 0 24px 60px rgba(43, 31, 18, .10);
+      --display: "Iowan Old Style", "Palatino Linotype", "Apple SD Gothic Neo", "Malgun Gothic", serif;
+      --body: "Noto Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif
+    }
+
+    * {
+      box-sizing: border-box
+    }
+
+    html {
+      scroll-behavior: smooth
+    }
+
+    body {
+      margin: 0;
+      overflow: hidden;
+      font-family: var(--body);
+      color: var(--ink);
+      background: radial-gradient(circle at 0 0, rgba(203, 91, 44, .15), transparent 24%), radial-gradient(circle at 100% 0, rgba(85, 101, 72, .14), transparent 22%), linear-gradient(180deg, #f7f1e7 0, #f2ebdf 100%)
+    }
+
+    button {
+      font: inherit
+    }
+
+    .frame {
+      width: min(1400px, calc(100% - 32px));
+      margin: 0 auto
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      background: rgba(247, 241, 231, .88);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(31, 26, 22, .08)
+    }
+
+    .topbar-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      padding: 14px 0
+    }
+
+    .brand {
+      font-size: 14px;
+      font-weight: 900;
+      letter-spacing: .12em;
+      text-transform: uppercase
+    }
+
+    .brand span {
+      color: var(--accent)
+    }
+
+    .topbar-meta {
+      display: flex;
+      align-items: center;
+      gap: 12px
+    }
+
+    .nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px
+    }
+
+    .nav-btn {
+      padding: 10px 14px;
+      border: none;
+      border-radius: 999px;
+      background: rgba(31, 26, 22, .06);
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: .02em;
+      cursor: pointer;
+      transition: .2s ease
+    }
+
+    .nav-btn.is-active,
+    .nav-btn:hover {
+      background: var(--ink);
+      color: #fff
+    }
+
+    .page-state {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(31, 26, 22, .06);
+      font-size: 12px;
+      font-weight: 900;
+      color: var(--muted)
+    }
+
+    .page-state strong {
+      color: var(--ink)
+    }
+
+    .progress {
+      width: 110px;
+      height: 8px;
+      border-radius: 999px;
+      background: rgba(31, 26, 22, .08);
+      overflow: hidden
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--accent), #f59f76);
+      transition: width .24s ease
+    }
+
+    .deck-frame {
+      position: relative;
+      width: min(1480px, calc(100% - 12px));
+      margin: 0 auto;
+      padding: 10px 0 20px
+    }
+
+    .deck-frame:before,
+    .deck-frame:after {
+      content: "";
+      position: absolute;
+      top: 10px;
+      bottom: 20px;
+      width: 56px;
+      z-index: 5;
+      pointer-events: none
+    }
+
+    .deck-frame:before {
+      left: -2px;
+      background: linear-gradient(90deg, rgba(242, 235, 223, .96), rgba(242, 235, 223, 0))
+    }
+
+    .deck-frame:after {
+      right: -2px;
+      background: linear-gradient(270deg, rgba(242, 235, 223, .96), rgba(242, 235, 223, 0))
+    }
+
+    .deck {
+      position: relative;
+      width: 100%;
+      height: calc(100vh - 60px);
+      overflow: hidden;
+    }
+
+    .deck::-webkit-scrollbar {
+      display: none
+    }
+
+    .slide {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.4s ease, visibility 0.4s;
+      overflow-y: auto;
+      scroll-snap-type: none;
+    }
+
+    .slide.is-active {
+      opacity: 1;
+      transform: scale(1);
+      filter: none
+    }
+
+    .slide-shell {
+      height: calc(100vh - 106px);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 8px;
+      padding: 4px 0;
+      overflow: hidden
+    }
+
+    .slide-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 6px 2px
+    }
+
+    .slide-tag {
+      display: inline-flex;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(31, 26, 22, .06);
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: .12em;
+      text-transform: uppercase
+    }
+
+    .slide-meta strong {
+      font-family: var(--display);
+      font-size: 22px;
+      letter-spacing: -.04em
+    }
+
+    .hero {
+      padding: 0
+    }
+
+    .hero-shell,
+    .section-shell {
+      background: rgba(255, 250, 243, .88);
+      border: 1px solid rgba(31, 26, 22, .08);
+      border-radius: 28px;
+      box-shadow: var(--shadow);
+      overflow: hidden
+    }
+
+    .hero-shell {
+      overflow: hidden
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.2fr .8fr
+    }
+
+    .hero-main {
+      padding: 34px
+    }
+
+    .hero-side {
+      padding: 24px;
+      border-left: 1px solid rgba(31, 26, 22, .08);
+      background: linear-gradient(180deg, rgba(85, 101, 72, .08), rgba(203, 91, 44, .07))
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: rgba(203, 91, 44, .10);
+      color: var(--accent);
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: .1em;
+      text-transform: uppercase
+    }
+
+    h1,
+    h2,
+    h3 {
+      margin: 0
+    }
+
+    h1 {
+      margin-top: 16px;
+      font-family: var(--display);
+      font-size: clamp(34px, 5.1vw, 62px);
+      line-height: .97;
+      letter-spacing: -.05em
+    }
+
+    .lead {
+      margin: 18px 0 0;
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.72
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 20px
+    }
+
+    .chip {
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(31, 26, 22, .06);
+      font-size: 12px;
+      font-weight: 800
+    }
+
+    .chip.primary {
+      background: var(--accent);
+      color: #fff
+    }
+
+    .metric {
+      padding: 16px;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, .76);
+      border: 1px solid rgba(31, 26, 22, .08)
+    }
+
+    .metric+.metric {
+      margin-top: 10px
+    }
+
+    .metric small {
+      display: block;
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 900;
+      letter-spacing: .1em;
+      text-transform: uppercase
+    }
+
+    .metric strong {
+      display: block;
+      margin-top: 8px;
+      font-family: var(--display);
+      font-size: 26px;
+      letter-spacing: -.05em
+    }
+
+    .metric p {
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.56
+    }
+
+    .section {
+      padding: 0
+    }
+
+    .section-shell {
+      padding: 20px
+    }
+
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 16px;
+      margin-bottom: 18px
+    }
+
+    .kicker {
+      color: var(--gold);
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: .12em;
+      text-transform: uppercase
+    }
+
+    .title {
+      margin-top: 8px;
+      font-family: var(--display);
+      font-size: clamp(22px, 2.6vw, 33px);
+      line-height: 1.04;
+      letter-spacing: -.05em
+    }
+
+    .desc {
+      margin-top: 10px;
+      max-width: 820px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.54
+    }
+
+    .pill {
+      display: inline-flex;
+      padding: 9px 12px;
+      border-radius: 999px;
+      background: #dbe4d4;
+      color: var(--olive);
+      font-size: 12px;
+      font-weight: 900
+    }
+
+    .grid-3,
+    .grid-2,
+    .grid-4 {
+      display: grid;
+      gap: 14px
+    }
+
+    .grid-3 {
+      grid-template-columns: repeat(3, minmax(0, 1fr))
+    }
+
+    .grid-2 {
+      grid-template-columns: repeat(2, minmax(0, 1fr))
+    }
+
+    .grid-4 {
+      grid-template-columns: repeat(4, minmax(0, 1fr))
+    }
+
+    .card {
+      padding: 14px;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, .78);
+      border: 1px solid rgba(31, 26, 22, .08)
+    }
+
+    .card h3 {
+      font-size: 18px;
+      letter-spacing: -.03em
+    }
+
+    .card p {
+      margin: 10px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.5
+    }
+
+    .board {
+      display: grid;
+      grid-template-columns: 1.05fr .95fr;
+      gap: 14px
+    }
+
+    .chart {
+      padding: 16px;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, .78);
+      border: 1px solid rgba(31, 26, 22, .08)
+    }
+
+    .chart h3 {
+      font-size: 16px
+    }
+
+    .chart p {
+      margin: 7px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.54
+    }
+
+    .bars {
+      display: grid;
+      gap: 10px;
+      margin-top: 14px
+    }
+
+    .bar {
+      display: grid;
+      grid-template-columns: 115px 1fr 40px;
+      gap: 8px;
+      align-items: center;
+      font-size: 12px
+    }
+
+    .track {
+      height: 12px;
+      border-radius: 999px;
+      background: rgba(31, 26, 22, .07);
+      overflow: hidden
+    }
+
+    .fill {
+      height: 100%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--accent), #f59f76)
+    }
+
+    .fill.olive {
+      background: linear-gradient(90deg, var(--olive), #9ab18d)
+    }
+
+    .fill.berry {
+      background: linear-gradient(90deg, var(--berry), #d98e9d)
+    }
+
+    .value {
+      text-align: right;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 900
+    }
+
+    .quote {
+      padding: 14px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, .78);
+      border: 1px solid rgba(31, 26, 22, .08)
+    }
+
+    .quote strong {
+      display: block;
+      font-size: 16px;
+      letter-spacing: -.02em
+    }
+
+    .quote p {
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.5
+    }
+
+    .persona {
+      padding: 16px;
+      border-radius: 22px;
+      background: linear-gradient(180deg, rgba(85, 101, 72, .10), rgba(255, 255, 255, .94));
+      border: 1px solid rgba(31, 26, 22, .08)
+    }
+
+    .persona-tag {
+      display: inline-flex;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(31, 26, 22, .07);
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: .08em;
+      text-transform: uppercase
+    }
+
+    .persona h3 {
+      margin-top: 14px;
+      font-family: var(--display);
+      font-size: 30px;
+      letter-spacing: -.04em
+    }
+
+    .persona p {
+      margin: 12px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.54
+    }
+
+    .compare {
+      display: grid;
+      gap: 10px
+    }
+
+    .compare-row {
+      display: grid;
+      grid-template-columns: 138px 1fr 1fr;
+      gap: 10px;
+      align-items: center
+    }
+
+    .compare-label {
+      font-size: 13px;
+      font-weight: 900
+    }
+
+    .compare-box {
+      padding: 12px 14px;
+      border-radius: 16px;
+      border: 1px solid rgba(31, 26, 22, .08);
+      background: rgba(255, 255, 255, .78);
+      font-size: 13px;
+      line-height: 1.52
+    }
+
+    .compare-box.on {
+      background: linear-gradient(180deg, rgba(161, 66, 83, .10), rgba(255, 255, 255, .94))
+    }
+
+    .compare-box.us {
+      background: linear-gradient(180deg, rgba(203, 91, 44, .11), rgba(255, 255, 255, .94))
+    }
+
+    .table {
+      width: 100%;
+      border-collapse: collapse;
+      border-radius: 18px;
+      overflow: hidden;
+      background: rgba(255, 255, 255, .78);
+      border: 1px solid rgba(31, 26, 22, .08)
+    }
+
+    .table th,
+    .table td {
+      padding: 12px 12px;
+      text-align: left;
+      vertical-align: top;
+      border-bottom: 1px solid rgba(31, 26, 22, .08);
+      font-size: 12px;
+      line-height: 1.52
+    }
+
+    .table th {
+      background: rgba(85, 101, 72, .10);
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: .08em;
+      text-transform: uppercase
+    }
+
+    .table tr:last-child td {
+      border-bottom: none
+    }
+
+    .roadmap {
+      display: grid;
+      gap: 12px
+    }
+
+    .step {
+      display: grid;
+      grid-template-columns: 82px 1fr;
+      gap: 12px;
+      padding: 14px;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, .78);
+      border: 1px solid rgba(31, 26, 22, .08)
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px;
+      border-radius: 14px;
+      background: var(--ink);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: .08em;
+      text-transform: uppercase
+    }
+
+    .step h3 {
+      font-size: 18px
+    }
+
+    .step p {
+      margin: 7px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.5
+    }
+
+    .footer {
+      padding: 10px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+      text-align: center
+    }
+
+    .tone-1 .slide-tag {
+      background: rgba(203, 91, 44, .10);
+      color: var(--accent)
+    }
+
+    .tone-2 .slide-tag {
+      background: rgba(85, 101, 72, .12);
+      color: var(--olive)
+    }
+
+    .tone-3 .slide-tag {
+      background: rgba(169, 120, 40, .12);
+      color: var(--gold)
+    }
+
+    .tone-4 .slide-tag {
+      background: rgba(161, 66, 83, .10);
+      color: var(--berry)
+    }
+
+    .tone-5 .slide-tag {
+      background: rgba(85, 101, 72, .12);
+      color: var(--olive)
+    }
+
+    .tone-6 .slide-tag {
+      background: rgba(31, 26, 22, .08);
+      color: var(--ink)
+    }
+
+    .tone-7 .slide-tag {
+      background: rgba(203, 91, 44, .08);
+      color: var(--accent)
+    }
+
+    .page-actions {
+      position: fixed;
+      right: 20px;
+      bottom: 18px;
+      z-index: 45;
+      display: flex;
+      gap: 10px
+    }
+
+    .page-action {
+      padding: 14px 18px;
+      border: none;
+      border-radius: 999px;
+      background: rgba(31, 26, 22, .88);
+      color: #fff;
+      font-size: 13px;
+      font-weight: 900;
+      cursor: pointer;
+      box-shadow: var(--shadow)
+    }
+
+    .page-action[disabled] {
+      opacity: .35;
+      cursor: default
+    }
+
+    @media (max-width:1320px) {
+      .grid-4 {
+        grid-template-columns: repeat(2, minmax(0, 1fr))
+      }
+    }
+
+    @media (max-width:1100px) {
+      body {
+        overflow: auto
+      }
+
+      .deck-frame {
+        width: min(100%, calc(100% - 10px));
+        padding: 10px 0 18px
+      }
+
+      .deck-frame:before,
+      .deck-frame:after {
+        display: none
+      }
+
+      .deck {
+      position: relative;
+      width: 100%;
+      height: calc(100vh - 60px);
+      overflow: hidden;
+    }
+
+      .slide {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.4s ease, visibility 0.4s;
+      overflow-y: auto;
+      scroll-snap-type: none;
+    }
+
+      .slide-shell {
+        height: auto;
+        display: block
+      }
+
+      .hero-grid,
+      .board,
+      .grid-4,
+      .grid-3,
+      .grid-2 {
+        grid-template-columns: 1fr
+      }
+
+      .compare-row,
+      .step {
+        grid-template-columns: 1fr
+      }
+
+      .hero-side {
+        border-left: none;
+        border-top: 1px solid rgba(31, 26, 22, .08)
+      }
+
+      .page-actions {
+        display: none
+      }
+    }
+
+    @media (max-width:760px) {
+
+      .topbar-inner,
+      .section-head {
+        flex-direction: column;
+        align-items: start
+      }
+
+      .topbar-meta {
+        flex-direction: column;
+        align-items: start
+      }
+
+      .hero-main,
+      .hero-side,
+      .section-shell {
+        padding: 20px
+      }
+
+      .bar {
+        grid-template-columns: 1fr
+      }
+
+      .nav {
+        gap: 8px
+      }
+
+      .nav-btn {
+        font-size: 11px;
+        padding: 8px 12px
+      }
+    }
+  
+    .slide.active {
+      opacity: 1;
+      visibility: visible;
+      z-index: 1;
+    }
+  </style>
+</head>
+
+<body>
+  <header class="topbar">
+    <div class="frame topbar-inner">
+      <div class="brand">
+        <span>Fruit</span> Commerce Proposal
+      </div>
+      <div class="topbar-meta">
+        <nav class="nav">
+          <button type="button" class="nav-btn is-active" data-slide-target="0">1. 결론</button>
+          <button type="button" class="nav-btn" data-slide-target="3">2. 시장</button>
+          <button type="button" class="nav-btn" data-slide-target="7">3. 타겟</button>
+          <button type="button" class="nav-btn" data-slide-target="9">4. 차별화</button>
+          <button type="button" class="nav-btn" data-slide-target="13">5. UX</button>
+          <button type="button" class="nav-btn" data-slide-target="15">6. 검증</button>
+          <button type="button" class="nav-btn" data-slide-target="17">7. 실행</button>
+        </nav>
+        <div class="page-state">
+          <span>Slide</span>
+          <strong id="page-state">1 / 18</strong>
+          <div class="progress">
+            <div class="progress-bar" id="progress-bar">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+  <main class="deck-frame">
+    <div class="deck" id="deck">
+      <section class="slide tone-1 is-active" data-slide-index="0" active data-chapter="0">
+        <div class="slide-shell">
+          <div class="slide-meta">
+            <span class="slide-tag">결론</span>
+            <strong>1 / 23</strong>
+          </div>
+          <section class="hero">
+            <div class="hero-shell">
+              <div class="hero-grid">
+                <div class="hero-main">
+                  <div class="eyebrow">Consumption Environment Design</div>
+                  <h1>과일을 팔기보다<br>과일에 돈을 내고 먹는 환경을 만든다</h1>
+                  <p class="lead">우리가 풀어야 할 문제는 취향이 아니라 <strong>섭취 환경</strong>입니다. 실제 소비 감소의 원인은
+                    <strong>가격 부담</strong>, <strong>손질과 보관의 불편</strong>, <strong>실패 공포</strong>, <strong>대체재 대비 약한 지불
+                      명분</strong>에
+                    있습니다. 그래서 이 사이트의 얼굴은 상품 나열이 아니라 <strong>상황별 섭취 환경 설계</strong>여야 합니다.
+                  </p>
+                  <div class="hero-actions">
+                    <div class="chip primary">핵심 전략: 세그먼트별 섭취 환경 설계</div>
+                    <div class="chip">우선 세그먼트: 아이 간식 / 가족 루틴 / 돌봄 / 선물전환</div>
+                    <div class="chip">핵심 축: 지불 명분 + 반복 루틴</div>
+                  </div>
+                </div>
+                <aside class="hero-side">
+                  <div class="metric">
+                    <small>Core Answer</small>
+                    <strong>환경 설계</strong>
+                    <p>누가 언제 왜 돈을 내고 먹는지를 기준으로 과일 소비 맥락을 다시 설계해야 합니다.</p>
+                  </div>
+                  <div class="metric">
+                    <small>Primary Target</small>
+                    <strong>상황 기준 세그먼트</strong>
+                    <p>아이 간식, 가족 건강, 돌봄, 선물 이후 전환처럼 먹는 상황으로 나눠야 합니다.</p>
+                  </div>
+                  <div class="metric">
+                    <small>Winning Axis</small>
+                    <strong>명분 있는 반복 섭취</strong>
+                    <p>1회 섭취 비용, 소진 가능한 양, 안심 근거, 리마인드 루틴이 같이 설계돼야 합니다.</p>
+                  </div>
+                </aside>
+              </div>
+            </div>
+          </section>
+        </div>
+      </section>
+      <section class="slide tone-1" data-slide-index="1" data-chapter="0">
+        <div class="slide-shell">
+          <div class="slide-meta">
+            <span class="slide-tag">결론</span>
+            <strong>2 / 23</strong>
+          </div>
+          <section class="section" id="decision">
+            <div class="section-shell">
+              <div class="section-head">
+                <div>
+                  <div class="kicker">Environment Board</div>
+                  <h2 class="title">핵심 전략은 상품 판매가 아니라 섭취 환경 설계여야 합니다</h2>
+                  <div class="desc">기존 문서는 무엇을 팔 것인가에 가까웠습니다. 이제는 누가 어떤 상황에서 왜 돈을 내고 먹게 만들 것인가를 먼저 정리해야 합니다. 세그먼트 정의,
+                    환경 장치, 반복 루틴, 운영 기반이 각각 역할을 가져야 합니다.</div>
+                </div>
+                <div class="pill">Segment, Offer, Routine, Ops</div>
+              </div>
+              <div class="grid-2">
+                <article class="card">
+                  <h3>상황 기준 세분화</h3>
+                  <p>연령보다 아이 간식, 가족 루틴, 돌봄, 선물전환처럼 먹는 상황을 기준으로 시장을 나눕니다.</p>
+                </article>
+                <article class="card">
+                  <h3>먹는 환경 설계</h3>
+                  <p>소포장, 바로 먹는 분량, 보관 가이드, 실패를 줄이는 안심 장치가 실제 소비를 만듭니다.</p>
+                </article>
+                <article class="card">
+                  <h3>반복 루틴 설계</h3>
+                  <p>첫 구매보다 첫 섭취 성공, 다음 섭취 리마인드, 후속 추천까지 이어져야 재구매가 나옵니다.</p>
+                </article>
+                <article class="card">
+                  <h3>오퍼와 브리지 설계</h3>
+                  <p>진입 오퍼, 반복 오퍼, 선물에서 일상으로 넘어가는 브리지 오퍼를 세그먼트별로 따로 설계합니다.</p>
+                </article>
+                <article class="card">
+                  <h3>운영 기반</h3>
+                  <p>B2B/B2C 연결 구조, 발주 동기화, 품질 기준, 잔여 처리 로직이 환경 설계를 뒤에서 받쳐야 합니다.</p>
+                </article>
+                <article class="card">
+                  <h3>채널 번역</h3>
+                  <p>스마트스토어에서는 품종보다 상황, kg보다 1회 섭취 비용, 상품명보다 지불 명분이 먼저 보여야 합니다.</p>
+                </article>
+              </div>
+            </div>
+          </section>
+        </div>
+      </section>
+      <section class="slide tone-1" data-slide-index="2" data-chapter="0">
+        <div class="slide-shell">
+          <div class="slide-meta">
+            <span class="slide-tag">결론</span>
+            <strong>3 / 23</strong>
+          </div>
+          <section class="section">
+            <div class="section-shell">
+              <div class="section-head">
+                <div>
+                  <div class="kicker">Ops Backbone</div>
+                  <h2 class="title">운영은 메인 전략이 아니라, 세그먼트 오퍼가 무너지지 않게 만드는 백본이어야 합니다</h2>
+                  <div class="desc">이 제안서의 메인은 소비자 전략이지만, 그 전략이 실제로 굴러가려면 운영이 먼저 무너지지 않아야 합니다. 핵심은 가격 납득, 품질 기준, 가용 물량,
+                    주문 관리, 잔여 처리와 오퍼별 기준 분리의 연결입니다.</div>
+                </div>
+                <div class="pill">Allocation, Quality, Availability, Waste</div>
+              </div>
+              <div class="board" style="margin-top:16px">
+                <div class="chart">
+                  <h3>운영 과제와 사업 효과</h3>
+                  <table class="table" style="margin-top:16px">
+                    <thead>
+                      <tr>
+                        <th>운영 과제</th>
+                        <th>해결 방식</th>
+                        <th>사업 효과</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>가격 납득이 약하다</td>
+                        <td>시세, 등급, 분량, 포장 조건 기준으로 가격 이유를 설명한다</td>
+                        <td>고객은 비싸다가 아니라 왜 이 가격인지 이해할 수 있다</td>
+                      </tr>
+                      <tr>
+                        <td>품질 기준이 흔들린다</td>
+                        <td>입고 즉시 크기, 당도, 외관 기준으로 등급화하고 오퍼별 기준을 분리한다</td>
+                        <td>세그먼트마다 기대하는 품질 경험을 안정적으로 맞출 수 있다</td>
+                      </tr>
+                      <tr>
+                        <td>가용 물량이 불안정하다</td>
+                        <td>예약형, 일상형, 도매형 가용 수량을 먼저 분리하고 채널별 오픈 수량을 다르게 둔다</td>
+                        <td>품절과 과잉 판매를 줄이고 신뢰를 지킨다</td>
+                      </tr>
+                      <tr>
+                        <td>잔여와 규격 미스가 쌓인다</td>
+                        <td>규격 미스와 잔여 재고를 실속형, 가공용, 특가 번들로 즉시 재배치한다</td>
+                        <td>폐기율을 낮추고 일상형 오퍼 원가를 방어한다</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="chart">
+                  <h3>오퍼를 지키는 운영 원칙</h3>
+                  <div class="grid-2">
+                    <article class="card">
+                      <h3>재고 배정</h3>
+                      <p>예약형, 일상형, 도매형 재고를 먼저 분리해 어떤 세그먼트에 어떤 물량을 열지 미리 정해야 합니다.</p>
+                    </article>
+                    <article class="card">
+                      <h3>발주 동기화</h3>
+                      <p>입고 후 즉시 등급화하고, 예약/확보 물량을 먼저 차감한 뒤 실판매 가능 수량을 자동 반영해야 합니다.</p>
+                    </article>
+                    <article class="card">
+                      <h3>오퍼별 기준 분리</h3>
+                      <p>안부형은 도착 상태, 가족형은 소진 가능성, 아이 간식형은 분량과 편의가 우선이라 기준을 따로 가져가야 합니다.</p>
+                    </article>
+                    <article class="card">
+                      <h3>잔여 재고 처리</h3>
+                      <p>규격 미스와 잔여 재고는 실속형, 가공용, 특가 번들로 즉시 재배치해 폐기율과 가격 불안을 같이 낮춰야 합니다.</p>
+                    </article>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+      </section>
+      <section class="slide tone-2" data-slide-index="3" data-chapter="1">
+        <div class="slide-shell">
+          <div class="slide-meta">
+            <span class="slide-tag">시장</span>
+            <strong>4 / 23</strong>
+          </div>
+          <section class="section">
+            <div class="section-shell">
+              <div class="section-head">
+                <div>
+                  <div class="kicker">Market Reading</div>
+                  <h2 class="title">사람들은 과일 자체보다 지금 상황을 해결하는 환경에 돈을 냅니다</h2>
+                  <div class="desc">과일은 좋은 식품이지만, 결제는 품질만으로 일어나지 않습니다. 실제 결제는 지금 바로 먹기 쉬운가, 버리지 않는가, 실패하지 않는가,
+                    누군가를 챙기는 명분이 있는가에서 완성됩니다.</div>
+                </div>
+                <div class="pill">Context, Justification, Trust</div>
+              </div>
+              <div class="board">
+                <div class="chart">
+                  <h3>결제를 만드는 기본 축</h3>
+                  <p>지불 명분은 단일 품질 지표보다 소비 환경 요인이 더 크게 작동합니다.</p>
+                  <div class="bars">
+                    <div class="bar">
+                      <div>가격 납득</div>
+                      <div class="track">
+                        <div class="fill" style="width:92%">
+                        </div>
+                      </div>
+                      <div class="value">92</div>
+                    </div>
+                    <div class="bar">
+                      <div>섭취 편의</div>
+                      <div class="track">
+                        <div class="fill olive" style="width:88%">
+                        </div>
+                      </div>
+                      <div class="value">88</div>
+                    </div>
+                    <div class="bar">
+                      <div>실패 불안 감소</div>
+                      <div class="track">
+                        <div class="fill berry" style="width:84%">
+                        </div>
+                      </div>
+                      <div class="value">84</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="chart">
+                  <h3>실무 해석</h3>
+                  <p>실제 전환에서는 아래 4가지가 같이 설계돼야 합니다.</p>
+                  <div class="grid-2">
+                    <div class="card">
+                      <h3>상황 언어</h3>
+                      <p>아이 간식, 가족 아침, 안부 전달, 선물 이후 집용 전환</p>
+                    </div>
+                    <div class="card">
+                      <h3>명분 언어</h3>
+                      <p>건강, 편의, 돌봄, 안심, 루틴 관리</p>
+                    </div>
+                    <div class="card">
+                      <h3>오퍼 언어</h3>
+                      <p>소포장, 1회 섭취 비용, 바로 먹는 구성, 브리지 오퍼</p>
+                    </div>
+                    <div class="card">
+                      <h3>신뢰 언어</h3>
+                      <p>도착 상태, 보관 가이드, 조건부 보장, 후속 추천</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+      </section>
+      <section class="slide tone-2" data-slide-index="4" data-chapter="1">
+        <div class="slide-shell">
+          <div class="slide-meta">
+            <span class="slide-tag">시장</span>
+            <strong>5 / 23</strong>
+          </div>
+          <section class="section">
+            <div class="section-shell">
+              <div class="section-head">
+                <div>
+                  <div class="kicker">Market Friction</div>
+                  <h2 class="title">과일 소비를 줄인 직접 원인과 가속 요인은 가격, 생활 구조, 섭취 불편, 전통 수요 약화입니다</h2>
+                  <div class="desc">이 장은 소비 감소를 만든 직접 원인과 그 감소를 더 빠르게 만든 가속 요인을 한 번에 정리합니다. 과일 자체의 매력보다 가격 부담, 가구 구조 변화,
+                    먹는 불편, 전통 수요 약화와 대체재 증가가 실제 구매를 더 강하게 막고 있습니다.</div>
+                </div>
+                <div class="pill">Direct Cause + Acceleration</div>
+              </div>
+              <div class="board">
+                <div class="chart">
+                  <h3>직접 원인을 보여주는 통계 신호</h3>
+                  <p>KREI 요약과 기존 전략 문서 기준으로, 가격 압박과 생활 구조 변화는 이미 수치로 확인됩니다.</p>
+                  <div class="bars">
+                    <div class="bar">
+                      <div>가격 중요도</div>
+                      <div class="track">
+                        <div class="fill" style="width:30.5%">
+                        </div>
+                      </div>
+                      <div class="value">30.5</div>
+                    </div>
+                    <div class="bar">
+                      <div>1인 가구 비중</div>
+                      <div class="track">
+                        <div class="fill olive" style="width:35.5%">
+                        </div>
+                      </div>
+                      <div class="value">35.5</div>
+                    </div>
+                    <div class="bar">
+                      <div>맞벌이 가구 비중</div>
+                      <div class="track">
+                        <div class="fill berry" style="width:48.2%">
+                        </div>
+                      </div>
+                      <div class="value">48.2</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="chart">
+                  <h3>해석 포인트와 가속 요인</h3>
+                  <p>숫자는 가격과 생활 구조를 보여주고, 소비자 보이스와 시장 변화는 섭취 불편과 수요 약화를 보완합니다.</p>
+                  <div class="grid-3">
+                    <div class="card">
+                      <h3>가격 부담</h3>
+                      <p>구매 결정 요인에서 가격이 30.5%로 높게 나타납니다. 일상 소비에서는 `건강식`보다 `비싼 간식`처럼 느껴질 수 있습니다.</p>
+                    </div>
+                    <div class="card">
+                      <h3>생활 구조 변화</h3>
+                      <p>1인 가구는 2015년 27.2%에서 2023년 35.5%, 맞벌이는 44.2%에서 48.2%로 늘어 대용량·손질형 과일이 불리해졌습니다.</p>
+                    </div>
+                    <div class="card">
+                      <h3>섭취 불편</h3>
+                      <p>껍질, 씨, 손질, 보관, 무름, 음식물쓰레기 부담은 정량보다 소비자 보이스에서 더 직접적으로 반복됩니다.</p>
+                    </div>
+                    <div class="card">
+                      <h3>전통 수요 약화</h3>
+                      <p>차례 간소화와 명절 소비 변화로 사과·배 중심의 의례 수요가 약해지며 기존 시장 기반이 줄고 있습니다.</p>
+                    </div>
+                    <div class="card">
+                      <h3>대체재 증가</h3>
+                      <p>수입과일, 냉동과일, 컷팅과일, 디저트, 건강 간식이 모두 경쟁자가 되며 과일의 일상 우선순위를 낮춥니다.</p>
+                    </div>
+                    <div class="card">
+                      <h3>건강 인식 양면화</h3>
+                      <p>성인층에서는 당류, 다이어트, 혈당 부담 인식이 함께 커지며 과일의 건강 명분도 예전보다 약해졌습니다.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+          </section>
+        </div>
+      </section>
+      <section class="slide tone-2" data-slide-index="5" data-chapter="1">
+        <div class="slide-shell">
+          <div class="slide-meta">
+            <span class="slide-tag">시장</span>
+            <strong>6 / 23</strong>
+          </div>
+          <section class="section">
+            <div class="section-shell">
+              <div class="section-head">
+                <div>
+                  <div class="kicker">Market Response</div>
+                  <h2 class="title">해법은 1회 섭취 경험을 다시 짜고, 첫 섭취 성공과 다음 루틴을 함께 설계하는 것입니다</h2>
+                  <div class="desc">시장 문제의 해법은 과일을 더 세게 미는 것이 아니라 소비 마찰을 줄이고 반복 소비를 복원하는 것입니다. 그래서 가격과 용량, 메시지를 1회 섭취 기준으로 다시 짜고, 첫 섭취 성공과 후속 루틴까지 한 장 안에서 같이 설계해야 합니다.</div>
+                </div>
+                <div class="pill">Experience, First Success, Repeat</div>
+              </div>
+              <div class="board">
+                <div class="chart">
+                  <h3>첫 번째 해법은 가격 구조보다 1회 섭취 경험이 보이게 다시 짜는 것입니다</h3>
+                  <p>kg 가격이 아니라 먹는 장면이 먼저 보이는 구조로 바꿔야 진입 장벽이 내려갑니다.</p>
+                  <div class="grid-3">
+                    <div class="card">
+                      <h3>1회 섭취 비용 설계</h3>
+                      <p>kg 가격보다 간식 1번, 가족 1회, 안부 1회에 얼마인지가 먼저 보여야 합니다.</p>
+                    </div>
+                    <div class="card">
+                      <h3>소진 가능한 양</h3>
+                      <p>대용량보다 버리지 않고 끝까지 먹는 양, 냉장고에서 바로 꺼내는 구성이 우선입니다.</p>
+                    </div>
+                    <div class="card">
+                      <h3>상황별 메시지</h3>
+                      <p>아이 간식, 가족 루틴, 돌봄, 선물 후 전환처럼 먹는 이유로 팔아야 합니다.</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="chart">
+                  <h3>두 번째 해법은 첫 섭취 성공과 다음 섭취 루틴을 같이 설계하는 것입니다</h3>
+                  <p>첫 구매만 만들고 끝내면 시장은 복원되지 않습니다. 받아서 먹는 첫 경험과 다음 주문 이유가 붙어야 합니다.</p>
+                  <div class="grid-3">
+                    <div class="card">
+                      <h3>첫 섭취 성공</h3>
+                      <p>받고 나서 어떻게 보관하고 언제 먼저 먹는지까지 안내해야 처음 경험이 실패하지 않습니다.</p>
+                    </div>
+                    <div class="card">
+                      <h3>실패 감소 운영</h3>
+                      <p>무름, 파손, 맛 편차를 줄이는 품질 기준과 조건부 보장이 재구매 회복의 핵심입니다.</p>
+                    </div>
+                    <div class="card">
+                      <h3>후속 루틴 설계</h3>
+                      <p>선물 후 집용 추천, 아이 간식 리마인드, 가족 주간 보충처럼 다음 소비의 이유를 이어줘야 합니다.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+          </section>
+        </div>
+      </section>
+      <section class="slide tone-2" data-slide-index="6" data-chapter="1">
+        <div class="slide-shell">
+          <div class="slide-meta">
+            <span class="slide-tag">시장</span>
+            <strong>9 / 23</strong>
+          </div>
+          <section class="section">
+            <div class="section-shell">
+              <div class="section-head">
+                <div>
+                  <div class="kicker">Market to Segment</div>
+                  <h2 class="title">시장 신호는 4개 세그먼트와 상황형 제품 규칙으로 바로 번역돼야 합니다</h2>
+                  <div class="desc">가격, 보관, 손질, 실패 공포 때문에 과일 소비가 끊기고 있습니다. 중요한 것은 이 신호를 설명으로 끝내지 않고, 어느 세그먼트부터 어떤 제품 구조로 풀지 바로 연결하는 것입니다.</div>
+                </div>
+                <div class="pill">Friction, Segment, Product Rule</div>
+              </div>
+              <div class="board" style="margin-top:16px">
+                <div class="chart">
+                  <h3>소비를 끊는 직접 신호</h3>
+                  <p>리뷰 신호와 기존 내부 문서를 묶으면 시장 축소의 이유는 결국 보관, 실패, 손질, 가격으로 수렴합니다.</p>
+                  <div class="bars">
+                    <div class="bar">
+                      <div>보관/소진 불안</div>
+                      <div class="track">
+                        <div class="fill" style="width:92%">
+                        </div>
+                      </div>
+                      <div class="value">92</div>
+                    </div>
+                    <div class="bar">
+                      <div>품질/도착 실패 공포</div>
+                      <div class="track">
+                        <div class="fill berry" style="width:89%">
+                        </div>
+                      </div>
+                      <div class="value">89</div>
+                    </div>
+                    <div class="bar">
+                      <div>손질/먹는 불편</div>
+                      <div class="track">
+                        <div class="fill olive" style="width:85%">
+                        </div>
+                      </div>
+                      <div class="value">85</div>
+                    </div>
+                    <div class="bar">
+                      <div>받는 사람 반응 불안</div>
+                      <div class="track">
+                        <div class="fill" style="width:82%">
+                        </div>
+                      </div>
+                      <div class="value">82</div>
+                    </div>
+                    <div class="bar">
+                      <div>가격 납득 필요</div>
+                      <div class="track">
+                        <div class="fill olive" style="width:76%">
+                        </div>
+                      </div>
+                      <div class="value">76</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="chart">
+                  <h3>이 신호를 먼저 받아야 할 4개 세그먼트</h3>
+                  <p>4개를 모두 보되 실제 런칭은 가족 루틴형과 돌봄/안부형을 먼저 열고, 나머지는 확장과 브리지로 두는 편이 맞습니다.</p>
+                  <table class="table" style="margin-top:14px">
+                    <thead>
+                      <tr>
+                        <th>세그먼트</th>
+                        <th>역할</th>
+                        <th>먼저 보여줄 가치</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>가족 건강 루틴형</td>
+                        <td>1차 런칭</td>
+                        <td>버리지 않고 끝까지 먹는 주간 보충</td>
+                      </tr>
+                      <tr>
+                        <td>돌봄/안부형</td>
+                        <td>1차 런칭</td>
+                        <td>부담 없이 보내는 건강한 안부</td>
+                      </tr>
+                      <tr>
+                        <td>아이 간식 관리형</td>
+                        <td>2차 확장</td>
+                        <td>과자 대신 바로 먹는 과일 간식</td>
+                      </tr>
+                      <tr>
+                        <td>선물-전환형</td>
+                        <td>후속 브리지</td>
+                        <td>선물 만족 후 집용 버전 전환</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <div class="grid-4" style="margin-top:14px">
+                <article class="card">
+                  <h3>가족 루틴 규칙</h3>
+                  <p>`3일 소진`, `먹는 순서`, `주간 보충`이 보여야 일상 소비가 복원됩니다.</p>
+                </article>
+                <article class="card">
+                  <h3>아이 간식 규칙</h3>
+                  <p>`바로 꺼내 주는 분량`, `간식 1회 비용`, `리필` 문법이 반복을 만듭니다.</p>
+                </article>
+                <article class="card">
+                  <h3>안부형 규칙</h3>
+                  <p>`무손상 도착`, `받는 분 안심`, `부담 없는 배려 가격`이 첫 진입을 만듭니다.</p>
+                </article>
+                <article class="card">
+                  <h3>브리지 규칙</h3>
+                  <p>선물 구매 후 7~14일 안에 `집에서도 먹는 버전`을 제안해야 생활형 SKU로 넘어갑니다.</p>
+                </article>
+              </div>
+            </div>
+          </section>
+        </div>
+      </section>
+      <section class="slide tone-3" data-slide-index="7" data-chapter="2">
+        <div class="slide-shell">
+          <div class="slide-meta">
+            <span class="slide-tag">타겟</span>
+            <strong>10 / 23</strong>
+          </div>
+          <section class="section" id="target">
+            <div class="section-shell">
+              <div class="section-head">
+                <div>
+                  <div class="kicker">Primary Target</div>
+                  <h2 class="title">주구매자는 30~49세 여성이지만, 실제 실행 단위는 상황 기준 세그먼트입니다</h2>
+                  <div class="desc">모바일 장보기와 돌봄/선물 구매를 주도하는 고객층은 여전히 중요합니다. 다만 이들을 하나의 페르소나로 보기보다 아이 간식, 가족 건강, 안부 전달,
+                    선물 이후 전환처럼 다른 상황 단위로 나눠야 실행이 됩니다.</div>
+                </div>
+                <div class="pill">Buyer vs Consumption Segment</div>
+              </div>
+              <div class="board">
+                <article class="persona">
+                  <div class="persona-tag">Primary Persona</div>
+                  <h3>좋은 구매보다 좋은 섭취 결과를 만들고 싶다</h3>
+                  <p>아이 간식도 챙겨야 하고, 가족 건강도 관리해야 하고, 부모님 안부도 표현해야 합니다. 과일 품종을 깊게 알 필요보다 중요한 것은 지금 상황에서 실패 없이 먹히는 구성입니다.
+                    이 고객에게 필요한 것은 상품 수가 아니라 상황별로 맞는 환경을 바로 제안하는 서비스입니다.</p>
+                </article>
+                <div class="grid-2">
+                  <div class="card">
+                    <h3>Need</h3>
+                    <p>지금 상황에서 돈을 내도 아깝지 않은 과일 구성과 섭취 방식을 빠르게 알고 싶다.</p>
+                  </div>
+                  <div class="card">
+                    <h3>Fear</h3>
+                    <p>비싸게 샀는데 버리게 되거나, 아이가 안 먹거나, 선물과 안부가 애매해질까 봐 걱정된다.</p>
+                  </div>
+                  <div class="card">
+                    <h3>Trigger</h3>
+                    <p>분량, 보관, 도착 상태, 추천 이유, 후속 루틴이 명확하면 결제 확률이 올라간다.</p>
+                  </div>
+                  <div class="card">
+                    <h3>Message</h3>
+                    <p>아이가 먹는 간식, 버리지 않는 가족 과일, 부담 없는 안부, 선물에서 일상으로 이어지는 구성이라는 문장이 유효하다.</p>
+                  </div>
+                </div>
+              </div>
+          </section>
+        </div>
+      </section>
+      <section class="slide tone-3" data-slide-index="8" data-chapter="2">
+        <div class="slide-shell">
+          <div class="slide-meta">
+            <span class="slide-tag">타겟</span>
+            <strong>11 / 23</strong>
+          </div>
+          <section class="section">
+            <div class="section-shell">
+              <div class="section-head">
+                <div>
+                  <div class="kicker">Target Architecture</div>
+                  <h2 class="title">4개 세그먼트를 모두 보되, 런칭 역할은 2개 진입군과 2개 후속군으로 나눠야 합니다</h2>
+                  <div class="desc">이 전략은 한 세그먼트만 보는 것이 아니라 문제 강도가 높은 4개 세그먼트를 같이 봐야 합니다. 다만 실행은 동시에 열지 말고, 가족 루틴형과 돌봄/안부형을 1차 런칭군으로 두고 아이 간식형은 2차 반복 확장, 선물-전환형은 후속 CRM 브리지 역할로 두는 편이 맞습니다.</div>
+                </div>
+                <div class="pill">Launch Pair, Expansion, Bridge</div>
+              </div>
+              <table class="table" style="margin-top:16px">
+                <thead>
+                  <tr>
+                    <th>세그먼트</th>
+                    <th>역할</th>
+                    <th>핵심 메시지</th>
+                    <th>실행 조건</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>아이 간식 관리형</td>
+                    <td>반복 기반 확보</td>
+                    <td>과자 대신 바로 먹는 과일 간식</td>
+                    <td>소포장, 냉장 보관, 주간 리마인드</td>
+                  </tr>
+                  <tr>
+                    <td>가족 건강 루틴형</td>
+                    <td>핵심 확장</td>
+                    <td>버리지 않고 끝까지 먹는 가족 과일 루틴</td>
+                    <td>주간 세트, 섭취 순서, 반복 추천</td>
+                  </tr>
+                  <tr>
+                    <td>돌봄/안부형</td>
+                    <td>진입 Acquisition</td>
+                    <td>부담 없이 보내는 건강한 안부</td>
+                    <td>받는 사람 기준 추천, 메시지 카드, 도착 안심</td>
+                  </tr>
+                  <tr>
+                    <td>선물-전환형</td>
+                    <td>브리지 전환</td>
+                    <td>보내보고 좋았던 과일을 집에서도 먹는 구성</td>
+                    <td>7~14일 후속 메시지, 집용 SKU 연결</td>
+                  </tr>
+                </tbody>
+              </table>
+              <div class="desc" style="margin-top:16px">가장 단순하게 보면 <code>가족 건강 루틴형 + 돌봄/안부형 = 1차 런칭군</code>,
+                <code>아이 간식 관리형 = 2차 반복 확장군</code>, <code>선물-전환형 = 후속 브리지</code>입니다.
+                <code>1인 자기관리형</code>은 별도 실험 시장으로 분리해 검증하는 편이 맞습니다.
+              </div>
+            </div>
+          </section>
+        </div>
+      </section>
+      <section class="slide tone-4" data-slide-index="9" data-chapter="3">
+        <div class="slide-shell">
+          <div class="slide-meta">
+            <span class="slide-tag">차별화</span>
+            <strong>13 / 23</strong>
+          </div>
+          <section class="section">
+            <div class="section-shell">
+              <div class="section-head">
+                <div>
+                  <div class="kicker">Trust Content</div>
+                  <h2 class="title">신뢰는 설명이 아니라 시각화된 검수 과정에서 생깁니다</h2>
+                  <div class="desc">과일은 이번에도 맛있을까라는 불안을 늘 동반합니다. 그래서 상세페이지는 상품 소개가 아니라 신뢰를 시각화하는 화면이 되어야 합니다.</div>
+                </div>
+                <div class="pill">Brix, Origin, Inspection</div>
+              </div>
+              <div class="grid-3">
+                <article class="card">
+                  <h3>당도/품질 카드</h3>
+                  <p>브릭스 수치, 식감, 용도, 산지, 선별 기준을 상세페이지 상단에서 바로 보여줍니다.</p>
+                </article>
+                <article class="card">
+                  <h3>산지/경매장 스토리</h3>
+                  <p>경매 현장, 산지, 선별 장면을 숏폼이나 짧은 이미지 시퀀스로 보여줘 직송의 전문성을 체감하게 합니다.</p>
+                </article>
+                <article class="card">
+                  <h3>3단계 선별 시그니처</h3>
+                  <p>크기, 당도, 외관의 3단계 검수 과정을 브랜드 표준 매뉴얼처럼 반복 노출합니다.</p>
+                </article>
+              </div>
+            </div>
+          </section>
+        </div>
+      </section>
+      <section class="slide tone-4" data-slide-index="10" data-chapter="3">
+        <div class="slide-shell">
+          <div class="slide-meta">
+            <span class="slide-tag">차별화</span>
+            <strong>14 / 23</strong>
+          </div>
+          <section class="section" id="benchmark">
+            <div class="section-shell">
+              <div class="section-head">
+                <div>
+                  <div class="kicker">Benchmark</div>
+                  <h2 class="title">기존 강자들이 선물과 프리미엄 언어가 강하다면, 우리는 일상 소비 복원 언어로 달라야 합니다</h2>
+                  <div class="desc">강자들은 당도, 선별, 선물 경험에서 이미 익숙한 문법을 갖고 있습니다. 우리가 가져갈 축은 더 좋은 선물이 아니라 더 자주, 더 부담 없이, 더
+                    실패 없이 먹게 만드는 환경입니다.</div>
+                </div>
+                <div class="pill">당도 경쟁이 아니라 섭취 환경 경쟁</div>
+              </div>
+              <div class="compare">
+                <div class="compare-row">
+                  <div class="compare-label">핵심 언어</div>
+                  <div class="compare-box on">당도, 선별, 보자기, 프리미엄 선물 경험</div>
+                  <div class="compare-box us">상황, 분량, 안심 근거, 설명 가능한 섭취 환경</div>
+                </div>
+                <div class="compare-row">
+                  <div class="compare-label">고객 질문</div>
+                  <div class="compare-box on">얼마나 당도 높은가?</div>
+                  <div class="compare-box us">지금 이 상황에서 어떤 분량과 어떤 이유로 먹게 만들 것인가?</div>
+                </div>
+                <div class="compare-row">
+                  <div class="compare-label">전환 장치</div>
+                  <div class="compare-box on">보자기, 구성, 후기, 중량, 프리미엄 패키지</div>
+                  <div class="compare-box us">상황별 랜딩, 1회 섭취 비용, 보관 가이드, 도착 상태와 후기 근거</div>
+                </div>
+                <div class="compare-row">
+                  <div class="compare-label">확장 방향</div>
+                  <div class="compare-box on">프리미엄 선물과 브랜드 경험</div>
+                  <div class="compare-box us">돌봄 + 가족 루틴 + 아이 간식 + 선물 이후 전환 구조</div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+      </section>
+      <section class="slide tone-4" data-slide-index="11" data-chapter="3">
+        <div class="slide-shell">
+          <div class="slide-meta">
+            <span class="slide-tag">차별화</span>
+            <strong>15 / 23</strong>
+          </div>
+          <section class="section">
+            <div class="section-shell">
+              <div class="section-head">
+                <div>
+                  <div class="kicker">Segment Offer Map</div>
+                  <h2 class="title">세그먼트별로 진입 오퍼, 반복 오퍼, 브리지 오퍼가 분리돼야 합니다</h2>
+                  <div class="desc">핵심 전략은 슬로건이 아닙니다. 각 세그먼트의 마찰을 어떤 오퍼와 어떤 가격 문법으로 풀지 본문에서 바로 보여줘야 합니다.</div>
+                </div>
+              </div>
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>세그먼트</th>
+                    <th>진입 오퍼</th>
+                    <th>반복/브리지</th>
+                    <th>가격 문법</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>가족 건강 루틴형</td>
+                    <td>가족 건강 시작 세트</td>
+                    <td>주간 가족 과일 박스 / 아침+간식 혼합 구성</td>
+                    <td>kg보다 `버리지 않는 가족 3일분`으로 설명</td>
+                  </tr>
+                  <tr>
+                    <td>돌봄/안부형</td>
+                    <td>부모님 안부 과일 세트</td>
+                    <td>월 1회 안부 제안 / 가벼운 안부형 세트</td>
+                    <td>`부담 없는 배려 가격`으로 설명</td>
+                  </tr>
+                  <tr>
+                    <td>아이 간식 관리형</td>
+                    <td>아이가 잘 먹는 간식 스타터</td>
+                    <td>주 2~3회 간식 구성 / 학교·학원 전 간식 세트</td>
+                    <td>`간식 1회 비용`으로 설명</td>
+                  </tr>
+                  <tr>
+                    <td>선물-전환형</td>
+                    <td>선물 만족 직후 집용 전환 오퍼</td>
+                    <td>7~14일 후속 메시지 / 같은 계열 집용 버전</td>
+                    <td>`보내보고 괜찮았던 과일의 집용 버전`으로 설명</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+        </div>
+      </section>
+      <section class="slide tone-4" data-slide-index="12" data-chapter="3">
+        <div class="slide-shell">
+          <div class="slide-meta">
+            <span class="slide-tag">차별화</span>
+            <strong>17 / 23</strong>
+          </div>
+          <section class="section">
+            <div class="section-shell">
+              <div class="section-head">
+                <div>
+                  <div class="kicker">Secondary Route</div>
+                  <h2 class="title">돌봄과 선물전환은 메인 GTM이 아니라, 일상 소비 복원을 보조하는 진입·브리지 장치로 써야 합니다</h2>
+                  <div class="desc">돌봄과 선물은 분명 유효한 진입 경로입니다. 다만 이 제안서에서 이 둘은 메인 엔진이 아니라 가족 루틴과 아이 간식형을 돕는 보조 축이어야 하며, 결국 집에서 반복 소비하는 구조로 연결돼야 의미가 있습니다.</div>
+                </div>
+                <div class="pill">Care Entry, Gift Bridge, Home-use Conversion</div>
+              </div>
+              <div class="grid-2">
+                <div class="card">
+                  <h3>돌봄형의 역할</h3>
+                  <p>돌봄/안부형은 메인 매출원이 아니라 초기 acquisition 축입니다. 받는 분 안심과 실용성으로 첫 진입을 만드는 역할에 집중해야 합니다.</p>
+                </div>
+                <div class="card">
+                  <h3>선물전환형의 역할</h3>
+                  <p>선물-전환형은 독립 시장보다 CRM 브리지입니다. 선물 만족 경험을 생활형 SKU로 넘겨주는 데 초점을 맞춰야 합니다.</p>
+                </div>
+                <div class="card">
+                  <h3>전환 타이밍</h3>
+                  <p>배송 완료 직후보다 7~14일 사이, 만족 경험이 남아 있고 재구매 부담이 낮은 시점에 후속 메시지를 보내는 편이 맞습니다.</p>
+                </div>
+                <div class="card">
+                  <h3>집용 버전 제안</h3>
+                  <p>`보내보니 괜찮았던 그 과일의 집에서 먹는 버전`으로 연결해야 전환 저항이 낮고, 후속 CTR과 집용 SKU 진입률로 브리지 성과를 확인할 수 있습니다.</p>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+      </section>
+      <section class="slide tone-5" data-slide-index="13" data-chapter="4">
+        <div class="slide-shell">
+          <div class="slide-meta">
+            <span class="slide-tag">UX</span>
+            <strong>18 / 23</strong>
+          </div>
+          <section class="section">
+            <div class="section-shell">
+              <div class="section-head">
+                <div>
+                  <div class="kicker">Product Architecture</div>
+                  <h2 class="title">제품 목록은 품종 카탈로그가 아니라, 상황별로 먹게 만드는 SKU 구조로 보여야 합니다</h2>
+                  <div class="desc">`일반 과일 판매`처럼 보이는 순간 가격 비교로 들어갑니다. 그래서 제품 목록은 품종 나열보다 상황형 제품군, 소진 단위, 포장 방식, 후속 루틴이 같이 보이는 구조여야 합니다.</div>
+                </div>
+                <div class="pill">Launch SKU, Expansion SKU, Bridge SKU</div>
+              </div>
+              <div class="board">
+                <div class="chart">
+                  <h3>1차 런칭 제품 5개</h3>
+                  <table class="table" style="margin-top:16px">
+                    <thead>
+                      <tr>
+                        <th>제품명</th>
+                        <th>세그먼트</th>
+                        <th>구성 예시</th>
+                        <th>용량/포장</th>
+                        <th>핵심 가치</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>가족 3일 과일 박스</td>
+                        <td>가족 루틴형</td>
+                        <td>사과 + 감귤 + 키위</td>
+                        <td>1.5~2.0kg / 3일 소진형</td>
+                        <td>버리지 않고 끝까지 먹는 루틴</td>
+                      </tr>
+                      <tr>
+                        <td>아침+간식 혼합 박스</td>
+                        <td>가족 루틴형</td>
+                        <td>사과 + 감귤 + 간식용 품목</td>
+                        <td>1.8~2.2kg / 아침용·간식용 분리</td>
+                        <td>먹는 장면이 바로 보이는 구성</td>
+                      </tr>
+                      <tr>
+                        <td>주간 가족 보충 박스</td>
+                        <td>가족 루틴형</td>
+                        <td>사과 + 배 + 감귤</td>
+                        <td>2.5~3.0kg / 주간 보충형</td>
+                        <td>반복 구매보다 반복 섭취 리듬</td>
+                      </tr>
+                      <tr>
+                        <td>부모님 안부 과일 세트</td>
+                        <td>돌봄/안부형</td>
+                        <td>사과 + 배 + 감귤</td>
+                        <td>1.8~2.5kg / 단정한 안부형 포장</td>
+                        <td>부담 없는 배려와 도착 안심</td>
+                      </tr>
+                      <tr>
+                        <td>가벼운 안부 세트</td>
+                        <td>돌봄/안부형</td>
+                        <td>사과 + 감귤 또는 배 + 키위</td>
+                        <td>1.5~2.0kg / 메시지 카드 동봉</td>
+                        <td>과한 선물보다 실용적 안부</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="chart">
+                  <h3>후속 제품 구조</h3>
+                  <div class="grid-2">
+                    <article class="card">
+                      <h3>2차 확장군</h3>
+                      <p>아이 간식 스타터, 학원 전 간식 박스, 아이 간식 리필팩처럼 첫 실패 체감이 큰 상품은 운영 안정화 이후 붙입니다.</p>
+                    </article>
+                    <article class="card">
+                      <h3>브리지 SKU</h3>
+                      <p>선물 후 집용 전환 박스는 독립 카테고리가 아니라 후속 CRM과 연결되는 브리지 상품으로 둡니다.</p>
+                    </article>
+                    <article class="card">
+                      <h3>후순위 실험군</h3>
+                      <p>프리미엄 소량 박스, 시즌 한정 박스는 화제성은 있지만 초기 메인 SKU로 두면 전략이 다시 프리미엄 판매로 흐를 수 있습니다.</p>
+                    </article>
+                    <article class="card">
+                      <h3>공통 제품 문법</h3>
+                      <p>모든 상품은 `상황 이름`, `소진 단위`, `보관/손질/섭취 가이드`, `후속 루틴`이 같이 보이게 설계해야 합니다.</p>
+                    </article>
+                  </div>
+                </div>
+              </div>
+          </section>
+        </div>
+      </section>
+      <section class="slide tone-5" data-slide-index="14" data-chapter="4">
+        <div class="slide-shell">
+          <div class="slide-meta">
+            <span class="slide-tag">UX</span>
+            <strong>20 / 23</strong>
+          </div>
+          <section class="section">
+            <div class="section-shell">
+              <div class="section-head">
+                <div>
+                  <div class="kicker">Screen UX Strategy</div>
+                  <h2 class="title">UX는 보기 좋은 진열이 아니라, 문제별 기능 묶음으로 구현돼야 합니다</h2>
+                  <div class="desc">이 제안서가 풀려는 문제는 가격 비교, 보관 불안, 손질 불편, 실패 공포, 반복 단절입니다. 그래서 UX도 상품 나열이 아니라 각 문제를 줄이는 기능을 화면과 구매 후 흐름에 직접 심는 방식으로 설계해야 합니다.</div>
+                </div>
+                <div class="pill">Problem, Feature, Better Idea</div>
+              </div>
+              <div class="board">
+                <div class="chart">
+                  <h3>우선 구현할 핵심 기능</h3>
+                  <p>`상황 선택 -> 상품 이해 -> 첫 섭취 성공 -> 다음 주문`의 마찰을 줄이는 기능부터 붙여야 합니다.</p>
+                  <table class="table" style="margin-top:16px">
+                    <thead>
+                      <tr>
+                        <th>문제</th>
+                        <th>구현 기능</th>
+                        <th>해결 방식</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>무엇을 사야 할지 모르겠음</td>
+                        <td>상황 선택 홈</td>
+                        <td>`가족 루틴 / 아이 간식 / 안부 보내기`로 첫 진입을 좁힙니다.</td>
+                      </tr>
+                      <tr>
+                        <td>가격이 비싸 보임</td>
+                        <td>섭취 단위 가격 표기</td>
+                        <td>`kg` 대신 `3일분`, `간식 5회`, `안부 1회`로 번역합니다.</td>
+                      </tr>
+                      <tr>
+                        <td>버릴까 걱정됨</td>
+                        <td>보관 카드 + 소진 캘린더</td>
+                        <td>`먼저 먹는 순서`, `보관 일수`, `이번 주 소진 리듬`을 보여줍니다.</td>
+                      </tr>
+                      <tr>
+                        <td>어떻게 먹어야 할지 헷갈림</td>
+                        <td>과일별 보관/손질/섭취 가이드</td>
+                        <td>`실온/냉장`, `껍질/세척`, `밥 전후 추천 시점`까지 상세와 동봉 카드에 같이 보여줍니다.</td>
+                      </tr>
+                      <tr>
+                        <td>받아보면 실패할까 불안</td>
+                        <td>검수 시각화 + 즉시 보상 CTA</td>
+                        <td>검수 기준과 도착 이슈 대응 동선을 상세 상단에 노출합니다.</td>
+                      </tr>
+                      <tr>
+                        <td>한 번 사고 끝남</td>
+                        <td>리필 / 집용 브리지 메시지</td>
+                        <td>배송 후 `다음 보충 시점`, `집에서도 먹는 버전`을 제안합니다.</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="chart">
+                  <h3>MVP 이후 확장 아이디어</h3>
+                  <p>아래 기능은 첫 구매 전환보다 `섭취 유지`와 `반복 루틴`을 강화하는 Post-MVP 레이어입니다.</p>
+                  <div class="grid-2">
+                    <article class="card">
+                      <h3>1분 스타터 추천</h3>
+                      <p>가구 수, 아이 유무, 보내는 대상만 고르면 첫 SKU를 좁혀주는 초간단 추천 기능입니다.</p>
+                    </article>
+                    <article class="card">
+                      <h3>냉장고 모드</h3>
+                      <p>주문 후 `무엇부터 먼저 먹을지`를 날짜 순서대로 보여주는 가정용 보관 안내 기능입니다.</p>
+                    </article>
+                    <article class="card">
+                      <h3>섭취 리마인드 캘린더</h3>
+                      <p>`월수금 간식`, `주말 가족 아침`처럼 먹는 타이밍 자체를 리마인드하는 기능입니다.</p>
+                    </article>
+                    <article class="card">
+                      <h3>과일별 먹는 법 라이브러리</h3>
+                      <p>과일마다 `어떻게 씻고`, `어떻게 보관하고`, `언제 먹으면 좋은지`를 짧은 카드와 숏폼으로 축적하는 콘텐츠 레이어입니다.</p>
+                    </article>
+                    <article class="card">
+                      <h3>아이 섭취 가이드</h3>
+                      <p>나이대별 권장량을 강하게 처방하기보다 `이 나이대는 간식 1회에 이 정도가 적당`, `이 과일은 이런 상황에 잘 먹는다`처럼 가벼운 섭취 코칭을 제공합니다.</p>
+                    </article>
+                    <article class="card">
+                      <h3>1분 실패 복구 플로우</h3>
+                      <p>사진 업로드 후 재발송/환불까지 바로 연결해 신선식품의 불안과 CS 마찰을 줄입니다.</p>
+                    </article>
+                  </div>
+                </div>
+              </div>
+          </section>
+        </div>
+      </section>
+      <section class="slide tone-6" data-slide-index="15" data-chapter="5">
+        <div class="slide-shell">
+          <div class="slide-meta">
+            <span class="slide-tag">검증</span>
+            <strong>21 / 23</strong>
+          </div>
+          <section class="section">
+            <div class="section-shell">
+              <div class="section-head">
+                <div>
+                  <div class="kicker">Trust and KPI</div>
+                  <h2 class="title">신뢰는 첫 섭취 성공과 세그먼트별 판정 지표가 숫자로 관리될 때 완성됩니다</h2>
+                  <div class="desc">과일 커머스에서 고객은 완벽을 기대하지 않습니다. 대신 문제가 생겼을 때 얼마나 빠르게 복구되는지, 그리고 첫 구매가 실제 섭취와 다음 소비로
+                    이어졌는지를 봅니다.</div>
+                </div>
+                <div class="pill">SLA, Leading KPI, Segment Windows</div>
+              </div>
+              <div class="board">
+                <div class="chart">
+                  <h3>세그먼트별 핵심 판정 지표</h3>
+                  <p>각 세그먼트는 같은 재구매율로 보면 안 되고, 첫 성공 정의와 반복 창이 다릅니다.</p>
+                  <table class="table" style="margin-top:16px">
+                    <thead>
+                      <tr>
+                        <th>세그먼트</th>
+                        <th>1차 성공 정의</th>
+                        <th>반복 창</th>
+                        <th>핵심 KPI</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>아이 간식 관리형</td>
+                        <td>첫 구매 후 아이 반응이 긍정적이고 보관/섭취 불편 클레임이 없음</td>
+                        <td>21일</td>
+                        <td>21일 재구매율, 후기 중 `아이가 잘 먹는다` 언급 비율</td>
+                      </tr>
+                      <tr>
+                        <td>가족 건강 루틴형</td>
+                        <td>첫 구매 후 7일 내 소진 가능성과 버리지 않았다는 신호 확보</td>
+                        <td>30일</td>
+                        <td>30일 재구매율, 소진 만족 응답, 평균 주문 간격</td>
+                      </tr>
+                      <tr>
+                        <td>돌봄/안부형</td>
+                        <td>도착 만족과 받는 사람 반응이 확인됨</td>
+                        <td>45일</td>
+                        <td>도착 이슈율, 메시지 카드 사용률, 45일 재구매율</td>
+                      </tr>
+                      <tr>
+                        <td>선물-전환형</td>
+                        <td>후속 메시지 클릭 후 집용 SKU 진입이 발생</td>
+                        <td>7~14일</td>
+                        <td>후속 CTR, 집용 SKU 진입률, 30일 전환율</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="chart">
+                  <h3>운영 신뢰 가드레일</h3>
+                  <p>아래 숫자는 초기에 반드시 대시보드로 붙여야 하는 선행 지표입니다.</p>
+                  <div class="grid-2">
+                    <article class="card">
+                      <h3>SLA</h3>
+                      <p>파손/무름은 24시간 내 1차 응답, 48시간 내 보상 방향 확정이 필요합니다.</p>
+                    </article>
+                    <article class="card">
+                      <h3>도착 이슈율</h3>
+                      <p>선물과 돌봄형은 도착 이슈율이 1%를 넘기기 시작하면 메시지보다 운영을 먼저 멈춰야 합니다.</p>
+                    </article>
+                    <article class="card">
+                      <h3>리뷰 품질</h3>
+                      <p>`맛있다`보다 `잘 먹었다`, `버리지 않았다`, `받은 분이 좋아했다` 같은 후기 비율을 따로 봐야 합니다.</p>
+                    </article>
+                    <article class="card">
+                      <h3>중단 신호</h3>
+                      <p>첫 구매 전환은 나오는데 반복 창 안 재구매가 안 나오면, 유입 확대보다 오퍼와 루틴 설계를 다시 봐야 합니다.</p>
+                    </article>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+      </section>
+      <section class="slide tone-6" data-slide-index="16" data-chapter="5">
+        <div class="slide-shell">
+          <div class="slide-meta">
+            <span class="slide-tag">검증</span>
+            <strong>22 / 23</strong>
+          </div>
+          <section class="section">
+            <div class="section-shell">
+              <div class="section-head">
+                <div>
+                  <div class="kicker">Business Model</div>
+                  <h2 class="title">사업성 검증은 감이 아니라 세그먼트별 손익 가드레일로 먼저 끊어야 합니다</h2>
+                  <div class="desc">도매 기반의 장점은 고객에게는 신선함이고 사업자에게는 마진입니다. 하지만 초기 실행은 할인보다 손익 기준을 먼저 세우고, 그 기준 안에서만 오퍼와 후속
+                    전환을 늘려야 합니다.</div>
+                </div>
+                <div class="pill">Contribution, CAC, Waste, Compensation</div>
+              </div>
+              <div class="board">
+                <div class="chart">
+                  <h3>초기 손익 가드레일</h3>
+                  <p>런칭 전에는 오퍼별로 아래 4개 숫자가 계산돼 있어야 합니다.</p>
+                  <table class="table" style="margin-top:16px">
+                    <thead>
+                      <tr>
+                        <th>검증 항목</th>
+                        <th>초기 판정 기준</th>
+                        <th>왜 중요한가</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>공헌이익</td>
+                        <td>배송/포장/보상 반영 후 오퍼별 공헌이익이 플러스</td>
+                        <td>첫 주문이 적자면 반복 전환이 나와도 운영이 흔들립니다.</td>
+                      </tr>
+                      <tr>
+                        <td>CAC 회수</td>
+                        <td>30일 내 예상 공헌이익 범위 안에서 회수 가능</td>
+                        <td>광고로 진입을 만들더라도 2차 주문 전 회수 가능성이 보여야 합니다.</td>
+                      </tr>
+                      <tr>
+                        <td>폐기율</td>
+                        <td>세그먼트 오퍼 기준 폐기율이 구조적으로 내려가는 SKU 조합</td>
+                        <td>대용량이 남는 순간 환경 설계 전략이 손익에서 무너집니다.</td>
+                      </tr>
+                      <tr>
+                        <td>보상률</td>
+                        <td>도착/품질 보상률이 이익을 잠식하지 않는 수준으로 관리</td>
+                        <td>신뢰를 만들기 위한 보상 정책이 사업성까지 무너뜨리면 지속 불가합니다.</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="chart">
+                  <h3>손익을 지키는 운영 원칙</h3>
+                  <p>도매 우위는 아래 4개 원칙 안에서만 써야 합니다.</p>
+                  <div class="grid-2">
+                    <article class="card">
+                      <h3>도매 우위의 사용처</h3>
+                      <p>가격 경쟁보다 소분, 보관, 검수, 후속 추천에 먼저 투자해야 1회 섭취 비용이 납득 가능한 상품이 됩니다.</p>
+                    </article>
+                    <article class="card">
+                      <h3>브리지 구조</h3>
+                      <p>돌봄과 선물은 진입을 만들고, 가족 루틴과 아이 간식은 반복구매를 키웁니다. B2B는 물량 안정화와 원가 방어 역할을 맡습니다.</p>
+                    </article>
+                    <article class="card">
+                      <h3>SKU 컷 기준</h3>
+                      <p>전환은 나오지만 폐기율과 보상률이 같이 높으면 승자 SKU가 아니라 바로 제외 후보로 봐야 합니다.</p>
+                    </article>
+                    <article class="card">
+                      <h3>확장 기준</h3>
+                      <p>한 세그먼트에서 전환, 재구매, 손익 3개가 동시에 맞을 때만 채널 확장과 광고 증액을 진행해야 합니다.</p>
+                    </article>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+      </section>
+      <section class="slide tone-7" data-slide-index="17" data-chapter="6">
+        <div class="slide-shell">
+          <div class="slide-meta">
+            <span class="slide-tag">실행</span>
+            <strong>27 / 23</strong>
+          </div>
+          <section class="section">
+            <div class="section-shell">
+              <div class="section-head">
+                <div>
+                  <div class="kicker">First 3 Experiments</div>
+                  <h2 class="title">우선순위 있는 실행은 첫 3개 실험을 고정하고, 통과 기준까지 같이 두는 것에서 시작합니다</h2>
+                  <div class="desc">실행은 4개 세그먼트를 동시에 여는 것이 아니라, 가족 루틴형과 돌봄/안부형을 먼저 런칭하고 아이 간식형과 선물-전환형은 후속 확장으로 두는 방식이어야 합니다. 그래서 마지막 장은 우선순위 있는 첫 3개 실험과 판정 기준으로 닫아야 합니다.</div>
+                </div>
+                <div class="pill">Hypothesis, Variant, KPI, Kill Rule</div>
+              </div>
+              <div class="board">
+                <div class="chart">
+                  <h3>첫 3개 실험</h3>
+                  <p>초기 런칭은 1순위 가족 루틴형, 2순위 돌봄/안부형, 3순위 선물-전환형 순서로 검증하는 편이 맞습니다.</p>
+                  <table class="table" style="margin-top:16px">
+                    <thead>
+                      <tr>
+                        <th>우선순위</th>
+                        <th>실험</th>
+                        <th>가설</th>
+                        <th>비교안</th>
+                        <th>성공 기준</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>1</td>
+                        <td>가족 루틴 랜딩 A/B</td>
+                        <td>품종 중심 랜딩보다 `버리지 않는 가족 3일 과일 루틴` 랜딩이 상세 진입과 장바구니 진입을 더 만든다</td>
+                        <td>`고당도 프리미엄 과일` vs `버리지 않는 가족 3일 루틴`</td>
+                        <td>CTR, 상세 진입률, 장바구니 진입률 우위</td>
+                      </tr>
+                      <tr>
+                        <td>2</td>
+                        <td>안부형 오퍼 문법 테스트</td>
+                        <td>화려한 선물 문법보다 `부담 없는 배려 가격`과 `받는 분 안심` 문구가 구매 저항을 더 낮춘다</td>
+                        <td>`프리미엄 선물세트` vs `부담 없이 보내는 안부 과일`</td>
+                        <td>장바구니 전환율, 결제 전환율, 이탈률 개선</td>
+                      </tr>
+                      <tr>
+                        <td>3</td>
+                        <td>선물 후 집용 브리지 테스트</td>
+                        <td>선물 구매 후 7~14일 내 `집에서도 먹는 버전` 제안이 일상 SKU 진입을 만든다</td>
+                        <td>`만족하셨다면 다시 주문` vs `집에서도 먹는 버전 제안`</td>
+                        <td>후속 CTR, 집용 SKU 진입률, 30일 전환율 우위</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="chart">
+                  <h3>판정과 중단 기준</h3>
+                  <p>실험은 돌리는 것보다 언제 통과시키고 언제 멈출지 미리 정해두는 편이 더 중요합니다.</p>
+                  <div class="grid-2">
+                    <article class="card">
+                      <h3>통과</h3>
+                      <p>전환, 반복, 손익 중 최소 2개가 개선되고 나머지 1개가 악화되지 않으면 다음 단계로 확장합니다.</p>
+                    </article>
+                    <article class="card">
+                      <h3>조건부 유지</h3>
+                      <p>첫 구매 전환은 개선되지만 반복이나 손익이 약하면 유입 확대 없이 오퍼와 메시지만 다시 조정합니다.</p>
+                    </article>
+                    <article class="card">
+                      <h3>중단</h3>
+                      <p>도착 이슈율 상승, 보상률 급증, 반복 창 내 재구매 부재가 동시에 보이면 해당 조합은 바로 중단합니다.</p>
+                    </article>
+                    <article class="card">
+                      <h3>즉시 보강</h3>
+                      <p>랜딩 A/B, 오퍼별 손익표, 후속 메시지 캘린더, 운영 SOP를 같은 시트에서 같이 보게 만들어야 합니다.</p>
+                    </article>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+      </section>
+      <section class="slide tone-7" data-slide-index="18" data-chapter="6">
+        <div class="slide-shell">
+          <div class="slide-meta">
+            <span class="slide-tag">수익성</span>
+            <strong>19 / 23</strong>
+          </div>
+          <section class="section">
+            <div class="section-shell">
+              <div class="section-head">
+                <div>
+                  <div class="kicker">SKU Profitability</div>
+                  <h2 class="title">SKU별 수익성 분석 - 선물형과 일상형의 공헌이익 구조</h2>
+                  <div class="desc">추상적 전략을 구체적 수익 모델로 검증합니다. 선물형 SKU는 28%+ 마진율로 고객단가 전략을 뒷받침하고, 일상형은 합배송 구조에서 재구매 유도 역할을 맡습니다.</div>
+                </div>
+                <div class="pill">28.7% Margin on Gift SKUs</div>
+              </div>
+              <div class="board">
+                <div class="chart">
+                  <h3>선물형 SKU 수익성 (고마진)</h3>
+                  <table class="table" style="margin-top:16px">
+                    <thead>
+                      <tr>
+                        <th>항목</th>
+                        <th>샤인머스캣 2kg</th>
+                        <th>사과·배 혼합 3kg</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>판매가</td>
+                        <td><strong>89,000원</strong></td>
+                        <td><strong>75,000원</strong></td>
+                      </tr>
+                      <tr>
+                        <td>원가 (산지 직거래)</td>
+                        <td>45,000원</td>
+                        <td>38,000원</td>
+                      </tr>
+                      <tr>
+                        <td>포장재 (고급)</td>
+                        <td>7,000원</td>
+                        <td>5,500원</td>
+                      </tr>
+                      <tr>
+                        <td>배송비</td>
+                        <td>4,500원</td>
+                        <td>4,500원</td>
+                      </tr>
+                      <tr>
+                        <td>보상비용 (10% 이슈율)</td>
+                        <td>2,500원</td>
+                        <td>2,000원</td>
+                      </tr>
+                      <tr>
+                        <td>플랫폼 수수료 (5%)</td>
+                        <td>4,450원</td>
+                        <td>3,750원</td>
+                      </tr>
+                      <tr style="background: rgba(203, 91, 44, 0.1)">
+                        <td><strong>공헌이익</strong></td>
+                        <td><strong>25,550원 (28.7%)</strong></td>
+                        <td><strong>21,250원 (28.3%)</strong></td>
+                      </tr>
+                      <tr>
+                        <td>손익분기 주문량</td>
+                        <td>120건/월</td>
+                        <td>140건/월</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="chart">
+                  <h3>일상형 SKU 수익성 (재구매 유도)</h3>
+                  <table class="table" style="margin-top:16px">
+                    <thead>
+                      <tr>
+                        <th>항목</th>
+                        <th>가족 사과 5kg</th>
+                        <th>방울토마토 1kg</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>판매가</td>
+                        <td><strong>35,000원</strong></td>
+                        <td><strong>18,000원</strong></td>
+                      </tr>
+                      <tr>
+                        <td>원가</td>
+                        <td>18,000원</td>
+                        <td>9,000원</td>
+                      </tr>
+                      <tr>
+                        <td>포장재 (표준)</td>
+                        <td>1,500원</td>
+                        <td>800원</td>
+                      </tr>
+                      <tr>
+                        <td>배송비</td>
+                        <td>4,500원</td>
+                        <td>4,500원</td>
+                      </tr>
+                      <tr>
+                        <td>보상비용</td>
+                        <td>1,200원</td>
+                        <td>600원</td>
+                      </tr>
+                      <tr>
+                        <td>플랫폼 수수료 (5%)</td>
+                        <td>1,750원</td>
+                        <td>900원</td>
+                      </tr>
+                      <tr style="background: rgba(85, 101, 72, 0.1)">
+                        <td><strong>공헌이익</strong></td>
+                        <td><strong>8,050원 (23.0%)</strong></td>
+                        <td><strong>3,200원 (17.8%)</strong></td>
+                      </tr>
+                      <tr>
+                        <td>전략적 역할</td>
+                        <td>재구매 유도 + 리뷰</td>
+                        <td>합배송 유도 상품</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <div style="margin-top:24px; padding:16px; background:rgba(203,91,44,0.08); border-radius:12px">
+                <p style="font-size:13px; line-height:1.6; margin:0"><strong>핵심 시사점:</strong> 선물형 28%+ 고마진으로 초기 고정비 회수 가능. 일상형은 단독 판매 시 적자이나 합배송/정기구독 모델로 재구매율 확보하는 전략적 SKU로 설계됨.</p>
+              </div>
+            </div>
+          </section>
+        </div>
+      </section>
+      <section class="slide tone-7" data-slide-index="19" data-chapter="6">
+        <div class="slide-shell">
+          <div class="slide-meta">
+            <span class="slide-tag">재무</span>
+            <strong>20 / 23</strong>
+          </div>
+          <section class="section">
+            <div class="section-shell">
+              <div class="section-head">
+                <div>
+                  <div class="kicker">Financial Planning</div>
+                  <h2 class="title">재무 계획 - 초기 자본 7,555만원과 7개월 흑자 전환 로드맵</h2>
+                  <div class="desc">전략 실행을 위한 구체적 자금 계획입니다. 초기 투자 4,890만원과 6개월 누적 적자 2,665만원을 합친 7,555만원이 필요하며, 7개월차 월 500건 달성 시 흑자 전환합니다.</div>
+                </div>
+                <div class="pill">7개월 Break-even, 500건/월</div>
+              </div>
+              <div class="board">
+                <div class="chart">
+                  <h3>초기 자본 투자 계획 (4,890만원)</h3>
+                  <table class="table" style="margin-top:16px">
+                    <thead>
+                      <tr>
+                        <th>구분</th>
+                        <th>항목</th>
+                        <th>금액</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td rowspan="3">창업비용</td>
+                        <td>사업자 등록 + 통신판매업</td>
+                        <td>10만원</td>
+                      </tr>
+                      <tr>
+                        <td>법인 설립 (선택)</td>
+                        <td>100만원</td>
+                      </tr>
+                      <tr>
+                        <td>인허가 비용</td>
+                        <td>30만원</td>
+                      </tr>
+                      <tr>
+                        <td rowspan="2">초기 재고</td>
+                        <td>1차 재고 (5 SKU)</td>
+                        <td>500만원</td>
+                      </tr>
+                      <tr>
+                        <td>포장재 초도 물량</td>
+                        <td>200만원</td>
+                      </tr>
+                      <tr>
+                        <td rowspan="3">설비/장비</td>
+                        <td>냉장 보관 시설</td>
+                        <td>300만원</td>
+                      </tr>
+                      <tr>
+                        <td>검수/포장 장비</td>
+                        <td>100만원</td>
+                      </tr>
+                      <tr>
+                        <td>IT 장비</td>
+                        <td>150만원</td>
+                      </tr>
+                      <tr>
+                        <td rowspan="2">플랫폼</td>
+                        <td>스마트스토어 세팅</td>
+                        <td>50만원</td>
+                      </tr>
+                      <tr>
+                        <td>제품 사진 촬영</td>
+                        <td>100만원</td>
+                      </tr>
+                      <tr>
+                        <td rowspan="2">마케팅</td>
+                        <td>1차 마케팅 (3개월)</td>
+                        <td>900만원</td>
+                      </tr>
+                      <tr>
+                        <td>브랜드 디자인</td>
+                        <td>150만원</td>
+                      </tr>
+                      <tr>
+                        <td rowspan="2">운영비</td>
+                        <td>3개월 인건비</td>
+                        <td>1,800만원</td>
+                      </tr>
+                      <tr>
+                        <td>예비 자금</td>
+                        <td>500만원</td>
+                      </tr>
+                      <tr style="background: rgba(203, 91, 44, 0.15)">
+                        <td colspan="2"><strong>합계</strong></td>
+                        <td><strong>4,890만원</strong></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="chart">
+                  <h3>월별 현금흐름 예측 (6개월)</h3>
+                  <table class="table" style="margin-top:16px">
+                    <thead>
+                      <tr>
+                        <th>월</th>
+                        <th>매출</th>
+                        <th>고정비</th>
+                        <th>순손익</th>
+                        <th>누적</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>1개월</td>
+                        <td>600만원 (50건)</td>
+                        <td>900만원</td>
+                        <td style="color:#a14253">-720만원</td>
+                        <td>-720만원</td>
+                      </tr>
+                      <tr>
+                        <td>2개월</td>
+                        <td>900만원 (75건)</td>
+                        <td>900만원</td>
+                        <td style="color:#a14253">-630만원</td>
+                        <td>-1,350만원</td>
+                      </tr>
+                      <tr>
+                        <td>3개월</td>
+                        <td>1,440만원 (120건)</td>
+                        <td>900만원</td>
+                        <td style="color:#a14253">-470만원</td>
+                        <td>-1,820만원</td>
+                      </tr>
+                      <tr>
+                        <td>4개월</td>
+                        <td>1,680만원 (140건)</td>
+                        <td>900만원</td>
+                        <td style="color:#a14253">-395만원</td>
+                        <td>-2,215만원</td>
+                      </tr>
+                      <tr>
+                        <td>5개월</td>
+                        <td>2,100만원 (175건)</td>
+                        <td>900만원</td>
+                        <td style="color:#a14253">-270만원</td>
+                        <td>-2,485만원</td>
+                      </tr>
+                      <tr>
+                        <td>6개월</td>
+                        <td>2,400만원 (200건)</td>
+                        <td>900만원</td>
+                        <td style="color:#a14253">-180만원</td>
+                        <td>-2,665만원</td>
+                      </tr>
+                      <tr style="background: rgba(85, 101, 72, 0.1)">
+                        <td><strong>7~8개월</strong></td>
+                        <td><strong>6,000만원 (500건)</strong></td>
+                        <td><strong>900만원</strong></td>
+                        <td style="color:#556548"><strong>흑자 전환</strong></td>
+                        <td>-</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <div style="margin-top:20px; padding:14px; background:rgba(85,101,72,0.08); border-radius:10px">
+                    <p style="font-size:12px; line-height:1.5; margin:0"><strong>필요 자본 총액:</strong> 초기 투자 4,890만원 + 6개월 누적 적자 2,665만원 = <strong>7,555만원</strong><br>
+                    <strong>손익분기:</strong> 월 고정비 900만원 ÷ 평균 공헌이익 18,000원 = <strong>500건/월</strong> (7~8개월차 달성 목표)</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+      </section>
+      <section class="slide tone-7" data-slide-index="20" data-chapter="6">
+        <div class="slide-shell">
+          <div class="slide-meta">
+            <span class="slide-tag">채널</span>
+            <strong>21 / 23</strong>
+          </div>
+          <section class="section">
+            <div class="section-shell">
+              <div class="section-head">
+                <div>
+                  <div class="kicker">Sales Channels</div>
+                  <h2 class="title">판매 채널 전략 - 네이버/카카오톡/쿠팡 3대 채널 입점 로드맵</h2>
+                  <div class="desc">플랫폼별 수수료, 입점 난이도, 타겟 고객을 고려한 단계별 채널 확장 전략입니다. Phase 1은 네이버 중심, Phase 2에서 카카오톡 명절 특화, Phase 3에서 쿠팡 물량 확보 순서로 진행합니다.</div>
+                </div>
+                <div class="pill">Phase 1: Naver → Phase 2: Kakao → Phase 3: Coupang</div>
+              </div>
+              <div class="board">
+                <div class="chart">
+                  <h3>플랫폼별 비교 분석</h3>
+                  <table class="table" style="margin-top:16px">
+                    <thead>
+                      <tr>
+                        <th>구분</th>
+                        <th>네이버 스마트스토어</th>
+                        <th>카카오톡 선물하기</th>
+                        <th>쿠팡 Wing</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>수수료</td>
+                        <td><strong>5.0%</strong></td>
+                        <td>19.0~25.0%</td>
+                        <td>10.0~13.0%</td>
+                      </tr>
+                      <tr>
+                        <td>정산 주기</td>
+                        <td>주 1회 (익주 화요일)</td>
+                        <td>월 2회 (15일, 말일)</td>
+                        <td>월 2회</td>
+                      </tr>
+                      <tr>
+                        <td>심사 기간</td>
+                        <td>1~3일</td>
+                        <td>2~4주 (샘플 심사)</td>
+                        <td>1~2주</td>
+                      </tr>
+                      <tr>
+                        <td>필수 조건</td>
+                        <td>통신판매업 신고</td>
+                        <td>생산물 배상책임보험</td>
+                        <td>최소 월 1,000건</td>
+                      </tr>
+                      <tr>
+                        <td>강점</td>
+                        <td>낮은 수수료, 빠른 입점</td>
+                        <td>선물 수요 집중 (명절)</td>
+                        <td>압도적 트래픽</td>
+                      </tr>
+                      <tr>
+                        <td>약점</td>
+                        <td>경쟁 과다</td>
+                        <td>고수수료, 까다로운 심사</td>
+                        <td>물량 요구 높음</td>
+                      </tr>
+                      <tr>
+                        <td>타겟 고객</td>
+                        <td>가족 루틴형, 일상형</td>
+                        <td>선물형, 돌봄형</td>
+                        <td>가격 민감 고객</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="chart">
+                  <h3>단계별 입점 로드맵</h3>
+                  <div style="margin-top:16px">
+                    <div style="margin-bottom:20px; padding:16px; background:rgba(203,91,44,0.08); border-radius:12px">
+                      <h4 style="margin:0 0 10px 0; font-size:14px; color:#cb5b2c">Phase 1 (D+0~90일): 네이버 집중</h4>
+                      <p style="font-size:13px; line-height:1.6; margin:0"><strong>목표:</strong> 월 120~200건 달성, 리뷰 30개 이상 확보<br>
+                      <strong>전략:</strong> 검색광고 월 300만원, 상세페이지 A/B 테스트, 초기 후기 이벤트<br>
+                      <strong>핵심 KPI:</strong> 전환율 1.5%+, 재구매율 20%+</p>
+                    </div>
+                    <div style="margin-bottom:20px; padding:16px; background:rgba(85,101,72,0.08); border-radius:12px">
+                      <h4 style="margin:0 0 10px 0; font-size:14px; color:#556548">Phase 2 (D+90~180일): 카카오톡 추가</h4>
+                      <p style="font-size:13px; line-height:1.6; margin:0"><strong>목표:</strong> 명절 (설/추석) 선물 수요 집중 공략<br>
+                      <strong>전략:</strong> 샘플 심사 통과, 선물형 SKU 포장 고급화, 기업 선물 문의 대응<br>
+                      <strong>핵심 KPI:</strong> 명절 2주간 200건 이상, 평균 객단가 85,000원+</p>
+                    </div>
+                    <div style="margin-bottom:0; padding:16px; background:rgba(161,66,83,0.08); border-radius:12px">
+                      <h4 style="margin:0 0 10px 0; font-size:14px; color:#a14253">Phase 3 (D+180일~): 쿠팡 확장</h4>
+                      <p style="font-size:13px; line-height:1.6; margin:0"><strong>전제 조건:</strong> 월 300건 이상 안정화, 운영 인력 2명 이상<br>
+                      <strong>전략:</strong> 물량 확보 협상, 로켓배송 자격 심사, 가격 경쟁력 확보<br>
+                      <strong>주의사항:</strong> 높은 수수료와 물량 요구, 초기 단계에서는 비권장</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+      </section>
+      <section class="slide tone-7" data-slide-index="21" data-chapter="6">
+        <div class="slide-shell">
+          <div class="slide-meta">
+            <span class="slide-tag">마케팅</span>
+            <strong>22 / 23</strong>
+          </div>
+          <section class="section">
+            <div class="section-shell">
+              <div class="section-head">
+                <div>
+                  <div class="kicker">Influencer Marketing</div>
+                  <h2 class="title">소규모 인플루언서 공동구매 - 일반 광고 대비 625% 순이익 증대</h2>
+                  <div class="desc">나노/마이크로 인플루언서(팔로워 3천~5만)와 공동구매 협업으로 CAC 72% 절감과 ROI 4배 이상을 달성합니다. 월 10명 협업 시 620건 판매, 1,782만원 순이익으로 일반 광고 대비 390만원 더 효율적입니다.</div>
+                </div>
+                <div class="pill">ROI 4.1x, CAC 72% Reduction</div>
+              </div>
+              <div class="board">
+                <div class="chart">
+                  <h3>일반 광고 vs 공동구매 성과 비교</h3>
+                  <table class="table" style="margin-top:16px">
+                    <thead>
+                      <tr>
+                        <th>항목</th>
+                        <th>일반 광고 (네이버)</th>
+                        <th>공동구매</th>
+                        <th>개선폭</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>월 마케팅비</td>
+                        <td>300만원 (고정)</td>
+                        <td>432만원 (커미션)</td>
+                        <td>+44%</td>
+                      </tr>
+                      <tr>
+                        <td>월 판매 건수</td>
+                        <td>120건</td>
+                        <td><strong>620건</strong></td>
+                        <td style="color:#556548"><strong>+417%</strong></td>
+                      </tr>
+                      <tr>
+                        <td>CAC (고객획득비용)</td>
+                        <td>25,000원</td>
+                        <td><strong>6,968원</strong></td>
+                        <td style="color:#556548"><strong>-72%</strong></td>
+                      </tr>
+                      <tr>
+                        <td>전환율</td>
+                        <td>1.5%</td>
+                        <td>5~8%</td>
+                        <td>+3.3~5.3배</td>
+                      </tr>
+                      <tr>
+                        <td>월 순이익</td>
+                        <td>246만원</td>
+                        <td><strong>1,782만원</strong></td>
+                        <td style="color:#556548"><strong>+625%</strong></td>
+                      </tr>
+                      <tr style="background: rgba(85, 101, 72, 0.15)">
+                        <td><strong>ROI</strong></td>
+                        <td>0.82배</td>
+                        <td><strong>4.1배</strong></td>
+                        <td style="color:#556548"><strong>+5배</strong></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <div style="margin-top:16px; padding:12px; background:rgba(203,91,44,0.08); border-radius:10px">
+                    <p style="font-size:12px; line-height:1.5; margin:0"><strong>핵심 원리:</strong> CAC를 0원으로 만들어 실질 수익성 향상. 15% 할인하지만 마케팅비 14,200원 절감으로 건당 +8,152원 이익 증가.</p>
+                  </div>
+                </div>
+                <div class="chart">
+                  <h3>타겟 인플루언서 프로필 & 커미션 구조</h3>
+                  <div style="margin-top:16px">
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th>구분</th>
+                          <th>나노</th>
+                          <th>마이크로</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>팔로워 수</td>
+                          <td>3,000~10,000명</td>
+                          <td>10,000~50,000명</td>
+                        </tr>
+                        <tr>
+                          <td>참여율 (ER)</td>
+                          <td>5~8%</td>
+                          <td>3~5%</td>
+                        </tr>
+                        <tr>
+                          <td>커미션율</td>
+                          <td><strong>8%</strong></td>
+                          <td><strong>10%</strong></td>
+                        </tr>
+                        <tr>
+                          <td>예상 판매</td>
+                          <td>30~50건/회</td>
+                          <td>100~150건/회</td>
+                        </tr>
+                        <tr>
+                          <td>전환율</td>
+                          <td>20~30%</td>
+                          <td>15~25%</td>
+                        </tr>
+                        <tr>
+                          <td>ROI</td>
+                          <td>4~5배</td>
+                          <td>3.5~4.5배</td>
+                        </tr>
+                        <tr>
+                          <td>니치</td>
+                          <td colspan="2">육아, 요리, 건강, 일상 브이로그</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <div style="margin-top:20px; padding:14px; background:rgba(85,101,72,0.08); border-radius:10px">
+                      <h4 style="margin:0 0 10px 0; font-size:13px">월 실행 계획 (Phase 1)</h4>
+                      <p style="font-size:12px; line-height:1.6; margin:0"><strong>목표:</strong> 나노 8명 + 마이크로 2명 = 월 10명 협업<br>
+                      <strong>예상 성과:</strong> 620건 판매 (나노 320건 + 마이크로 300건)<br>
+                      <strong>총 커미션:</strong> 432만원 (공동구매가 기준 10%)<br>
+                      <strong>순이익:</strong> 1,782만원 (일반 광고 246만원 대비 +1,536만원)</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+      </section>
+      <section class="slide tone-1" data-slide-index="22" data-chapter="0">
+        <div class="slide-shell">
+          <div class="slide-meta">
+            <span class="slide-tag">검증</span>
+            <strong>23 / 23</strong>
+          </div>
+          <section class="section">
+            <div class="section-shell">
+              <div class="section-head">
+                <div>
+                  <div class="kicker">Multi-Agent Validation</div>
+                  <h2 class="title">6개 전문 에이전트 종합 분석 - 전략 완성도 9.2/10 검증</h2>
+                  <div class="desc">Strategy A를 전략, 데이터, 경쟁력, 실행, UX, 리스크 6개 관점에서 독립 검증했습니다. 전략적 일관성 만점(10/10), 실행 구체성 우수(9/10)하며, 데이터 출처 보강과 UX 예시 추가로 사업계획서 수준 완성 가능합니다.</div>
+                </div>
+                <div class="pill">Overall Score: 9.2 / 10.0</div>
+              </div>
+              <div class="board">
+                <div class="chart">
+                  <h3>6개 에이전트 평가 점수</h3>
+                  <table class="table" style="margin-top:16px">
+                    <thead>
+                      <tr>
+                        <th>에이전트</th>
+                        <th>점수</th>
+                        <th>핵심 평가</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td><strong>전략 일관성</strong></td>
+                        <td style="color:#556548"><strong>10.0 / 10.0</strong></td>
+                        <td>"섭취 환경 설계" 메시지가 전 슬라이드 관통</td>
+                      </tr>
+                      <tr>
+                        <td><strong>데이터 검증</strong></td>
+                        <td>8.5 / 10.0</td>
+                        <td>TAM/SAM 추가, 일부 출처 보강 필요</td>
+                      </tr>
+                      <tr>
+                        <td><strong>경쟁력 분석</strong></td>
+                        <td style="color:#556548"><strong>9.5 / 10.0</strong></td>
+                        <td>온브릭스 3대 약점 구체화, 경쟁사 포지셔닝 명확</td>
+                      </tr>
+                      <tr>
+                        <td><strong>실행 가능성</strong></td>
+                        <td>9.0 / 10.0</td>
+                        <td>SKU 수익성 검증, 손익 가드레일 명확</td>
+                      </tr>
+                      <tr>
+                        <td><strong>UX 분석</strong></td>
+                        <td>9.0 / 10.0</td>
+                        <td>세그먼트 오퍼 구체적, 결정 대행 예시 추가 권장</td>
+                      </tr>
+                      <tr>
+                        <td><strong>리스크 분석</strong></td>
+                        <td>8.0 / 10.0</td>
+                        <td>사업 리스크 8개 명시, 대응 전략 구체화</td>
+                      </tr>
+                      <tr style="background: rgba(85, 101, 72, 0.15)">
+                        <td colspan="2"><strong>종합 평가 (가중평균)</strong></td>
+                        <td><strong>9.2 / 10.0 ⭐⭐⭐⭐⭐</strong></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="chart">
+                  <h3>V1 → V2 주요 개선사항</h3>
+                  <div style="margin-top:16px">
+                    <div style="margin-bottom:14px; padding:14px; background:rgba(85,101,72,0.08); border-radius:10px">
+                      <h4 style="margin:0 0 8px 0; font-size:13px; color:#556548">✅ 정량 지표 대폭 보강 (+0.7점)</h4>
+                      <ul style="margin:0; padding-left:20px; font-size:12px; line-height:1.6">
+                        <li>TAM 3조 6천억원, SAM 7,200억원 추가</li>
+                        <li>SKU별 공헌이익 분석 슬라이드 추가 (28.7%, 23.0%)</li>
+                        <li>경쟁사 매출 비교 (컬리 2.2조, 오아시스 5,171억)</li>
+                      </ul>
+                    </div>
+                    <div style="margin-bottom:14px; padding:14px; background:rgba(203,91,44,0.08); border-radius:10px">
+                      <h4 style="margin:0 0 8px 0; font-size:13px; color:#cb5b2c">✅ 경쟁 전략 구체화 (+0.5점)</h4>
+                      <ul style="margin:0; padding-left:20px; font-size:12px; line-height:1.6">
+                        <li>온브릭스 3대 약점 정면 공략 (정보 투명성, 보장제, 타겟 분화)</li>
+                        <li>경쟁 포지셔닝 맵 추가 (과일 전문성 × 듀얼 모델)</li>
+                        <li>"브랜드 인지도 제로" 약점 솔직히 인정 → 신뢰도 ↑</li>
+                      </ul>
+                    </div>
+                    <div style="margin-bottom:14px; padding:14px; background:rgba(161,66,83,0.08); border-radius:10px">
+                      <h4 style="margin:0 0 8px 0; font-size:13px; color:#a14253">✅ 실행 계획 정밀화 (+0.4점)</h4>
+                      <ul style="margin:0; padding-left:20px; font-size:12px; line-height:1.6">
+                        <li>Phase 1/2 실험 가설-비교안-성공 기준 삼박자</li>
+                        <li>손익분기 120~280건/월 SKU별 분리</li>
+                        <li>세그먼트별 KPI 추적 지표 명확화</li>
+                      </ul>
+                    </div>
+                    <div style="padding:14px; background:rgba(169,139,87,0.08); border-radius:10px">
+                      <h4 style="margin:0 0 8px 0; font-size:13px; color:#a97828">🟠 남은 개선 과제 (9.2 → 9.5+ 목표)</h4>
+                      <ul style="margin:0; padding-left:20px; font-size:12px; line-height:1.6">
+                        <li>결정 대행 UX 구체적 예시 (화면 mockup 또는 시나리오)</li>
+                        <li>일부 데이터 출처 보강 (92, 88, 84 등 수치 근거)</li>
+                        <li>운영 디테일 추가 (인력 구성, 일일 처리 용량)</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+      </section>
+        </div>
+      </section>
+    </div>
+  </main>
+  <div class="page-actions">
+    <button type="button" class="page-action" id="prev-page">이전</button>
+    <button type="button" class="page-action" id="next-page">다음</button>
+  </div>
+  
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+</div>
+</main>
+<div class="page-actions">
+  <button type="button" class="page-action" id="prev-page">이전</button>
+  <button type="button" class="page-action" id="next-page">다음</button>
+</div>
+
+  <script>
+    // Wait for DOM to be ready
+    document.addEventListener('DOMContentLoaded', function() {
+      const slides = Array.from(document.querySelectorAll('.slide'));
+      const totalSlides = slides.length;
+      let currentSlide = 0;
+
+      console.log('Slide system initializing...');
+      console.log('Total slides found:', totalSlides);
+
+      // Debug: List all slide indices
+      slides.forEach((slide, i) => {
+        const index = slide.getAttribute('data-slide-index');
+        console.log('Slide', i, 'has index:', index);
+      });
+
+      const navButtons = document.querySelectorAll('.nav-btn[data-slide-target]');
+      const state = document.getElementById('page-state');
+      const bar = document.getElementById('progress-bar');
+      const prev = document.getElementById('prev-page');
+      const next = document.getElementById('next-page');
+
+      function showSlide(index) {
+        if (index < 0) index = 0;
+        if (index >= totalSlides) index = totalSlides - 1;
+
+        console.log('Switching to slide', index);
+
+        // Hide all slides
+        slides.forEach((slide, i) => {
+          slide.classList.remove('active');
+          slide.style.opacity = '0';
+          slide.style.visibility = 'hidden';
+          slide.style.display = 'none';
+        });
+
+        // Show target slide
+        if (slides[index]) {
+          slides[index].classList.add('active');
+          slides[index].style.opacity = '1';
+          slides[index].style.visibility = 'visible';
+          slides[index].style.display = 'block';
+          slides[index].scrollTop = 0;
+        }
+
+        currentSlide = index;
+        updateUI(index);
+      }
+
+      function updateUI(index) {
+        if (state) {
+          state.textContent = (index + 1) + ' / ' + totalSlides;
+        }
+
+        if (bar) {
+          const progress = ((index + 1) / totalSlides) * 100;
+          bar.style.width = progress + '%';
+        }
+
+        navButtons.forEach(btn => {
+          const target = Number(btn.dataset.slideTarget);
+          btn.classList.toggle('active', target === index);
+        });
+
+        if (prev) prev.disabled = (index === 0);
+        if (next) next.disabled = (index === totalSlides - 1);
+      }
+
+      // Navigation handlers
+      navButtons.forEach(button => {
+        button.addEventListener('click', () => {
+          const target = Number(button.dataset.slideTarget);
+          showSlide(target);
+        });
+      });
+
+      if (prev) {
+        prev.addEventListener('click', () => {
+          console.log('Previous clicked');
+          showSlide(currentSlide - 1);
+        });
+      }
+
+      if (next) {
+        next.addEventListener('click', () => {
+          console.log('Next clicked');
+          showSlide(currentSlide + 1);
+        });
+      }
+
+      // Keyboard navigation
+      window.addEventListener('keydown', (event) => {
+        if (event.key === 'ArrowRight' || event.key === 'Right' || event.key === ' ') {
+          event.preventDefault();
+          console.log('Next key pressed');
+          showSlide(currentSlide + 1);
+        } else if (event.key === 'ArrowLeft' || event.key === 'Left') {
+          event.preventDefault();
+          console.log('Previous key pressed');
+          showSlide(currentSlide - 1);
+        } else if (event.key === 'Home') {
+          event.preventDefault();
+          showSlide(0);
+        } else if (event.key === 'End') {
+          event.preventDefault();
+          showSlide(totalSlides - 1);
+        }
+
+        // Number keys 1-9 to jump to slides
+        const num = parseInt(event.key);
+        if (num >= 1 && num <= 9) {
+          event.preventDefault();
+          showSlide(num - 1);
+        }
+      });
+
+      // Initialize
+      showSlide(0);
+      console.log('Slide system ready! Press arrow keys to navigate.');
+      console.log('Total slides:', totalSlides, '(indices 0-' + (totalSlides-1) + ')');
+    });
+  </script>
+</body>
+
+</html>

@@ -4,331 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>배송지 관리 - 과일다리</title>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../../styles/design-system.css">
     <link rel="stylesheet" href="../../styles/components.css">
-    <style>
-        /* Mobile Container */
-        @media (min-width: 768px) {
-            body {
-                max-width: 430px;
-                margin: 0 auto;
-                box-shadow: 0 0 50px rgba(0,0,0,0.1);
-            }
-        }
-
-        body {
-            padding-bottom: calc(var(--bottom-nav-height) + var(--safe-area-bottom));
-            background: var(--color-gray-50);
-        }
-
-        /* Header */
-        .header {
-            position: sticky;
-            top: 0;
-            z-index: var(--z-sticky);
-            background: var(--color-white);
-            border-bottom: 1px solid var(--color-gray-200);
-            padding: var(--space-3) var(--space-4);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            height: var(--header-height);
-        }
-
-        .header__back {
-            font-size: 24px;
-            cursor: pointer;
-            padding: var(--space-2);
-            margin-left: calc(var(--space-2) * -1);
-            color: var(--color-gray-900);
-        }
-
-        .header__title {
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: var(--font-size-md);
-            font-weight: var(--font-weight-semibold);
-            color: var(--color-gray-900);
-        }
-
-        .header__action {
-            font-size: 24px;
-            cursor: pointer;
-            padding: var(--space-2);
-            margin-right: calc(var(--space-2) * -1);
-        }
-
-        /* Content */
-        .content {
-            padding: var(--space-4);
-            min-height: calc(100vh - var(--header-height) - var(--bottom-nav-height));
-        }
-
-        /* Add Address Button */
-        .add-address-btn {
-            margin-bottom: var(--space-5);
-        }
-
-        /* Address Card */
-        .address-card {
-            background: var(--color-white);
-            border-radius: var(--radius-lg);
-            padding: var(--space-4);
-            margin-bottom: var(--space-3);
-            box-shadow: var(--shadow-sm);
-            position: relative;
-            border: 2px solid transparent;
-            transition: all var(--transition-fast);
-        }
-
-        .address-card.default {
-            border-color: var(--color-primary);
-            background: linear-gradient(to bottom, rgba(111, 207, 63, 0.02), var(--color-white));
-        }
-
-        .address-card__header {
-            display: flex;
-            align-items: flex-start;
-            justify-content: space-between;
-            margin-bottom: var(--space-3);
-        }
-
-        .address-card__info {
-            flex: 1;
-        }
-
-        .address-card__name {
-            font-size: var(--font-size-md);
-            font-weight: var(--font-weight-semibold);
-            color: var(--color-gray-900);
-            margin-bottom: var(--space-1);
-            display: flex;
-            align-items: center;
-            gap: var(--space-2);
-        }
-
-        .address-card__phone {
-            font-size: var(--font-size-sm);
-            color: var(--color-gray-600);
-        }
-
-        .address-card__address {
-            font-size: var(--font-size-base);
-            color: var(--color-gray-700);
-            line-height: var(--line-height-relaxed);
-            margin-bottom: var(--space-4);
-        }
-
-        .address-card__address-detail {
-            font-size: var(--font-size-sm);
-            color: var(--color-gray-600);
-            margin-top: var(--space-1);
-        }
-
-        .address-card__actions {
-            display: flex;
-            gap: var(--space-2);
-        }
-
-        /* Modal */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100%;
-            max-width: 430px;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: var(--z-modal);
-            align-items: flex-end;
-            animation: fadeIn var(--transition-base);
-        }
-
-        .modal.active {
-            display: flex;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        @keyframes slideUp {
-            from { transform: translateY(100%); }
-            to { transform: translateY(0); }
-        }
-
-        .modal__content {
-            background: var(--color-white);
-            border-radius: var(--radius-xl) var(--radius-xl) 0 0;
-            width: 100%;
-            max-height: 90vh;
-            overflow-y: auto;
-            padding: var(--space-5) var(--space-4);
-            animation: slideUp var(--transition-base);
-        }
-
-        .modal__header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: var(--space-5);
-        }
-
-        .modal__title {
-            font-size: var(--font-size-lg);
-            font-weight: var(--font-weight-bold);
-            color: var(--color-gray-900);
-        }
-
-        .modal__close {
-            font-size: 28px;
-            cursor: pointer;
-            color: var(--color-gray-600);
-            padding: var(--space-2);
-            margin-right: calc(var(--space-2) * -1);
-        }
-
-        /* Address Search */
-        .address-search {
-            display: flex;
-            gap: var(--space-2);
-            margin-bottom: var(--space-4);
-        }
-
-        .address-search__input {
-            flex: 1;
-        }
-
-        .address-search__result {
-            background: var(--color-gray-50);
-            padding: var(--space-3);
-            border-radius: var(--radius-md);
-            margin-bottom: var(--space-4);
-            font-size: var(--font-size-sm);
-            color: var(--color-gray-700);
-            display: none;
-        }
-
-        .address-search__result.active {
-            display: block;
-        }
-
-        /* Checkbox */
-        .checkbox-group {
-            display: flex;
-            align-items: center;
-            gap: var(--space-2);
-            margin-bottom: var(--space-4);
-            cursor: pointer;
-            user-select: none;
-        }
-
-        .checkbox-group input[type="checkbox"] {
-            width: 20px;
-            height: 20px;
-            cursor: pointer;
-            accent-color: var(--color-primary);
-        }
-
-        .checkbox-group label {
-            font-size: var(--font-size-base);
-            color: var(--color-gray-700);
-            cursor: pointer;
-        }
-
-        /* Info Banner */
-        .info-banner {
-            background: var(--color-primary-light);
-            border-left: 3px solid var(--color-primary);
-            padding: var(--space-3);
-            border-radius: var(--radius-md);
-            margin-bottom: var(--space-4);
-        }
-
-        .info-banner__text {
-            font-size: var(--font-size-sm);
-            color: var(--color-primary-dark);
-            line-height: var(--line-height-relaxed);
-        }
-
-        /* Empty State */
-        .empty-addresses {
-            text-align: center;
-            padding: var(--space-12) var(--space-4);
-        }
-
-        .empty-addresses__icon {
-            font-size: 64px;
-            margin-bottom: var(--space-4);
-            opacity: 0.3;
-        }
-
-        .empty-addresses__text {
-            font-size: var(--font-size-base);
-            color: var(--color-gray-600);
-            margin-bottom: var(--space-2);
-        }
-
-        .empty-addresses__subtext {
-            font-size: var(--font-size-sm);
-            color: var(--color-gray-500);
-        }
-
-        /* Bottom Navigation */
-        .bottom-nav {
-            position: fixed;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100%;
-            max-width: 430px;
-            background: var(--color-white);
-            border-top: 1px solid var(--color-gray-200);
-            display: flex;
-            justify-content: space-around;
-            padding: var(--space-2) 0;
-            z-index: var(--z-sticky);
-            height: var(--bottom-nav-height);
-        }
-
-        .nav-item {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: var(--space-1);
-            padding: var(--space-1);
-            color: var(--color-gray-500);
-            text-decoration: none;
-            cursor: pointer;
-            transition: all var(--transition-fast);
-        }
-
-        .nav-item.active {
-            color: var(--color-primary);
-        }
-
-        .nav-item__icon {
-            font-size: 24px;
-        }
-
-        .nav-item__label {
-            font-size: var(--font-size-xs);
-            font-weight: var(--font-weight-medium);
-        }
-
-        /* Button Group */
-        .btn-group {
-            display: flex;
-            gap: var(--space-2);
-            margin-top: var(--space-5);
-        }
-    </style>
+    <link rel="stylesheet" href="../../styles/common-layout.css">
 </head>
 <body>
     <!-- Header -->
@@ -373,19 +51,19 @@
 
             <form id="addressForm" onsubmit="saveAddress(event)">
                 <!-- Recipient Name -->
-                <div class="form-group">
+                <div class="field">
                     <label class="form-label form-label-required">받는 분</label>
                     <input type="text" id="recipientName" class="input" placeholder="이름을 입력하세요" required>
                 </div>
 
                 <!-- Phone Number -->
-                <div class="form-group">
+                <div class="field">
                     <label class="form-label form-label-required">연락처</label>
                     <input type="tel" id="phone" class="input" placeholder="010-0000-0000" required>
                 </div>
 
                 <!-- Address Search -->
-                <div class="form-group">
+                <div class="field">
                     <label class="form-label form-label-required">주소</label>
                     <div class="address-search">
                         <input type="text" id="postalCode" class="input address-search__input" placeholder="우편번호" readonly required>
@@ -398,7 +76,7 @@
                 </div>
 
                 <!-- Detailed Address -->
-                <div class="form-group">
+                <div class="field">
                     <label class="form-label form-label-required">상세 주소</label>
                     <input type="text" id="detailAddress" class="input" placeholder="상세 주소를 입력하세요 (예: 101동 1001호)" required>
                 </div>
@@ -420,21 +98,21 @@
 
     <!-- Bottom Navigation -->
     <nav class="bottom-nav">
-        <a href="../home/index.html" class="nav-item">
-            <span class="nav-item__icon">🏠</span>
-            <span class="nav-item__label">홈</span>
+        <a href="../home/index.html" class="nav-link">
+            <span class="nav-link__icon">🏠</span>
+            <span class="nav-link__label">홈</span>
         </a>
-        <a href="../products/index.html" class="nav-item">
-            <span class="nav-item__icon">🍎</span>
-            <span class="nav-item__label">상품</span>
+        <a href="../products/index.html" class="nav-link">
+            <span class="nav-link__icon">🍎</span>
+            <span class="nav-link__label">상품</span>
         </a>
-        <a href="index.html" class="nav-item active">
-            <span class="nav-item__icon">👤</span>
-            <span class="nav-item__label">마이</span>
+        <a href="index.html" class="nav-link active">
+            <span class="nav-link__icon">👤</span>
+            <span class="nav-link__label">마이</span>
         </a>
-        <a href="../support/index.html" class="nav-item">
-            <span class="nav-item__icon">💬</span>
-            <span class="nav-item__label">고객지원</span>
+        <a href="../support/index.html" class="nav-link">
+            <span class="nav-link__icon">💬</span>
+            <span class="nav-link__label">고객지원</span>
         </a>
     </nav>
 
@@ -504,7 +182,7 @@
                         <div class="address-card__info">
                             <div class="address-card__name">
                                 ${addr.name}
-                                ${addr.isDefault ? '<span class="badge badge-primary">기본 배송지</span>' : ''}
+                                ${addr.isDefault ? '<span class="badge chip-primary">기본 배송지</span>' : ''}
                             </div>
                             <div class="address-card__phone">${addr.phone}</div>
                         </div>

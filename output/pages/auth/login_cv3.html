@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>로그인 - 과일다리</title>
+
+    <!-- FruitBridge CV3 Design System CSS -->
+    <link rel="stylesheet" href="../../styles/fruitbridge-core.css">
+    <link rel="stylesheet" href="../../styles/fruitbridge-base.css">
+    <link rel="stylesheet" href="../../styles/fruitbridge-components.css">
+    <link rel="stylesheet" href="../../styles/common-layout.css">
+    <link rel="stylesheet" href="../../styles/pages.css">
+</head>
+<body>
+    <div class="auth-container">
+        <!-- Header -->
+        <header class="auth-header">
+            <button class="btn btn-icon btn-ghost" onclick="history.back()">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M6 18L18 6M6 6l12 12"/>
+                </svg>
+            </button>
+        </header>
+
+        <!-- Logo Section -->
+        <div class="auth-logo-section">
+            <div class="auth-logo">🍊</div>
+            <h1 class="auth-brand-name">과일다리</h1>
+            <p class="auth-brand-tagline">신선한 과일로 이어지는 건강한 다리</p>
+        </div>
+
+        <!-- Login Form -->
+        <form class="auth-form" onsubmit="handleLogin(event)">
+            <div class="field">
+                <input
+                    type="text"
+                    class="control"
+                    id="username"
+                    placeholder="아이디 또는 이메일"
+                    required
+                >
+                <div class="helper error hidden" id="username-error">
+                    아이디 또는 이메일을 입력해주세요
+                </div>
+            </div>
+
+            <div class="field">
+                <div class="password-wrapper">
+                    <input
+                        type="password"
+                        class="control"
+                        id="password"
+                        placeholder="비밀번호"
+                        required
+                    >
+                    <button type="button" class="password-toggle" onclick="togglePassword()">
+                        <svg id="eye-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                            <circle cx="12" cy="12" r="3"/>
+                        </svg>
+                    </button>
+                </div>
+                <div class="helper error hidden" id="password-error">
+                    비밀번호를 입력해주세요
+                </div>
+            </div>
+
+            <div class="login-options">
+                <div class="remember-me">
+                    <label class="check-row">
+                        <input type="checkbox" id="remember" style="display: none;">
+                        <span class="checkbox" id="remember-check"></span>
+                        <span>자동 로그인</span>
+                    </label>
+                </div>
+                <div class="find-links">
+                    <a href="/auth/find-id">아이디 찾기</a>
+                    <span class="find-divider">|</span>
+                    <a href="/auth/find-password">비밀번호 찾기</a>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-lg auth-button" id="login-btn">
+                로그인
+            </button>
+        </form>
+
+        <!-- Social Login -->
+        <div class="social-section">
+            <div class="social-divider">
+                <span>간편 로그인</span>
+            </div>
+            <div class="social-buttons">
+                <button class="social-button kakao" onclick="socialLogin('kakao')">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="#000000">
+                        <path d="M12 3C6.477 3 2 6.477 2 10.5c0 2.615 1.824 4.903 4.563 6.186-.2.732-.728 2.665-.744 2.748-.023.108.04.212.144.237.104.025.215-.02.277-.09.806-.917 2.95-3.35 3.31-3.76C10.344 15.937 11.16 16 12 16c5.523 0 10-3.477 10-7.5S17.523 3 12 3z"/>
+                    </svg>
+                </button>
+                <button class="social-button naver" onclick="socialLogin('naver')">
+                    <span style="font-weight: bold; font-size: 18px;">N</span>
+                </button>
+                <button class="social-button google" onclick="socialLogin('google')">
+                    <svg width="24" height="24" viewBox="0 0 24 24">
+                        <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                        <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                        <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                        <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Signup Link -->
+        <div class="signup-section">
+            <span class="signup-text">아직 회원이 아니신가요?</span>
+            <a href="/auth/signup" class="signup-link">회원가입</a>
+        </div>
+    </div>
+
+    <script>
+        // Checkbox toggle
+        document.getElementById('remember').addEventListener('change', function() {
+            const checkBox = document.getElementById('remember-check');
+            if (this.checked) {
+                checkBox.classList.add('checked');
+            } else {
+                checkBox.classList.remove('checked');
+            }
+        });
+
+        document.querySelector('.check-row').addEventListener('click', function(e) {
+            if (e.target.type !== 'checkbox') {
+                const checkbox = document.getElementById('remember');
+                checkbox.checked = !checkbox.checked;
+                checkbox.dispatchEvent(new Event('change'));
+            }
+        });
+
+        // Password toggle
+        function togglePassword() {
+            const passwordInput = document.getElementById('password');
+            const eyeIcon = document.getElementById('eye-icon');
+
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                eyeIcon.innerHTML = '<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/>';
+            } else {
+                passwordInput.type = 'password';
+                eyeIcon.innerHTML = '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>';
+            }
+        }
+
+        // Form validation
+        function handleLogin(event) {
+            event.preventDefault();
+
+            const username = document.getElementById('username');
+            const password = document.getElementById('password');
+            const loginBtn = document.getElementById('login-btn');
+
+            // Clear previous errors
+            document.querySelectorAll('.helper.error').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('.control').forEach(el => el.classList.remove('error'));
+
+            let hasError = false;
+
+            if (!username.value.trim()) {
+                username.classList.add('error');
+                document.getElementById('username-error').classList.remove('hidden');
+                hasError = true;
+            }
+
+            if (!password.value) {
+                password.classList.add('error');
+                document.getElementById('password-error').classList.remove('hidden');
+                hasError = true;
+            }
+
+            if (hasError) return;
+
+            // Show loading state
+            loginBtn.disabled = true;
+            loginBtn.textContent = '로그인 중...';
+
+            // Simulate API call
+            setTimeout(() => {
+                alert('로그인 성공!');
+                window.location.href = '/';
+            }, 1500);
+        }
+
+        // Social login
+        function socialLogin(provider) {
+            const messages = {
+                kakao: '카카오 로그인을 시작합니다...',
+                naver: '네이버 로그인을 시작합니다...',
+                google: '구글 로그인을 시작합니다...'
+            };
+
+            alert(messages[provider]);
+            // In real app, redirect to OAuth provider
+        }
+
+        // Clear errors on input
+        document.querySelectorAll('.control').forEach(input => {
+            input.addEventListener('input', function() {
+                this.classList.remove('error');
+                const errorMsg = this.parentElement.querySelector('.helper.error') ||
+                               this.parentElement.parentElement.querySelector('.helper.error');
+                if (errorMsg) {
+                    errorMsg.classList.add('hidden');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

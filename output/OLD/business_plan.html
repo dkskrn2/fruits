@@ -1,0 +1,1448 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>프레시올 (FreshAll) — 온라인 과일 커머스 사업기획서</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --primary: #FF6B35;
+            --primary-dark: #E85A2A;
+            --primary-light: #FFF0E8;
+            --secondary: #2D6A4F;
+            --secondary-light: #E8F5E9;
+            --accent: #FFD166;
+            --dark: #1A1A2E;
+            --dark-soft: #2D2D44;
+            --gray-900: #111827;
+            --gray-700: #374151;
+            --gray-500: #6B7280;
+            --gray-300: #D1D5DB;
+            --gray-100: #F3F4F6;
+            --white: #FFFFFF;
+            --gradient-primary: linear-gradient(135deg, #FF6B35, #FF8E53);
+            --gradient-green: linear-gradient(135deg, #2D6A4F, #40916C);
+            --gradient-dark: linear-gradient(135deg, #1A1A2E, #16213E);
+            --gradient-hero: linear-gradient(135deg, #FF6B35 0%, #FF8E53 40%, #FFD166 100%);
+            --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.06);
+            --shadow-card: 0 8px 30px rgba(0, 0, 0, 0.08);
+            --shadow-hover: 0 12px 40px rgba(0, 0, 0, 0.12);
+            --radius: 16px;
+            --radius-sm: 10px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', -apple-system, sans-serif;
+            color: var(--gray-900);
+            background: var(--gray-100);
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ===== NAV ===== */
+        .nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+            transition: box-shadow .3s;
+        }
+
+        .nav.scrolled {
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .nav-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 24px;
+        }
+
+        .nav-logo {
+            font-size: 22px;
+            font-weight: 800;
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .nav-logo span {
+            color: var(--secondary);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .nav-links a {
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--gray-700);
+            text-decoration: none;
+            padding: 6px 14px;
+            border-radius: 20px;
+            transition: all .2s;
+        }
+
+        .nav-links a:hover {
+            background: var(--primary-light);
+            color: var(--primary);
+        }
+
+        /* ===== HERO ===== */
+        .hero {
+            margin-top: 60px;
+            background: var(--gradient-hero);
+            min-height: 520px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: var(--white);
+            padding: 80px 24px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 20% 80%, rgba(255, 255, 255, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            padding: 6px 20px;
+            border-radius: 30px;
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .hero h1 {
+            font-size: clamp(36px, 5vw, 56px);
+            font-weight: 900;
+            line-height: 1.2;
+            margin-bottom: 16px;
+        }
+
+        .hero p {
+            font-size: 18px;
+            opacity: 0.92;
+            max-width: 600px;
+            margin: 0 auto 32px;
+            line-height: 1.7;
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 40px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 40px;
+        }
+
+        .hero-stat {
+            text-align: center;
+        }
+
+        .hero-stat .num {
+            font-size: 36px;
+            font-weight: 900;
+            display: block;
+        }
+
+        .hero-stat .label {
+            font-size: 13px;
+            opacity: 0.8;
+        }
+
+        /* ===== SECTION ===== */
+        .section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 80px 24px;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 56px;
+        }
+
+        .section-label {
+            display: inline-block;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            background: var(--primary-light);
+            padding: 6px 16px;
+            border-radius: 20px;
+            margin-bottom: 12px;
+        }
+
+        .section-title {
+            font-size: clamp(28px, 3.5vw, 40px);
+            font-weight: 800;
+            color: var(--gray-900);
+            margin-bottom: 12px;
+        }
+
+        .section-desc {
+            font-size: 16px;
+            color: var(--gray-500);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* ===== CARDS ===== */
+        .card-grid {
+            display: grid;
+            gap: 24px;
+        }
+
+        .card-grid.cols-2 {
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+        }
+
+        .card-grid.cols-3 {
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        }
+
+        .card-grid.cols-4 {
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        }
+
+        .card {
+            background: var(--white);
+            border-radius: var(--radius);
+            padding: 32px;
+            box-shadow: var(--shadow-soft);
+            border: 1px solid rgba(0, 0, 0, 0.04);
+            transition: all .3s ease;
+        }
+
+        .card:hover {
+            box-shadow: var(--shadow-hover);
+            transform: translateY(-4px);
+        }
+
+        .card-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+
+        .card-icon.orange {
+            background: var(--primary-light);
+        }
+
+        .card-icon.green {
+            background: var(--secondary-light);
+        }
+
+        .card-icon.yellow {
+            background: #FFF8E1;
+        }
+
+        .card-icon.blue {
+            background: #E3F2FD;
+        }
+
+        .card h3 {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: var(--gray-900);
+        }
+
+        .card p {
+            font-size: 14px;
+            color: var(--gray-500);
+            line-height: 1.7;
+        }
+
+        .card ul {
+            list-style: none;
+            margin-top: 12px;
+        }
+
+        .card ul li {
+            font-size: 14px;
+            color: var(--gray-700);
+            padding: 6px 0;
+            border-bottom: 1px solid var(--gray-100);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .card ul li::before {
+            content: '✓';
+            color: var(--primary);
+            font-weight: 700;
+            font-size: 12px;
+        }
+
+        /* ===== TABLE ===== */
+        .table-wrap {
+            overflow-x: auto;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-soft);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--white);
+            font-size: 14px;
+        }
+
+        thead {
+            background: var(--gradient-dark);
+            color: var(--white);
+        }
+
+        th {
+            padding: 16px 20px;
+            font-weight: 600;
+            text-align: left;
+            white-space: nowrap;
+        }
+
+        td {
+            padding: 14px 20px;
+            border-bottom: 1px solid var(--gray-100);
+        }
+
+        tbody tr:hover {
+            background: var(--primary-light);
+        }
+
+        .highlight {
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        .green {
+            color: var(--secondary);
+        }
+
+        .red {
+            color: #E53E3E;
+        }
+
+        /* ===== SWOT ===== */
+        .swot-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .swot-card {
+            border-radius: var(--radius);
+            padding: 28px;
+        }
+
+        .swot-card h3 {
+            font-size: 18px;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .swot-card.s {
+            background: linear-gradient(135deg, #E8F5E9, #C8E6C9);
+        }
+
+        .swot-card.w {
+            background: linear-gradient(135deg, #FFF3E0, #FFE0B2);
+        }
+
+        .swot-card.o {
+            background: linear-gradient(135deg, #E3F2FD, #BBDEFB);
+        }
+
+        .swot-card.t {
+            background: linear-gradient(135deg, #FCE4EC, #F8BBD0);
+        }
+
+        .swot-card ul {
+            list-style: none;
+        }
+
+        .swot-card ul li {
+            font-size: 14px;
+            padding: 5px 0;
+            color: var(--gray-700);
+        }
+
+        .swot-card ul li::before {
+            content: '• ';
+            font-weight: 700;
+        }
+
+        /* ===== BMC ===== */
+        .bmc-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 2fr 1fr 1fr;
+            grid-template-rows: auto auto;
+            gap: 12px;
+        }
+
+        .bmc-cell {
+            background: var(--white);
+            border-radius: var(--radius-sm);
+            padding: 20px;
+            border: 1px solid var(--gray-300);
+            font-size: 13px;
+        }
+
+        .bmc-cell h4 {
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .bmc-cell ul {
+            list-style: none;
+        }
+
+        .bmc-cell ul li {
+            padding: 3px 0;
+            color: var(--gray-700);
+        }
+
+        .bmc-center {
+            grid-row: span 2;
+        }
+
+        .bmc-bottom {
+            grid-column: span 2;
+        }
+
+        /* ===== CTA ===== */
+        .cta-section {
+            background: var(--gradient-dark);
+            text-align: center;
+            padding: 80px 24px;
+            color: var(--white);
+            border-radius: var(--radius);
+            margin: 0 24px 80px;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-section h2 {
+            font-size: 36px;
+            font-weight: 900;
+            margin-bottom: 16px;
+        }
+
+        .cta-section p {
+            font-size: 16px;
+            opacity: 0.8;
+            margin-bottom: 32px;
+        }
+
+        /* ===== TIMELINE ===== */
+        .timeline {
+            position: relative;
+            padding-left: 40px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 15px;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: var(--gradient-primary);
+            border-radius: 2px;
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 40px;
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: -33px;
+            top: 4px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--primary);
+            border: 4px solid var(--white);
+            box-shadow: 0 0 0 3px var(--primary);
+        }
+
+        .timeline-item h3 {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .timeline-item .period {
+            font-size: 13px;
+            color: var(--primary);
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .timeline-item p {
+            font-size: 14px;
+            color: var(--gray-500);
+        }
+
+        /* ===== DUAL (B2B/B2C) ===== */
+        .dual-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+
+        .dual-card {
+            border-radius: var(--radius);
+            padding: 36px;
+            color: var(--white);
+        }
+
+        .dual-card.b2b {
+            background: var(--gradient-green);
+        }
+
+        .dual-card.b2c {
+            background: var(--gradient-primary);
+        }
+
+        .dual-card h3 {
+            font-size: 24px;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+
+        .dual-card .sub {
+            font-size: 14px;
+            opacity: 0.85;
+            margin-bottom: 20px;
+        }
+
+        .dual-card ul {
+            list-style: none;
+        }
+
+        .dual-card ul li {
+            font-size: 14px;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .dual-card ul li::before {
+            content: '✦';
+            font-size: 10px;
+            opacity: 0.7;
+        }
+
+        /* ===== FINANCE CHART (CSS) ===== */
+        .chart-bars {
+            display: flex;
+            align-items: flex-end;
+            gap: 32px;
+            justify-content: center;
+            padding: 40px 0;
+        }
+
+        .chart-bar-group {
+            text-align: center;
+        }
+
+        .chart-bar {
+            width: 80px;
+            border-radius: 10px 10px 0 0;
+            transition: all .3s;
+            position: relative;
+        }
+
+        .chart-bar .value {
+            position: absolute;
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 13px;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .chart-bar-group .label {
+            font-size: 13px;
+            color: var(--gray-500);
+            margin-top: 10px;
+        }
+
+        /* ===== METRIC CARDS ===== */
+        .metric-row {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-bottom: 40px;
+        }
+
+        .metric-card {
+            flex: 1;
+            min-width: 200px;
+            background: var(--white);
+            border-radius: var(--radius);
+            padding: 28px;
+            text-align: center;
+            box-shadow: var(--shadow-soft);
+            border: 1px solid rgba(0, 0, 0, 0.04);
+        }
+
+        .metric-card .metric-value {
+            font-size: 36px;
+            font-weight: 900;
+            color: var(--primary);
+        }
+
+        .metric-card .metric-label {
+            font-size: 13px;
+            color: var(--gray-500);
+            margin-top: 4px;
+        }
+
+        /* ===== FOOTER ===== */
+        footer {
+            text-align: center;
+            padding: 40px;
+            color: var(--gray-500);
+            font-size: 13px;
+            background: var(--white);
+            border-top: 1px solid var(--gray-100);
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .swot-grid,
+            .dual-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .bmc-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .bmc-center {
+                grid-row: auto;
+            }
+
+            .bmc-bottom {
+                grid-column: auto;
+            }
+
+            .hero-stats {
+                gap: 20px;
+            }
+
+            .chart-bars {
+                gap: 16px;
+            }
+
+            .chart-bar {
+                width: 50px;
+            }
+        }
+
+        /* ===== ANIMATIONS ===== */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ===== PAGE BREAK FOR PRINT ===== */
+        @media print {
+            .section {
+                page-break-inside: avoid;
+            }
+
+            .nav {
+                display: none;
+            }
+
+            .hero {
+                margin-top: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- NAV -->
+    <nav class="nav" id="nav">
+        <div class="nav-inner">
+            <a href="#" class="nav-logo">Fresh<span>All</span></a>
+            <div class="nav-links">
+                <a href="#overview">개요</a>
+                <a href="#market">시장분석</a>
+                <a href="#swot">SWOT</a>
+                <a href="#model">비즈니스모델</a>
+                <a href="#platform">플랫폼</a>
+                <a href="#marketing">마케팅</a>
+                <a href="#roadmap">로드맵</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-badge">📋 사업기획서 2025 — 디지털 전환(DX)</div>
+            <h1>Fresh<span style="color: rgba(255,255,255,0.7)">All</span><br>프레시올</h1>
+            <p>과일에 대한 소비자의 무지와 선택 피로를 해결하는 **결정 대행 서비스**.<br>오프라인 사장님의 안목을 디지털화하여 확신을 팝니다.</p>
+            <div class="hero-stats">
+                <div class="hero-stat"><span class="num">6.9조</span><span class="label">과일 생산액 (2024)</span></div>
+                <div class="hero-stat"><span class="num">25.5%</span><span class="label">온라인식품 CAGR</span></div>
+                <div class="hero-stat"><span class="num">DX</span><span class="label">오프라인 → 온라인 전환</span></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 1. 사업 개요 -->
+    <section class="section fade-in" id="overview">
+        <div class="section-header">
+            <span class="section-label">Chapter 01</span>
+            <h2 class="section-title">사업 개요</h2>
+            <p class="section-desc">과일 유통의 비효율을 제거하고, 데이터와 기술로 혁신하는 온라인 과일 커머스 플랫폼</p>
+        </div>
+
+        <div class="card-grid cols-3">
+            <div class="card">
+                <div class="card-icon orange">🎯</div>
+                <h3>사업 배경</h3>
+                <p>기존 과일 유통망(도매 거래처, 창고, 산지 네트워크)을 보유한 상태에서 오프라인 자산을 디지털로 전환</p>
+            </div>
+            <div class="card">
+                <div class="card-icon green">🚀</div>
+                <h3>비전</h3>
+                <p>기존 유통망의 디지털 혁신을 통해, 농가와 소비자 모두가 행복한 과일 생태계를 만든다</p>
+            </div>
+            <div class="card">
+                <div class="card-icon yellow">💡</div>
+                <h3>핵심 차별점</h3>
+                <p>기존 유통망 DX × B2B+B2C 듀얼모델 × ERP/OMS 통합 × Hub & Spoke 풀필먼트</p>
+            </div>
+        </div>
+
+        <div class="card" style="margin-top: 24px; border-left: 4px solid var(--primary);">
+            <h3 style="font-size: 1.25rem; color: var(--primary);">🔥 왜 이 팀이 할 수 있는가? (Execution Proof)</h3>
+            <p style="margin-top: 12px; color: var(--gray-600); font-weight: 500;">말로만 하는 기획이 아닌, <strong>이미 돈을 벌고 있는 실제
+                    거래와 실물 자산</strong> 위에 IT를 얹습니다.</p>
+            <div class="metric-row" style="margin-top: 20px;">
+                <div class="metric-card" style="padding: 16px;">
+                    <div class="metric-value" style="font-size: 1.5rem;">OOO곳</div>
+                    <div class="metric-label">현재 B2B 거래처</div>
+                </div>
+                <div class="metric-card" style="padding: 16px;">
+                    <div class="metric-value" style="font-size: 1.5rem;">OO곳</div>
+                    <div class="metric-label">산지 독점 계약 농가</div>
+                </div>
+                <div class="metric-card" style="padding: 16px;">
+                    <div class="metric-value" style="font-size: 1.5rem;">OO톤</div>
+                    <div class="metric-label">월평균 과일 유통량</div>
+                </div>
+                <div class="metric-card" style="padding: 16px;">
+                    <div class="metric-value" style="font-size: 1.5rem;">OO평</div>
+                    <div class="metric-label">자체 물류 거점 완비</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card-grid cols-2" style="margin-top: 24px;">
+            <div class="card" style="display: flex; flex-direction: column;">
+                <h3>🤔 왜 하필 '과일'인가? (Why Fruit?)</h3>
+                <ul style="margin-top: 16px; flex-grow: 1; color: var(--gray-600); line-height: 1.6;">
+                    <li style="margin-bottom: 8px;"><strong>SKU 단순화:</strong> 종합 식품 대비 재고/물류 관리가 압도적으로 효율적</li>
+                    <li style="margin-bottom: 8px;"><strong>구독 모델 최적화:</strong> 정기적 소비 주기로 락인(Lock-in)에 가장 특화</li>
+                    <li><strong>AI 데이터화:</strong> 당도(Brix), 품종 등 정량화된 수치로 수요 예측 ML에 완벽 부합</li>
+                </ul>
+            </div>
+            <div class="card" style="display: flex; flex-direction: column;">
+                <h3>🏰 범접할 수 없는 '진짜 해자' (Real Moat)</h3>
+                <ul style="margin-top: 16px; flex-grow: 1; color: var(--gray-600); line-height: 1.6;">
+                    <li style="color: var(--dark); font-weight: 600; margin-bottom: 8px;">AI나 단순 큐레이션은 누구나 쉽게 모방할 수
+                        있습니다.</li>
+                    <li style="margin-bottom: 8px;"><strong>[소싱 독점권]</strong> 수십 년 노하우로 선점한 계약 산지 농가 네트워크</li>
+                    <li style="margin-bottom: 8px;"><strong>[통제된 품질]</strong> 선별기 기반 당도 DB 축적으로 입고 전 당도 사전 확정</li>
+                    <li><strong>[초격차 운영]</strong> 수년 간 축적된 품목별 폐기율 관리 및 방어 데이터</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- 2. 시장 분석 -->
+    <section class="section fade-in" id="market"
+        style="background: var(--white); max-width: 100%; padding-left: 0; padding-right: 0;">
+        <div style="max-width: 1200px; margin: 0 auto; padding: 0 24px;">
+            <div class="section-header">
+                <span class="section-label">Chapter 02</span>
+                <h2 class="section-title">시장 분석</h2>
+                <p class="section-desc">급성장하는 온라인 식료품 시장과 변화하는 과일 소비 트렌드</p>
+            </div>
+
+            <div class="metric-row">
+                <div class="metric-card">
+                    <div class="metric-value">6.9조</div>
+                    <div class="metric-label">과일 생산액 (2024)</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value" style="color: var(--secondary);">13.5조</div>
+                    <div class="metric-label">온라인 식료품 시장 (2024)</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">104.7조</div>
+                    <div class="metric-label">온라인 식료품 전망 (2033)</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value" style="color: var(--secondary);">37%</div>
+                    <div class="metric-label">정기구매 서비스 이용률</div>
+                </div>
+            </div>
+
+            <div class="card-grid cols-2">
+                <div class="card">
+                    <h3>📈 과일시장 핵심 지표</h3>
+                    <ul>
+                        <li>2024년 주요 과일 생산량 약 169~180만 톤</li>
+                        <li>사과 생산량 46만 톤 (전년 대비 16.6% ↑)</li>
+                        <li>신선 과일 수입량 72.5만 톤 (18.5% ↑)</li>
+                        <li>재배 면적 연평균 1% 감소 추세</li>
+                        <li>1인당 과일 소비 15년간 19% 감소</li>
+                        <li>신품종 품목 수 2020년 50개 → 2024년 101개</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>🔥 소비 트렌드</h3>
+                    <ul>
+                        <li>고당도·신품종 과일 선호 증가</li>
+                        <li>소비 양극화: 가성비 + 프리미엄 동시 성장</li>
+                        <li>간편 가공 과일 (컷팅, 세척) 수요 급증</li>
+                        <li>건강·기능성 과일 관심 확대</li>
+                        <li>국산 제철 과일 선호 증가</li>
+                        <li>온라인 식료품 37% 정기 구독 이용</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card" style="margin-top: 24px;">
+                <h3>🏢 주요 경쟁사 현황</h3>
+                <div class="table-wrap" style="margin-top: 16px;">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>구분</th>
+                                <th>마켓컬리</th>
+                                <th>오아시스마켓</th>
+                                <th>쿠팡(로켓프레시)</th>
+                                <th>FreshAll (우리)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>매출 규모</strong></td>
+                                <td>2.2조 원</td>
+                                <td>5,171억 원</td>
+                                <td>비공개</td>
+                                <td class="highlight">스타트업 진입</td>
+                            </tr>
+                            <tr>
+                                <td><strong>포지셔닝</strong></td>
+                                <td>프리미엄 종합식품</td>
+                                <td>유기농 가성비</td>
+                                <td>범용 가격파괴</td>
+                                <td class="highlight">과일 전문 B2B+B2C</td>
+                            </tr>
+                            <tr>
+                                <td><strong>배송</strong></td>
+                                <td>새벽/퀵배송</td>
+                                <td>새벽배송</td>
+                                <td>로켓배송</td>
+                                <td class="highlight">산지직송 새벽배송</td>
+                            </tr>
+                            <tr>
+                                <td><strong>과일 특화</strong></td>
+                                <td>❌ 종합</td>
+                                <td>❌ 종합</td>
+                                <td>❌ 종합</td>
+                                <td class="highlight">✅ 과일 전문</td>
+                            </tr>
+                            <tr>
+                                <td><strong>B2B</strong></td>
+                                <td>❌</td>
+                                <td>❌</td>
+                                <td>❌</td>
+                                <td class="highlight">✅ 도매 지원</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. SWOT -->
+    <section class="section fade-in" id="swot">
+        <div class="section-header">
+            <span class="section-label">Chapter 03</span>
+            <h2 class="section-title">SWOT 분석</h2>
+        </div>
+        <div class="swot-grid">
+            <div class="swot-card s">
+                <h3>💪 Strengths</h3>
+                <ul>
+                    <li>입증된 오프라인 실물 자산 (Execution Proof)</li>
+                    <li>초격차 경쟁력: 산지 독점 계약 및 밭떼기 물량 확보</li>
+                    <li>당도 DB 및 품목별 폐기율 관리 노하우 보유 (Moat)</li>
+                    <li>B2B 거래처 기반의 Zero-CAC B2C 고객 전환 채널 확보</li>
+                    <li>새로운 자금 수혈 없이도 자생 가능한 매입 원가 경쟁력</li>
+                </ul>
+            </div>
+            <div class="swot-card w">
+                <h3>⚠️ Weaknesses</h3>
+                <ul>
+                    <li>신규 B2C 기반의 온라인 브랜드 및 대중성 부재</li>
+                    <li>전화/수기 방식에 익숙한 기존 도매 고객의 디지털 이행 거부감</li>
+                    <li>초기부터 완전 자동화 AI를 구축하기엔 개발비 리스크 존재</li>
+                    <li>대규모 도매 재고와 소매 재고 운영 간의 시스템적 충돌 최소화 과제</li>
+                </ul>
+            </div>
+            <div class="swot-card o">
+                <h3>🌟 Opportunities</h3>
+                <ul>
+                    <li>온라인 식료품 시장의 지속적이고 폭발적인 배송 수요 증가</li>
+                    <li>구독 최적화(37%의 정기 배송 이용률)에 가장 맞는 정기 과일 상품</li>
+                    <li>오프라인 위주였던 전통 과일 도매 생태계의 B2B 디지털화 가속</li>
+                </ul>
+            </div>
+            <div class="swot-card t">
+                <h3>🔴 Threats (리스크 대응)</h3>
+                <ul>
+                    <li>거대 자본 커머스 플랫폼의 가격 횡포 <strong>[산지 선계약 단가로 방어]</strong></li>
+                    <li>기후 및 작황 부진으로 인한 원가 폭등 <strong>[멀티 지역 분산 통합 소싱]</strong></li>
+                    <li>필연적으로 발생하는 미판매 과일 폐기 <strong>[B2B 가공 채우기로 즉각 라우팅하여 폐기 0%화]</strong></li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. 비즈니스 모델 -->
+    <section class="section fade-in" id="model"
+        style="background: var(--white); max-width: 100%; padding-left: 0; padding-right: 0;">
+        <div style="max-width: 1200px; margin: 0 auto; padding: 0 24px;">
+            <div class="section-header">
+                <span class="section-label">Chapter 04</span>
+                <h2 class="section-title">비즈니스 모델</h2>
+                <p class="section-desc">산지직결 B2B 도매 + 큐레이션 B2C 소매의 듀얼 모델</p>
+            </div>
+
+            <!-- BMC -->
+            <div class="bmc-grid">
+                <div class="bmc-cell">
+                    <h4>🤝 핵심 파트너</h4>
+                    <ul>
+                        <li>산지 농가/조합</li>
+                        <li>3PL 콜드체인 물류사</li>
+                        <li>aT (KAFB2B)</li>
+                        <li>결제 대행사</li>
+                        <li>인플루언서</li>
+                    </ul>
+                </div>
+                <div class="bmc-cell">
+                    <h4>⚙️ 핵심 활동</h4>
+                    <ul>
+                        <li>산지 매입·품질관리</li>
+                        <li>상품 기획·큐레이션</li>
+                        <li>마케팅·브랜딩</li>
+                        <li>플랫폼 개발·운영</li>
+                        <li>B2B 영업</li>
+                    </ul>
+                </div>
+                <div class="bmc-cell bmc-center">
+                    <h4>🎁 가치 제안</h4>
+                    <ul>
+                        <li><strong>[B2B]</strong></li>
+                        <li>산지직결 도매가</li>
+                        <li>안정적 수급 보장</li>
+                        <li>여신·후불 거래</li>
+                        <li>품질 인증 시스템</li>
+                        <li style="margin-top: 10px"><strong>[B2C]</strong></li>
+                        <li>제철 과일 큐레이션</li>
+                        <li>당도 보장제</li>
+                        <li>과일 정기 구독</li>
+                        <li>프리미엄 선물 서비스</li>
+                    </ul>
+                </div>
+                <div class="bmc-cell">
+                    <h4>👥 고객 관계</h4>
+                    <ul>
+                        <li>[B2B] 전담 매니저</li>
+                        <li>[B2B] 정기 계약</li>
+                        <li>[B2C] AI 추천</li>
+                        <li>[B2C] 리뷰 커뮤니티</li>
+                        <li>[B2C] 등급제 CRM</li>
+                    </ul>
+                </div>
+                <div class="bmc-cell">
+                    <h4>🎯 고객 세그먼트</h4>
+                    <ul>
+                        <li><strong>[B2B]</strong></li>
+                        <li>과일전문점·소매업체</li>
+                        <li>식당·카페·호텔</li>
+                        <li>식품 가공업체</li>
+                        <li style="margin-top: 10px"><strong>[B2C]</strong></li>
+                        <li>건강지향 MZ세대</li>
+                        <li>맞벌이 가정</li>
+                        <li>프리미엄 소비자</li>
+                    </ul>
+                </div>
+                <div class="bmc-cell">
+                    <h4>📦 핵심 자원</h4>
+                    <ul>
+                        <li>농가 네트워크</li>
+                        <li>가격·물량 데이터</li>
+                        <li>큐레이션 역량</li>
+                        <li>고객 데이터</li>
+                        <li>브랜드 자산</li>
+                    </ul>
+                </div>
+                <div class="bmc-cell">
+                    <h4>📱 채널</h4>
+                    <ul>
+                        <li>[B2B] 전용 웹포탈</li>
+                        <li>[B2C] 모바일 앱</li>
+                        <li>SNS / 라이브커머스</li>
+                        <li>네이버쇼핑 연동</li>
+                        <li>카카오 선물하기</li>
+                    </ul>
+                </div>
+                <div class="bmc-cell bmc-bottom">
+                    <h4>💰 비용 구조</h4>
+                    <ul>
+                        <li>매입원가 (55~60%) | 물류비 (10~12%) | 결제수수료 (2~3%)</li>
+                        <li>인건비 | 마케팅비 | IT 인프라 | 사무실</li>
+                    </ul>
+                </div>
+                <div class="bmc-cell bmc-bottom" style="grid-column: span 3;">
+                    <h4>💸 수익원</h4>
+                    <ul>
+                        <li>[B2B] 거래 수수료 | 물류대행비 | 프리미엄 리스팅</li>
+                        <li>[B2C] 상품 마진 | 구독료 | 선물배송 수수료</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. B2B / B2C 플랫폼 -->
+    <section class="section fade-in" id="platform">
+        <div class="section-header">
+            <span class="section-label">Chapter 05</span>
+            <h2 class="section-title">듀얼 플랫폼 전략</h2>
+            <p class="section-desc">도매 업체와 일반 고객, 각각의 니즈에 최적화된 서비스</p>
+        </div>
+
+        <div class="dual-grid">
+            <div class="dual-card b2b">
+                <h3>🏢 B2B 도매 플랫폼</h3>
+                <p class="sub">"기존 고객의 디지털 이주 + 폐쇄형 도매가 전용 몰"</p>
+                <ul>
+                    <li>실시간 도매 시세 대시보드</li>
+                    <li>대량 주문 + 볼륨 할인 자동 적용</li>
+                    <li>카카오톡 발주 봇 · POS 연동 자동 발주</li>
+                    <li>재고 예측 AI → 선제적 발주 제안 푸시</li>
+                    <li>여신 거래 + 나이스평가정보 신용 관리</li>
+                    <li>매출채권 보험 · 연체 자동 관리</li>
+                    <li>비파괴 당도 선별 API · 품질 인증서</li>
+                    <li>전담 매니저 배정</li>
+                </ul>
+            </div>
+            <div class="dual-card b2c">
+                <h3>🛒 B2C 소매 플랫폼</h3>
+                <p class="sub">"과일은 정보재가 아닌 경험재입니다"</p>
+                <ul>
+                    <li><strong>과일 취향 테스트</strong>: 온보딩 퀴즈로 고객 취향 프로파일 생성</li>
+                    <li><strong>AI 구매 비서</strong>: "이번 주 집들이 선물" → 최적 세트 원클릭 제안 (결정 대행)</li>
+                    <li>제철 과일 정기 구독 (스토리텔링 기반 경험 확장)</li>
+                    <li>당도 100% 보장제 (비파괴 선별 데이터 100% 투명 증명)</li>
+                    <li>당도 14Brix 이상 등의 철저한 품종 기반 타겟 큐레이션</li>
+                    <li>산지 농가의 생생한 스토리를 담은 브랜드형 콘텐츠</li>
+                    <li>사진 AI CS → 불량 자동 판정/환불</li>
+                    <li>프리미엄 하이엔드 과일 선물 포지셔닝</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="card" style="margin-top: 32px;">
+            <h3>💰 가격 전략</h3>
+            <div class="table-wrap" style="margin-top: 16px;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>라인</th>
+                            <th>가격대</th>
+                            <th>타겟 고객</th>
+                            <th>주요 상품</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>에센셜</strong></td>
+                            <td>시중가 대비 10~20% ↓</td>
+                            <td>가성비 고객, 일상 소비</td>
+                            <td>제철 과일, 비등급 상품, 묶음팩</td>
+                        </tr>
+                        <tr>
+                            <td><strong>프리미엄</strong></td>
+                            <td>시중가 수준</td>
+                            <td>품질 중시 고객</td>
+                            <td>당도 선별 과일, 유기농, 특등급</td>
+                        </tr>
+                        <tr>
+                            <td><strong>럭셔리</strong></td>
+                            <td>시중가 대비 20~50% ↑</td>
+                            <td>선물용, 프리미엄</td>
+                            <td>최고급 샤인머스캣, 애플망고, 선물세트</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. 마케팅 전략 -->
+    <section class="section fade-in" id="marketing"
+        style="background: var(--white); max-width: 100%; padding-left: 0; padding-right: 0;">
+        <div style="max-width: 1200px; margin: 0 auto; padding: 0 24px;">
+            <div class="section-header">
+                <span class="section-label">Chapter 06</span>
+                <h2 class="section-title">마케팅 · 운영 전략</h2>
+            </div>
+
+            <div class="card-grid cols-3">
+                <div class="card">
+                    <div class="card-icon orange" style="margin-bottom: 16px;">🔥</div>
+                    <h3>B2B → B2C (Zero-CAC)</h3>
+                    <ul style="margin-top: 12px; color: var(--gray-600); line-height: 1.6;">
+                        <li>기존 식당/카페에 B2C 구매용 리플렛 및 QR 비치</li>
+                        <li>오프라인 제휴처 방문 고객을 온라인 자사몰 회원으로 직접 흡수</li>
+                        <li>기존 B2B 거래처 (기업/식당) 직원 대상 복지 채널 연계</li>
+                        <li><strong>막대한 마케팅 출혈 없이 강력한 초기 트래픽 창출</strong></li>
+                    </ul>
+                </div>
+                <div class="card" style="grid-column: span 2;">
+                    <div class="card-icon blue" style="margin-bottom: 16px;">📦</div>
+                    <h3>FreshAll 매입 의사결정 플로우 (폐기 0% 라우팅)</h3>
+                    <div
+                        style="font-size: 13px; margin-top: 16px; background: #f8f9fa; padding: 16px; border-radius: 8px; border: 1px solid var(--gray-200); text-align: left; line-height: 1.6;">
+                        <strong>[1. 통합 수요 Pool 생성]</strong> (B2C 구독 물량 + B2B 정기 발주 + AI 예측 결합)<br>
+                        &nbsp;&nbsp; ↓ <br>
+                        <strong>[2. Insight Engine]</strong> (수요에 맞춘 정확한 매입량 자동 산출)<br>
+                        &nbsp;&nbsp; ↓ <br>
+                        <strong>[3. 실행: 산지 선계약/발주 및 등급 자동 라우팅]</strong><br>
+                        &nbsp;&nbsp; ├─ A등급 → B2C 프리미엄 큐레이션 즉시 배정<br>
+                        &nbsp;&nbsp; ├─ B등급 → B2B 일반 도매/식당 납품 배정<br>
+                        &nbsp;&nbsp; └─ C등급/못난이 → B2B 가공업체(주스/잼) 즉시 전환<br><br>
+                        <span style="color:var(--primary); font-weight:600;">☞ 결론: 매입한 물량이 등급에 따라 즉시 판매처로 자동 할당되어 창고에
+                            머무는 시간(폐기율)을 원천 차단합니다.</span>
+                    </div>
+                </div>
+                <div class="card" style="grid-column: span 3;">
+                    <div class="card-icon green" style="margin-bottom: 16px;">📊</div>
+                    <div style="display: flex; gap: 32px; align-items: flex-start;">
+                        <div style="flex: 1;">
+                            <h3>Unit Economics (경제성)</h3>
+                            <ul style="margin-top: 12px; color: var(--gray-600); line-height: 1.6;">
+                                <li><strong>매입원가 방어:</strong> 거래처 바잉 파워로 55% 선 유지</li>
+                                <li><strong>폐기율 목표:</strong> B2B 가공업체 우회 라우팅을 통해 2% 미만 달성</li>
+                                <li><strong>물류비 인하:</strong> B2B 기존 루트와 혼적 배송으로 10% 이하 통제</li>
+                                <li><strong>목표 달성:</strong> <strong>8~10개월 내 온라인 사업 단독 BEP 돌파</strong></li>
+                            </ul>
+                        </div>
+                        <div style="flex: 1; border-left: 1px solid var(--gray-200); padding-left: 32px;">
+                            <h3>구독 타겟 KPI (수요 안정화)</h3>
+                            <p style="margin-top: 8px; font-size: 14px; color: var(--gray-600); line-height: 1.6;">구독은
+                                단순한 마케팅 모델이 아니라, 수요 예측을 통제하여 폐기율을 0%로 수렴하게 만드는 <strong>가장 강력한 운영적 무기</strong>입니다.</p>
+                            <ul style="margin-top: 12px; font-weight: 500;">
+                                <li>전체 B2C 매출 중 <strong>정기 구독 비중 40% 달성</strong> (12M 내)</li>
+                                <li>B2B 매출 중 <strong>정기 납품 계약 비중 60% 달성</strong> (12M 내)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card" style="margin-top: 24px;">
+                <h3>🔧 기술 아키텍처</h3>
+                <div class="table-wrap" style="margin-top: 16px;">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>영역</th>
+                                <th>기술 스택</th>
+                                <th>용도</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>프론트엔드</strong></td>
+                                <td>React Native, Next.js</td>
+                                <td>모바일앱, B2C/B2B 웹</td>
+                            </tr>
+                            <tr>
+                                <td><strong>백엔드</strong></td>
+                                <td>Node.js (NestJS)</td>
+                                <td>API 서버, 마이크로서비스</td>
+                            </tr>
+                            <tr>
+                                <td><strong>데이터베이스</strong></td>
+                                <td>PostgreSQL, Redis</td>
+                                <td>데이터 저장, 캐시/세션</td>
+                            </tr>
+                            <tr>
+                                <td><strong>인프라</strong></td>
+                                <td>AWS / NCP</td>
+                                <td>클라우드, S3, CDN</td>
+                            </tr>
+                            <tr>
+                                <td><strong>AI/ML</strong></td>
+                                <td>Python, TensorFlow</td>
+                                <td>추천 엔진, 수요 예측, 이미지 분류</td>
+                            </tr>
+                            <tr>
+                                <td><strong>검색</strong></td>
+                                <td>ElasticSearch</td>
+                                <td>상품 검색, 자동완성</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="card-grid cols-2" style="margin-top: 24px;">
+                <div class="card">
+                    <h3>🤖 데이터 생태계 (Core AI)</h3>
+                    <p style="margin-top: 8px; color: var(--gray-600); font-weight: 500;">과장된 챗봇이 아닌, 장사의 본질인
+                        <strong>'수요 예측과 폐기 방어'</strong>가 AI의 진짜 목표입니다.
+                    </p>
+                    <ul style="margin-top: 12px; line-height: 1.6;">
+                        <li><strong>산지 공급망 DB:</strong> 소비자가 모르는 품종/당도 데이터를 자산화 (Moat)</li>
+                        <li><strong>초정밀 수요 예측 엔진:</strong> 공급망 DB + 취향 프로파일 DB 결합으로 온/오프 통합 수요 예측을 통한 폐기율 최소화</li>
+                    </ul>
+                    <div style="margin-top: 16px; padding-top: 16px; border-top: 1px dashed var(--gray-200);">
+                        <h4 style="color: var(--primary);">사장의 안목 디지털화: "Fruit Batch Intelligence"</h4>
+                        <p style="font-size: 13px; color: var(--gray-600); margin-top: 8px;">수십 년 경력 사장의 '감'을 7가지
+                            데이터(산지, 품종, 수확일, 당도, 소진속도, 재구매율, 감정리뷰)로 분해·학습. <strong>"현재 시장에서 가장 반응이 폭발할 Batch
+                                003번"</strong>을 AI가 스스로 판별(The Eye)하여 타겟 고객에게 1순위로 배정합니다.</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <h3>🎯 특화 경험 상품</h3>
+                    <p style="margin-top: 8px; color: var(--gray-600); font-weight: 500;">과일은 정보재가 아닌 경험재입니다. 스펙을 나열하지
+                        않고, <strong>경험과 스토리, 신뢰</strong>를 팝니다.</p>
+                    <ul style="margin-top: 12px; line-height: 1.6;">
+                        <li>사용자 취향 맞춤 핀셋 큐레이션 박스 (당도/식감 기반)</li>
+                        <li>하이엔드 "맛집 사다주기" 포지셔닝 프리미엄 과일 선물</li>
+                        <li>"어제 입고된 당도 최상위 등급" - 농가 실명 및 선별 보증서 동봉</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card" style="margin-top: 24px;">
+                <h3>🤖 단계적 AI 도입 전략 (Phased AI)</h3>
+                <p style="margin-top: 8px; font-size: 14px; color: var(--gray-600);">초기부터 허황된 전면 자동화를 지양하고, MVP 단계에 맞춰
+                    시스템 개발비를 최소화하며 데이터 풀을 확보합니다.</p>
+                <div class="table-wrap" style="margin-top: 16px;">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>도입 단계</th>
+                                <th>기술 수준 (Tech Level)</th>
+                                <th>핵심 구현 내용</th>
+                                <th>투자/비즈니스 관점의 효용</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Phase 1<br>(MVP~6M)</strong></td>
+                                <td>규칙 기반<br>(Rule-based)</td>
+                                <td>
+                                    - 당도 및 TPO(상황) 기반 Rule 배열 상품 추천<br>
+                                    - 산지 입고 데이터 표준화 및 적재<br>
+                                    - 카카오톡 챗봇 자동주문 (키워드/규칙 기반)
+                                </td>
+                                <td>초기 과다한 시스템 유지보수 비용 차단, 높은 품질의 기초 데이터 풀 확보</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Phase 2<br>(6M~12M)</strong></td>
+                                <td>초급 머신러닝<br>(Simple ML)</td>
+                                <td>
+                                    - 누적된 거래 데이터를 바탕으로 한 B2B/B2C 수요예측 모델<br>
+                                    - CS 사진 기반 단순 불량 판독 보조 모델 (1차 필터링)
+                                </td>
+                                <td>재고 회전율 극한 상승, 잉여 폐기율 가시적 감소, CS 인건비 획기적 개선</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Phase 3<br>(12M~ )</strong></td>
+                                <td>AI 자동화 플랫폼<br>(Automation)</td>
+                                <td>
+                                    - 기상청/농수산식품공사 시세 API 연동 <strong>스마트 자동 예측 및 발주</strong><br>
+                                    - 고객의 구매 패턴, 리뷰, 반품률을 결합한 <strong>초개인화 자동 큐레이션 엔진</strong>
+                                </td>
+                                <td>운영 개입(Operation) 제로화, 인력 증원 없는 거대한 매출 확장성, 초격차 진입장벽 완성</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+    </section>
+
+
+
+    <!-- 7. 로드맵 -->
+    <section class="section fade-in" id="roadmap"
+        style="background: var(--white); max-width: 100%; padding-left: 0; padding-right: 0;">
+        <div style="max-width: 1200px; margin: 0 auto; padding: 0 24px;">
+            <div class="section-header">
+                <span class="section-label">Chapter 07</span>
+                <h2 class="section-title">실행 로드맵</h2>
+            </div>
+
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="period">Phase 1 — DX 기반 구축 (0~3개월)</div>
+                    <h3>플랫폼 구축</h3>
+                    <p>B2C 웹 오픈 · 폐쇄형 B2B몰 · ERP 연동 · 기존 10개 거래처 디지털 이주 테스트</p>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot" style="background: #FF8E53;"></div>
+                    <div class="period">Phase 2 — 시장 확장 (3~9개월)</div>
+                    <h3>B2B 이주 + B2C 성장</h3>
+                    <p>구독 서비스 런칭 · 소포장 라인 구축 · 50개 거래처 이주 완료 · 앱 Beta 출시</p>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot" style="background: var(--secondary);"></div>
+                    <div class="period">Phase 3 — 규모 확대 (9~18개월)</div>
+                    <h3>전국 서비스</h3>
+                    <p>전국 배송 시작 · 앱 정식 출시 · 100개 거래처 확보 · 월 매출 5억+ 돌파</p>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot" style="background: var(--dark);"></div>
+                    <div class="period">Phase 4 — 수익화 (18~36개월)</div>
+                    <h3>BEP 달성</h3>
+                    <p>영업이익 흑자전환 · AI 기반 스마트 구매비서 고도화 · 월 매출 20억+ · 시리즈A 투자 유치</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <div style="padding: 0 24px 80px;">
+        <div class="cta-section">
+            <h2>Fresh<span style="opacity: 0.6;">All</span>, 디지털 유통의 미래</h2>
+            <p>기존 유통망에 데이터와 AI를 더해<br>오프라인 자산의 가치를 극대화하는 디지털 전환(DX) 플랫폼입니다.</p>
+            <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; font-size: 15px;">
+                <span>📧 contact@freshall.co.kr</span>
+                <span>📱 www.freshall.co.kr</span>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2025 FreshAll (프레시올) — 온라인 과일 커머스 사업기획서</p>
+        <p style="margin-top: 8px; font-size: 12px; color: var(--gray-300);">본 문서는 사업 검토 목적으로 작성되었으며, 수치는 시장 리서치 기반
+            추정치입니다.</p>
+    </footer>
+
+    <script>
+        // Nav scroll effect
+        window.addEventListener('scroll', () => {
+            document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 10);
+        });
+
+        // Fade-in animation
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+        // Smooth scroll for nav links
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const target = document.querySelector(link.getAttribute('href'));
+                if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+        });
+    </script>
+</body>
+
+</html>

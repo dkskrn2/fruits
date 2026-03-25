@@ -6,606 +6,7 @@
     <title>타임세일 - 과일다리</title>
     <link rel="stylesheet" href="../../styles/design-system.css">
     <link rel="stylesheet" href="../../styles/components.css">
-    <style>
-        body {
-            background: var(--color-gray-50);
-            padding-bottom: calc(var(--bottom-nav-height) + 20px);
-        }
-
-        /* Header */
-        .header {
-            position: sticky;
-            top: 0;
-            z-index: var(--z-sticky);
-            background: var(--color-white);
-            border-bottom: 1px solid var(--color-gray-200);
-            padding: var(--space-3) var(--space-4);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .header-back {
-            font-size: 24px;
-            cursor: pointer;
-            padding: var(--space-2);
-            margin-left: calc(var(--space-2) * -1);
-        }
-
-        .header-title {
-            font-size: var(--font-size-md);
-            font-weight: var(--font-weight-semibold);
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
-        }
-
-        .header-icon {
-            font-size: 24px;
-            cursor: pointer;
-            padding: var(--space-2);
-        }
-
-        /* Countdown Banner */
-        .countdown-banner {
-            background: linear-gradient(135deg, #FF6B35 0%, #FF4757 100%);
-            padding: var(--space-6) var(--space-4);
-            color: var(--color-white);
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .countdown-banner::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            right: -10%;
-            width: 200px;
-            height: 200px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-        }
-
-        .countdown-banner::after {
-            content: '';
-            position: absolute;
-            bottom: -30%;
-            left: -5%;
-            width: 150px;
-            height: 150px;
-            background: rgba(255, 255, 255, 0.08);
-            border-radius: 50%;
-        }
-
-        .countdown-banner__content {
-            position: relative;
-            z-index: 1;
-        }
-
-        .countdown-banner__icon {
-            font-size: 32px;
-            animation: flash 1.5s infinite;
-            margin-bottom: var(--space-2);
-        }
-
-        @keyframes flash {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.7; transform: scale(1.1); }
-        }
-
-        .countdown-banner__title {
-            font-size: var(--font-size-xl);
-            font-weight: var(--font-weight-bold);
-            margin-bottom: var(--space-2);
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-        }
-
-        .countdown-banner__desc {
-            font-size: var(--font-size-sm);
-            opacity: 0.95;
-            margin-bottom: var(--space-4);
-        }
-
-        .countdown-timer {
-            display: flex;
-            justify-content: center;
-            gap: var(--space-2);
-            margin-top: var(--space-4);
-        }
-
-        .countdown-timer__item {
-            background: rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(10px);
-            border-radius: var(--radius-lg);
-            padding: var(--space-3) var(--space-3);
-            min-width: 60px;
-            text-align: center;
-        }
-
-        .countdown-timer__value {
-            font-size: var(--font-size-2xl);
-            font-weight: var(--font-weight-bold);
-            display: block;
-            line-height: 1;
-        }
-
-        .countdown-timer__label {
-            font-size: var(--font-size-xs);
-            opacity: 0.9;
-            margin-top: var(--space-1);
-            display: block;
-        }
-
-        /* Real-time Activity Feed */
-        .activity-feed {
-            background: var(--color-white);
-            padding: var(--space-3) var(--space-4);
-            border-bottom: 1px solid var(--color-gray-100);
-            overflow: hidden;
-        }
-
-        .activity-feed__item {
-            display: flex;
-            align-items: center;
-            gap: var(--space-2);
-            font-size: var(--font-size-sm);
-            color: var(--color-gray-700);
-            padding: var(--space-2) 0;
-            animation: slideIn 0.3s ease;
-        }
-
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateY(-10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .activity-feed__icon {
-            font-size: 16px;
-        }
-
-        .activity-feed__user {
-            font-weight: var(--font-weight-medium);
-            color: var(--color-gray-900);
-        }
-
-        .activity-feed__product {
-            color: var(--color-primary);
-            font-weight: var(--font-weight-medium);
-        }
-
-        .activity-feed__time {
-            color: var(--color-gray-500);
-            font-size: var(--font-size-xs);
-            margin-left: auto;
-        }
-
-        /* Section Tabs */
-        .section-tabs {
-            background: var(--color-white);
-            display: flex;
-            padding: 0 var(--space-4);
-            border-bottom: 1px solid var(--color-gray-200);
-            position: sticky;
-            top: 56px;
-            z-index: var(--z-sticky);
-        }
-
-        .section-tab {
-            flex: 1;
-            padding: var(--space-3) 0;
-            font-size: var(--font-size-base);
-            font-weight: var(--font-weight-medium);
-            color: var(--color-gray-600);
-            background: transparent;
-            border: none;
-            border-bottom: 2px solid transparent;
-            cursor: pointer;
-            transition: all var(--transition-fast);
-        }
-
-        .section-tab.active {
-            color: var(--color-primary);
-            border-bottom-color: var(--color-primary);
-        }
-
-        /* Products Grid */
-        .products-section {
-            padding: var(--space-4);
-        }
-
-        .products-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: var(--space-4);
-        }
-
-        .products-header__title {
-            font-size: var(--font-size-lg);
-            font-weight: var(--font-weight-bold);
-            color: var(--color-gray-900);
-        }
-
-        .products-header__count {
-            font-size: var(--font-size-sm);
-            color: var(--color-error);
-            font-weight: var(--font-weight-semibold);
-        }
-
-        .products-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: var(--space-3);
-        }
-
-        /* Flash Sale Product Card */
-        .flash-product {
-            background: var(--color-white);
-            border-radius: var(--radius-xl);
-            overflow: hidden;
-            box-shadow: var(--shadow-md);
-            transition: all var(--transition-base);
-            cursor: pointer;
-            position: relative;
-        }
-
-        .flash-product:active {
-            transform: scale(0.98);
-        }
-
-        .flash-product__image {
-            position: relative;
-            padding-top: 100%;
-            background: var(--color-gray-100);
-            overflow: hidden;
-        }
-
-        .flash-product__image img {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .flash-badge {
-            position: absolute;
-            top: var(--space-2);
-            left: var(--space-2);
-            background: var(--color-error);
-            color: var(--color-white);
-            padding: var(--space-1) var(--space-2);
-            border-radius: var(--radius-sm);
-            font-size: var(--font-size-xs);
-            font-weight: var(--font-weight-bold);
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            animation: pulse 2s infinite;
-            z-index: 2;
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-        }
-
-        .flash-badge__icon {
-            font-size: 12px;
-        }
-
-        .stock-overlay {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: rgba(0, 0, 0, 0.75);
-            backdrop-filter: blur(5px);
-            padding: var(--space-2);
-            color: var(--color-white);
-        }
-
-        .stock-overlay__label {
-            font-size: var(--font-size-xs);
-            margin-bottom: var(--space-1);
-            display: flex;
-            justify-content: space-between;
-        }
-
-        .stock-overlay__count {
-            font-weight: var(--font-weight-bold);
-            color: var(--color-warning);
-        }
-
-        .progress-bar {
-            height: 6px;
-            background: rgba(255, 255, 255, 0.3);
-            border-radius: var(--radius-full);
-            overflow: hidden;
-        }
-
-        .progress-bar__fill {
-            height: 100%;
-            background: linear-gradient(90deg, var(--color-warning), var(--color-error));
-            border-radius: var(--radius-full);
-            transition: width 0.5s ease;
-            animation: shimmer 2s infinite;
-        }
-
-        @keyframes shimmer {
-            0% { opacity: 1; }
-            50% { opacity: 0.8; }
-            100% { opacity: 1; }
-        }
-
-        .flash-product__content {
-            padding: var(--space-3);
-        }
-
-        .flash-product__title {
-            font-size: var(--font-size-sm);
-            font-weight: var(--font-weight-medium);
-            color: var(--color-gray-900);
-            margin-bottom: var(--space-2);
-            line-height: var(--line-height-tight);
-            height: 32px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-        }
-
-        .flash-product__price-box {
-            display: flex;
-            align-items: baseline;
-            gap: var(--space-1);
-            margin-bottom: var(--space-2);
-        }
-
-        .flash-product__discount {
-            font-size: var(--font-size-md);
-            font-weight: var(--font-weight-bold);
-            color: var(--color-error);
-        }
-
-        .flash-product__price {
-            font-size: var(--font-size-md);
-            font-weight: var(--font-weight-bold);
-            color: var(--color-gray-900);
-        }
-
-        .flash-product__original {
-            font-size: var(--font-size-xs);
-            color: var(--color-gray-500);
-            text-decoration: line-through;
-        }
-
-        .flash-product__action {
-            width: 100%;
-            padding: var(--space-2);
-            background: var(--color-primary);
-            color: var(--color-white);
-            border: none;
-            border-radius: var(--radius-md);
-            font-size: var(--font-size-sm);
-            font-weight: var(--font-weight-semibold);
-            cursor: pointer;
-            transition: all var(--transition-fast);
-        }
-
-        .flash-product__action:active {
-            background: var(--color-primary-dark);
-            transform: scale(0.97);
-        }
-
-        .flash-product__action--soldout {
-            background: var(--color-gray-300);
-            color: var(--color-gray-600);
-            cursor: not-allowed;
-        }
-
-        /* Next Sale Preview */
-        .next-sale {
-            background: var(--color-white);
-            margin: var(--space-6) var(--space-4) var(--space-4);
-            border-radius: var(--radius-xl);
-            padding: var(--space-5);
-            box-shadow: var(--shadow-md);
-        }
-
-        .next-sale__header {
-            text-align: center;
-            margin-bottom: var(--space-4);
-        }
-
-        .next-sale__title {
-            font-size: var(--font-size-lg);
-            font-weight: var(--font-weight-bold);
-            color: var(--color-gray-900);
-            margin-bottom: var(--space-2);
-        }
-
-        .next-sale__time {
-            font-size: var(--font-size-sm);
-            color: var(--color-gray-600);
-            background: var(--color-gray-100);
-            display: inline-block;
-            padding: var(--space-2) var(--space-3);
-            border-radius: var(--radius-full);
-        }
-
-        .next-sale__products {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: var(--space-2);
-        }
-
-        .next-sale__item {
-            aspect-ratio: 1;
-            border-radius: var(--radius-lg);
-            overflow: hidden;
-            position: relative;
-            background: var(--color-gray-100);
-        }
-
-        .next-sale__item img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            filter: blur(3px) brightness(0.9);
-        }
-
-        .next-sale__item::after {
-            content: '?';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: var(--font-size-3xl);
-            font-weight: var(--font-weight-bold);
-            color: var(--color-white);
-            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-        }
-
-        .next-sale__notify {
-            margin-top: var(--space-4);
-            width: 100%;
-            padding: var(--space-3);
-            background: var(--color-primary-light);
-            color: var(--color-primary-dark);
-            border: 1px solid var(--color-primary);
-            border-radius: var(--radius-lg);
-            font-size: var(--font-size-sm);
-            font-weight: var(--font-weight-semibold);
-            cursor: pointer;
-            transition: all var(--transition-fast);
-        }
-
-        .next-sale__notify:active {
-            transform: scale(0.98);
-        }
-
-        /* Limited Alert Banner */
-        .limited-alert {
-            background: linear-gradient(135deg, var(--color-warning), var(--color-secondary));
-            padding: var(--space-3) var(--space-4);
-            margin: var(--space-4);
-            border-radius: var(--radius-lg);
-            color: var(--color-white);
-            display: flex;
-            align-items: center;
-            gap: var(--space-3);
-            animation: shake 3s infinite;
-        }
-
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            10%, 30%, 50%, 70%, 90% { transform: translateX(-2px); }
-            20%, 40%, 60%, 80% { transform: translateX(2px); }
-        }
-
-        .limited-alert__icon {
-            font-size: 24px;
-        }
-
-        .limited-alert__content {
-            flex: 1;
-        }
-
-        .limited-alert__title {
-            font-weight: var(--font-weight-bold);
-            font-size: var(--font-size-base);
-            margin-bottom: var(--space-1);
-        }
-
-        .limited-alert__desc {
-            font-size: var(--font-size-xs);
-            opacity: 0.95;
-        }
-
-        /* Bottom Navigation */
-        .bottom-nav {
-            position: fixed;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100%;
-            max-width: var(--max-width-mobile);
-            background: var(--color-white);
-            border-top: 1px solid var(--color-gray-200);
-            display: flex;
-            justify-content: space-around;
-            padding: var(--space-2) 0;
-            z-index: var(--z-sticky);
-        }
-
-        .nav-item {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: var(--space-1);
-            padding: var(--space-1);
-            color: var(--color-gray-600);
-            text-decoration: none;
-            cursor: pointer;
-            transition: all var(--transition-fast);
-        }
-
-        .nav-item.active {
-            color: var(--color-primary);
-        }
-
-        .nav-item__icon {
-            font-size: 24px;
-        }
-
-        .nav-item__label {
-            font-size: var(--font-size-xs);
-            font-weight: var(--font-weight-medium);
-        }
-
-        /* Loading Skeleton */
-        .skeleton-product {
-            background: var(--color-white);
-            border-radius: var(--radius-xl);
-            overflow: hidden;
-            box-shadow: var(--shadow-sm);
-        }
-
-        .skeleton-product__image {
-            width: 100%;
-            padding-top: 100%;
-            background: var(--color-gray-200);
-            animation: skeleton-loading 1.5s ease-in-out infinite;
-        }
-
-        .skeleton-product__content {
-            padding: var(--space-3);
-        }
-
-        .skeleton-line {
-            height: 12px;
-            background: var(--color-gray-200);
-            border-radius: var(--radius-sm);
-            margin-bottom: var(--space-2);
-            animation: skeleton-loading 1.5s ease-in-out infinite;
-        }
-
-        @keyframes skeleton-loading {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
-        }
-    </style>
+    <link rel="stylesheet" href="../../styles/common-layout.css">
 </head>
 <body>
     <!-- Header -->
@@ -671,8 +72,8 @@
             <div class="flash-product">
                 <div class="flash-product__image">
                     <img src="https://images.unsplash.com/photo-1568702846914-96b305d2aaeb?w=400" alt="제주 한라봉">
-                    <div class="flash-badge">
-                        <span class="flash-badge__icon">⚡</span>
+                    <div class="flash-chip">
+                        <span class="flash-chip__icon">⚡</span>
                         <span>70% OFF</span>
                     </div>
                     <div class="stock-overlay">
@@ -700,8 +101,8 @@
             <div class="flash-product">
                 <div class="flash-product__image">
                     <img src="https://images.unsplash.com/photo-1587049352846-4a222e784f4f?w=400" alt="샤인머스캣">
-                    <div class="flash-badge">
-                        <span class="flash-badge__icon">⚡</span>
+                    <div class="flash-chip">
+                        <span class="flash-chip__icon">⚡</span>
                         <span>65% OFF</span>
                     </div>
                     <div class="stock-overlay">
@@ -729,8 +130,8 @@
             <div class="flash-product">
                 <div class="flash-product__image">
                     <img src="https://images.unsplash.com/photo-1619546813926-a78fa6372cd2?w=400" alt="국내산 딸기">
-                    <div class="flash-badge">
-                        <span class="flash-badge__icon">⚡</span>
+                    <div class="flash-chip">
+                        <span class="flash-chip__icon">⚡</span>
                         <span>60% OFF</span>
                     </div>
                     <div class="stock-overlay">
@@ -758,8 +159,8 @@
             <div class="flash-product">
                 <div class="flash-product__image">
                     <img src="https://images.unsplash.com/photo-1584306670957-acf935f5033c?w=400" alt="애플망고">
-                    <div class="flash-badge">
-                        <span class="flash-badge__icon">⚡</span>
+                    <div class="flash-chip">
+                        <span class="flash-chip__icon">⚡</span>
                         <span>55% OFF</span>
                     </div>
                     <div class="stock-overlay">
@@ -787,8 +188,8 @@
             <div class="flash-product">
                 <div class="flash-product__image">
                     <img src="https://images.unsplash.com/photo-1528821128474-27f963b062bf?w=400" alt="제주 레드향">
-                    <div class="flash-badge">
-                        <span class="flash-badge__icon">⚡</span>
+                    <div class="flash-chip">
+                        <span class="flash-chip__icon">⚡</span>
                         <span>68% OFF</span>
                     </div>
                     <div class="stock-overlay">
@@ -816,8 +217,8 @@
             <div class="flash-product">
                 <div class="flash-product__image">
                     <img src="https://images.unsplash.com/photo-1590005354167-6da97870c757?w=400" alt="국내산 수박">
-                    <div class="flash-badge">
-                        <span class="flash-badge__icon">⚡</span>
+                    <div class="flash-chip">
+                        <span class="flash-chip__icon">⚡</span>
                         <span>50% OFF</span>
                     </div>
                     <div class="stock-overlay">
@@ -845,8 +246,8 @@
             <div class="flash-product">
                 <div class="flash-product__image">
                     <img src="https://images.unsplash.com/photo-1587132117816-5a7e0e5f7f43?w=400" alt="청포도">
-                    <div class="flash-badge">
-                        <span class="flash-badge__icon">⚡</span>
+                    <div class="flash-chip">
+                        <span class="flash-chip__icon">⚡</span>
                         <span>62% OFF</span>
                     </div>
                     <div class="stock-overlay">
@@ -874,8 +275,8 @@
             <div class="flash-product">
                 <div class="flash-product__image">
                     <img src="https://images.unsplash.com/photo-1610832745053-94118a75c0d3?w=400" alt="복숭아">
-                    <div class="flash-badge">
-                        <span class="flash-badge__icon">⚡</span>
+                    <div class="flash-chip">
+                        <span class="flash-chip__icon">⚡</span>
                         <span>58% OFF</span>
                     </div>
                     <div class="stock-overlay">
@@ -903,8 +304,8 @@
             <div class="flash-product">
                 <div class="flash-product__image">
                     <img src="https://images.unsplash.com/photo-1563114773-84221bd62daa?w=400" alt="파인애플">
-                    <div class="flash-badge">
-                        <span class="flash-badge__icon">⚡</span>
+                    <div class="flash-chip">
+                        <span class="flash-chip__icon">⚡</span>
                         <span>52% OFF</span>
                     </div>
                     <div class="stock-overlay">
@@ -932,8 +333,8 @@
             <div class="flash-product">
                 <div class="flash-product__image">
                     <img src="https://images.unsplash.com/photo-1587049352823-abea0a7e6d9a?w=400" alt="사과">
-                    <div class="flash-badge">
-                        <span class="flash-badge__icon">⚡</span>
+                    <div class="flash-chip">
+                        <span class="flash-chip__icon">⚡</span>
                         <span>48% OFF</span>
                     </div>
                     <div class="stock-overlay">
@@ -981,21 +382,21 @@
 
     <!-- Bottom Navigation -->
     <nav class="bottom-nav">
-        <a href="../home/index.html" class="nav-item">
-            <span class="nav-item__icon">🏠</span>
-            <span class="nav-item__label">홈</span>
+        <a href="../home/index.html" class="nav-link">
+            <span class="nav-link__icon">🏠</span>
+            <span class="nav-link__label">홈</span>
         </a>
-        <a href="../products/index.html" class="nav-item active">
-            <span class="nav-item__icon">🍎</span>
-            <span class="nav-item__label">상품</span>
+        <a href="../products/index.html" class="nav-link active">
+            <span class="nav-link__icon">🍎</span>
+            <span class="nav-link__label">상품</span>
         </a>
-        <a href="../mypage/index.html" class="nav-item">
-            <span class="nav-item__icon">👤</span>
-            <span class="nav-item__label">마이</span>
+        <a href="../mypage/index.html" class="nav-link">
+            <span class="nav-link__icon">👤</span>
+            <span class="nav-link__label">마이</span>
         </a>
-        <a href="../support/index.html" class="nav-item">
-            <span class="nav-item__icon">💬</span>
-            <span class="nav-item__label">고객지원</span>
+        <a href="../support/index.html" class="nav-link">
+            <span class="nav-link__icon">💬</span>
+            <span class="nav-link__label">고객지원</span>
         </a>
     </nav>
 

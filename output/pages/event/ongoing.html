@@ -6,506 +6,7 @@
     <title>진행중 이벤트 - 과일다리</title>
     <link rel="stylesheet" href="../../styles/design-system.css">
     <link rel="stylesheet" href="../../styles/components.css">
-    <style>
-        body {
-            padding-bottom: calc(var(--bottom-nav-height) + var(--safe-area-bottom));
-        }
-
-        /* Header */
-        .header {
-            position: sticky;
-            top: 0;
-            z-index: var(--z-sticky);
-            background: var(--color-white);
-            border-bottom: 1px solid var(--color-gray-200);
-            padding: var(--space-3) var(--space-4);
-        }
-
-        .header-top {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: var(--space-3);
-        }
-
-        .header-back {
-            width: 36px;
-            height: 36px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            font-size: 20px;
-            border-radius: var(--radius-lg);
-            transition: all var(--transition-fast);
-        }
-
-        .header-back:active {
-            background: var(--color-gray-100);
-        }
-
-        .header-title {
-            font-size: var(--font-size-lg);
-            font-weight: var(--font-weight-bold);
-            color: var(--color-gray-900);
-        }
-
-        .header-icon {
-            width: 36px;
-            height: 36px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            font-size: 20px;
-            border-radius: var(--radius-lg);
-            transition: all var(--transition-fast);
-        }
-
-        .header-icon:active {
-            background: var(--color-gray-100);
-        }
-
-        /* Filter Chips */
-        .filter-section {
-            display: flex;
-            gap: var(--space-2);
-            overflow-x: auto;
-            padding-bottom: var(--space-2);
-            scrollbar-width: none;
-            -ms-overflow-style: none;
-        }
-
-        .filter-section::-webkit-scrollbar {
-            display: none;
-        }
-
-        /* Featured Section */
-        .featured-section {
-            padding: var(--space-4);
-            background: linear-gradient(135deg, #6FCF3F 0%, #5CB82F 100%);
-            margin-bottom: var(--space-4);
-        }
-
-        .featured-title {
-            display: flex;
-            align-items: center;
-            gap: var(--space-2);
-            color: var(--color-white);
-            font-size: var(--font-size-md);
-            font-weight: var(--font-weight-bold);
-            margin-bottom: var(--space-3);
-        }
-
-        .featured-card {
-            background: var(--color-white);
-            border-radius: var(--radius-xl);
-            overflow: hidden;
-            box-shadow: var(--shadow-lg);
-        }
-
-        .featured-card__image {
-            position: relative;
-            height: 160px;
-            background: linear-gradient(135deg, #FFD93D 0%, #FF6B35 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .featured-card__emoji {
-            font-size: 72px;
-            animation: bounce 2s infinite;
-        }
-
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-
-        .featured-card__badge {
-            position: absolute;
-            top: var(--space-3);
-            left: var(--space-3);
-            padding: var(--space-1) var(--space-3);
-            background: rgba(255, 255, 255, 0.95);
-            color: #E65100;
-            font-size: var(--font-size-xs);
-            font-weight: var(--font-weight-bold);
-            border-radius: var(--radius-full);
-            display: flex;
-            align-items: center;
-            gap: var(--space-1);
-        }
-
-        .featured-card__content {
-            padding: var(--space-4);
-        }
-
-        .featured-card__title {
-            font-size: var(--font-size-md);
-            font-weight: var(--font-weight-bold);
-            color: var(--color-gray-900);
-            margin-bottom: var(--space-2);
-        }
-
-        .featured-card__desc {
-            font-size: var(--font-size-sm);
-            color: var(--color-gray-600);
-            margin-bottom: var(--space-3);
-        }
-
-        .featured-card__stats {
-            display: flex;
-            align-items: center;
-            gap: var(--space-4);
-            padding: var(--space-3);
-            background: var(--color-gray-50);
-            border-radius: var(--radius-lg);
-            margin-bottom: var(--space-3);
-        }
-
-        .featured-stat {
-            display: flex;
-            align-items: center;
-            gap: var(--space-1);
-            font-size: var(--font-size-xs);
-            color: var(--color-gray-700);
-        }
-
-        .featured-stat__value {
-            font-weight: var(--font-weight-bold);
-            color: var(--color-primary);
-        }
-
-        /* Event Grid */
-        .event-grid {
-            padding: var(--space-4);
-            display: grid;
-            gap: var(--space-4);
-        }
-
-        .event-card {
-            background: var(--color-white);
-            border-radius: var(--radius-xl);
-            overflow: hidden;
-            box-shadow: var(--shadow-sm);
-            transition: all var(--transition-base);
-            cursor: pointer;
-        }
-
-        .event-card:active {
-            transform: scale(0.98);
-            box-shadow: var(--shadow-md);
-        }
-
-        .event-card__image {
-            position: relative;
-            height: 140px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 56px;
-        }
-
-        .event-card__image.bg-gradient-1 {
-            background: linear-gradient(135deg, #FF6B35 0%, #F44336 100%);
-        }
-
-        .event-card__image.bg-gradient-2 {
-            background: linear-gradient(135deg, #6FCF3F 0%, #4CAF50 100%);
-        }
-
-        .event-card__image.bg-gradient-3 {
-            background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
-        }
-
-        .event-card__image.bg-gradient-4 {
-            background: linear-gradient(135deg, #9C27B0 0%, #7B1FA2 100%);
-        }
-
-        .event-card__image.bg-gradient-5 {
-            background: linear-gradient(135deg, #FFD93D 0%, #FF9800 100%);
-        }
-
-        .event-card__labels {
-            position: absolute;
-            top: var(--space-2);
-            left: var(--space-2);
-            right: var(--space-2);
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-        }
-
-        .event-type-badge {
-            padding: var(--space-1) var(--space-2);
-            font-size: var(--font-size-xs);
-            font-weight: var(--font-weight-bold);
-            border-radius: var(--radius-sm);
-            background: rgba(255, 255, 255, 0.95);
-            color: var(--color-gray-900);
-        }
-
-        .event-type-badge.discount { color: #E91E63; }
-        .event-type-badge.prize { color: #9C27B0; }
-        .event-type-badge.review { color: #2196F3; }
-        .event-type-badge.point { color: #FF9800; }
-
-        .event-hot-badge {
-            padding: var(--space-1) var(--space-2);
-            font-size: var(--font-size-xs);
-            font-weight: var(--font-weight-bold);
-            border-radius: var(--radius-sm);
-            background: rgba(244, 67, 54, 0.95);
-            color: var(--color-white);
-            display: flex;
-            align-items: center;
-            gap: 2px;
-        }
-
-        .event-card__content {
-            padding: var(--space-4);
-        }
-
-        .event-card__title {
-            font-size: var(--font-size-md);
-            font-weight: var(--font-weight-bold);
-            color: var(--color-gray-900);
-            margin-bottom: var(--space-2);
-            line-height: var(--line-height-tight);
-            overflow: hidden;
-            text-overflow: ellipsis;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-        }
-
-        .event-card__desc {
-            font-size: var(--font-size-sm);
-            color: var(--color-gray-600);
-            margin-bottom: var(--space-3);
-            line-height: var(--line-height-normal);
-        }
-
-        .event-card__meta {
-            display: flex;
-            gap: var(--space-3);
-            padding: var(--space-3);
-            background: var(--color-gray-50);
-            border-radius: var(--radius-lg);
-            margin-bottom: var(--space-3);
-        }
-
-        .event-meta-item {
-            display: flex;
-            flex-direction: column;
-            gap: var(--space-1);
-            flex: 1;
-        }
-
-        .event-meta-item__label {
-            font-size: var(--font-size-xs);
-            color: var(--color-gray-600);
-        }
-
-        .event-meta-item__value {
-            font-size: var(--font-size-sm);
-            font-weight: var(--font-weight-bold);
-            color: var(--color-gray-900);
-        }
-
-        .event-meta-item__value.highlight {
-            color: var(--color-primary);
-        }
-
-        .event-meta-item__value.urgent {
-            color: var(--color-error);
-        }
-
-        .event-card__actions {
-            display: flex;
-            gap: var(--space-2);
-        }
-
-        .event-action-btn {
-            flex: 1;
-            padding: var(--space-3);
-            border: none;
-            border-radius: var(--radius-lg);
-            font-size: var(--font-size-sm);
-            font-weight: var(--font-weight-semibold);
-            cursor: pointer;
-            transition: all var(--transition-fast);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: var(--space-1);
-        }
-
-        .event-action-btn:active {
-            transform: scale(0.97);
-        }
-
-        .event-action-btn.primary {
-            background: var(--color-primary);
-            color: var(--color-white);
-        }
-
-        .event-action-btn.secondary {
-            background: var(--color-gray-100);
-            color: var(--color-gray-700);
-        }
-
-        .event-action-btn.share {
-            flex: 0 0 auto;
-            width: 44px;
-            padding: 0;
-        }
-
-        /* Bottom Navigation */
-        .bottom-nav {
-            position: fixed;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100%;
-            max-width: var(--max-width-mobile);
-            background: var(--color-white);
-            border-top: 1px solid var(--color-gray-200);
-            display: flex;
-            padding: var(--space-2) 0;
-            z-index: var(--z-sticky);
-            padding-bottom: var(--safe-area-bottom);
-        }
-
-        .nav-item {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: var(--space-1);
-            padding: var(--space-1);
-            color: var(--color-gray-500);
-            text-decoration: none;
-            cursor: pointer;
-            transition: all var(--transition-fast);
-        }
-
-        .nav-item:active {
-            transform: scale(0.95);
-        }
-
-        .nav-item.active {
-            color: var(--color-primary);
-        }
-
-        .nav-item__icon {
-            font-size: 24px;
-        }
-
-        .nav-item__label {
-            font-size: var(--font-size-xs);
-            font-weight: var(--font-weight-medium);
-        }
-
-        /* Participation Modal */
-        .modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.6);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: var(--z-modal);
-            padding: var(--space-4);
-        }
-
-        .modal.active {
-            display: flex;
-        }
-
-        .modal-content {
-            background: var(--color-white);
-            border-radius: var(--radius-2xl);
-            padding: var(--space-6);
-            max-width: 320px;
-            width: 100%;
-            text-align: center;
-            animation: modalSlideUp 0.3s ease;
-        }
-
-        @keyframes modalSlideUp {
-            from {
-                transform: translateY(30px);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
-
-        .modal-icon {
-            font-size: 56px;
-            margin-bottom: var(--space-3);
-        }
-
-        .modal-title {
-            font-size: var(--font-size-lg);
-            font-weight: var(--font-weight-bold);
-            color: var(--color-gray-900);
-            margin-bottom: var(--space-2);
-        }
-
-        .modal-desc {
-            font-size: var(--font-size-sm);
-            color: var(--color-gray-600);
-            margin-bottom: var(--space-5);
-            line-height: var(--line-height-relaxed);
-        }
-
-        .modal-actions {
-            display: flex;
-            gap: var(--space-2);
-        }
-
-        /* Toast Notification */
-        .toast {
-            position: fixed;
-            bottom: calc(var(--bottom-nav-height) + var(--space-4));
-            left: 50%;
-            transform: translateX(-50%) translateY(100px);
-            background: var(--color-gray-900);
-            color: var(--color-white);
-            padding: var(--space-3) var(--space-4);
-            border-radius: var(--radius-lg);
-            font-size: var(--font-size-sm);
-            box-shadow: var(--shadow-xl);
-            z-index: var(--z-notification);
-            opacity: 0;
-            transition: all var(--transition-base);
-            max-width: calc(100% - var(--space-8));
-        }
-
-        .toast.show {
-            transform: translateX(-50%) translateY(0);
-            opacity: 1;
-        }
-
-        /* Countdown Animation */
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.6; }
-        }
-
-        .pulse {
-            animation: pulse 2s infinite;
-        }
-    </style>
+    <link rel="stylesheet" href="../../styles/common-layout.css">
 </head>
 <body>
     <!-- Header -->
@@ -546,7 +47,7 @@
         <div class="featured-card" data-event-id="featured">
             <div class="featured-card__image">
                 <div class="featured-card__emoji">🎁</div>
-                <div class="featured-card__badge">
+                <div class="featured-card__chip">
                     <span>🔥</span>
                     <span>HOT</span>
                 </div>
@@ -581,8 +82,8 @@
         <div class="event-card" data-event-type="discount">
             <div class="event-card__image bg-gradient-1">
                 <div class="event-card__labels">
-                    <span class="event-type-badge discount">할인</span>
-                    <span class="event-hot-badge">🔥 HOT</span>
+                    <span class="event-type-chip discount">할인</span>
+                    <span class="event-hot-chip">🔥 HOT</span>
                 </div>
                 <span>💝</span>
             </div>
@@ -616,7 +117,7 @@
         <div class="event-card" data-event-type="prize">
             <div class="event-card__image bg-gradient-2">
                 <div class="event-card__labels">
-                    <span class="event-type-badge prize">경품</span>
+                    <span class="event-type-chip prize">경품</span>
                 </div>
                 <span>🎉</span>
             </div>
@@ -650,7 +151,7 @@
         <div class="event-card" data-event-type="review">
             <div class="event-card__image bg-gradient-3">
                 <div class="event-card__labels">
-                    <span class="event-type-badge review">리뷰</span>
+                    <span class="event-type-chip review">리뷰</span>
                 </div>
                 <span>✍️</span>
             </div>
@@ -684,7 +185,7 @@
         <div class="event-card" data-event-type="point">
             <div class="event-card__image bg-gradient-5">
                 <div class="event-card__labels">
-                    <span class="event-type-badge point">적립</span>
+                    <span class="event-type-chip point">적립</span>
                 </div>
                 <span>💰</span>
             </div>
@@ -718,7 +219,7 @@
         <div class="event-card" data-event-type="discount">
             <div class="event-card__image bg-gradient-4">
                 <div class="event-card__labels">
-                    <span class="event-type-badge discount">할인</span>
+                    <span class="event-type-chip discount">할인</span>
                 </div>
                 <span>🍊</span>
             </div>
@@ -752,8 +253,8 @@
         <div class="event-card" data-event-type="prize">
             <div class="event-card__image bg-gradient-1">
                 <div class="event-card__labels">
-                    <span class="event-type-badge prize">경품</span>
-                    <span class="event-hot-badge">🔥 HOT</span>
+                    <span class="event-type-chip prize">경품</span>
+                    <span class="event-hot-chip">🔥 HOT</span>
                 </div>
                 <span>🏆</span>
             </div>
@@ -787,7 +288,7 @@
         <div class="event-card" data-event-type="review">
             <div class="event-card__image bg-gradient-2">
                 <div class="event-card__labels">
-                    <span class="event-type-badge review">리뷰</span>
+                    <span class="event-type-chip review">리뷰</span>
                 </div>
                 <span>⭐</span>
             </div>
@@ -821,7 +322,7 @@
         <div class="event-card" data-event-type="point">
             <div class="event-card__image bg-gradient-3">
                 <div class="event-card__labels">
-                    <span class="event-type-badge point">적립</span>
+                    <span class="event-type-chip point">적립</span>
                 </div>
                 <span>🎯</span>
             </div>
@@ -855,8 +356,8 @@
         <div class="event-card" data-event-type="discount">
             <div class="event-card__image bg-gradient-5">
                 <div class="event-card__labels">
-                    <span class="event-type-badge discount">할인</span>
-                    <span class="event-hot-badge">🔥 HOT</span>
+                    <span class="event-type-chip discount">할인</span>
+                    <span class="event-hot-chip">🔥 HOT</span>
                 </div>
                 <span>🍎</span>
             </div>
@@ -890,7 +391,7 @@
         <div class="event-card" data-event-type="prize">
             <div class="event-card__image bg-gradient-4">
                 <div class="event-card__labels">
-                    <span class="event-type-badge prize">경품</span>
+                    <span class="event-type-chip prize">경품</span>
                 </div>
                 <span>🎊</span>
             </div>
@@ -923,21 +424,21 @@
 
     <!-- Bottom Navigation -->
     <nav class="bottom-nav">
-        <a href="../home/index.html" class="nav-item">
-            <span class="nav-item__icon">🏠</span>
-            <span class="nav-item__label">홈</span>
+        <a href="../home/index.html" class="nav-link">
+            <span class="nav-link__icon">🏠</span>
+            <span class="nav-link__label">홈</span>
         </a>
-        <a href="../products/index.html" class="nav-item">
-            <span class="nav-item__icon">🍎</span>
-            <span class="nav-item__label">상품</span>
+        <a href="../products/index.html" class="nav-link">
+            <span class="nav-link__icon">🍎</span>
+            <span class="nav-link__label">상품</span>
         </a>
-        <a href="../mypage/index.html" class="nav-item">
-            <span class="nav-item__icon">👤</span>
-            <span class="nav-item__label">마이</span>
+        <a href="../mypage/index.html" class="nav-link">
+            <span class="nav-link__icon">👤</span>
+            <span class="nav-link__label">마이</span>
         </a>
-        <a href="../support/index.html" class="nav-item">
-            <span class="nav-item__icon">💬</span>
-            <span class="nav-item__label">고객지원</span>
+        <a href="../support/index.html" class="nav-link">
+            <span class="nav-link__icon">💬</span>
+            <span class="nav-link__label">고객지원</span>
         </a>
     </nav>
 

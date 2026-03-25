@@ -1,0 +1,1119 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e3]:
+      - generic [ref=e4]: Fruit Commerce Proposal
+      - generic [ref=e5]:
+        - navigation [ref=e6]:
+          - button "1. 결론" [ref=e7] [cursor=pointer]
+          - button "2. 시장" [ref=e8] [cursor=pointer]
+          - button "3. 타겟" [ref=e9] [cursor=pointer]
+          - button "4. 차별화" [ref=e10] [cursor=pointer]
+          - button "5. UX" [ref=e11] [cursor=pointer]
+          - button "6. 검증" [ref=e12] [cursor=pointer]
+          - button "7. 실행" [ref=e13] [cursor=pointer]
+        - generic [ref=e14]:
+          - generic [ref=e15]: Slide
+          - strong [ref=e16]: 1 / 43
+  - main [ref=e19]:
+    - generic [ref=e20]:
+      - generic [ref=e22]:
+        - generic [ref=e23]:
+          - generic [ref=e24]: 결론
+          - strong [ref=e25]: 1 / 43
+        - generic [ref=e28]:
+          - generic [ref=e29]:
+            - generic [ref=e30]: Decision-Led Premium Fruit Commerce
+            - heading "잘 파는 과일이 아니라 잘 고르게 해주는 과일 커머스" [level=1] [ref=e31]:
+              - text: 잘 파는 과일이 아니라
+              - text: 잘 고르게 해주는 과일 커머스
+            - paragraph [ref=e32]:
+              - text: 온브릭스를 넘기기 위해 같은 언어로 당도 경쟁을 할 필요는 없습니다. 우리가 가져가야 할 축은
+              - strong [ref=e33]: 실패 없는 선택
+              - text: 입니다. 실제 소비자 보이스를 보면 온라인 과일 구매의 핵심 문제는
+              - strong [ref=e34]: 무엇을 골라야 할지 모르겠다는 불안
+              - text: ","
+              - strong [ref=e35]: 품질과 선물 실패에 대한 두려움
+              - text: ","
+              - strong [ref=e36]: 리뷰 신뢰 부족
+              - text: 에 있습니다. 그래서 이 사이트의 얼굴은
+              - strong [ref=e37]: 결정 대행형 프리미엄 큐레이션
+              - text: 이어야 합니다.
+            - generic [ref=e38]:
+              - generic [ref=e39]: "핵심 전략: 결정 대행형 프리미엄 큐레이션"
+              - generic [ref=e40]: "운영 기반: B2B/B2C 연결 구조"
+              - generic [ref=e41]: "채널 실행: 스마트스토어 최적화"
+          - complementary [ref=e42]:
+            - generic [ref=e43]:
+              - generic [ref=e44]: Core Answer
+              - strong [ref=e45]: 선택 대행
+              - paragraph [ref=e46]: 누가 언제 왜 이 과일을 사야 하는가를 대신 판단해주는 구조가 필요합니다.
+            - generic [ref=e47]:
+              - generic [ref=e48]: Primary Target
+              - strong [ref=e49]: 30~49세 여성
+              - paragraph [ref=e50]: 모바일 장보기와 선물 구매를 주도하고, 품질 실패에 민감한 고객층입니다.
+            - generic [ref=e51]:
+              - generic [ref=e52]: Winning Axis
+              - strong [ref=e53]: 실패 없는 선택
+              - paragraph [ref=e54]: 품질, 리뷰, 포장, 배송, 추천 이유를 묶어 안심할 근거를 제공합니다.
+      - generic [ref=e56]:
+        - generic [ref=e57]:
+          - generic [ref=e58]: 결론
+          - strong [ref=e59]: 2 / 43
+        - generic [ref=e61]:
+          - generic [ref=e62]:
+            - generic [ref=e63]:
+              - generic [ref=e64]: Decision Board
+              - heading "핵심 전략이 앞에 서고, 운영 기반과 채널 실행이 뒤를 받쳐야 합니다" [level=2] [ref=e65]
+              - generic [ref=e66]: 기존 문서는 분석 범위는 충분했지만 “무엇이 사이트의 얼굴인가”가 약했습니다. 이제 구조를 분명히 나눠야 합니다. 고객이 체감하는 가치, 공급과 운영, 네이버/스마트스토어 실행 방식이 각각 역할을 가져야 합니다.
+            - generic [ref=e67]: Face, Backbone, Channel
+          - generic [ref=e68]:
+            - article [ref=e69]:
+              - heading "고객이 보는 얼굴" [level=3] [ref=e70]
+              - paragraph [ref=e71]: 무엇을 사야 할지 모르겠는 고객을 대신해 고르는 서비스. 상황 기반 추천, 취향 기반 추천, 품질 설명 카드가 핵심입니다.
+            - article [ref=e72]:
+              - heading "운영의 등뼈" [level=3] [ref=e73]
+              - paragraph [ref=e74]: 일반가와 도매가 분리, 발주, 재주문, 공급 안정화, B2B 연결 구조가 핵심 전략을 뒤에서 지탱합니다.
+            - article [ref=e75]:
+              - heading "채널에서 파는 방식" [level=3] [ref=e76]
+              - paragraph [ref=e77]: 스마트스토어 제목, 썸네일, 리뷰, 무료배송, N배송 문법을 맞춰 핵심 메시지를 실제 매출로 전환합니다.
+      - generic [ref=e79]:
+        - generic [ref=e80]:
+          - generic [ref=e81]: 결론
+          - strong [ref=e82]: 3 / 43
+        - generic [ref=e84]:
+          - generic [ref=e85]:
+            - generic [ref=e86]:
+              - generic [ref=e87]: Ops Engine
+              - heading "운영 기반은 재고를 돌리는 기능이 아니라 B2B 고객의 고통을 줄이는 엔진이어야 합니다" [level=2] [ref=e88]
+              - generic [ref=e89]: B2B 고객은 단순히 싸게 사는 것을 원하지 않습니다. 가격이 왜 바뀌는지, 품질이 왜 흔들리는지, 납품이 왜 늦는지, 클레임을 누가 어떻게 처리하는지가 더 중요합니다. 따라서 운영 기반은 재고 배정 로직이면서 동시에 거래 피로를 줄이는 시스템이어야 합니다.
+            - generic [ref=e90]: B2B Pain -> Operating Solution
+          - generic [ref=e91]:
+            - article [ref=e92]:
+              - heading "가격과 품질 불투명" [level=3] [ref=e93]
+              - paragraph [ref=e94]: B2B 고객은 거래처별 단가 차이와 품질 편차를 가장 피곤해합니다. 그래서 시세 기준, 등급 기준, 거래처 스펙 기준을 같이 남겨 가격과 품질을 설명 가능하게 만들어야 합니다.
+            - article [ref=e95]:
+              - heading "물량과 납기 불안정" [level=3] [ref=e96]
+              - paragraph [ref=e97]: 정기 납품인데도 물량이 흔들리면 식당, 재판매업체, 호텔 운영이 같이 흔들립니다. B2B 약정 물량을 먼저 잠그고, B2C는 그 잔여 가용분 위에서만 움직여야 합니다.
+            - article [ref=e98]:
+              - heading "발주와 클레임 비효율" [level=3] [ref=e99]
+              - paragraph [ref=e100]: 전화와 메시지 중심 발주는 누락과 오해를 만들고, 기준 없는 클레임 처리는 거래 피로를 키웁니다. 발주 내역, 납기일, 단가, 규격, 클레임 이력이 한 흐름으로 관리돼야 합니다.
+      - generic [ref=e102]:
+        - generic [ref=e103]:
+          - generic [ref=e104]: 결론
+          - strong [ref=e105]: 4 / 43
+        - generic [ref=e107]:
+          - generic [ref=e108]:
+            - generic [ref=e109]:
+              - generic [ref=e110]: Ops Engine
+              - heading "운영 기반은 재고를 돌리는 기능이 아니라 B2B 고객의 고통을 줄이는 엔진이어야 합니다" [level=2] [ref=e111]
+              - generic [ref=e112]: B2B 고객은 단순히 싸게 사는 것을 원하지 않습니다. 가격이 왜 바뀌는지, 품질이 왜 흔들리는지, 납품이 왜 늦는지, 클레임을 누가 어떻게 처리하는지가 더 중요합니다. 따라서 운영 기반은 재고 배정 로직이면서 동시에 거래 피로를 줄이는 시스템이어야 합니다.
+            - generic [ref=e113]: B2B Pain -> Operating Solution
+          - table [ref=e114]:
+            - rowgroup [ref=e115]:
+              - row "B2B 고객 고통 운영으로 해결하는 방식 실제 재고/발주 반영" [ref=e116]:
+                - columnheader "B2B 고객 고통" [ref=e117]
+                - columnheader "운영으로 해결하는 방식" [ref=e118]
+                - columnheader "실제 재고/발주 반영" [ref=e119]
+            - rowgroup [ref=e120]:
+              - row "가격이 불투명하다 시세, 등급, 물량, 납품 조건 기준으로 가격 변동 이유를 설명 거래처별 가격표와 등급별 단가 기록" [ref=e121]:
+                - cell "가격이 불투명하다" [ref=e122]
+                - cell "시세, 등급, 물량, 납품 조건 기준으로 가격 변동 이유를 설명" [ref=e123]
+                - cell "거래처별 가격표와 등급별 단가 기록" [ref=e124]
+              - row "품질이 들쭉날쭉하다 입고 즉시 크기, 당도, 외관 기준으로 등급화하고 거래처별 스펙에 맞게 배정 호텔, 식당, 재판매업체, 가공업체 스펙 분리" [ref=e125]:
+                - cell "품질이 들쭉날쭉하다" [ref=e126]
+                - cell "입고 즉시 크기, 당도, 외관 기준으로 등급화하고 거래처별 스펙에 맞게 배정" [ref=e127]
+                - cell "호텔, 식당, 재판매업체, 가공업체 스펙 분리" [ref=e128]
+              - row "물량이 불안정하다 B2B 약정 수량과 납기일을 먼저 잠그고 나머지를 B2C에 개방 B2B 확보량 자동 차감 후 B2C 판매 가능 수량 반영" [ref=e129]:
+                - cell "물량이 불안정하다" [ref=e130]
+                - cell "B2B 약정 수량과 납기일을 먼저 잠그고 나머지를 B2C에 개방" [ref=e131]
+                - cell "B2B 확보량 자동 차감 후 B2C 판매 가능 수량 반영" [ref=e132]
+              - row "주문 커뮤니케이션이 비효율적이다 발주 내역, 납기, 수량, 규격, 단가, 재주문 이력을 같은 흐름으로 관리 발주 누락과 담당자 변경 리스크 감소" [ref=e133]:
+                - cell "주문 커뮤니케이션이 비효율적이다" [ref=e134]
+                - cell "발주 내역, 납기, 수량, 규격, 단가, 재주문 이력을 같은 흐름으로 관리" [ref=e135]
+                - cell "발주 누락과 담당자 변경 리스크 감소" [ref=e136]
+              - row "클레임 기준이 모호하다 파손, 규격 미달, 납기 지연, 수량 누락별 대응 시간과 보상 원칙 사전 합의 클레임 발생률을 다음 배정 로직과 거래처 관리에 반영" [ref=e137]:
+                - cell "클레임 기준이 모호하다" [ref=e138]
+                - cell "파손, 규격 미달, 납기 지연, 수량 누락별 대응 시간과 보상 원칙 사전 합의" [ref=e139]
+                - cell "클레임 발생률을 다음 배정 로직과 거래처 관리에 반영" [ref=e140]
+      - generic [ref=e142]:
+        - generic [ref=e143]:
+          - generic [ref=e144]: 결론
+          - strong [ref=e145]: 5 / 43
+        - generic [ref=e147]:
+          - generic [ref=e148]:
+            - generic [ref=e149]:
+              - generic [ref=e150]: Ops Engine
+              - heading "운영 기반은 재고를 돌리는 기능이 아니라 B2B 고객의 고통을 줄이는 엔진이어야 합니다" [level=2] [ref=e151]
+              - generic [ref=e152]: B2B 고객은 단순히 싸게 사는 것을 원하지 않습니다. 가격이 왜 바뀌는지, 품질이 왜 흔들리는지, 납품이 왜 늦는지, 클레임을 누가 어떻게 처리하는지가 더 중요합니다. 따라서 운영 기반은 재고 배정 로직이면서 동시에 거래 피로를 줄이는 시스템이어야 합니다.
+            - generic [ref=e153]: B2B Pain -> Operating Solution
+          - generic [ref=e154]:
+            - article [ref=e155]:
+              - heading "재고 배정" [level=3] [ref=e156]
+              - paragraph [ref=e157]: 선물형은 예약 우선, 일상형은 일일 가용 우선, B2B는 약정 수량 우선으로 잠급니다.
+            - article [ref=e158]:
+              - heading "발주 동기화" [level=3] [ref=e159]
+              - paragraph [ref=e160]: 새벽 입고 후 즉시 등급화하고, 거래처 확보량을 먼저 차감한 뒤 B2C 판매 수량을 자동 반영합니다.
+            - article [ref=e161]:
+              - heading "거래처별 스펙 분리" [level=3] [ref=e162]
+              - paragraph [ref=e163]: 호텔은 외관과 시간, 식당은 신선도와 반복 납기, 가공업체는 단가와 대량 공급이 우선입니다.
+            - article [ref=e164]:
+              - heading "잔여 재고 처리" [level=3] [ref=e165]
+              - paragraph [ref=e166]: 규격 미스와 잔여 재고는 실속형, 가공용, 특가 번들로 즉시 재배치해 폐기율을 낮춥니다.
+      - generic [ref=e168]:
+        - generic [ref=e169]:
+          - generic [ref=e170]: 시장
+          - strong [ref=e171]: 6 / 43
+        - generic [ref=e173]:
+          - generic [ref=e174]:
+            - generic [ref=e175]:
+              - generic [ref=e176]: Market Reading
+              - heading "시장은 품질을 보지만, 결제는 신뢰와 맥락에서 일어납니다" [level=2] [ref=e177]
+              - generic [ref=e178]: 리서치 전체를 합치면 과일 구매는 품질만으로 끝나지 않습니다. 품질 언어는 진입 조건이고, 실제 결제는 후기, 배송, 선물 적합성, 추천 이유가 완성합니다.
+            - generic [ref=e179]: KREI 요약 + 내부 리서치
+          - generic [ref=e180]:
+            - generic [ref=e181]:
+              - heading "구매 결정 기본 축" [level=3] [ref=e182]
+              - paragraph [ref=e183]: 리서치 로그에 정리한 KREI 요약 수치입니다.
+              - generic [ref=e184]:
+                - generic [ref=e185]:
+                  - generic [ref=e186]: 맛/당도
+                  - generic [ref=e189]: "39.9"
+                - generic [ref=e190]:
+                  - generic [ref=e191]: 가격
+                  - generic [ref=e194]: "30.5"
+                - generic [ref=e195]:
+                  - generic [ref=e196]: 신선도
+                  - generic [ref=e199]: "23.0"
+            - generic [ref=e200]:
+              - heading "실무 해석" [level=3] [ref=e201]
+              - paragraph [ref=e202]: 실제 온라인 전환에서는 아래 4가지가 같이 작동합니다.
+              - generic [ref=e203]:
+                - generic [ref=e204]:
+                  - heading "품질 언어" [level=3] [ref=e205]
+                  - paragraph [ref=e206]: 당도, 품종, 식감, 산지, 등급
+                - generic [ref=e207]:
+                  - heading "신뢰 언어" [level=3] [ref=e208]
+                  - paragraph [ref=e209]: 후기, CS, 환불, 배송 안전성
+                - generic [ref=e210]:
+                  - heading "상황 언어" [level=3] [ref=e211]
+                  - paragraph [ref=e212]: 선물, 집용, 아이 간식, 가성비, 프리미엄
+                - generic [ref=e213]:
+                  - heading "채널 언어" [level=3] [ref=e214]
+                  - paragraph [ref=e215]: 제목, 썸네일, 무료배송, N배송, 리뷰 볼륨
+      - generic [ref=e217]:
+        - generic [ref=e218]:
+          - generic [ref=e219]: 시장
+          - strong [ref=e220]: 7 / 43
+        - generic [ref=e222]:
+          - generic [ref=e223]:
+            - generic [ref=e224]:
+              - generic [ref=e225]: Market Contraction
+              - heading "과일 시장은 죽는 것이 아니라, 기존 소비 방식이 무너지고 있습니다" [level=2] [ref=e226]
+              - generic [ref=e227]: 과일 섭취량 감소는 사람들이 과일을 싫어해서라기보다 비싸고, 불편하고, 생활 구조가 바뀌었고, 선물·의례 수요가 약해졌고, 대체재가 많아졌기 때문으로 보는 것이 맞습니다. 따라서 해결책은 과일을 더 많이 팔자는 구호가 아니라, 과일 소비의 마찰을 줄이는 설계여야 합니다.
+            - generic [ref=e228]: Friction, Not Rejection
+          - generic [ref=e230]:
+            - heading "Core Causes of Decline" [level=3] [ref=e231]
+            - paragraph [ref=e232]: Structural friction matters more than simple taste preference.
+            - generic [ref=e233]:
+              - generic [ref=e234]:
+                - heading "가격 부담" [level=3] [ref=e235]
+                - paragraph [ref=e236]: 일상형 소비에서는 과일이 건강식보다 비싼 간식처럼 느껴질 수 있습니다.
+              - generic [ref=e237]:
+                - heading "가구 구조 변화" [level=3] [ref=e238]
+                - paragraph [ref=e239]: 1인 가구와 맞벌이 증가로 대용량, 손질형, 보관 어려운 과일이 불리해졌습니다.
+              - generic [ref=e240]:
+                - heading "섭취 불편" [level=3] [ref=e241]
+                - paragraph [ref=e242]: 껍질, 씨, 손질, 보관, 무름, 음식물쓰레기 부담이 실제 소비 장벽으로 작동합니다.
+      - generic [ref=e244]:
+        - generic [ref=e245]:
+          - generic [ref=e246]: 시장
+          - strong [ref=e247]: 8 / 43
+        - generic [ref=e249]:
+          - generic [ref=e250]:
+            - generic [ref=e251]:
+              - generic [ref=e252]: Market Contraction
+              - heading "과일 시장은 죽는 것이 아니라, 기존 소비 방식이 무너지고 있습니다" [level=2] [ref=e253]
+              - generic [ref=e254]: 과일 섭취량 감소는 사람들이 과일을 싫어해서라기보다 비싸고, 불편하고, 생활 구조가 바뀌었고, 선물·의례 수요가 약해졌고, 대체재가 많아졌기 때문으로 보는 것이 맞습니다. 따라서 해결책은 과일을 더 많이 팔자는 구호가 아니라, 과일 소비의 마찰을 줄이는 설계여야 합니다.
+            - generic [ref=e255]: Friction, Not Rejection
+          - generic [ref=e257]:
+            - heading "Core Causes of Decline" [level=3] [ref=e258]
+            - paragraph [ref=e259]: Structural friction matters more than simple taste preference.
+            - generic [ref=e260]:
+              - generic [ref=e261]:
+                - heading "선물·의례 수요 약화" [level=3] [ref=e262]
+                - paragraph [ref=e263]: 차례 간소화와 명절 소비 변화로 사과·배 중심 전통 수요가 약해지고 있습니다.
+              - generic [ref=e264]:
+                - heading "대체재 증가" [level=3] [ref=e265]
+                - paragraph [ref=e266]: 수입과일, 냉동과일, 컷팅과일, 디저트, 건강 간식이 모두 경쟁자입니다.
+              - generic [ref=e267]:
+                - heading "건강 인식 양면화" [level=3] [ref=e268]
+                - paragraph [ref=e269]: 성인층에서는 당류, 다이어트, 혈당 부담 인식이 함께 커지고 있습니다.
+      - generic [ref=e271]:
+        - generic [ref=e272]:
+          - generic [ref=e273]: 시장
+          - strong [ref=e274]: 9 / 43
+        - generic [ref=e276]:
+          - generic [ref=e277]:
+            - generic [ref=e278]:
+              - generic [ref=e279]: Market Contraction
+              - heading "과일 시장은 죽는 것이 아니라, 기존 소비 방식이 무너지고 있습니다" [level=2] [ref=e280]
+              - generic [ref=e281]: 과일 섭취량 감소는 사람들이 과일을 싫어해서라기보다 비싸고, 불편하고, 생활 구조가 바뀌었고, 선물·의례 수요가 약해졌고, 대체재가 많아졌기 때문으로 보는 것이 맞습니다. 따라서 해결책은 과일을 더 많이 팔자는 구호가 아니라, 과일 소비의 마찰을 줄이는 설계여야 합니다.
+            - generic [ref=e282]: Friction, Not Rejection
+          - generic [ref=e284]:
+            - heading "How to Solve the Market Problem" [level=3] [ref=e285]
+            - paragraph [ref=e286]: Recovery requires redesigning the consumption flow.
+            - generic [ref=e287]:
+              - generic [ref=e288]:
+                - heading "가격 이원화" [level=3] [ref=e289]
+                - paragraph [ref=e290]: 선물형 프리미엄과 일상형 실속 SKU를 분리해 모두를 프리미엄으로 밀지 않습니다.
+              - generic [ref=e291]:
+                - heading "포맷 혁신" [level=3] [ref=e292]
+                - paragraph [ref=e293]: 소포장, 세척형, 바로 먹는 구성, 짧은 소비주기 SKU가 필요합니다.
+              - generic [ref=e294]:
+                - heading "상황별 메시지" [level=3] [ref=e295]
+                - paragraph [ref=e296]: 부모님 선물용, 아이 간식용, 아침 과일용, 자기관리용처럼 상황으로 팔아야 합니다.
+      - generic [ref=e298]:
+        - generic [ref=e299]:
+          - generic [ref=e300]: 시장
+          - strong [ref=e301]: 10 / 43
+        - generic [ref=e303]:
+          - generic [ref=e304]:
+            - generic [ref=e305]:
+              - generic [ref=e306]: Market Contraction
+              - heading "과일 시장은 죽는 것이 아니라, 기존 소비 방식이 무너지고 있습니다" [level=2] [ref=e307]
+              - generic [ref=e308]: 과일 섭취량 감소는 사람들이 과일을 싫어해서라기보다 비싸고, 불편하고, 생활 구조가 바뀌었고, 선물·의례 수요가 약해졌고, 대체재가 많아졌기 때문으로 보는 것이 맞습니다. 따라서 해결책은 과일을 더 많이 팔자는 구호가 아니라, 과일 소비의 마찰을 줄이는 설계여야 합니다.
+            - generic [ref=e309]: Friction, Not Rejection
+          - generic [ref=e311]:
+            - heading "How to Solve the Market Problem" [level=3] [ref=e312]
+            - paragraph [ref=e313]: Recovery requires redesigning the consumption flow.
+            - generic [ref=e314]:
+              - generic [ref=e315]:
+                - heading "건강 메시지 재설계" [level=3] [ref=e316]
+                - paragraph [ref=e317]: 성인에게는 고당도보다 가볍게 먹기 좋은 양, 소량 섭취, 자기관리 문법이 더 맞습니다.
+              - generic [ref=e318]:
+                - heading "실패 감소 운영" [level=3] [ref=e319]
+                - paragraph [ref=e320]: 무름, 파손, 맛 편차, 후기 불신을 줄이는 운영 설계가 재구매 회복의 핵심입니다.
+              - generic [ref=e321]:
+                - heading "세그먼트 분리" [level=3] [ref=e322]
+                - paragraph [ref=e323]: 선물형, 가족 건강 반복구매형, 1인 가구 자기관리형을 각각 다른 문제 해결 시장으로 봐야 합니다.
+      - generic [ref=e325]:
+        - generic [ref=e326]:
+          - generic [ref=e327]: 시장
+          - strong [ref=e328]: 11 / 43
+        - generic [ref=e330]:
+          - generic [ref=e331]:
+            - generic [ref=e332]:
+              - generic [ref=e333]: Market Contraction
+              - heading "과일 시장은 죽는 것이 아니라, 기존 소비 방식이 무너지고 있습니다" [level=2] [ref=e334]
+              - generic [ref=e335]: 과일 섭취량 감소는 사람들이 과일을 싫어해서라기보다 비싸고, 불편하고, 생활 구조가 바뀌었고, 선물·의례 수요가 약해졌고, 대체재가 많아졌기 때문으로 보는 것이 맞습니다. 따라서 해결책은 과일을 더 많이 팔자는 구호가 아니라, 과일 소비의 마찰을 줄이는 설계여야 합니다.
+            - generic [ref=e336]: Friction, Not Rejection
+          - table [ref=e337]:
+            - rowgroup [ref=e338]:
+              - row "세그먼트 해결하는 문제 시장 역할 실행 포인트" [ref=e339]:
+                - columnheader "세그먼트" [ref=e340]
+                - columnheader "해결하는 문제" [ref=e341]
+                - columnheader "시장 역할" [ref=e342]
+                - columnheader "실행 포인트" [ref=e343]
+            - rowgroup [ref=e344]:
+              - row "선물형 선물 실패 공포 진입 시장 브랜드와 전환 문법 확보" [ref=e345]:
+                - cell "선물형" [ref=e346]
+                - cell "선물 실패 공포" [ref=e347]
+                - cell "진입 시장" [ref=e348]
+                - cell "브랜드와 전환 문법 확보" [ref=e349]
+              - row "가족 건강 반복구매형 비싸고 애매한 일상 과일 구매 핵심 확장 시장 실속형, 소포장, 반복구매 SKU 강화" [ref=e350]:
+                - cell "가족 건강 반복구매형" [ref=e351]
+                - cell "비싸고 애매한 일상 과일 구매" [ref=e352]
+                - cell "핵심 확장 시장" [ref=e353]
+                - cell "실속형, 소포장, 반복구매 SKU 강화" [ref=e354]
+              - row "1인 가구 자기관리형 먹고 싶지만 부담스럽고 귀찮은 문제 실험 시장 고당도보다 저부담 섭취 문법 테스트" [ref=e355]:
+                - cell "1인 가구 자기관리형" [ref=e356]
+                - cell "먹고 싶지만 부담스럽고 귀찮은 문제" [ref=e357]
+                - cell "실험 시장" [ref=e358]
+                - cell "고당도보다 저부담 섭취 문법 테스트" [ref=e359]
+      - generic [ref=e361]:
+        - generic [ref=e362]:
+          - generic [ref=e363]: 시장
+          - strong [ref=e364]: 12 / 43
+        - generic [ref=e366]:
+          - generic [ref=e367]:
+            - generic [ref=e368]:
+              - generic [ref=e369]: Consumer Voice
+              - heading "실제 소비자 보이스가 말하는 핵심은 좋은 과일보다 실패 없는 선택입니다" [level=2] [ref=e370]
+              - generic [ref=e371]: 소비자 보이스를 보면 만족과 불만은 모두 품질 그 자체보다 “결과적으로 안심할 수 있었는가”에 묶여 있습니다. 선물은 더 그렇습니다. 그래서 이 사이트는 제품 카탈로그보다 선택 보조와 신뢰 설계가 앞에 와야 합니다.
+            - generic [ref=e372]: 리뷰 요약 + App Store + 기사 기반
+          - generic [ref=e373]:
+            - article [ref=e374]:
+              - strong [ref=e375]: 과즙이 팡팡 터진다
+              - paragraph [ref=e376]: 온브릭스 감귤 리뷰 요약에서 반복된 만족 표현. 맛의 강도뿐 아니라 기대한 경험을 했다는 신호로 읽힙니다.
+            - article [ref=e377]:
+              - strong [ref=e378]: 개별포장이라 무르지 않는다
+              - paragraph [ref=e379]: 스마트스토어 등록 후기 표본에서는 포장 안정성과 무손상 도착이 반복적으로 언급됐습니다. 신선식품은 맛만큼 포장이 중요합니다.
+            - article [ref=e380]:
+              - strong [ref=e381]: 받은 분도 만족했다
+              - paragraph [ref=e382]: 선물세트 후기에서 핵심은 과일 스펙이 아니라, 받는 사람이 만족했는지와 포장, 도착 상태였습니다.
+            - article [ref=e383]:
+              - strong [ref=e384]: 썩은 과일 / 물러진 과일
+              - paragraph [ref=e385]: 불만 리뷰는 한 번만 나와도 타격이 큽니다. 품질 실패 공포와 리뷰 민감도가 이 카테고리의 본질입니다.
+      - generic [ref=e387]:
+        - generic [ref=e388]:
+          - generic [ref=e389]: 시장
+          - strong [ref=e390]: 13 / 43
+        - generic [ref=e392]:
+          - generic [ref=e393]:
+            - generic [ref=e394]:
+              - generic [ref=e395]: Consumer Voice
+              - heading "실제 소비자 보이스가 말하는 핵심은 좋은 과일보다 실패 없는 선택입니다" [level=2] [ref=e396]
+              - generic [ref=e397]: 소비자 보이스를 보면 만족과 불만은 모두 품질 그 자체보다 “결과적으로 안심할 수 있었는가”에 묶여 있습니다. 선물은 더 그렇습니다. 그래서 이 사이트는 제품 카탈로그보다 선택 보조와 신뢰 설계가 앞에 와야 합니다.
+            - generic [ref=e398]: 리뷰 요약 + App Store + 기사 기반
+          - generic [ref=e399]:
+            - generic [ref=e400]:
+              - heading "소비자 페인포인트 강도" [level=3] [ref=e401]
+              - paragraph [ref=e402]: 리뷰 신호와 내부 소비자 문서를 합친 상대 중요도입니다.
+              - generic [ref=e403]:
+                - generic [ref=e404]:
+                  - generic [ref=e405]: 선택 피로
+                  - generic [ref=e408]: "92"
+                - generic [ref=e409]:
+                  - generic [ref=e410]: 품질 실패 공포
+                  - generic [ref=e413]: "89"
+                - generic [ref=e414]:
+                  - generic [ref=e415]: 선물 실패 공포
+                  - generic [ref=e418]: "85"
+                - generic [ref=e419]:
+                  - generic [ref=e420]: 리뷰 불신
+                  - generic [ref=e423]: "82"
+                - generic [ref=e424]:
+                  - generic [ref=e425]: 가격 납득 필요
+                  - generic [ref=e428]: "76"
+            - generic [ref=e429]:
+              - heading "전략 해석" [level=3] [ref=e430]
+              - paragraph [ref=e431]: 이 신호를 그대로 풀면 핵심 전략의 방향은 명확합니다.
+              - generic [ref=e432]:
+                - generic [ref=e433]:
+                  - heading "상황부터 묻기" [level=3] [ref=e434]
+                  - paragraph [ref=e435]: 상품보다 먼저 누구를 위한 과일인지 묻습니다.
+                - generic [ref=e436]:
+                  - heading "설명 강화" [level=3] [ref=e437]
+                  - paragraph [ref=e438]: 당도 수치보다 왜 실패 확률이 낮은지 설명합니다.
+                - generic [ref=e439]:
+                  - heading "SKU 분리" [level=3] [ref=e440]
+                  - paragraph [ref=e441]: 선물형과 일상형 SKU를 언어부터 분리합니다.
+                - generic [ref=e442]:
+                  - heading "신뢰 장치" [level=3] [ref=e443]
+                  - paragraph [ref=e444]: 리뷰를 장식이 아니라 핵심 전환 장치로 설계합니다.
+      - generic [ref=e446]:
+        - generic [ref=e447]:
+          - generic [ref=e448]: 타겟
+          - strong [ref=e449]: 14 / 43
+        - generic [ref=e451]:
+          - generic [ref=e452]:
+            - generic [ref=e453]:
+              - generic [ref=e454]: Primary Target
+              - heading "주타겟은 30~49세 여성 모바일 장보기·선물 구매 주도층입니다" [level=2] [ref=e455]
+              - generic [ref=e456]: 이 고객은 과일 전문가는 아니지만 실패는 싫어합니다. 가족용 과일과 선물용 과일을 모두 살 수 있고, 모바일 구매에 익숙하며, 품질과 포장과 후기 신뢰에 민감합니다.
+            - generic [ref=e457]: Family + Gift + Mobile
+          - generic [ref=e458]:
+            - article [ref=e459]:
+              - generic [ref=e460]: Primary Persona
+              - heading "좋은 선택을 하고 싶다" [level=3] [ref=e461]
+              - paragraph [ref=e462]: 아이 간식도 사야 하고, 부모님께 보낼 선물도 챙겨야 합니다. 과일 품종을 깊게 알지는 않지만, 실패한 선택은 기억합니다. 이 고객에게 필요한 것은 더 많은 상품 수가 아니라 지금 상황에서 무엇이 맞는지 대신 판단해주는 서비스입니다.
+            - generic [ref=e463]:
+              - generic [ref=e464]:
+                - heading "Need" [level=3] [ref=e465]
+                - paragraph [ref=e466]: 내 취향과 상황에 맞는 과일을 빠르게 추천받고 싶다.
+              - generic [ref=e467]:
+                - heading "Fear" [level=3] [ref=e468]
+                - paragraph [ref=e469]: 비싸게 샀는데 맛이 없거나, 선물이 애매하거나, 포장이 망가질까 봐 걱정된다.
+      - generic [ref=e471]:
+        - generic [ref=e472]:
+          - generic [ref=e473]: 타겟
+          - strong [ref=e474]: 15 / 43
+        - generic [ref=e476]:
+          - generic [ref=e477]:
+            - generic [ref=e478]:
+              - generic [ref=e479]: Primary Target
+              - heading "주타겟은 30~49세 여성 모바일 장보기·선물 구매 주도층입니다" [level=2] [ref=e480]
+              - generic [ref=e481]: 이 고객은 과일 전문가는 아니지만 실패는 싫어합니다. 가족용 과일과 선물용 과일을 모두 살 수 있고, 모바일 구매에 익숙하며, 품질과 포장과 후기 신뢰에 민감합니다.
+            - generic [ref=e482]: Family + Gift + Mobile
+          - generic [ref=e484]:
+            - generic [ref=e485]:
+              - heading "Trigger" [level=3] [ref=e486]
+              - paragraph [ref=e487]: 후기 신뢰, 포장 설명, 도착 상태, 추천 이유가 명확하면 결제 확률이 올라간다.
+            - generic [ref=e488]:
+              - heading "Message" [level=3] [ref=e489]
+              - paragraph [ref=e490]: 선물 실패 없는 과일, 아이 간식용 실패 없는 선택, 대신 골라주는 큐레이션이 유효하다.
+      - generic [ref=e492]:
+        - generic [ref=e493]:
+          - generic [ref=e494]: 타겟
+          - strong [ref=e495]: 16 / 43
+        - generic [ref=e497]:
+          - generic [ref=e498]:
+            - generic [ref=e499]:
+              - generic [ref=e500]: Target Architecture
+              - heading "선물형은 초기 전략, 아이 대상 구독형은 장기 전략으로 가져가는 편이 더 맞습니다" [level=2] [ref=e501]
+              - generic [ref=e502]: 선물형은 문제 강도와 메시지 선명도가 가장 높아 빠르게 브랜드를 세우기에 유리합니다. 반대로 아이 대상 구독형은 부모의 건강 간식, 과자 대체, 정기 섭취 니즈와 연결돼 반복구매와 LTV를 만들기 좋습니다. 따라서 선물은 시작점, 아이 구독은 장기 확장 전략으로 보는 것이 더 적절합니다.
+            - generic [ref=e503]: Acquisition, Retention, LTV
+          - generic [ref=e504]:
+            - article [ref=e505]:
+              - 'heading "초기/단기 전략: 선물형" [level=3] [ref=e506]'
+              - paragraph [ref=e507]: 실패 공포가 가장 선명하고, 포장·도착·받는 사람 만족이라는 전환 장치를 설계하기 쉽습니다. 객단가가 높아 초기 메시지 검증과 브랜드 구축에 유리합니다.
+            - article [ref=e508]:
+              - 'heading "중기 확장: 가족 건강 반복구매" [level=3] [ref=e509]'
+              - paragraph [ref=e510]: 가정용 반복구매형과 아이 간식/가족 건강형은 사실상 같은 시장으로 보는 편이 맞습니다. 장보기, 아이 간식, 아침 과일, 믿고 재구매가 하나의 운영 언어로 묶입니다.
+      - generic [ref=e512]:
+        - generic [ref=e513]:
+          - generic [ref=e514]: 타겟
+          - strong [ref=e515]: 17 / 43
+        - generic [ref=e517]:
+          - generic [ref=e518]:
+            - generic [ref=e519]:
+              - generic [ref=e520]: Target Architecture
+              - heading "선물형은 초기 전략, 아이 대상 구독형은 장기 전략으로 가져가는 편이 더 맞습니다" [level=2] [ref=e521]
+              - generic [ref=e522]: 선물형은 문제 강도와 메시지 선명도가 가장 높아 빠르게 브랜드를 세우기에 유리합니다. 반대로 아이 대상 구독형은 부모의 건강 간식, 과자 대체, 정기 섭취 니즈와 연결돼 반복구매와 LTV를 만들기 좋습니다. 따라서 선물은 시작점, 아이 구독은 장기 확장 전략으로 보는 것이 더 적절합니다.
+            - generic [ref=e523]: Acquisition, Retention, LTV
+          - generic [ref=e524]:
+            - article [ref=e525]:
+              - 'heading "장기 전략: 아이 대상 구독형" [level=3] [ref=e526]'
+              - paragraph [ref=e527]: 부모의 건강 간식, 과자 대체, 정기 섭취 습관과 연결되는 장기 전략입니다. 선물형으로 들어온 고객을 생활 침투형 반복구매로 전환하는 역할을 맡습니다.
+            - article [ref=e528]:
+              - 'heading "별도 실험 시장: 1인가구 자기관리형" [level=3] [ref=e529]'
+              - paragraph [ref=e530]: 고당도 프리미엄보다 건강, 체중관리, 부담 적은 섭취 문법이 맞는 시장입니다. 핵심 축이 아니라 별도 검증 트랙으로 다뤄야 합니다.
+      - generic [ref=e532]:
+        - generic [ref=e533]:
+          - generic [ref=e534]: 타겟
+          - strong [ref=e535]: 18 / 43
+        - generic [ref=e537]:
+          - generic [ref=e538]:
+            - generic [ref=e539]:
+              - generic [ref=e540]: Target Architecture
+              - heading "선물형은 초기 전략, 아이 대상 구독형은 장기 전략으로 가져가는 편이 더 맞습니다" [level=2] [ref=e541]
+              - generic [ref=e542]: 선물형은 문제 강도와 메시지 선명도가 가장 높아 빠르게 브랜드를 세우기에 유리합니다. 반대로 아이 대상 구독형은 부모의 건강 간식, 과자 대체, 정기 섭취 니즈와 연결돼 반복구매와 LTV를 만들기 좋습니다. 따라서 선물은 시작점, 아이 구독은 장기 확장 전략으로 보는 것이 더 적절합니다.
+            - generic [ref=e543]: Acquisition, Retention, LTV
+          - table [ref=e544]:
+            - rowgroup [ref=e545]:
+              - row "판단 항목 선물형 가족 건강 반복구매형 아이 대상 구독형" [ref=e546]:
+                - columnheader "판단 항목" [ref=e547]
+                - columnheader "선물형" [ref=e548]
+                - columnheader "가족 건강 반복구매형" [ref=e549]
+                - columnheader "아이 대상 구독형" [ref=e550]
+            - rowgroup [ref=e551]:
+              - row "전략 역할 초기/단기 중기 확장 장기 Retention" [ref=e552]:
+                - cell "전략 역할" [ref=e553]
+                - cell "초기/단기" [ref=e554]
+                - cell "중기 확장" [ref=e555]
+                - cell "장기 Retention" [ref=e556]
+              - row "핵심 가치 실패 없는 선물 믿고 사는 건강한 일상 과일 부모가 챙기기 쉬운 건강 습관" [ref=e557]:
+                - cell "핵심 가치" [ref=e558]
+                - cell "실패 없는 선물" [ref=e559]
+                - cell "믿고 사는 건강한 일상 과일" [ref=e560]
+                - cell "부모가 챙기기 쉬운 건강 습관" [ref=e561]
+              - row "메시지 선명도 가장 선명함 선명하지만 덜 감정적 부모 메시지 설계 필요" [ref=e562]:
+                - cell "메시지 선명도" [ref=e563]
+                - cell "가장 선명함" [ref=e564]
+                - cell "선명하지만 덜 감정적" [ref=e565]
+                - cell "부모 메시지 설계 필요" [ref=e566]
+              - row "반복구매 가능성 낮음 높음 가장 높음" [ref=e567]:
+                - cell "반복구매 가능성" [ref=e568]
+                - cell "낮음" [ref=e569]
+                - cell "높음" [ref=e570]
+                - cell "가장 높음" [ref=e571]
+              - row "현재 적합도 즉시 실행 선물형 뒤에 확장 승자 SKU 확보 후 오픈" [ref=e572]:
+                - cell "현재 적합도" [ref=e573]
+                - cell "즉시 실행" [ref=e574]
+                - cell "선물형 뒤에 확장" [ref=e575]
+                - cell "승자 SKU 확보 후 오픈" [ref=e576]
+          - generic [ref=e577]:
+            - text: 현재 구조를 더 단순화하면
+            - code [ref=e578]: 선물형 = Acquisition
+            - text: ","
+            - code [ref=e579]: 아이 구독형 = Retention / LTV
+            - text: 입니다. 다만 이것이
+            - code [ref=e580]: 1인가구 자기관리형
+            - text: 실험 시장이 사라진다는 뜻은 아닙니다. 현재 구조는
+            - code [ref=e581]: 선물형 = 단기
+            - text: ","
+            - code [ref=e582]: 아이 구독형 = 장기
+            - text: ","
+            - code [ref=e583]: 1인가구 자기관리형 = 별도 실험
+            - text: 으로 이해하는 편이 가장 정확합니다. 또한 아이 구독형은 바로 열지 않고, 승자 SKU 확보, 소포장과 보관 설계, 품질 일관성, 부모 메시지 검증, 운영 안정화가 선행돼야 합니다.
+      - generic [ref=e585]:
+        - generic [ref=e586]:
+          - generic [ref=e587]: 타겟
+          - strong [ref=e588]: 19 / 43
+        - generic [ref=e590]:
+          - generic [ref=e591]:
+            - generic [ref=e592]:
+              - generic [ref=e593]: Our Strengths
+              - heading "이 사이트가 부각해야 할 강점은 제품 스펙이 아니라 선택 구조입니다" [level=2] [ref=e594]
+              - generic [ref=e595]: 기존 제안의 내용은 충분했지만, 사이트의 강점은 덜 보였습니다. 이제는 사이트의 존재 이유를 4개 축으로 선명하게 잡아야 합니다.
+            - generic [ref=e596]: Selection, Explainability, Trust, Operations
+          - generic [ref=e597]:
+            - article [ref=e598]:
+              - heading "실패 없는 선택 대행" [level=3] [ref=e599]
+              - paragraph [ref=e600]: 누가 먹는지, 언제 먹는지, 선물인지 집용인지부터 묻고 추천합니다.
+            - article [ref=e601]:
+              - heading "설명 가능한 프리미엄" [level=3] [ref=e602]
+              - paragraph [ref=e603]: 당도, 식감, 용도, 포장, 배송 기준, 후기 근거를 한 세트로 보여줍니다.
+            - article [ref=e604]:
+              - heading "선물형·일상형 분리" [level=3] [ref=e605]
+              - paragraph [ref=e606]: 선물용 보자기 SKU와 가정용 반복구매 SKU를 언어부터 분리해 각각 최적화합니다.
+            - article [ref=e607]:
+              - heading "운영 데이터 해자" [level=3] [ref=e608]
+              - paragraph [ref=e609]: B2B 발주와 반복구매 데이터를 함께 쌓아 공급, 재고, 가격, 폐기를 안정화합니다.
+      - generic [ref=e611]:
+        - generic [ref=e612]:
+          - generic [ref=e613]: 타겟
+          - strong [ref=e614]: 20 / 43
+        - generic [ref=e616]:
+          - generic [ref=e617]:
+            - generic [ref=e618]:
+              - generic [ref=e619]: Positioning
+              - heading "도매를 전면에 내세우지 말고, 직송의 전문성으로 번역해야 합니다" [level=2] [ref=e620]
+              - generic [ref=e621]: 고객에게 도매는 싸다는 장점도 주지만, 대량 구매와 투박함의 선입견도 줍니다. 그래서 이 사이트는 도매상이 아니라 새벽 경매장에서 가장 좋은 과일을 골라오는 과일 큐레이터로 보여야 합니다.
+            - generic [ref=e622]: From 도매업자 To 과일 큐레이터
+          - generic [ref=e623]:
+            - article [ref=e624]:
+              - heading "새벽 경매장 페르소나" [level=3] [ref=e625]
+              - paragraph [ref=e626]: 오늘 경매장에서 가장 상태가 좋은 과일을 선별하는 전문가라는 이미지를 전면에 둡니다.
+            - article [ref=e627]:
+              - heading "직송의 전문성" [level=3] [ref=e628]
+              - paragraph [ref=e629]: 유통 단계를 줄였다는 가격 논리보다, 선별과 신선함을 지키는 구조라는 점을 강조합니다.
+            - article [ref=e630]:
+              - heading "메시지 문장" [level=3] [ref=e631]
+              - paragraph [ref=e632]: 새벽 경매장의 활기를 식탁까지. 유통 단계를 줄인 만큼, 신선함은 늘렸습니다.
+      - generic [ref=e634]:
+        - generic [ref=e635]:
+          - generic [ref=e636]: 차별화
+          - strong [ref=e637]: 21 / 43
+        - generic [ref=e639]:
+          - generic [ref=e640]:
+            - generic [ref=e641]:
+              - generic [ref=e642]: Trust Content
+              - heading "신뢰는 설명이 아니라 시각화된 검수 과정에서 생깁니다" [level=2] [ref=e643]
+              - generic [ref=e644]: 과일은 이번에도 맛있을까라는 불안을 늘 동반합니다. 그래서 상세페이지는 상품 소개가 아니라 신뢰를 시각화하는 화면이 되어야 합니다.
+            - generic [ref=e645]: Brix, Origin, Inspection
+          - generic [ref=e646]:
+            - article [ref=e647]:
+              - heading "당도/품질 카드" [level=3] [ref=e648]
+              - paragraph [ref=e649]: 브릭스 수치, 식감, 용도, 산지, 선별 기준을 상세페이지 상단에서 바로 보여줍니다.
+            - article [ref=e650]:
+              - heading "산지/경매장 스토리" [level=3] [ref=e651]
+              - paragraph [ref=e652]: 경매 현장, 산지, 선별 장면을 숏폼이나 짧은 이미지 시퀀스로 보여줘 직송의 전문성을 체감하게 합니다.
+            - article [ref=e653]:
+              - heading "3단계 선별 시그니처" [level=3] [ref=e654]
+              - paragraph [ref=e655]: 크기, 당도, 외관의 3단계 검수 과정을 브랜드 표준 매뉴얼처럼 반복 노출합니다.
+      - generic [ref=e657]:
+        - generic [ref=e658]:
+          - generic [ref=e659]: 차별화
+          - strong [ref=e660]: 22 / 43
+        - generic [ref=e662]:
+          - generic [ref=e663]:
+            - generic [ref=e664]:
+              - generic [ref=e665]: Benchmark
+              - heading "온브릭스는 강하지만, 같은 언어로 따라가면 안 됩니다" [level=2] [ref=e666]
+              - generic [ref=e667]: 온브릭스는 이미 당도, 선별 기준, 선물 패키지, 브랜드 기억도에서 강합니다. 우리가 이길 수 있는 지점은 더 달다가 아니라 더 잘 고르게 해준다는 체계입니다.
+            - generic [ref=e668]: 당도 경쟁이 아니라 선택 대행 경쟁
+          - generic [ref=e669]:
+            - generic [ref=e670]:
+              - generic [ref=e671]: 핵심 언어
+              - generic [ref=e672]: 당도, 선별, 보자기, 프리미엄 선물 경험
+              - generic [ref=e673]: 상황, 취향, 실패 없는 선택, 설명 가능한 프리미엄
+            - generic [ref=e674]:
+              - generic [ref=e675]: 고객 질문
+              - generic [ref=e676]: 얼마나 당도 높은가?
+              - generic [ref=e677]: 지금 누구에게 어떤 과일을 사야 하는가?
+            - generic [ref=e678]:
+              - generic [ref=e679]: 전환 장치
+              - generic [ref=e680]: 보자기, 구성, 후기, 중량, 프리미엄 패키지
+              - generic [ref=e681]: 추천 이유, 품질 설명 카드, 리뷰 신뢰, 포장과 도착 상태 근거
+            - generic [ref=e682]:
+              - generic [ref=e683]: 확장 방향
+              - generic [ref=e684]: 프리미엄 선물과 브랜드 경험
+              - generic [ref=e685]: 선물 + 일상 + B2B 운영 데이터까지 연결되는 구조
+      - generic [ref=e687]:
+        - generic [ref=e688]:
+          - generic [ref=e689]: 차별화
+          - strong [ref=e690]: 23 / 43
+        - generic [ref=e692]:
+          - generic [ref=e694]:
+            - generic [ref=e695]: Pain to Solution
+            - heading "페인포인트를 바로 해결하는 화면과 상품 전략이 필요합니다" [level=2] [ref=e696]
+            - generic [ref=e697]: 핵심 전략은 슬로건이 아닙니다. 소비자 페인포인트를 실제 화면 구조와 상품 운영으로 번역해야 합니다.
+          - table [ref=e698]:
+            - rowgroup [ref=e699]:
+              - row "소비자 문제 해결 방식 사이트에서 보여줄 요소" [ref=e700]:
+                - columnheader "소비자 문제" [ref=e701]
+                - columnheader "해결 방식" [ref=e702]
+                - columnheader "사이트에서 보여줄 요소" [ref=e703]
+            - rowgroup [ref=e704]:
+              - row "뭘 사야 할지 모르겠다 선택 대행형 추천 상황별 진입, 취향별 추천, 누구를 위한 과일인가 섹션" [ref=e705]:
+                - cell "뭘 사야 할지 모르겠다" [ref=e706]
+                - cell "선택 대행형 추천" [ref=e707]
+                - cell "상황별 진입, 취향별 추천, 누구를 위한 과일인가 섹션" [ref=e708]
+              - row "품질 실패가 두렵다 설명 가능한 프리미엄 당도, 식감, 산지, 포장, 배송 기준을 한 카드에서 설명" [ref=e709]:
+                - cell "품질 실패가 두렵다" [ref=e710]
+                - cell "설명 가능한 프리미엄" [ref=e711]
+                - cell "당도, 식감, 산지, 포장, 배송 기준을 한 카드에서 설명" [ref=e712]
+              - row "선물 실패가 두렵다 선물형 전환 장치 강화 보자기, 메시지, 후기, 도착 상태, 포장 근거 강조" [ref=e713]:
+                - cell "선물 실패가 두렵다" [ref=e714]
+                - cell "선물형 전환 장치 강화" [ref=e715]
+                - cell "보자기, 메시지, 후기, 도착 상태, 포장 근거 강조" [ref=e716]
+              - row "리뷰를 믿기 어렵다 리뷰 신뢰 장치 설계 좋은 후기만이 아니라 운영 기준과 대응 원칙 공개" [ref=e717]:
+                - cell "리뷰를 믿기 어렵다" [ref=e718]
+                - cell "리뷰 신뢰 장치 설계" [ref=e719]
+                - cell "좋은 후기만이 아니라 운영 기준과 대응 원칙 공개" [ref=e720]
+              - row "가격이 비싸 보인다 납득 가능한 설명 왜 이 상품인지, 어떤 상황에 맞는지, 실패 가능성을 어떻게 낮췄는지 설명" [ref=e721]:
+                - cell "가격이 비싸 보인다" [ref=e722]
+                - cell "납득 가능한 설명" [ref=e723]
+                - cell "왜 이 상품인지, 어떤 상황에 맞는지, 실패 가능성을 어떻게 낮췄는지 설명" [ref=e724]
+      - generic [ref=e726]:
+        - generic [ref=e727]:
+          - generic [ref=e728]: 차별화
+          - strong [ref=e729]: 24 / 43
+        - generic [ref=e731]:
+          - generic [ref=e732]:
+            - generic [ref=e733]:
+              - generic [ref=e734]: Gift Failure Conversion
+              - heading "선물 실패 공포는 자극보다 안심 설계로 전환해야 합니다" [level=2] [ref=e735]
+              - generic [ref=e736]: 과일 선물에서 고객이 두려워하는 것은 단순히 맛이 아닙니다. 받는 사람 반응, 포장 첫인상, 도착 상태, 일정 실패, 그리고 내가 잘못 고른 사람처럼 보일 수 있다는 불안이 함께 작동합니다. 따라서 공포를 키우기보다 실패 원인을 먼저 설명하고, 그 실패를 줄이는 장치를 보여줘야 전환이 일어납니다.
+            - generic [ref=e737]: Fear to Assurance
+          - generic [ref=e739]:
+            - heading "What Gift Buyers Actually Fear" [level=3] [ref=e740]
+            - paragraph [ref=e741]: Gift conversion starts by reducing these five anxieties first.
+            - generic [ref=e742]:
+              - generic [ref=e743]:
+                - generic [ref=e744]: Receiver Disappointment
+                - generic [ref=e747]: "94"
+              - generic [ref=e748]:
+                - generic [ref=e749]: Packaging First Impression
+                - generic [ref=e752]: "90"
+              - generic [ref=e753]:
+                - generic [ref=e754]: Damage on Arrival
+                - generic [ref=e757]: "91"
+              - generic [ref=e758]:
+                - generic [ref=e759]: Timing Failure
+                - generic [ref=e762]: "84"
+              - generic [ref=e763]:
+                - generic [ref=e764]: Receiver Disappointment?
+                - generic [ref=e767]: "80"
+      - generic [ref=e769]:
+        - generic [ref=e770]:
+          - generic [ref=e771]: 차별화
+          - strong [ref=e772]: 25 / 43
+        - generic [ref=e774]:
+          - generic [ref=e775]:
+            - generic [ref=e776]:
+              - generic [ref=e777]: Gift Failure Conversion
+              - heading "선물 실패 공포는 자극보다 안심 설계로 전환해야 합니다" [level=2] [ref=e778]
+              - generic [ref=e779]: 과일 선물에서 고객이 두려워하는 것은 단순히 맛이 아닙니다. 받는 사람 반응, 포장 첫인상, 도착 상태, 일정 실패, 그리고 내가 잘못 고른 사람처럼 보일 수 있다는 불안이 함께 작동합니다. 따라서 공포를 키우기보다 실패 원인을 먼저 설명하고, 그 실패를 줄이는 장치를 보여줘야 전환이 일어납니다.
+            - generic [ref=e780]: Fear to Assurance
+          - generic [ref=e782]:
+            - heading "Conversion Formula" [level=3] [ref=e783]
+            - paragraph [ref=e784]: The product page should follow this sequence.
+            - generic [ref=e785]:
+              - generic [ref=e786]:
+                - heading "1. Name the Anxiety" [level=3] [ref=e787]
+                - paragraph [ref=e788]: Start by explaining that gifts are remembered by arrival and reaction first.
+              - generic [ref=e789]:
+                - heading "2. Name the Failure Cause" [level=3] [ref=e790]
+                - paragraph [ref=e791]: "Spell out the real failure causes: damage, vague packaging, late arrival, and taste mismatch."
+              - generic [ref=e792]:
+                - heading "3. Show Evidence" [level=3] [ref=e793]
+                - paragraph [ref=e794]: Show unbroken delivery, parent satisfaction, gift suitability, and repurchase reviews early.
+              - generic [ref=e795]:
+                - heading "4. Add Safety Nets" [level=3] [ref=e796]
+                - paragraph [ref=e797]: Explain gift packaging, pre-shipment checks, and priority support on arrival issues.
+      - generic [ref=e799]:
+        - generic [ref=e800]:
+          - generic [ref=e801]: 차별화
+          - strong [ref=e802]: 26 / 43
+        - generic [ref=e804]:
+          - generic [ref=e805]:
+            - generic [ref=e806]:
+              - generic [ref=e807]: Gift Failure Conversion
+              - heading "선물 실패 공포는 자극보다 안심 설계로 전환해야 합니다" [level=2] [ref=e808]
+              - generic [ref=e809]: 과일 선물에서 고객이 두려워하는 것은 단순히 맛이 아닙니다. 받는 사람 반응, 포장 첫인상, 도착 상태, 일정 실패, 그리고 내가 잘못 고른 사람처럼 보일 수 있다는 불안이 함께 작동합니다. 따라서 공포를 키우기보다 실패 원인을 먼저 설명하고, 그 실패를 줄이는 장치를 보여줘야 전환이 일어납니다.
+            - generic [ref=e810]: Fear to Assurance
+          - table [ref=e811]:
+            - rowgroup [ref=e812]:
+              - row "실제 적용 장치 과일에 적용하는 방식 예시 문장" [ref=e813]:
+                - columnheader "실제 적용 장치" [ref=e814]
+                - columnheader "과일에 적용하는 방식" [ref=e815]
+                - columnheader "예시 문장" [ref=e816]
+            - rowgroup [ref=e817]:
+              - row "받는 사람 기준 퀵필터 부모님, 감사 인사, 아이 있는 집, 실패 적은 첫 선물로 진입시킴 부모님 선물용 추천 받기" [ref=e818]:
+                - cell "받는 사람 기준 퀵필터" [ref=e819]
+                - cell "부모님, 감사 인사, 아이 있는 집, 실패 적은 첫 선물로 진입시킴" [ref=e820]
+                - cell "부모님 선물용 추천 받기" [ref=e821]
+              - row "선물 안심 배지 무손상 도착 후기 다수, 선물 만족 후기 다수, 개별포장, 도착일 맞춤 응대 무손상 도착 후기 많은 세트" [ref=e822]:
+                - cell "선물 안심 배지" [ref=e823]
+                - cell "무손상 도착 후기 다수, 선물 만족 후기 다수, 개별포장, 도착일 맞춤 응대" [ref=e824]
+                - cell "무손상 도착 후기 많은 세트" [ref=e825]
+              - row "후기 배치 원칙 도착 상태, 받는 사람 반응, 맛, 재구매 순서로 후기 재배치 부모님이 좋아하셨다 / 깨끗하게 도착했다" [ref=e826]:
+                - cell "후기 배치 원칙" [ref=e827]
+                - cell "도착 상태, 받는 사람 반응, 맛, 재구매 순서로 후기 재배치" [ref=e828]
+                - cell "부모님이 좋아하셨다 / 깨끗하게 도착했다" [ref=e829]
+              - row "실패 방지형 CTA 구매하기 대신 안심 중심 CTA 사용 선물 실패 적은 세트 보기" [ref=e830]:
+                - cell "실패 방지형 CTA" [ref=e831]
+                - cell "구매하기 대신 안심 중심 CTA 사용" [ref=e832]
+                - cell "선물 실패 적은 세트 보기" [ref=e833]
+              - row "선물 전용 안전장치 도착일 메모, 메시지 카드, 출고 전 상태 점검, 도착 이상 우선 응대 도착 이상 시 선물 전담 CS 우선 응대" [ref=e834]:
+                - cell "선물 전용 안전장치" [ref=e835]
+                - cell "도착일 메모, 메시지 카드, 출고 전 상태 점검, 도착 이상 우선 응대" [ref=e836]
+                - cell "도착 이상 시 선물 전담 CS 우선 응대" [ref=e837]
+      - generic [ref=e839]:
+        - generic [ref=e840]:
+          - generic [ref=e841]: 차별화
+          - strong [ref=e842]: 27 / 43
+        - generic [ref=e844]:
+          - generic [ref=e845]:
+            - generic [ref=e846]:
+              - generic [ref=e847]: Gift Failure Conversion
+              - heading "선물 실패 공포는 자극보다 안심 설계로 전환해야 합니다" [level=2] [ref=e848]
+              - generic [ref=e849]: 과일 선물에서 고객이 두려워하는 것은 단순히 맛이 아닙니다. 받는 사람 반응, 포장 첫인상, 도착 상태, 일정 실패, 그리고 내가 잘못 고른 사람처럼 보일 수 있다는 불안이 함께 작동합니다. 따라서 공포를 키우기보다 실패 원인을 먼저 설명하고, 그 실패를 줄이는 장치를 보여줘야 전환이 일어납니다.
+            - generic [ref=e850]: Fear to Assurance
+          - generic [ref=e851]:
+            - article [ref=e852]:
+              - heading "사과/배 혼합 세트" [level=3] [ref=e853]
+              - paragraph [ref=e854]: 부모님 선물과 감사 선물 맥락이 강해 선물 실패 방지 메시지가 가장 잘 작동합니다.
+            - article [ref=e855]:
+              - heading "샤인머스캣 세트" [level=3] [ref=e856]
+              - paragraph [ref=e857]: 프리미엄 인식이 이미 있어 포장 안정성과 고급감 문법을 붙이기 좋습니다.
+            - article [ref=e858]:
+              - heading "감귤 프리미엄형" [level=3] [ref=e859]
+              - paragraph [ref=e860]: 반복구매 후기와 선물 만족 후기를 함께 쌓으며 안심형 상품으로 키우기 좋습니다.
+            - article [ref=e861]:
+              - heading "딸기 품종형" [level=3] [ref=e862]
+              - paragraph [ref=e863]: 적용은 가능하지만 신선도 리스크가 커서 메시지를 더 정교하게 다뤄야 합니다.
+      - generic [ref=e865]:
+        - generic [ref=e866]:
+          - generic [ref=e867]: UX
+          - strong [ref=e868]: 28 / 43
+        - generic [ref=e870]:
+          - generic [ref=e871]:
+            - generic [ref=e872]:
+              - generic [ref=e873]: Service Layer
+              - heading "대형 플랫폼이 못하는 디테일한 케어로 서비스 차별화를 만듭니다" [level=2] [ref=e874]
+              - generic [ref=e875]: 서비스는 많을수록 좋은 것이 아닙니다. 핵심 전략에 직접 기여하는 것만 남겨야 합니다.
+            - generic [ref=e876]: Care, Guarantee, Packaging
+          - generic [ref=e877]:
+            - article [ref=e878]:
+              - heading "조건부 맛 보장제" [level=3] [ref=e879]
+              - paragraph [ref=e880]: 맛없으면 100% 환불 문구를 그대로 쓰기보다, 품질 기준 미달과 파손, 무름 등에 대한 조건부 보상 정책으로 시작합니다.
+            - article [ref=e881]:
+              - heading "과일 정기 구독" [level=3] [ref=e882]
+              - paragraph [ref=e883]: 구독은 지금 당장 여는 서비스가 아니라, 아이 대상 장기 전략으로 보는 편이 맞습니다. 선물형으로 고객을 확보한 뒤 건강 간식, 과자 대체, 정기 섭취 습관을 만드는 방향으로 확장해야 합니다.
+      - generic [ref=e885]:
+        - generic [ref=e886]:
+          - generic [ref=e887]: UX
+          - strong [ref=e888]: 29 / 43
+        - generic [ref=e890]:
+          - generic [ref=e891]:
+            - generic [ref=e892]:
+              - generic [ref=e893]: Service Layer
+              - heading "대형 플랫폼이 못하는 디테일한 케어로 서비스 차별화를 만듭니다" [level=2] [ref=e894]
+              - generic [ref=e895]: 서비스는 많을수록 좋은 것이 아닙니다. 핵심 전략에 직접 기여하는 것만 남겨야 합니다.
+            - generic [ref=e896]: Care, Guarantee, Packaging
+          - generic [ref=e897]:
+            - article [ref=e898]:
+              - heading "용도별 소분 구성" [level=3] [ref=e899]
+              - paragraph [ref=e900]: 1인 가구용 실속 세트, 가정용 반복구매 세트, 선물용 프리미엄 세트처럼 도매의 대용량 이미지를 깨는 패키징이 필요합니다.
+            - article [ref=e901]:
+              - heading "패키징과 동봉 카드" [level=3] [ref=e902]
+              - paragraph [ref=e903]: 보관 가이드, 후숙 팁, 오늘 이 과일을 고른 이유를 담은 카드와 친환경 완충재는 전문가 이미지를 완성합니다.
+      - generic [ref=e905]:
+        - generic [ref=e906]:
+          - generic [ref=e907]: UX
+          - strong [ref=e908]: 30 / 43
+        - generic [ref=e910]:
+          - generic [ref=e911]:
+            - generic [ref=e912]:
+              - generic [ref=e913]: Experience Design
+              - heading "고객 경험은 과일을 받는 순간과 먹는 과정까지 설계되어야 합니다" [level=2] [ref=e914]
+              - generic [ref=e915]: 신선식품에서는 결제 직전의 설득보다 도착 상태와 동봉 커뮤니케이션이 더 오래 기억됩니다. 선물형과 일상형은 포장 언어도 분리해야 합니다.
+            - generic [ref=e916]: Packaging, Storage, Repeat
+          - generic [ref=e917]:
+            - article [ref=e918]:
+              - heading "패키징 원칙" [level=3] [ref=e919]
+              - paragraph [ref=e920]: 도착 상태가 브랜드 경험의 첫인상입니다. 친환경 완충재와 종이 중심 포장은 건강하고 자연친화적인 이미지를 강화합니다.
+            - article [ref=e921]:
+              - heading "동봉 커뮤니케이션" [level=3] [ref=e922]
+              - paragraph [ref=e923]: 사과는 분리 보관, 후숙 후 더 달다 같은 보관 가이드와 오늘 이 과일을 고른 이유를 담은 짧은 전문가 메모를 함께 보냅니다.
+            - article [ref=e924]:
+              - heading "재구매 유도" [level=3] [ref=e925]
+              - paragraph [ref=e926]: 배송 완료 후 같은 취향의 대체 과일과 가정용 실속 SKU를 연결해 선물형 구매를 일상형 반복구매로 전환합니다.
+      - generic [ref=e928]:
+        - generic [ref=e929]:
+          - generic [ref=e930]: UX
+          - strong [ref=e931]: 31 / 43
+        - generic [ref=e933]:
+          - generic [ref=e934]:
+            - generic [ref=e935]:
+              - generic [ref=e936]: Decision UX
+              - heading "결정 대행은 카피가 아니라 실제 화면 구조로 구현되어야 합니다" [level=2] [ref=e937]
+              - generic [ref=e938]: 브릭스 수치만 앞세우는 상세페이지로는 선택 피로를 해결할 수 없습니다. 고객 상황과 취향을 먼저 묻고, 추천 이유가 수치보다 앞에 와야 합니다.
+            - generic [ref=e939]: Situation, Taste, Hierarchy
+          - generic [ref=e940]:
+            - article [ref=e941]:
+              - heading "의사결정 보조 도구" [level=3] [ref=e942]
+              - paragraph [ref=e943]: 상황 필터는 선물, 아이 간식, 집용, 보관 기간 같은 질문으로 시작하고, 취향 필터는 당도 위주, 식감 위주, 산미 강도 같은 기준으로 이어집니다.
+            - article [ref=e944]:
+              - heading "운영 필터" [level=3] [ref=e945]
+              - paragraph [ref=e946]: 바로 먹을지, 보관 기간이 긴 것이 좋은지, 가족용인지 1인용인지까지 반영해 추천 SKU를 좁혀야 합니다.
+      - generic [ref=e948]:
+        - generic [ref=e949]:
+          - generic [ref=e950]: UX
+          - strong [ref=e951]: 32 / 43
+        - generic [ref=e953]:
+          - generic [ref=e954]:
+            - generic [ref=e955]:
+              - generic [ref=e956]: Decision UX
+              - heading "결정 대행은 카피가 아니라 실제 화면 구조로 구현되어야 합니다" [level=2] [ref=e957]
+              - generic [ref=e958]: 브릭스 수치만 앞세우는 상세페이지로는 선택 피로를 해결할 수 없습니다. 고객 상황과 취향을 먼저 묻고, 추천 이유가 수치보다 앞에 와야 합니다.
+            - generic [ref=e959]: Situation, Taste, Hierarchy
+          - generic [ref=e960]:
+            - article [ref=e961]:
+              - heading "상세페이지 정보 위계" [level=3] [ref=e962]
+              - paragraph [ref=e963]: 첫 화면에는 왜 이 과일이 실패 없는 선택인지 카드가 먼저 나오고, 그 다음 블록에 추천 이유, 그 다음에 브릭스와 산지와 포장 정보가 따라와야 합니다.
+            - article [ref=e964]:
+              - heading "리뷰 배치 원칙" [level=3] [ref=e965]
+              - paragraph [ref=e966]: 맛있다는 표현보다 무손상 도착, 부모님 만족, 개별포장, 재구매 같은 문장을 상단 가까이에 노출해야 전환력이 높아집니다.
+      - generic [ref=e968]:
+        - generic [ref=e969]:
+          - generic [ref=e970]: 검증
+          - strong [ref=e971]: 33 / 43
+        - generic [ref=e973]:
+          - generic [ref=e974]:
+            - generic [ref=e975]:
+              - generic [ref=e976]: Trust and KPI
+              - heading "신뢰는 CS 기준과 KPI가 숫자로 관리될 때 완성됩니다" [level=2] [ref=e977]
+              - generic [ref=e978]: 과일 커머스에서 고객은 완벽을 기대하지 않습니다. 대신 문제가 생겼을 때 얼마나 빠르고 일관되게 대응하는지를 봅니다.
+            - generic [ref=e979]: SLA, Retention, Review Quality
+          - generic [ref=e980]:
+            - article [ref=e981]:
+              - heading "실행 가능한 SLA" [level=3] [ref=e982]
+              - paragraph [ref=e983]: 파손과 무름은 24시간 내 사진 접수 후 재배송 또는 환불, 품질 기준 미달은 부분 환불 또는 적립 보상처럼 기준을 미리 정해둬야 합니다.
+            - article [ref=e984]:
+              - heading "LTV 전환" [level=3] [ref=e985]
+              - paragraph [ref=e986]: 선물형은 Acquisition, 아이 대상 구독형은 Retention / LTV 구조로 봐야 합니다. 따라서 선물형 고객을 가정용 실속 SKU와 부모용 구독 제안으로 연결하는 흐름이 필요합니다.
+            - article [ref=e987]:
+              - heading "성공 지표" [level=3] [ref=e988]
+              - paragraph [ref=e989]: 재구매율, 리뷰 4.8 이상, 반품률 2% 미만, 선물형 도착 이슈율 1% 미만, 24시간 내 1차 응답 같은 숫자가 필요합니다.
+      - generic [ref=e991]:
+        - generic [ref=e992]:
+          - generic [ref=e993]: 검증
+          - strong [ref=e994]: 34 / 43
+        - generic [ref=e996]:
+          - generic [ref=e997]:
+            - generic [ref=e998]:
+              - generic [ref=e999]: Business Model
+              - heading "도매 우위는 무조건 할인에 쓰지 말고 신뢰와 운영 품질에 먼저 투자해야 합니다" [level=2] [ref=e1000]
+              - generic [ref=e1001]: 도매 기반의 장점은 고객에게는 신선함이고 사업자에게는 마진입니다. 초기에는 그 우위를 가격 인하보다 검수, 포장, CS, 콘텐츠 제작에 더 많이 써야 브랜드가 남습니다.
+            - generic [ref=e1002]: Margin, Trust, Repeat
+          - generic [ref=e1003]:
+            - article [ref=e1004]:
+              - heading "도매 우위의 사용처" [level=3] [ref=e1005]
+              - paragraph [ref=e1006]: 가격 경쟁은 일상형 SKU에서 제한적으로 사용하고, 선물형 SKU는 신뢰와 경험에 투자합니다. 초기 우위는 싸게 파는 것보다 잘 운영하는 데 써야 합니다.
+            - article [ref=e1007]:
+              - heading "LTV 구조" [level=3] [ref=e1008]
+              - paragraph [ref=e1009]: 선물형은 객단가와 브랜드 신뢰를 만들고, 일상형은 반복구매와 LTV를 키웁니다. B2B는 물량 안정화와 원가·재고 방어 역할을 맡습니다.
+            - article [ref=e1010]:
+              - heading "실행 전 숫자 검증" [level=3] [ref=e1011]
+              - paragraph [ref=e1012]: 최소 4개 SKU에 대해 매입가, 포장비, 배송비, 보상률, 공헌이익을 계산해야 합니다. 이 계산이 없으면 좋은 전략도 사업으로는 불안정합니다.
+      - generic [ref=e1014]:
+        - generic [ref=e1015]:
+          - generic [ref=e1016]: 검증
+          - strong [ref=e1017]: 35 / 43
+        - generic [ref=e1019]:
+          - generic [ref=e1020]:
+            - generic [ref=e1021]:
+              - generic [ref=e1022]: Validation Board
+              - heading "이 제안서는 전략적으로 타당하지만, 사업 계획서로는 아직 조건부입니다" [level=2] [ref=e1023]
+              - generic [ref=e1024]: 브랜딩, 소비자 문제 정의, 제품 방향은 통과했습니다. 반대로 재무 검증, 운영 용량, 스마트스토어 직접 표본, 온브릭스 대비 정량 기준은 더 보강해야 합니다. 따라서 현재 문서는 방향 결정용으로는 충분히 강하지만, 실행 승인용으로는 보강이 필요합니다.
+            - generic [ref=e1025]: Pass, Conditional, Fail
+          - generic [ref=e1026]:
+            - article [ref=e1027]:
+              - heading "통과" [level=3] [ref=e1028]
+              - paragraph [ref=e1029]: 브랜딩, 소비자 문제 정의, 제품/UX 방향, 신뢰/CS 방향은 타당합니다. 특히 도매를 과일 큐레이터로 번역한 포지셔닝과 실패 없는 선택 대행 축은 강합니다.
+            - article [ref=e1030]:
+              - heading "조건부" [level=3] [ref=e1031]
+              - paragraph [ref=e1032]: 마케팅과 소규모 사업 운영은 방향은 맞지만, CAC 한도, 유입 구조, CRM 흐름, 역할 분담과 처리량 기준이 더 필요합니다.
+            - article [ref=e1033]:
+              - heading "미통과" [level=3] [ref=e1034]
+              - paragraph [ref=e1035]: 재무는 아직 미통과입니다. SKU별 공헌이익, 보상률, 폐기율, 무료배송 손익, 포장비와 CS 비용이 숫자로 검증되지 않았습니다.
+      - generic [ref=e1037]:
+        - generic [ref=e1038]:
+          - generic [ref=e1039]: 검증
+          - strong [ref=e1040]: 36 / 43
+        - generic [ref=e1042]:
+          - generic [ref=e1043]:
+            - generic [ref=e1044]:
+              - generic [ref=e1045]: Validation Board
+              - heading "이 제안서는 전략적으로 타당하지만, 사업 계획서로는 아직 조건부입니다" [level=2] [ref=e1046]
+              - generic [ref=e1047]: 브랜딩, 소비자 문제 정의, 제품 방향은 통과했습니다. 반대로 재무 검증, 운영 용량, 스마트스토어 직접 표본, 온브릭스 대비 정량 기준은 더 보강해야 합니다. 따라서 현재 문서는 방향 결정용으로는 충분히 강하지만, 실행 승인용으로는 보강이 필요합니다.
+            - generic [ref=e1048]: Pass, Conditional, Fail
+          - table [ref=e1049]:
+            - rowgroup [ref=e1050]:
+              - row "핵심 공백 왜 중요한가 즉시 보강할 것" [ref=e1051]:
+                - columnheader "핵심 공백" [ref=e1052]
+                - columnheader "왜 중요한가" [ref=e1053]
+                - columnheader "즉시 보강할 것" [ref=e1054]
+            - rowgroup [ref=e1055]:
+              - row "온브릭스 대비 KPI 기준선 부재 넘어선다는 목표를 정량으로 증명할 수 없습니다. 재구매율, 평점, 반품률, 선물형 도착 이슈율, CS 속도 비교표 작성" [ref=e1056]:
+                - cell "온브릭스 대비 KPI 기준선 부재" [ref=e1057]
+                - cell "넘어선다는 목표를 정량으로 증명할 수 없습니다." [ref=e1058]
+                - cell "재구매율, 평점, 반품률, 선물형 도착 이슈율, CS 속도 비교표 작성" [ref=e1059]
+              - row "SKU별 공헌이익 부재 선물형과 일상형 중 무엇이 실제로 돈이 되는지 판단할 수 없습니다. 최소 4개 SKU의 매입가, 포장비, 배송비, 보상률, 공헌이익 계산" [ref=e1060]:
+                - cell "SKU별 공헌이익 부재" [ref=e1061]
+                - cell "선물형과 일상형 중 무엇이 실제로 돈이 되는지 판단할 수 없습니다." [ref=e1062]
+                - cell "최소 4개 SKU의 매입가, 포장비, 배송비, 보상률, 공헌이익 계산" [ref=e1063]
+              - row "스마트스토어/경쟁사 표본 부족 현재 카테고리 우선순위와 문법이 시장 대표 패턴인지 확정하기 어렵습니다. 못난이 사과, 세척 사과, 감귤 직접 표본과 경쟁사 출처 추가" [ref=e1064]:
+                - cell "스마트스토어/경쟁사 표본 부족" [ref=e1065]
+                - cell "현재 카테고리 우선순위와 문법이 시장 대표 패턴인지 확정하기 어렵습니다." [ref=e1066]
+                - cell "못난이 사과, 세척 사과, 감귤 직접 표본과 경쟁사 출처 추가" [ref=e1067]
+              - row "운영 인력/SOP 부재 좋은 전략도 소규모 팀이 감당 못하면 무너집니다. 1인, 2인, 3인 운영 기준의 역할 분담과 하루 처리량 표 작성" [ref=e1068]:
+                - cell "운영 인력/SOP 부재" [ref=e1069]
+                - cell "좋은 전략도 소규모 팀이 감당 못하면 무너집니다." [ref=e1070]
+                - cell "1인, 2인, 3인 운영 기준의 역할 분담과 하루 처리량 표 작성" [ref=e1071]
+      - generic [ref=e1073]:
+        - generic [ref=e1074]:
+          - generic [ref=e1075]: 실행
+          - strong [ref=e1076]: 37 / 43
+        - generic [ref=e1078]:
+          - generic [ref=e1079]:
+            - generic [ref=e1080]:
+              - generic [ref=e1081]: Category Focus
+              - heading "우선 진입 카테고리는 선물과 설명력이 강한 곳부터 시작합니다" [level=2] [ref=e1082]
+              - generic [ref=e1083]: 스마트스토어 분석과 경쟁사 관찰을 합치면, 이 전략은 설명력이 높은 카테고리에서 먼저 힘을 발휘합니다. 즉 왜 이 과일을 사야 하는가를 말하기 쉬운 카테고리부터 들어가야 합니다.
+            - generic [ref=e1084]: Gift First, Daily Repeat Second
+          - generic [ref=e1085]:
+            - article [ref=e1086]:
+              - heading "사과/배 혼합 선물세트" [level=3] [ref=e1087]
+              - paragraph [ref=e1088]: 선물성과 설명력이 강하고, 보자기와 중량, 구성 문법이 이미 검증된 카테고리입니다.
+            - article [ref=e1089]:
+              - heading "샤인머스캣 선물세트" [level=3] [ref=e1090]
+              - paragraph [ref=e1091]: 프리미엄 가격대를 설계하기 좋고, 후기와 포장, 선물 만족 서사가 잘 붙습니다.
+      - generic [ref=e1093]:
+        - generic [ref=e1094]:
+          - generic [ref=e1095]: 실행
+          - strong [ref=e1096]: 38 / 43
+        - generic [ref=e1098]:
+          - generic [ref=e1099]:
+            - generic [ref=e1100]:
+              - generic [ref=e1101]: Category Focus
+              - heading "우선 진입 카테고리는 선물과 설명력이 강한 곳부터 시작합니다" [level=2] [ref=e1102]
+              - generic [ref=e1103]: 스마트스토어 분석과 경쟁사 관찰을 합치면, 이 전략은 설명력이 높은 카테고리에서 먼저 힘을 발휘합니다. 즉 왜 이 과일을 사야 하는가를 말하기 쉬운 카테고리부터 들어가야 합니다.
+            - generic [ref=e1104]: Gift First, Daily Repeat Second
+          - generic [ref=e1105]:
+            - article [ref=e1106]:
+              - heading "딸기 품종형 SKU" [level=3] [ref=e1107]
+              - paragraph [ref=e1108]: 향, 당도, 산미, 식감 차이를 설명하기 쉬워 추천형 구조와 잘 맞습니다.
+            - article [ref=e1109]:
+              - heading "감귤 프리미엄형 SKU" [level=3] [ref=e1110]
+              - paragraph [ref=e1111]: 타이벡, 제주, Brix, 환불 언어가 이미 강하게 형성돼 있어 설명형 프리미엄에 적합합니다.
+      - generic [ref=e1113]:
+        - generic [ref=e1114]:
+          - generic [ref=e1115]: 실행
+          - strong [ref=e1116]: 39 / 43
+        - generic [ref=e1118]:
+          - generic [ref=e1119]:
+            - generic [ref=e1120]:
+              - generic [ref=e1121]: Roadmap
+              - heading "90일 안에 만들어야 할 것은 기술보다 신뢰되는 선택 구조입니다" [level=2] [ref=e1122]
+              - generic [ref=e1123]: 초기에는 모든 기능을 만들 필요가 없습니다. 먼저 고객이 이 사이트는 나 대신 골라주는구나라고 느끼게 해야 합니다.
+            - generic [ref=e1124]: Message before Complexity
+          - generic [ref=e1125]:
+            - article [ref=e1126]:
+              - generic [ref=e1127]: 0-30
+              - generic [ref=e1128]:
+                - heading "선물형 초기 전략을 정리합니다" [level=3] [ref=e1129]
+                - paragraph [ref=e1130]: 주타겟 고객용 문장, 선물형 2종과 일상형 2종의 승자 SKU 후보, 상세페이지 설명 카드, 후기 노출 원칙을 정리합니다.
+            - article [ref=e1131]:
+              - generic [ref=e1132]: 31-60
+              - generic [ref=e1133]:
+                - heading "선물형을 먼저 검증합니다" [level=3] [ref=e1134]
+                - paragraph [ref=e1135]: 선물형 1종과 일상형 1종을 우선 런칭하고, 리뷰, CS, 클레임, 재구매 신호를 수집합니다. 동시에 B2B 운영 MVP를 설계합니다.
+            - article [ref=e1136]:
+              - generic [ref=e1137]: 61-90
+              - generic [ref=e1138]:
+                - heading "아이 대상 구독형의 조건을 점검합니다" [level=3] [ref=e1139]
+                - paragraph [ref=e1140]: 취향 테스트 또는 추천 플로우를 도입하고, 카테고리별 승자 SKU를 정리합니다. 이 단계부터 아이 대상 구독형으로 확장 가능한 SKU, 소포장, 보관, 운영 조건을 점검합니다.
+      - generic [ref=e1142]:
+        - generic [ref=e1143]:
+          - generic [ref=e1144]: 실행
+          - strong [ref=e1145]: 40 / 43
+        - generic [ref=e1147]:
+          - generic [ref=e1149]:
+            - generic [ref=e1150]: Guardrails
+            - heading "채널 운영에서 절대 놓치면 안 되는 가드레일" [level=2] [ref=e1151]
+            - generic [ref=e1152]: 스마트스토어는 상품 등록 창구가 아니라 운영 채널입니다. 후기, 배송, 광고 문구, 클레임 기준이 무너지면 핵심 전략도 설득력을 잃습니다.
+          - generic [ref=e1153]:
+            - generic [ref=e1154]:
+              - heading "문구 가드레일" [level=3] [ref=e1155]
+              - paragraph [ref=e1156]: 당도 보장, 환불 보장, 프리미엄, 특등급 문구는 실제 기준과 CS 체계가 있을 때만 사용합니다.
+            - generic [ref=e1157]:
+              - heading "리뷰 가드레일" [level=3] [ref=e1158]
+              - paragraph [ref=e1159]: 과일 카테고리에서 리뷰는 보조 정보가 아니라 핵심 전환 장치입니다. 신뢰 훼손 운영은 장기적으로 치명적입니다.
+            - generic [ref=e1160]:
+              - heading "배송 가드레일" [level=3] [ref=e1161]
+              - paragraph [ref=e1162]: 도착 상태와 포장 품질은 선물과 신선식품에서 브랜드 그 자체입니다. 상품 언어보다 배송 신뢰가 먼저입니다.
+      - generic [ref=e1164]:
+        - generic [ref=e1165]:
+          - generic [ref=e1166]: 실행
+          - strong [ref=e1167]: 41 / 43
+        - generic [ref=e1169]:
+          - generic [ref=e1170]:
+            - generic [ref=e1171]:
+              - generic [ref=e1172]: Future Ideas
+              - heading "부가 아이디어는 브랜드 자산이 쌓인 뒤 확장 기능으로 붙입니다" [level=2] [ref=e1173]
+              - generic [ref=e1174]: 아래 아이디어는 방향성은 좋지만, 지금 바로 핵심 전략으로 올리기보다 후속 확장 아이템으로 관리하는 것이 맞습니다.
+            - generic [ref=e1175]: Later, Not First
+          - generic [ref=e1176]:
+            - generic [ref=e1177]:
+              - heading "경매장의 냉정한 관찰자" [level=3] [ref=e1178]
+              - paragraph [ref=e1179]: 낙선 리스트 공개, 도매가 추이 그래프, 실시간 경매장 라이브 위젯으로 도매의 진정성을 시스템으로 보여주는 방향입니다.
+            - generic [ref=e1180]:
+              - heading "계절의 기록자" [level=3] [ref=e1181]
+              - paragraph [ref=e1182]: 과일 빈티지 라벨, 72시간 피크 알림, 테이스팅 노트 카드로 과일을 계절성과 희소성이 있는 경험재로 만드는 방향입니다.
+            - generic [ref=e1183]:
+              - heading "과일 오마카세 매니저" [level=3] [ref=e1184]
+              - paragraph [ref=e1185]: 후숙 알림, 제로웨이스트 키트, 당도 커스텀 선택으로 구매 이후 관리와 소비 경험까지 깊게 개입하는 방향입니다.
+      - generic [ref=e1187]:
+        - generic [ref=e1188]:
+          - generic [ref=e1189]: 실행
+          - strong [ref=e1190]: 42 / 43
+        - generic [ref=e1192]:
+          - generic [ref=e1193]:
+            - generic [ref=e1194]:
+              - generic [ref=e1195]: Final Positioning
+              - heading "최종 포지셔닝은 과일을 잘 파는 곳이 아니라 대신 골라주는 곳입니다" [level=2] [ref=e1196]
+              - generic [ref=e1197]: 이 프로젝트의 최종 문장은 제품 스펙이 아니라 역할을 설명해야 합니다. 고객은 더 많은 정보보다 실패 없는 선택을 원합니다.
+            - generic [ref=e1198]: What We Are
+          - generic [ref=e1199]:
+            - heading "포지셔닝 문장" [level=3] [ref=e1200]
+            - paragraph [ref=e1201]: 과일을 대신 골라주고, 실패 없는 선택으로 증명하는 프리미엄 과일 커머스.
+      - generic [ref=e1203]:
+        - generic [ref=e1204]:
+          - generic [ref=e1205]: 실행
+          - strong [ref=e1206]: 43 / 43
+        - generic [ref=e1208]:
+          - generic [ref=e1210]:
+            - generic [ref=e1211]: Sources
+            - heading "이 HTML에 반영한 근거 문서와 소비자 보이스 출처" [level=2] [ref=e1212]
+          - generic [ref=e1213]:
+            - generic [ref=e1214]:
+              - heading "핵심 전략 문서" [level=3] [ref=e1215]
+              - paragraph [ref=e1216]: final_online_fruit_commerce_proposal.md의 최종 전략 구조, 주타겟 고객, 90일 실행안, 검토 반영 섹션을 반영했습니다.
+            - generic [ref=e1217]:
+              - heading "온브릭스 기준선" [level=3] [ref=e1218]
+              - paragraph [ref=e1219]: appendix_onbricks_benchmark.md의 당도, 선물, 브랜드 경험 강점과 빈틈을 반영했습니다.
+            - generic [ref=e1220]:
+              - heading "경쟁사와 스마트스토어" [level=3] [ref=e1221]
+              - paragraph [ref=e1222]: appendix_competitor_benchmark.md와 appendix_smartstore_catalog.md의 대표 SKU, 가격대, 카테고리 우선순위, 실제 후기 표본을 반영했습니다.
+            - generic [ref=e1223]:
+              - heading "소비자 보이스와 검토" [level=3] [ref=e1224]
+              - paragraph [ref=e1225]: appendix_consumer_voice.md의 리뷰 요약과 multi_agent_proposal_review.md의 멀티 에이전트 검토 결과를 반영했습니다.
+        - generic [ref=e1226]: Fruit commerce proposal rebuilt from local markdown evidence, benchmark notes, and consumer-voice findings.
+  - generic [ref=e1227]:
+    - button "이전" [disabled] [ref=e1228]
+    - button "다음" [ref=e1229] [cursor=pointer]

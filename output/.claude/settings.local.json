@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python test_cv3_integration.py)",
+      "Bash(python fix_layouts.py)",
+      "Bash(python apply_common_layout.py)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

@@ -1,0 +1,307 @@
+/* ================================
+   베스트 상품 페이지 고유 스타일
+   과일다리 - Best Sellers Page Specific Styles
+   ================================ */
+
+/* Hero Banner - 베스트 페이지 고유 */
+.hero-banner {
+    position: relative;
+    background: linear-gradient(135deg, var(--color-brand-primary), var(--color-brand-secondary));
+    padding: var(--space-10) var(--space-5);
+    color: var(--color-text-inverse);
+    overflow: hidden;
+}
+
+.hero-bg {
+    position: absolute;
+    top: -20px;
+    right: -20px;
+    font-size: 120px;
+    opacity: 0.1;
+    user-select: none;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 1;
+}
+
+.best-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    background: rgba(255, 255, 255, 0.2);
+    padding: var(--space-1) var(--space-3);
+    border-radius: var(--radius-pill);
+    font-size: var(--font-size-sm);
+    margin-bottom: var(--space-4);
+    backdrop-filter: blur(10px);
+}
+
+.hero-title {
+    font-size: var(--font-size-4xl);
+    font-weight: var(--font-weight-bold);
+    margin-bottom: var(--space-2);
+    line-height: var(--line-height-tight);
+}
+
+.hero-subtitle {
+    font-size: var(--font-size-lg);
+    opacity: 0.9;
+    margin-bottom: var(--space-6);
+}
+
+.hero-stats {
+    display: flex;
+    gap: var(--space-6);
+}
+
+.hero-stat {
+    text-align: center;
+}
+
+.hero-stat-value {
+    font-size: var(--font-size-3xl);
+    font-weight: var(--font-weight-bold);
+    display: block;
+}
+
+.hero-stat-label {
+    font-size: var(--font-size-sm);
+    opacity: 0.8;
+    margin-top: var(--space-1);
+    display: block;
+}
+
+/* Real-time Counter - 베스트 페이지 고유 */
+.realtime-counter {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding: var(--space-4) var(--space-5);
+    background: var(--color-bg-soft);
+    border-bottom: var(--border-thin);
+}
+
+.counter-icon {
+    font-size: 24px;
+    animation: pulse 1.5s infinite;
+}
+
+.counter-content {
+    flex: 1;
+}
+
+.counter-label {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-muted);
+    display: block;
+}
+
+.counter-value {
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-brand-secondary);
+}
+
+.counter-live {
+    display: flex;
+    align-items: center;
+    gap: var(--space-1);
+    font-size: var(--font-size-sm);
+    color: var(--color-brand-secondary);
+}
+
+.live-dot {
+    width: 8px;
+    height: 8px;
+    background: var(--color-brand-secondary);
+    border-radius: 50%;
+    animation: blink 1.5s infinite;
+}
+
+/* Podium Section - 베스트 페이지 고유 */
+.podium-section {
+    padding: var(--space-6) var(--space-5);
+    background: linear-gradient(180deg, var(--color-surface), var(--color-bg-soft));
+}
+
+.podium-title {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: var(--font-size-2xl);
+    font-weight: var(--font-weight-bold);
+    margin-bottom: var(--space-6);
+    color: var(--color-text-primary);
+}
+
+.podium-container {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    gap: var(--space-3);
+    margin-top: var(--space-8);
+}
+
+.podium-item {
+    flex: 1;
+    text-align: center;
+    cursor: pointer;
+    transition: transform var(--transition-base);
+}
+
+.podium-item:hover {
+    transform: translateY(-4px);
+}
+
+.podium-product {
+    padding: var(--space-4);
+    background: var(--color-surface);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    margin-bottom: var(--space-2);
+    transition: box-shadow var(--transition-fast);
+}
+
+.podium-item:hover .podium-product {
+    box-shadow: var(--shadow-lg);
+}
+
+.podium-rank {
+    display: inline-block;
+    width: 28px;
+    height: 28px;
+    background: var(--color-brand-primary);
+    color: var(--color-text-inverse);
+    border-radius: 50%;
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-bold);
+    line-height: 28px;
+    margin-bottom: var(--space-2);
+}
+
+/* 랭킹별 색상 */
+.podium-item[data-rank="1"] .podium-rank {
+    background: linear-gradient(135deg, #FFD700, #FFA500);
+}
+
+.podium-item[data-rank="2"] .podium-rank {
+    background: linear-gradient(135deg, #C0C0C0, #808080);
+}
+
+.podium-item[data-rank="3"] .podium-rank {
+    background: linear-gradient(135deg, #CD7F32, #8B4513);
+}
+
+.podium-image {
+    font-size: 48px;
+    margin-bottom: var(--space-2);
+    line-height: 1;
+}
+
+.podium-name {
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+    margin-bottom: var(--space-1);
+}
+
+.podium-price {
+    font-size: var(--font-size-lg);
+    color: var(--color-brand-primary);
+    font-weight: var(--font-weight-bold);
+}
+
+.podium-base {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--font-size-sm);
+    border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+    padding: var(--space-2);
+}
+
+/* 시상대 높이 */
+.podium-item[data-rank="1"] .podium-base {
+    height: 100px;
+    background: linear-gradient(135deg, #FFD700, #FFA500);
+}
+
+.podium-item[data-rank="2"] .podium-base {
+    height: 80px;
+    background: linear-gradient(135deg, #C0C0C0, #808080);
+}
+
+.podium-item[data-rank="3"] .podium-base {
+    height: 60px;
+    background: linear-gradient(135deg, #CD7F32, #8B4513);
+}
+
+/* 베스트 상품 섹션 */
+.products-section {
+    padding: var(--space-5);
+    background: var(--color-surface);
+}
+
+/* 베스트 페이지 고유 상품 카드 스타일 */
+.product-card .product-trend {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    margin-bottom: var(--space-3);
+}
+
+.trend-graph {
+    flex: 1;
+    height: 4px;
+    background: var(--color-bg-frame);
+    border-radius: var(--radius-xs);
+    overflow: hidden;
+}
+
+.trend-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--color-brand-primary), var(--color-brand-secondary));
+    transition: width var(--transition-slow);
+}
+
+.trend-percent {
+    font-size: var(--font-size-xs);
+    color: var(--color-brand-primary);
+    font-weight: var(--font-weight-semibold);
+}
+
+.product-sales {
+    font-size: var(--font-size-xs);
+    color: var(--color-text-muted);
+}
+
+.product-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: var(--space-3);
+    border-top: var(--border-thin);
+}
+
+.product-review {
+    margin-top: var(--space-3);
+    padding: var(--space-2);
+    background: var(--color-bg-soft);
+    border-radius: var(--radius-sm);
+}
+
+.review-text {
+    font-size: var(--font-size-xs);
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-1);
+    line-height: var(--line-height-relaxed);
+}
+
+.review-author {
+    font-size: 10px;
+    color: var(--color-text-muted);
+}

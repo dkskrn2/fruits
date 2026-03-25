@@ -6,538 +6,7 @@
     <title>아이간식 - 과일다리</title>
     <link rel="stylesheet" href="../../styles/design-system.css">
     <link rel="stylesheet" href="../../styles/components.css">
-    <style>
-        body {
-            padding-bottom: 60px;
-            background: #FFF9F0;
-        }
-
-        /* Desktop centering */
-        @media (min-width: 768px) {
-            body {
-                max-width: 430px;
-                margin: 0 auto;
-                box-shadow: 0 0 50px rgba(0,0,0,0.1);
-            }
-        }
-
-        /* Header */
-        .header {
-            background: var(--color-white);
-            border-bottom: 1px solid var(--color-gray-300);
-            position: sticky;
-            top: 0;
-            z-index: var(--z-sticky);
-            padding: var(--space-3) var(--space-4);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .header-back {
-            font-size: 24px;
-            cursor: pointer;
-            padding: var(--space-2);
-            margin-left: calc(var(--space-2) * -1);
-        }
-
-        .header-title {
-            font-size: var(--font-size-md);
-            font-weight: var(--font-weight-semibold);
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
-        }
-
-        .header-actions {
-            display: flex;
-            gap: var(--space-3);
-        }
-
-        .header-icon {
-            font-size: 24px;
-            cursor: pointer;
-            padding: var(--space-1);
-        }
-
-        /* Hero Banner */
-        .hero-banner {
-            background: linear-gradient(135deg, #FFE66D 0%, #FF6B9D 50%, #C06CF8 100%);
-            padding: var(--space-8) var(--space-5);
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .hero-banner::before {
-            content: '';
-            position: absolute;
-            top: -50px;
-            right: -50px;
-            width: 200px;
-            height: 200px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-        }
-
-        .hero-banner::after {
-            content: '';
-            position: absolute;
-            bottom: -30px;
-            left: -30px;
-            width: 150px;
-            height: 150px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-        }
-
-        .hero-content {
-            position: relative;
-            z-index: 1;
-        }
-
-        .hero-icon {
-            font-size: 64px;
-            margin-bottom: var(--space-3);
-            animation: bounce 2s infinite;
-        }
-
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-
-        .hero-title {
-            font-size: var(--font-size-2xl);
-            font-weight: var(--font-weight-bold);
-            color: var(--color-white);
-            margin-bottom: var(--space-2);
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
-        }
-
-        .hero-subtitle {
-            font-size: var(--font-size-base);
-            color: rgba(255, 255, 255, 0.95);
-            font-weight: var(--font-weight-medium);
-        }
-
-        /* Age Filter */
-        .age-filter {
-            padding: var(--space-4);
-            background: var(--color-white);
-        }
-
-        .age-filter-title {
-            font-size: var(--font-size-sm);
-            font-weight: var(--font-weight-semibold);
-            color: var(--color-gray-700);
-            margin-bottom: var(--space-3);
-        }
-
-        .age-chips {
-            display: flex;
-            gap: var(--space-2);
-            overflow-x: auto;
-            -webkit-overflow-scrolling: touch;
-        }
-
-        .age-chips::-webkit-scrollbar {
-            display: none;
-        }
-
-        .age-chip {
-            flex-shrink: 0;
-            padding: var(--space-2) var(--space-4);
-            border: 2px solid var(--color-gray-300);
-            border-radius: var(--radius-full);
-            font-size: var(--font-size-sm);
-            font-weight: var(--font-weight-medium);
-            color: var(--color-gray-700);
-            background: var(--color-white);
-            cursor: pointer;
-            transition: all var(--transition-fast);
-            white-space: nowrap;
-        }
-
-        .age-chip:active {
-            transform: scale(0.95);
-        }
-
-        .age-chip.active {
-            background: linear-gradient(135deg, #FF6B9D, #C06CF8);
-            color: var(--color-white);
-            border-color: transparent;
-        }
-
-        /* Safety Badges */
-        .safety-section {
-            padding: var(--space-5) var(--space-4);
-            background: var(--color-white);
-            border-bottom: 8px solid #FFF9F0;
-        }
-
-        .safety-title {
-            font-size: var(--font-size-base);
-            font-weight: var(--font-weight-bold);
-            color: var(--color-gray-900);
-            margin-bottom: var(--space-3);
-            display: flex;
-            align-items: center;
-            gap: var(--space-2);
-        }
-
-        .safety-badges {
-            display: flex;
-            gap: var(--space-2);
-            overflow-x: auto;
-            -webkit-overflow-scrolling: touch;
-            padding-bottom: var(--space-1);
-        }
-
-        .safety-badges::-webkit-scrollbar {
-            display: none;
-        }
-
-        .safety-badge {
-            flex-shrink: 0;
-            display: flex;
-            align-items: center;
-            gap: var(--space-2);
-            padding: var(--space-3) var(--space-4);
-            background: linear-gradient(135deg, #E8F5E9, #C8E6C9);
-            border-radius: var(--radius-lg);
-            border: 2px solid #4CAF50;
-            cursor: pointer;
-            transition: all var(--transition-fast);
-        }
-
-        .safety-badge:active {
-            transform: scale(0.95);
-        }
-
-        .safety-badge.active {
-            background: linear-gradient(135deg, #4CAF50, #2E7D32);
-            box-shadow: var(--shadow-md);
-        }
-
-        .safety-badge.active .safety-badge-text {
-            color: var(--color-white);
-        }
-
-        .safety-badge-icon {
-            font-size: 24px;
-        }
-
-        .safety-badge-text {
-            font-size: var(--font-size-sm);
-            font-weight: var(--font-weight-semibold);
-            color: #2E7D32;
-            white-space: nowrap;
-        }
-
-        /* Products Section */
-        .products-section {
-            padding: var(--space-5) var(--space-4);
-        }
-
-        .products-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: var(--space-4);
-        }
-
-        .products-title {
-            font-size: var(--font-size-lg);
-            font-weight: var(--font-weight-bold);
-            color: var(--color-gray-900);
-        }
-
-        .products-count {
-            font-size: var(--font-size-sm);
-            color: var(--color-gray-600);
-        }
-
-        .products-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: var(--space-3);
-        }
-
-        /* Kid Product Card */
-        .kid-product-card {
-            background: var(--color-white);
-            border-radius: var(--radius-xl);
-            overflow: hidden;
-            box-shadow: var(--shadow-md);
-            transition: all var(--transition-base);
-            cursor: pointer;
-        }
-
-        .kid-product-card:active {
-            transform: translateY(-4px);
-            box-shadow: var(--shadow-lg);
-        }
-
-        .kid-product-image {
-            height: 140px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 72px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .kid-product-badge {
-            position: absolute;
-            top: var(--space-2);
-            left: var(--space-2);
-            padding: 4px var(--space-2);
-            background: rgba(255, 255, 255, 0.95);
-            color: #E65100;
-            font-size: 10px;
-            font-weight: var(--font-weight-bold);
-            border-radius: var(--radius-full);
-            box-shadow: var(--shadow-sm);
-        }
-
-        .kid-product-content {
-            padding: var(--space-3);
-        }
-
-        .kid-product-title {
-            font-size: var(--font-size-sm);
-            font-weight: var(--font-weight-bold);
-            color: var(--color-gray-900);
-            margin-bottom: var(--space-1);
-            line-height: var(--line-height-tight);
-        }
-
-        .kid-product-desc {
-            font-size: 11px;
-            color: var(--color-gray-600);
-            margin-bottom: var(--space-2);
-            line-height: 1.3;
-        }
-
-        .kid-product-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 4px;
-            margin-bottom: var(--space-2);
-        }
-
-        .kid-product-tag {
-            padding: 2px 6px;
-            background: var(--color-primary-light);
-            color: var(--color-primary-dark);
-            font-size: 9px;
-            font-weight: var(--font-weight-semibold);
-            border-radius: var(--radius-sm);
-        }
-
-        .kid-product-nutrition {
-            display: flex;
-            gap: var(--space-2);
-            margin-bottom: var(--space-3);
-            padding: var(--space-2);
-            background: #FFF9F0;
-            border-radius: var(--radius-md);
-        }
-
-        .nutrition-item {
-            flex: 1;
-            text-align: center;
-        }
-
-        .nutrition-icon {
-            font-size: 16px;
-            margin-bottom: 2px;
-        }
-
-        .nutrition-label {
-            font-size: 9px;
-            color: var(--color-gray-600);
-            font-weight: var(--font-weight-medium);
-        }
-
-        .kid-product-footer {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .kid-product-price {
-            font-size: var(--font-size-base);
-            font-weight: var(--font-weight-bold);
-            color: #FF6B9D;
-        }
-
-        .kid-product-action {
-            padding: var(--space-2) var(--space-3);
-            background: linear-gradient(135deg, #FFE66D, #FF6B9D);
-            color: var(--color-white);
-            border: none;
-            border-radius: var(--radius-full);
-            font-size: 11px;
-            font-weight: var(--font-weight-bold);
-            cursor: pointer;
-            transition: all var(--transition-fast);
-            box-shadow: var(--shadow-sm);
-        }
-
-        .kid-product-action:active {
-            transform: scale(0.9);
-        }
-
-        /* Reviews Section */
-        .reviews-section {
-            padding: var(--space-5) var(--space-4);
-            background: var(--color-white);
-            margin-top: var(--space-4);
-            border-radius: var(--radius-xl) var(--radius-xl) 0 0;
-        }
-
-        .reviews-header {
-            display: flex;
-            align-items: center;
-            gap: var(--space-2);
-            margin-bottom: var(--space-4);
-        }
-
-        .reviews-title {
-            font-size: var(--font-size-lg);
-            font-weight: var(--font-weight-bold);
-            color: var(--color-gray-900);
-        }
-
-        .reviews-count {
-            font-size: var(--font-size-sm);
-            color: var(--color-gray-600);
-            font-weight: var(--font-weight-medium);
-        }
-
-        .review-card {
-            background: #FFF9F0;
-            border-radius: var(--radius-lg);
-            padding: var(--space-4);
-            margin-bottom: var(--space-3);
-        }
-
-        .review-header {
-            display: flex;
-            align-items: center;
-            gap: var(--space-3);
-            margin-bottom: var(--space-3);
-        }
-
-        .review-avatar {
-            width: 40px;
-            height: 40px;
-            background: linear-gradient(135deg, #FFE66D, #FF6B9D);
-            border-radius: var(--radius-full);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
-        }
-
-        .review-info {
-            flex: 1;
-        }
-
-        .review-author {
-            font-size: var(--font-size-sm);
-            font-weight: var(--font-weight-semibold);
-            color: var(--color-gray-900);
-            margin-bottom: 2px;
-        }
-
-        .review-meta {
-            font-size: var(--font-size-xs);
-            color: var(--color-gray-600);
-        }
-
-        .review-rating {
-            display: flex;
-            gap: 2px;
-        }
-
-        .review-content {
-            font-size: var(--font-size-sm);
-            color: var(--color-gray-700);
-            line-height: var(--line-height-relaxed);
-            margin-bottom: var(--space-2);
-        }
-
-        .review-product {
-            font-size: var(--font-size-xs);
-            color: var(--color-primary);
-            font-weight: var(--font-weight-medium);
-        }
-
-        /* Bottom Navigation */
-        .bottom-nav {
-            position: fixed;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100%;
-            max-width: 430px;
-            background: var(--color-white);
-            border-top: 1px solid var(--color-gray-300);
-            display: flex;
-            justify-content: space-around;
-            padding: var(--space-2) 0;
-            z-index: var(--z-sticky);
-        }
-
-        .nav-item {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 4px;
-            padding: var(--space-1);
-            color: var(--color-gray-500);
-            text-decoration: none;
-            cursor: pointer;
-            transition: all var(--transition-fast);
-        }
-
-        .nav-item.active {
-            color: var(--color-primary);
-        }
-
-        .nav-item .icon {
-            font-size: 24px;
-        }
-
-        .nav-item .label {
-            font-size: 11px;
-            font-weight: var(--font-weight-medium);
-        }
-
-        /* Filter active indicator */
-        .filter-indicator {
-            display: inline-flex;
-            align-items: center;
-            gap: var(--space-1);
-            padding: var(--space-1) var(--space-2);
-            background: var(--color-primary-light);
-            color: var(--color-primary-dark);
-            font-size: 11px;
-            font-weight: var(--font-weight-semibold);
-            border-radius: var(--radius-full);
-            margin-bottom: var(--space-2);
-        }
-
-        /* Hidden class for filtering */
-        .hidden {
-            display: none !important;
-        }
-    </style>
+    <link rel="stylesheet" href="../../styles/common-layout.css">
 </head>
 <body>
     <!-- Header -->
@@ -583,18 +52,18 @@
             <span>🛡️</span>
             안전 인증
         </h3>
-        <div class="safety-badges">
-            <div class="safety-badge active" data-safety="organic" onclick="toggleSafety(this, 'organic')">
-                <span class="safety-badge-icon">🌿</span>
-                <span class="safety-badge-text">무농약</span>
+        <div class="safety-chips">
+            <div class="safety-chip active" data-safety="organic" onclick="toggleSafety(this, 'organic')">
+                <span class="safety-chip-icon">🌿</span>
+                <span class="safety-chip-text">무농약</span>
             </div>
-            <div class="safety-badge active" data-safety="certified" onclick="toggleSafety(this, 'certified')">
-                <span class="safety-badge-icon">✓</span>
-                <span class="safety-badge-text">유기농 인증</span>
+            <div class="safety-chip active" data-safety="certified" onclick="toggleSafety(this, 'certified')">
+                <span class="safety-chip-icon">✓</span>
+                <span class="safety-chip-text">유기농 인증</span>
             </div>
-            <div class="safety-badge active" data-safety="allergen" onclick="toggleSafety(this, 'allergen')">
-                <span class="safety-badge-icon">🔒</span>
-                <span class="safety-badge-text">알러지프리</span>
+            <div class="safety-chip active" data-safety="allergen" onclick="toggleSafety(this, 'allergen')">
+                <span class="safety-chip-icon">🔒</span>
+                <span class="safety-chip-text">알러지프리</span>
             </div>
         </div>
     </section>
@@ -611,7 +80,7 @@
             <div class="kid-product-card" data-age="infant,elementary" data-safety="organic,certified,allergen">
                 <div class="kid-product-image" style="background: linear-gradient(135deg, #FFE0B2, #FFCC80);">
                     🍓
-                    <span class="kid-product-badge">인기</span>
+                    <span class="kid-product-chip">인기</span>
                 </div>
                 <div class="kid-product-content">
                     <h4 class="kid-product-title">달콤 미니 딸기</h4>
@@ -678,7 +147,7 @@
             <div class="kid-product-card" data-age="elementary,teen" data-safety="organic,certified,allergen">
                 <div class="kid-product-image" style="background: linear-gradient(135deg, #E1F5FE, #B3E5FC);">
                     🫐
-                    <span class="kid-product-badge">신상</span>
+                    <span class="kid-product-chip">신상</span>
                 </div>
                 <div class="kid-product-content">
                     <h4 class="kid-product-title">똑똑 블루베리</h4>
@@ -778,7 +247,7 @@
             <div class="kid-product-card" data-age="infant,elementary,teen" data-safety="organic,certified,allergen">
                 <div class="kid-product-image" style="background: linear-gradient(135deg, #FFCCBC, #FFAB91);">
                     🍊
-                    <span class="kid-product-badge">베스트</span>
+                    <span class="kid-product-chip">베스트</span>
                 </div>
                 <div class="kid-product-content">
                     <h4 class="kid-product-title">한라봉 스위티</h4>
@@ -878,7 +347,7 @@
             <div class="kid-product-card" data-age="elementary,teen" data-safety="organic,certified">
                 <div class="kid-product-image" style="background: linear-gradient(135deg, #FFCCBC, #FFAB91);">
                     🥭
-                    <span class="kid-product-badge">한정</span>
+                    <span class="kid-product-chip">한정</span>
                 </div>
                 <div class="kid-product-content">
                     <h4 class="kid-product-title">트로피컬 망고</h4>
@@ -998,19 +467,19 @@
 
     <!-- Bottom Navigation -->
     <nav class="bottom-nav">
-        <a href="../home/index.html" class="nav-item">
+        <a href="../home/index.html" class="nav-link">
             <span class="icon">🏠</span>
             <span class="label">홈</span>
         </a>
-        <a href="../products/index.html" class="nav-item active">
+        <a href="../products/index.html" class="nav-link active">
             <span class="icon">🍎</span>
             <span class="label">상품</span>
         </a>
-        <a href="../cart/index.html" class="nav-item">
+        <a href="../cart/index.html" class="nav-link">
             <span class="icon">🛒</span>
             <span class="label">장바구니</span>
         </a>
-        <a href="../mypage/index.html" class="nav-item">
+        <a href="../mypage/index.html" class="nav-link">
             <span class="icon">👤</span>
             <span class="label">마이</span>
         </a>

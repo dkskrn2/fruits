@@ -1,0 +1,160 @@
+/* ================================
+   FruitBridge CV3 Design System - Core Tokens
+   오트밀 + 리프 그린 + 코랄 피치 기반 프리미엄 과일 커머스
+   ================================ */
+
+:root {
+  /* Brand Colors */
+  --color-brand-primary: #7AA37A;
+  --color-brand-primary-hover: #5E875F;
+  --color-brand-secondary: #E7A98D;
+  --color-brand-accent: #D8B36A;
+  --color-brand-soft: #EBC1AA;
+
+  /* Background Colors */
+  --color-bg-page: #FCF9F5;
+  --color-bg-section: #F8F2EA;
+  --color-bg-soft: #F6F1EA;
+  --color-bg-frame: #EEE6DB;
+  --color-bg-tint: #E7DCCF;
+  --color-surface: #FFFDF9;
+  --color-line: #DCCDB6;
+
+  /* Text Colors */
+  --color-text-primary: #384238;
+  --color-text-secondary: #667063;
+  --color-text-muted: #9B988E;
+  --color-text-inverse: #FFFDF9;
+
+  /* System Colors */
+  --color-success: #7AA37A;
+  --color-highlight: #E7A98D;
+  --color-premium: #D8B36A;
+  --color-danger: #B16852;
+  --color-warning: #8D6A2C;
+  --color-info: #5F665E;
+
+  /* Legacy Support (기존 코드 호환) */
+  --color-primary: var(--color-brand-primary);
+  --color-primary-dark: var(--color-brand-primary-hover);
+  --color-white: var(--color-surface);
+  --color-error: var(--color-danger);
+
+  /* Gray Scale (for compatibility) */
+  --color-gray-50: #F9F7F5;
+  --color-gray-100: var(--color-bg-soft);
+  --color-gray-200: var(--color-line);
+  --color-gray-300: #CDBFA8;
+  --color-gray-400: #B3A591;
+  --color-gray-500: var(--color-text-muted);
+  --color-gray-600: var(--color-text-secondary);
+  --color-gray-700: #556051;
+  --color-gray-800: #494F47;
+  --color-gray-900: var(--color-text-primary);
+
+  /* Shadows */
+  --shadow-xs: 0 1px 2px rgba(56, 66, 56, 0.04);
+  --shadow-sm: 0 1px 2px rgba(56, 66, 56, 0.05);
+  --shadow-md: 0 6px 14px rgba(56, 66, 56, 0.08);
+  --shadow-lg: 0 14px 30px rgba(56, 66, 56, 0.12);
+  --shadow-xl: 0 24px 48px rgba(56, 66, 56, 0.16);
+
+  /* Border Radius */
+  --radius-xs: 6px;
+  --radius-sm: 8px;
+  --radius-md: 10px;
+  --radius-lg: 12px;
+  --radius-xl: 14px;
+  --radius-2xl: 20px;
+  --radius-full: 999px;
+  --radius-pill: 999px;
+
+  /* Control Heights */
+  --control-h-xs: 28px;
+  --control-h-sm: 36px;
+  --control-h-md: 44px;
+  --control-h-lg: 52px;
+  --control-h-xl: 60px;
+
+  /* Spacing */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-7: 28px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-20: 80px;
+
+  /* Borders */
+  --border-thin: 1px solid var(--color-line);
+  --border-strong: 1px solid #CDBFA8;
+  --border-focus: 1px solid var(--color-brand-primary);
+  --border-error: 1px solid #D4866A;
+  --border-disabled: 1px solid #E9E2D8;
+  --focus-ring: 0 0 0 3px rgba(122, 163, 122, 0.18);
+
+  /* Typography - Font Family */
+  --font-family-sans: Inter, Pretendard, -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+  --font-family-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+  /* Typography - Font Size */
+  --font-size-xs: 11px;
+  --font-size-sm: 12px;
+  --font-size-base: 14px;
+  --font-size-md: 15px;
+  --font-size-lg: 16px;
+  --font-size-xl: 18px;
+  --font-size-2xl: 20px;
+  --font-size-3xl: 24px;
+  --font-size-4xl: 28px;
+  --font-size-5xl: 32px;
+  --font-size-6xl: 40px;
+
+  /* Typography - Font Weight */
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  /* Typography - Line Height */
+  --line-height-tight: 1.1;
+  --line-height-snug: 1.3;
+  --line-height-normal: 1.55;
+  --line-height-relaxed: 1.7;
+  --line-height-loose: 2;
+
+  /* Transitions */
+  --transition-fast: 0.15s ease;
+  --transition-base: 0.25s ease;
+  --transition-slow: 0.35s ease;
+  --transition-slower: 0.5s ease;
+
+  /* Z-index */
+  --z-dropdown: 100;
+  --z-sticky: 200;
+  --z-fixed: 300;
+  --z-modal-backdrop: 400;
+  --z-modal: 500;
+  --z-popover: 600;
+  --z-tooltip: 700;
+  --z-notification: 800;
+
+  /* Layout */
+  --max-width-mobile: 430px;
+  --header-height: 56px;
+  --bottom-nav-height: 64px;
+  --safe-area-top: env(safe-area-inset-top);
+  --safe-area-bottom: env(safe-area-inset-bottom);
+
+  /* Grid & Gaps */
+  --grid-gap-xs: 8px;
+  --grid-gap-sm: 12px;
+  --grid-gap-md: 16px;
+  --grid-gap-lg: 20px;
+  --grid-gap-xl: 24px;
+}

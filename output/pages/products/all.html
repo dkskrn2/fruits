@@ -4,374 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>전체상품 - 과일다리</title>
-
     <link rel="stylesheet" href="../../styles/design-system.css">
     <link rel="stylesheet" href="../../styles/components.css">
-
-    <style>
-        body {
-            background: var(--color-gray-50);
-        }
-
-        .page-header {
-            background: white;
-            position: sticky;
-            top: 0;
-            z-index: var(--z-sticky);
-            border-bottom: 1px solid var(--color-gray-100);
-        }
-
-        .header-top {
-            display: flex;
-            align-items: center;
-            padding: 12px 20px;
-            gap: 12px;
-        }
-
-        .back-button {
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: transparent;
-            border: none;
-            font-size: 24px;
-            cursor: pointer;
-        }
-
-        .header-title {
-            flex: 1;
-            font-size: 18px;
-            font-weight: 600;
-        }
-
-        .header-action {
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: transparent;
-            border: none;
-            font-size: 20px;
-            cursor: pointer;
-        }
-
-        /* Filter Bar */
-        .filter-bar {
-            display: flex;
-            gap: 8px;
-            padding: 12px 20px;
-            background: white;
-            border-top: 1px solid var(--color-gray-100);
-            overflow-x: auto;
-            -webkit-overflow-scrolling: touch;
-        }
-
-        .filter-bar::-webkit-scrollbar {
-            display: none;
-        }
-
-        .filter-chip {
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-            padding: 8px 14px;
-            background: white;
-            border: 1px solid var(--color-gray-300);
-            border-radius: var(--radius-full);
-            font-size: 13px;
-            font-weight: 500;
-            color: var(--color-gray-700);
-            white-space: nowrap;
-            cursor: pointer;
-            transition: all var(--transition-fast);
-            flex-shrink: 0;
-        }
-
-        .filter-chip:active {
-            transform: scale(0.95);
-        }
-
-        .filter-chip.active {
-            background: var(--color-primary-light);
-            border-color: var(--color-primary);
-            color: var(--color-primary-dark);
-        }
-
-        .filter-icon {
-            font-size: 12px;
-        }
-
-        /* Sort Options */
-        .sort-section {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 12px 20px;
-            background: white;
-            margin-top: 8px;
-        }
-
-        .result-count {
-            font-size: 13px;
-            color: var(--color-gray-600);
-        }
-
-        .result-count strong {
-            color: var(--color-primary);
-            font-weight: 600;
-        }
-
-        .sort-dropdown {
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            padding: 6px 12px;
-            background: transparent;
-            border: none;
-            font-size: 13px;
-            color: var(--color-gray-700);
-            cursor: pointer;
-        }
-
-        /* Product Grid */
-        .products-container {
-            padding: 12px;
-            background: var(--color-gray-50);
-        }
-
-        .product-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
-        }
-
-        /* Enhanced Product Card */
-        .product-card {
-            background: white;
-            border-radius: var(--radius-lg);
-            overflow: hidden;
-            box-shadow: var(--shadow-xs);
-            transition: all var(--transition-fast);
-        }
-
-        .product-card:active {
-            transform: scale(0.98);
-            box-shadow: var(--shadow-sm);
-        }
-
-        .product-image-wrapper {
-            position: relative;
-            padding-top: 100%;
-            background: var(--color-gray-50);
-            overflow: hidden;
-        }
-
-        .product-image {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 64px;
-        }
-
-        .discount-badge {
-            position: absolute;
-            top: 8px;
-            left: 8px;
-            padding: 4px 8px;
-            background: var(--color-error);
-            color: white;
-            font-size: 11px;
-            font-weight: 700;
-            border-radius: var(--radius-sm);
-        }
-
-        .wishlist-button {
-            position: absolute;
-            top: 8px;
-            right: 8px;
-            width: 32px;
-            height: 32px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: white;
-            border: none;
-            border-radius: var(--radius-full);
-            box-shadow: var(--shadow-sm);
-            cursor: pointer;
-            font-size: 16px;
-        }
-
-        .wishlist-button.active {
-            color: var(--color-error);
-        }
-
-        .product-info {
-            padding: 12px;
-        }
-
-        .product-name {
-            font-size: 14px;
-            font-weight: 600;
-            color: var(--color-gray-900);
-            margin-bottom: 4px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            display: -webkit-box;
-            -webkit-line-clamp: 1;
-            -webkit-box-orient: vertical;
-        }
-
-        .product-desc {
-            font-size: 12px;
-            color: var(--color-gray-600);
-            margin-bottom: 8px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            display: -webkit-box;
-            -webkit-line-clamp: 1;
-            -webkit-box-orient: vertical;
-        }
-
-        .product-tags {
-            display: flex;
-            gap: 6px;
-            margin-bottom: 8px;
-        }
-
-        .brix-tag {
-            display: inline-flex;
-            align-items: center;
-            padding: 2px 6px;
-            background: #FFF3E0;
-            color: #E65100;
-            font-size: 10px;
-            font-weight: 600;
-            border-radius: var(--radius-xs);
-        }
-
-        .origin-tag {
-            display: inline-flex;
-            align-items: center;
-            padding: 2px 6px;
-            background: var(--color-gray-100);
-            color: var(--color-gray-600);
-            font-size: 10px;
-            font-weight: 500;
-            border-radius: var(--radius-xs);
-        }
-
-        .product-footer {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .price-group {
-            display: flex;
-            flex-direction: column;
-            gap: 2px;
-        }
-
-        .original-price {
-            font-size: 11px;
-            color: var(--color-gray-500);
-            text-decoration: line-through;
-        }
-
-        .current-price {
-            font-size: 16px;
-            font-weight: 700;
-            color: var(--color-gray-900);
-        }
-
-        .cart-button {
-            width: 32px;
-            height: 32px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: var(--color-primary);
-            color: white;
-            border: none;
-            border-radius: var(--radius-full);
-            cursor: pointer;
-            font-size: 16px;
-            transition: all var(--transition-fast);
-        }
-
-        .cart-button:active {
-            transform: scale(0.9);
-            background: var(--color-primary-dark);
-        }
-
-        /* Bottom Navigation */
-        .bottom-nav {
-            position: fixed;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100%;
-            max-width: 430px;
-            background: white;
-            border-top: 1px solid var(--color-gray-100);
-            display: flex;
-            justify-content: space-around;
-            padding: 8px 0 env(safe-area-inset-bottom);
-            z-index: var(--z-sticky);
-        }
-
-        .nav-item {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 4px;
-            padding: 4px;
-            color: var(--color-gray-500);
-            text-decoration: none;
-            cursor: pointer;
-        }
-
-        .nav-item.active {
-            color: var(--color-primary);
-        }
-
-        .nav-icon {
-            font-size: 22px;
-        }
-
-        .nav-label {
-            font-size: 11px;
-            font-weight: 500;
-        }
-
-        /* Padding for fixed navigation */
-        .main-content {
-            padding-bottom: 70px;
-        }
-
-        /* Loading State */
-        .loading-more {
-            padding: 20px;
-            text-align: center;
-            font-size: 13px;
-            color: var(--color-gray-600);
-        }
-    </style>
+    <link rel="stylesheet" href="../../styles/common-layout.css">
 </head>
 <body>
-    <div class="mobile-container">
+    <div class="page-container">
         <!-- Page Header -->
-        <header class="page-header">
+        <header class="nav-bar">
             <div class="header-top">
                 <button class="back-button" onclick="history.back()">←</button>
                 <h1 class="header-title">전체상품</h1>
@@ -427,7 +67,7 @@
                             <div class="product-image" style="background: linear-gradient(135deg, #FFE0B2, #FFCC80);">
                                 🍊
                             </div>
-                            <span class="discount-badge">20% OFF</span>
+                            <span class="discount-chip">20% OFF</span>
                             <button class="wishlist-button">🤍</button>
                         </div>
                         <div class="product-info">
@@ -453,7 +93,7 @@
                             <div class="product-image" style="background: linear-gradient(135deg, #E8F5E9, #C8E6C9);">
                                 🍇
                             </div>
-                            <span class="discount-badge">베스트</span>
+                            <span class="discount-chip">베스트</span>
                             <button class="wishlist-button active">❤️</button>
                         </div>
                         <div class="product-info">
@@ -502,7 +142,7 @@
                             <div class="product-image" style="background: linear-gradient(135deg, #FFEBEE, #FFCDD2);">
                                 🍓
                             </div>
-                            <span class="discount-badge">15% OFF</span>
+                            <span class="discount-chip">15% OFF</span>
                             <button class="wishlist-button">🤍</button>
                         </div>
                         <div class="product-info">
@@ -552,7 +192,7 @@
                             <div class="product-image" style="background: linear-gradient(135deg, #FCE4EC, #F8BBD0);">
                                 🍑
                             </div>
-                            <span class="discount-badge">신상품</span>
+                            <span class="discount-chip">신상품</span>
                             <button class="wishlist-button">🤍</button>
                         </div>
                         <div class="product-info">
@@ -601,7 +241,7 @@
                             <div class="product-image" style="background: linear-gradient(135deg, #E0F2F1, #B2DFDB);">
                                 🍈
                             </div>
-                            <span class="discount-badge">10% OFF</span>
+                            <span class="discount-chip">10% OFF</span>
                             <button class="wishlist-button">🤍</button>
                         </div>
                         <div class="product-info">
@@ -631,19 +271,19 @@
 
         <!-- Bottom Navigation -->
         <nav class="bottom-nav">
-            <a href="../home/main.html" class="nav-item">
+            <a href="../home/main.html" class="nav-link">
                 <span class="nav-icon">🏠</span>
                 <span class="nav-label">홈</span>
             </a>
-            <a href="#" class="nav-item active">
+            <a href="#" class="nav-link active">
                 <span class="nav-icon">🍎</span>
                 <span class="nav-label">상품</span>
             </a>
-            <a href="../mypage/index.html" class="nav-item">
+            <a href="../mypage/index.html" class="nav-link">
                 <span class="nav-icon">👤</span>
                 <span class="nav-label">마이</span>
             </a>
-            <a href="../support/index.html" class="nav-item">
+            <a href="../support/index.html" class="nav-link">
                 <span class="nav-icon">💬</span>
                 <span class="nav-label">고객지원</span>
             </a>

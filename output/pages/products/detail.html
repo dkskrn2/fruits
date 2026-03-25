@@ -6,854 +6,11 @@
     <title>제주 한라봉 - 과일다리</title>
     <link rel="stylesheet" href="../../styles/design-system.css">
     <link rel="stylesheet" href="../../styles/components.css">
-    <style>
-        body {
-            padding-bottom: 80px;
-        }
-
-        /* Header */
-        .product-header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            max-width: var(--max-width-mobile);
-            margin: 0 auto;
-            height: var(--header-height);
-            background: var(--color-white);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 var(--space-4);
-            z-index: var(--z-sticky);
-            border-bottom: 1px solid var(--color-gray-200);
-            transition: all var(--transition-base);
-        }
-
-        .product-header.transparent {
-            background: transparent;
-            border-bottom: none;
-        }
-
-        .product-header.transparent .header-icon {
-            color: var(--color-white);
-            text-shadow: 0 2px 8px rgba(0,0,0,0.3);
-        }
-
-        .header-icon {
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            cursor: pointer;
-            transition: all var(--transition-fast);
-            border-radius: var(--radius-full);
-            background: rgba(255,255,255,0.9);
-        }
-
-        .product-header.transparent .header-icon {
-            background: rgba(0,0,0,0.2);
-        }
-
-        .header-icon:active {
-            transform: scale(0.9);
-        }
-
-        .header-actions {
-            display: flex;
-            gap: var(--space-2);
-        }
-
-        /* Image Gallery */
-        .image-gallery {
-            position: relative;
-            width: 100%;
-            height: 430px;
-            background: var(--color-gray-100);
-            overflow: hidden;
-        }
-
-        .gallery-slider {
-            display: flex;
-            width: 100%;
-            height: 100%;
-            transition: transform 0.3s ease;
-        }
-
-        .gallery-slide {
-            min-width: 100%;
-            height: 100%;
-            position: relative;
-        }
-
-        .gallery-slide img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .gallery-indicators {
-            position: absolute;
-            bottom: var(--space-4);
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            gap: var(--space-2);
-            z-index: 10;
-        }
-
-        .gallery-indicator {
-            width: 6px;
-            height: 6px;
-            border-radius: var(--radius-full);
-            background: rgba(255,255,255,0.5);
-            transition: all var(--transition-fast);
-        }
-
-        .gallery-indicator.active {
-            width: 20px;
-            background: var(--color-white);
-        }
-
-        .gallery-badge {
-            position: absolute;
-            top: var(--space-4);
-            left: var(--space-4);
-            padding: var(--space-2) var(--space-3);
-            background: var(--color-error);
-            color: var(--color-white);
-            font-size: var(--font-size-sm);
-            font-weight: var(--font-weight-bold);
-            border-radius: var(--radius-lg);
-            z-index: 10;
-        }
-
-        /* Product Info Section */
-        .product-info {
-            padding: var(--space-5) var(--space-4);
-        }
-
-        .product-category {
-            font-size: var(--font-size-sm);
-            color: var(--color-primary);
-            font-weight: var(--font-weight-medium);
-            margin-bottom: var(--space-2);
-        }
-
-        .product-name {
-            font-size: var(--font-size-2xl);
-            font-weight: var(--font-weight-bold);
-            color: var(--color-gray-900);
-            line-height: var(--line-height-tight);
-            margin-bottom: var(--space-3);
-        }
-
-        .product-desc {
-            font-size: var(--font-size-base);
-            color: var(--color-gray-600);
-            line-height: var(--line-height-relaxed);
-            margin-bottom: var(--space-4);
-        }
-
-        .product-rating {
-            display: flex;
-            align-items: center;
-            gap: var(--space-2);
-            margin-bottom: var(--space-5);
-        }
-
-        .rating-stars {
-            display: flex;
-            gap: 2px;
-            font-size: 16px;
-        }
-
-        .rating-score {
-            font-size: var(--font-size-base);
-            font-weight: var(--font-weight-semibold);
-            color: var(--color-gray-900);
-        }
-
-        .rating-count {
-            font-size: var(--font-size-sm);
-            color: var(--color-gray-500);
-        }
-
-        /* Brix Indicator */
-        .brix-section {
-            background: linear-gradient(135deg, #FFF3E0 0%, #FFE0B2 100%);
-            padding: var(--space-4);
-            border-radius: var(--radius-xl);
-            margin-bottom: var(--space-5);
-        }
-
-        .brix-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: var(--space-3);
-        }
-
-        .brix-label {
-            font-size: var(--font-size-base);
-            font-weight: var(--font-weight-semibold);
-            color: #E65100;
-        }
-
-        .brix-value {
-            font-size: var(--font-size-xl);
-            font-weight: var(--font-weight-bold);
-            color: #E65100;
-        }
-
-        .brix-bar {
-            width: 100%;
-            height: 8px;
-            background: rgba(255,255,255,0.5);
-            border-radius: var(--radius-full);
-            overflow: hidden;
-            margin-bottom: var(--space-2);
-        }
-
-        .brix-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #FF6F00, #FFD93D);
-            border-radius: var(--radius-full);
-            transition: width 1s ease;
-        }
-
-        .brix-desc {
-            font-size: var(--font-size-sm);
-            color: #BF360C;
-            text-align: center;
-        }
-
-        /* Product Meta */
-        .product-meta {
-            display: flex;
-            flex-direction: column;
-            gap: var(--space-3);
-            padding: var(--space-4);
-            background: var(--color-gray-50);
-            border-radius: var(--radius-lg);
-            margin-bottom: var(--space-5);
-        }
-
-        .meta-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .meta-label {
-            font-size: var(--font-size-sm);
-            color: var(--color-gray-600);
-        }
-
-        .meta-value {
-            font-size: var(--font-size-base);
-            font-weight: var(--font-weight-medium);
-            color: var(--color-gray-900);
-        }
-
-        /* Price Section */
-        .price-section {
-            padding: var(--space-5) var(--space-4);
-            border-top: 1px solid var(--color-gray-200);
-            border-bottom: 1px solid var(--color-gray-200);
-        }
-
-        .price-row {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: var(--space-3);
-        }
-
-        .price-label {
-            font-size: var(--font-size-base);
-            color: var(--color-gray-600);
-        }
-
-        .price-original {
-            font-size: var(--font-size-lg);
-            color: var(--color-gray-500);
-            text-decoration: line-through;
-        }
-
-        .price-discount-badge {
-            padding: var(--space-1) var(--space-2);
-            background: var(--color-error);
-            color: var(--color-white);
-            font-size: var(--font-size-base);
-            font-weight: var(--font-weight-bold);
-            border-radius: var(--radius-sm);
-            margin-right: var(--space-2);
-        }
-
-        .price-current {
-            font-size: var(--font-size-3xl);
-            font-weight: var(--font-weight-bold);
-            color: var(--color-gray-900);
-        }
-
-        .price-unit {
-            font-size: var(--font-size-lg);
-            font-weight: var(--font-weight-regular);
-            color: var(--color-gray-600);
-            margin-left: var(--space-1);
-        }
-
-        /* Options Section */
-        .options-section {
-            padding: var(--space-5) var(--space-4);
-        }
-
-        .option-group {
-            margin-bottom: var(--space-5);
-        }
-
-        .option-label {
-            font-size: var(--font-size-base);
-            font-weight: var(--font-weight-semibold);
-            color: var(--color-gray-900);
-            margin-bottom: var(--space-3);
-        }
-
-        .option-buttons {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: var(--space-2);
-        }
-
-        .option-button {
-            padding: var(--space-3);
-            border: 1px solid var(--color-gray-300);
-            border-radius: var(--radius-lg);
-            background: var(--color-white);
-            font-size: var(--font-size-base);
-            font-weight: var(--font-weight-medium);
-            color: var(--color-gray-700);
-            cursor: pointer;
-            transition: all var(--transition-fast);
-            text-align: center;
-        }
-
-        .option-button:active {
-            transform: scale(0.97);
-        }
-
-        .option-button.selected {
-            border-color: var(--color-primary);
-            background: var(--color-primary-light);
-            color: var(--color-primary-dark);
-            font-weight: var(--font-weight-bold);
-        }
-
-        .option-price {
-            display: block;
-            font-size: var(--font-size-sm);
-            color: var(--color-gray-600);
-            margin-top: var(--space-1);
-        }
-
-        .option-button.selected .option-price {
-            color: var(--color-primary-dark);
-        }
-
-        /* Quantity Selector */
-        .quantity-selector {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: var(--space-4);
-            background: var(--color-gray-50);
-            border-radius: var(--radius-lg);
-        }
-
-        .quantity-label {
-            font-size: var(--font-size-base);
-            font-weight: var(--font-weight-medium);
-            color: var(--color-gray-900);
-        }
-
-        .quantity-controls {
-            display: flex;
-            align-items: center;
-            gap: var(--space-3);
-        }
-
-        .quantity-btn {
-            width: 36px;
-            height: 36px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 1px solid var(--color-gray-300);
-            border-radius: var(--radius-lg);
-            background: var(--color-white);
-            font-size: 20px;
-            cursor: pointer;
-            transition: all var(--transition-fast);
-            user-select: none;
-        }
-
-        .quantity-btn:active {
-            transform: scale(0.9);
-            background: var(--color-gray-100);
-        }
-
-        .quantity-value {
-            min-width: 40px;
-            text-align: center;
-            font-size: var(--font-size-lg);
-            font-weight: var(--font-weight-semibold);
-            color: var(--color-gray-900);
-        }
-
-        /* Delivery Info */
-        .delivery-info {
-            padding: var(--space-4);
-            background: var(--color-primary-light);
-            border-radius: var(--radius-lg);
-            margin-top: var(--space-4);
-        }
-
-        .delivery-row {
-            display: flex;
-            align-items: center;
-            gap: var(--space-2);
-            margin-bottom: var(--space-2);
-        }
-
-        .delivery-row:last-child {
-            margin-bottom: 0;
-        }
-
-        .delivery-icon {
-            font-size: 20px;
-        }
-
-        .delivery-text {
-            font-size: var(--font-size-sm);
-            color: var(--color-gray-700);
-        }
-
-        .delivery-highlight {
-            font-weight: var(--font-weight-bold);
-            color: var(--color-primary-dark);
-        }
-
-        /* Tabs */
-        .product-tabs {
-            position: sticky;
-            top: var(--header-height);
-            background: var(--color-white);
-            border-bottom: 1px solid var(--color-gray-200);
-            z-index: var(--z-sticky);
-            display: flex;
-            overflow-x: auto;
-        }
-
-        .product-tab {
-            flex: 1;
-            min-width: 80px;
-            padding: var(--space-4);
-            font-size: var(--font-size-base);
-            font-weight: var(--font-weight-medium);
-            color: var(--color-gray-600);
-            background: transparent;
-            border: none;
-            border-bottom: 2px solid transparent;
-            cursor: pointer;
-            transition: all var(--transition-fast);
-            white-space: nowrap;
-        }
-
-        .product-tab.active {
-            color: var(--color-primary);
-            border-bottom-color: var(--color-primary);
-        }
-
-        .tab-content {
-            display: none;
-            padding: var(--space-5) var(--space-4);
-        }
-
-        .tab-content.active {
-            display: block;
-        }
-
-        /* Product Detail Content */
-        .detail-section {
-            margin-bottom: var(--space-6);
-        }
-
-        .detail-title {
-            font-size: var(--font-size-lg);
-            font-weight: var(--font-weight-bold);
-            color: var(--color-gray-900);
-            margin-bottom: var(--space-3);
-        }
-
-        .detail-image {
-            width: 100%;
-            border-radius: var(--radius-lg);
-            margin-bottom: var(--space-3);
-        }
-
-        .detail-text {
-            font-size: var(--font-size-base);
-            color: var(--color-gray-700);
-            line-height: var(--line-height-relaxed);
-            margin-bottom: var(--space-3);
-        }
-
-        .detail-list {
-            list-style: none;
-            padding: 0;
-        }
-
-        .detail-list li {
-            padding: var(--space-2) 0;
-            padding-left: var(--space-4);
-            position: relative;
-            font-size: var(--font-size-base);
-            color: var(--color-gray-700);
-            line-height: var(--line-height-relaxed);
-        }
-
-        .detail-list li:before {
-            content: '✓';
-            position: absolute;
-            left: 0;
-            color: var(--color-primary);
-            font-weight: var(--font-weight-bold);
-        }
-
-        /* Review Section */
-        .review-summary {
-            display: flex;
-            align-items: center;
-            gap: var(--space-5);
-            padding: var(--space-5);
-            background: var(--color-gray-50);
-            border-radius: var(--radius-lg);
-            margin-bottom: var(--space-5);
-        }
-
-        .review-score-box {
-            text-align: center;
-        }
-
-        .review-score-large {
-            font-size: 48px;
-            font-weight: var(--font-weight-bold);
-            color: var(--color-gray-900);
-            line-height: 1;
-            margin-bottom: var(--space-2);
-        }
-
-        .review-score-stars {
-            font-size: 20px;
-            margin-bottom: var(--space-1);
-        }
-
-        .review-score-count {
-            font-size: var(--font-size-sm);
-            color: var(--color-gray-600);
-        }
-
-        .review-bars {
-            flex: 1;
-        }
-
-        .review-bar-row {
-            display: flex;
-            align-items: center;
-            gap: var(--space-2);
-            margin-bottom: var(--space-2);
-        }
-
-        .review-bar-label {
-            font-size: var(--font-size-sm);
-            color: var(--color-gray-600);
-            width: 40px;
-        }
-
-        .review-bar-track {
-            flex: 1;
-            height: 6px;
-            background: var(--color-gray-200);
-            border-radius: var(--radius-full);
-            overflow: hidden;
-        }
-
-        .review-bar-fill {
-            height: 100%;
-            background: var(--color-accent);
-            border-radius: var(--radius-full);
-        }
-
-        .review-bar-count {
-            font-size: var(--font-size-sm);
-            color: var(--color-gray-600);
-            width: 30px;
-            text-align: right;
-        }
-
-        .review-card {
-            padding: var(--space-4);
-            border: 1px solid var(--color-gray-200);
-            border-radius: var(--radius-lg);
-            margin-bottom: var(--space-3);
-        }
-
-        .review-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: var(--space-3);
-        }
-
-        .review-user {
-            display: flex;
-            align-items: center;
-            gap: var(--space-2);
-        }
-
-        .review-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: var(--radius-full);
-            background: var(--color-gray-200);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
-        }
-
-        .review-user-info {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .review-username {
-            font-size: var(--font-size-base);
-            font-weight: var(--font-weight-semibold);
-            color: var(--color-gray-900);
-        }
-
-        .review-date {
-            font-size: var(--font-size-xs);
-            color: var(--color-gray-500);
-        }
-
-        .review-stars {
-            font-size: 14px;
-        }
-
-        .review-content {
-            font-size: var(--font-size-base);
-            color: var(--color-gray-700);
-            line-height: var(--line-height-relaxed);
-            margin-bottom: var(--space-3);
-        }
-
-        .review-images {
-            display: flex;
-            gap: var(--space-2);
-            overflow-x: auto;
-            margin-bottom: var(--space-3);
-        }
-
-        .review-image {
-            width: 80px;
-            height: 80px;
-            border-radius: var(--radius-lg);
-            object-fit: cover;
-            cursor: pointer;
-        }
-
-        .review-helpful {
-            display: flex;
-            align-items: center;
-            gap: var(--space-1);
-            font-size: var(--font-size-sm);
-            color: var(--color-gray-600);
-        }
-
-        /* Related Products */
-        .related-products {
-            padding: var(--space-5) var(--space-4);
-            background: var(--color-gray-50);
-        }
-
-        .related-title {
-            font-size: var(--font-size-lg);
-            font-weight: var(--font-weight-bold);
-            color: var(--color-gray-900);
-            margin-bottom: var(--space-4);
-        }
-
-        .related-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: var(--space-3);
-        }
-
-        /* Bottom Action Bar */
-        .bottom-action-bar {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            max-width: var(--max-width-mobile);
-            margin: 0 auto;
-            background: var(--color-white);
-            border-top: 1px solid var(--color-gray-200);
-            padding: var(--space-3) var(--space-4);
-            display: flex;
-            gap: var(--space-2);
-            z-index: var(--z-sticky);
-            box-shadow: 0 -4px 12px rgba(0,0,0,0.08);
-        }
-
-        .wishlist-btn {
-            width: 52px;
-            height: 52px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 1px solid var(--color-gray-300);
-            border-radius: var(--radius-lg);
-            background: var(--color-white);
-            font-size: 24px;
-            cursor: pointer;
-            transition: all var(--transition-fast);
-        }
-
-        .wishlist-btn:active {
-            transform: scale(0.95);
-        }
-
-        .wishlist-btn.active {
-            background: var(--color-error);
-            border-color: var(--color-error);
-            color: var(--color-white);
-        }
-
-        .action-buttons {
-            flex: 1;
-            display: flex;
-            gap: var(--space-2);
-        }
-
-        .btn-buy-now {
-            flex: 1;
-            padding: var(--space-4);
-            border: none;
-            border-radius: var(--radius-lg);
-            background: var(--color-gray-800);
-            color: var(--color-white);
-            font-size: var(--font-size-base);
-            font-weight: var(--font-weight-semibold);
-            cursor: pointer;
-            transition: all var(--transition-fast);
-        }
-
-        .btn-buy-now:active {
-            transform: scale(0.98);
-            background: var(--color-gray-900);
-        }
-
-        .btn-add-cart {
-            flex: 1;
-            padding: var(--space-4);
-            border: none;
-            border-radius: var(--radius-lg);
-            background: var(--color-primary);
-            color: var(--color-white);
-            font-size: var(--font-size-base);
-            font-weight: var(--font-weight-semibold);
-            cursor: pointer;
-            transition: all var(--transition-fast);
-        }
-
-        .btn-add-cart:active {
-            transform: scale(0.98);
-            background: var(--color-primary-dark);
-        }
-
-        /* Loading Animation */
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .fade-in {
-            animation: fadeIn 0.5s ease;
-        }
-
-        /* Q&A Section */
-        .qna-item {
-            border-bottom: 1px solid var(--color-gray-200);
-            padding: var(--space-4) 0;
-        }
-
-        .qna-question {
-            display: flex;
-            align-items: flex-start;
-            gap: var(--space-2);
-            margin-bottom: var(--space-2);
-        }
-
-        .qna-badge {
-            padding: 2px var(--space-2);
-            background: var(--color-primary-light);
-            color: var(--color-primary-dark);
-            font-size: var(--font-size-xs);
-            font-weight: var(--font-weight-bold);
-            border-radius: var(--radius-sm);
-        }
-
-        .qna-text {
-            flex: 1;
-            font-size: var(--font-size-base);
-            color: var(--color-gray-900);
-            font-weight: var(--font-weight-medium);
-        }
-
-        .qna-answer {
-            padding-left: var(--space-5);
-            font-size: var(--font-size-sm);
-            color: var(--color-gray-600);
-            line-height: var(--line-height-relaxed);
-        }
-
-        .qna-answer-badge {
-            display: inline-block;
-            padding: 2px var(--space-2);
-            background: var(--color-gray-100);
-            color: var(--color-gray-700);
-            font-size: var(--font-size-xs);
-            font-weight: var(--font-weight-bold);
-            border-radius: var(--radius-sm);
-            margin-right: var(--space-1);
-        }
-    </style>
+    <link rel="stylesheet" href="../../styles/common-layout.css">
 </head>
 <body>
     <!-- Header -->
-    <header class="product-header transparent" id="productHeader">
+    <header class="nav-bar transparent" id="productHeader">
         <div class="header-icon" onclick="history.back()">←</div>
         <div class="header-actions">
             <div class="header-icon">🏠</div>
@@ -863,7 +20,7 @@
 
     <!-- Image Gallery -->
     <div class="image-gallery">
-        <div class="gallery-badge">30% 할인</div>
+        <div class="gallery-chip">30% 할인</div>
         <div class="gallery-slider" id="gallerySlider">
             <div class="gallery-slide">
                 <img src="https://images.unsplash.com/photo-1611080626919-7cf5a9dbab5b?w=800&q=80" alt="제주 한라봉 1">
@@ -939,7 +96,7 @@
         </div>
         <div class="price-row">
             <div style="display: flex; align-items: center;">
-                <span class="price-discount-badge">30%</span>
+                <span class="price-discount-chip">30%</span>
                 <span class="price-label">할인가</span>
             </div>
             <div>
@@ -1280,11 +437,11 @@
     <div id="tabContent3" class="tab-content">
         <div class="qna-item">
             <div class="qna-question">
-                <span class="qna-badge">Q</span>
+                <span class="qna-chip">Q</span>
                 <span class="qna-text">당도가 정말 13.5도 이상인가요?</span>
             </div>
             <div class="qna-answer">
-                <span class="qna-answer-badge">A</span>
+                <span class="qna-answer-chip">A</span>
                 네, 출하 전 모든 한라봉의 당도를 측정하여 13.5도 이상인 것만 선별하고 있습니다.
                 당도계로 직접 측정하시면 확인하실 수 있습니다.
             </div>
@@ -1292,11 +449,11 @@
 
         <div class="qna-item">
             <div class="qna-question">
-                <span class="qna-badge">Q</span>
+                <span class="qna-chip">Q</span>
                 <span class="qna-text">선물 포장은 어떻게 되나요?</span>
             </div>
             <div class="qna-answer">
-                <span class="qna-answer-badge">A</span>
+                <span class="qna-answer-chip">A</span>
                 선물 포장 옵션 선택 시 고급 선물 박스에 포장해 드리며,
                 리본과 감사 메시지 카드를 함께 동봉해 드립니다.
                 추가 요청사항이 있으시면 주문 시 메모란에 작성해 주세요.
@@ -1305,11 +462,11 @@
 
         <div class="qna-item">
             <div class="qna-question">
-                <span class="qna-badge">Q</span>
+                <span class="qna-chip">Q</span>
                 <span class="qna-text">새벽 배송 가능한 지역이 어디인가요?</span>
             </div>
             <div class="qna-answer">
-                <span class="qna-answer-badge">A</span>
+                <span class="qna-answer-chip">A</span>
                 수도권(서울, 인천, 경기) 전역과 일부 광역시에서 새벽 배송이 가능합니다.
                 오후 7시 이전 주문 시 다음날 아침 7시까지 배송됩니다.
                 배송 가능 여부는 주문 시 우편번호로 확인하실 수 있습니다.
@@ -1318,11 +475,11 @@
 
         <div class="qna-item">
             <div class="qna-question">
-                <span class="qna-badge">Q</span>
+                <span class="qna-chip">Q</span>
                 <span class="qna-text">보관 기간은 얼마나 되나요?</span>
             </div>
             <div class="qna-answer">
-                <span class="qna-answer-badge">A</span>
+                <span class="qna-answer-chip">A</span>
                 냉장 보관 시 약 2주 정도 신선하게 보관 가능합니다.
                 직사광선을 피하고 서늘한 곳에 보관하시면 더 오래 보관하실 수 있습니다.
                 가능한 빠른 시일 내에 드시는 것을 권장드립니다.
@@ -1331,11 +488,11 @@
 
         <div class="qna-item">
             <div class="qna-question">
-                <span class="qna-badge">Q</span>
+                <span class="qna-chip">Q</span>
                 <span class="qna-text">크기가 들쭉날쭉하지 않나요?</span>
             </div>
             <div class="qna-answer">
-                <span class="qna-answer-badge">A</span>
+                <span class="qna-answer-chip">A</span>
                 선별 과정에서 크기가 비슷한 것들로 분류하여 포장합니다.
                 자연 그대로의 과일이라 완전히 동일할 수는 없지만,
                 최대한 균일한 크기로 맞춰서 보내드리고 있습니다.
@@ -1424,7 +581,7 @@
             <div class="product-card">
                 <div class="product-card__image">
                     <img src="https://images.unsplash.com/photo-1611080626919-7cf5a9dbab5b?w=400&q=80" alt="천혜향">
-                    <div class="product-card__badge">15%</div>
+                    <div class="product-card__chip">15%</div>
                 </div>
                 <div class="product-card__content">
                     <div class="product-card__title">제주 천혜향</div>
@@ -1445,7 +602,7 @@
             <div class="product-card">
                 <div class="product-card__image">
                     <img src="https://images.unsplash.com/photo-1557800636-894a64c1696f?w=400&q=80" alt="레드향">
-                    <div class="product-card__badge">20%</div>
+                    <div class="product-card__chip">20%</div>
                 </div>
                 <div class="product-card__content">
                     <div class="product-card__title">프리미엄 레드향</div>
@@ -1486,7 +643,7 @@
             <div class="product-card">
                 <div class="product-card__image">
                     <img src="https://images.unsplash.com/photo-1590164503778-97cada2d4388?w=400&q=80" alt="청귤">
-                    <div class="product-card__badge">신상품</div>
+                    <div class="product-card__chip">신상품</div>
                 </div>
                 <div class="product-card__content">
                     <div class="product-card__title">제주 청귤</div>

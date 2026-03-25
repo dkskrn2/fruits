@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>레이아웃 테스트 - 과일다리</title>
+    <link rel="stylesheet" href="styles/design-system.css">
+    <link rel="stylesheet" href="styles/components.css">
+    <link rel="stylesheet" href="styles/layout-fix.css">
+    <style>
+        .test-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .test-section {
+            margin-bottom: 40px;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .test-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .test-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .test-card {
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+
+        .debug-info {
+            background: #f5f5f5;
+            padding: 10px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 12px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>과일다리 레이아웃 테스트 페이지</h1>
+
+        <!-- CSS 변수 확인 -->
+        <div class="test-section">
+            <h2 class="test-title">CSS 변수 확인</h2>
+            <div id="css-vars" class="debug-info"></div>
+        </div>
+
+        <!-- 컴포넌트 테스트 -->
+        <div class="test-section">
+            <h2 class="test-title">기본 컴포넌트</h2>
+
+            <div class="test-grid">
+                <!-- 버튼 -->
+                <div class="test-card">
+                    <h3>버튼</h3>
+                    <button class="btn btn-primary">Primary Button</button>
+                    <div class="debug-info" id="btn-debug"></div>
+                </div>
+
+                <!-- 입력 필드 -->
+                <div class="test-card">
+                    <h3>입력 필드</h3>
+                    <div class="field">
+                        <input type="text" class="control" placeholder="텍스트 입력">
+                    </div>
+                    <div class="debug-info" id="input-debug"></div>
+                </div>
+
+                <!-- 카드 -->
+                <div class="test-card">
+                    <h3>카드 컴포넌트</h3>
+                    <div class="card">
+                        <div class="card-body">카드 내용</div>
+                    </div>
+                    <div class="debug-info" id="card-debug"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 레이아웃 컨테이너 -->
+        <div class="test-section">
+            <h2 class="test-title">레이아웃 컨테이너</h2>
+            <div class="auth-container" style="min-height: auto;">
+                <div class="auth-logo-section">
+                    <div class="auth-logo">🍊</div>
+                    <h1 class="auth-brand-name">과일다리</h1>
+                </div>
+            </div>
+            <div class="debug-info" id="container-debug"></div>
+        </div>
+
+        <!-- 그리드 시스템 -->
+        <div class="test-section">
+            <h2 class="test-title">그리드 시스템</h2>
+            <div class="grid">
+                <div class="col-4" style="background: rgba(122,163,122,0.1); padding: 10px;">Col 4</div>
+                <div class="col-4" style="background: rgba(231,169,141,0.1); padding: 10px;">Col 4</div>
+                <div class="col-4" style="background: rgba(216,179,106,0.1); padding: 10px;">Col 4</div>
+            </div>
+            <div class="debug-info" id="grid-debug"></div>
+        </div>
+    </div>
+
+    <script>
+        // CSS 변수 확인
+        const root = getComputedStyle(document.documentElement);
+        const cssVars = [
+            '--color-brand-primary',
+            '--color-bg-page',
+            '--font-family-sans',
+            '--font-size-base',
+            '--space-4',
+            '--radius-lg',
+            '--max-width-mobile'
+        ];
+
+        const varsHTML = cssVars.map(varName => {
+            const value = root.getPropertyValue(varName);
+            return `<div>${varName}: ${value || 'NOT DEFINED'}</div>`;
+        }).join('');
+
+        document.getElementById('css-vars').innerHTML = varsHTML;
+
+        // 컴포넌트 스타일 확인
+        function debugElement(selector, debugId) {
+            const el = document.querySelector(selector);
+            if (el) {
+                const styles = getComputedStyle(el);
+                const debug = document.getElementById(debugId);
+                debug.innerHTML = `
+                    width: ${styles.width}<br>
+                    height: ${styles.height}<br>
+                    padding: ${styles.padding}<br>
+                    margin: ${styles.margin}<br>
+                    background: ${styles.backgroundColor}<br>
+                    border: ${styles.border}
+                `;
+            }
+        }
+
+        debugElement('.btn-primary', 'btn-debug');
+        debugElement('.control', 'input-debug');
+        debugElement('.card', 'card-debug');
+        debugElement('.auth-container', 'container-debug');
+        debugElement('.grid', 'grid-debug');
+
+        // 누락된 스타일 체크
+        const missingStyles = [];
+        document.querySelectorAll('[class]').forEach(el => {
+            const styles = getComputedStyle(el);
+            if (styles.width === 'auto' && el.classList.contains('btn-full')) {
+                missingStyles.push(`${el.className}: width not set`);
+            }
+        });
+
+        if (missingStyles.length > 0) {
+            console.warn('Missing styles:', missingStyles);
+        }
+    </script>
+</body>
+</html>

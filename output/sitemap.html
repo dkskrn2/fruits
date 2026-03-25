@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>과일다리 - 사이트맵 (Sitemap)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-green: #8BC34A;
+            --dark-green: #689F38;
+            --light-green: #DCEDC8;
+            --status-complete: #4CAF50;
+            --status-developing: #FFC107;
+            --status-planned: #E0E0E0;
+            --text-primary: #212121;
+            --text-secondary: #757575;
+            --border: #E0E0E0;
+            --bg-gray: #F5F5F5;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', -apple-system, sans-serif;
+            color: var(--text-primary);
+            background: #f8f9fa;
+            line-height: 1.6;
+            margin: 0 auto;
+            max-width: 1200px;
+            padding: 20px;
+        }
+
+        /* Mobile optimization */
+        @media (max-width: 768px) {
+            body {
+                max-width: 430px;
+                padding: 10px;
+            }
+        }
+
+        /* Header */
+        .header {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .header h1 {
+            font-size: 28px;
+            font-weight: 900;
+            color: var(--dark-green);
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        /* Status Legend */
+        .legend {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .status-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .status-complete { background: var(--status-complete); }
+        .status-developing { background: var(--status-developing); }
+        .status-planned { background: var(--status-planned); }
+
+        /* Search & Filter */
+        .controls {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 200px;
+            padding: 10px 15px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        .filter-btn {
+            padding: 10px 20px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            background: white;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .filter-btn:hover {
+            background: var(--light-green);
+            border-color: var(--primary-green);
+        }
+
+        .filter-btn.active {
+            background: var(--primary-green);
+            color: white;
+            border-color: var(--primary-green);
+        }
+
+        /* Sitemap Tree */
+        .sitemap {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .tree {
+            list-style: none;
+            position: relative;
+        }
+
+        .tree-item {
+            margin: 0;
+            padding: 5px 0;
+            position: relative;
+        }
+
+        /* Tree Lines */
+        .tree ul {
+            list-style: none;
+            margin-left: 20px;
+            position: relative;
+        }
+
+        .tree ul::before {
+            content: '';
+            position: absolute;
+            left: -15px;
+            top: 0;
+            bottom: 0;
+            width: 1px;
+            background: var(--border);
+        }
+
+        .tree li {
+            position: relative;
+            padding-left: 20px;
+        }
+
+        .tree li::before {
+            content: '';
+            position: absolute;
+            left: -15px;
+            top: 15px;
+            width: 15px;
+            height: 1px;
+            background: var(--border);
+        }
+
+        /* Node Styles */
+        .node {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 12px;
+            border-radius: 6px;
+            transition: all 0.3s;
+            cursor: pointer;
+            text-decoration: none;
+            color: var(--text-primary);
+        }
+
+        .node:hover {
+            background: var(--bg-gray);
+        }
+
+        .node-toggle {
+            width: 20px;
+            height: 20px;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            background: white;
+            font-size: 12px;
+        }
+
+        .node-toggle.expanded::before {
+            content: '−';
+        }
+
+        .node-toggle.collapsed::before {
+            content: '+';
+        }
+
+        .node-status {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+
+        .node-title {
+            font-weight: 500;
+        }
+
+        .node-url {
+            color: var(--text-secondary);
+            font-size: 12px;
+        }
+
+        .node-priority {
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+        .priority-p0 {
+            background: #FFEBEE;
+            color: #C62828;
+        }
+
+        .priority-p1 {
+            background: #FFF3E0;
+            color: #E65100;
+        }
+
+        .priority-p2 {
+            background: #E3F2FD;
+            color: #1565C0;
+        }
+
+        /* Depth Styles */
+        .depth-1 > .node {
+            font-size: 16px;
+            font-weight: 700;
+            background: var(--light-green);
+            margin-bottom: 10px;
+        }
+
+        .depth-2 > .node {
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .depth-3 > .node {
+            font-size: 13px;
+        }
+
+        /* Collapsed State */
+        .collapsed > ul {
+            display: none;
+        }
+
+        /* Stats Section */
+        .stats {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+        }
+
+        .stat-card {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 32px;
+            font-weight: 900;
+            color: var(--primary-green);
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 30px 0;
+            color: var(--text-secondary);
+            font-size: 13px;
+        }
+
+        .footer a {
+            color: var(--primary-green);
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <h1>🗺️ 과일다리 사이트맵</h1>
+        <p>전체 사이트 구조 및 페이지 현황 | 총 60개 페이지</p>
+    </div>
+
+    <!-- Status Legend -->
+    <div class="legend">
+        <div class="legend-item">
+            <div class="status-dot status-complete"></div>
+            <span>완료 (2)</span>
+        </div>
+        <div class="legend-item">
+            <div class="status-dot status-developing"></div>
+            <span>개발중 (1)</span>
+        </div>
+        <div class="legend-item">
+            <div class="status-dot status-planned"></div>
+            <span>계획 (57)</span>
+        </div>
+    </div>
+
+    <!-- Search & Filter -->
+    <div class="controls">
+        <input type="text" class="search-box" placeholder="페이지 검색..." id="searchInput">
+        <button class="filter-btn active" data-filter="all">전체</button>
+        <button class="filter-btn" data-filter="complete">완료</button>
+        <button class="filter-btn" data-filter="developing">개발중</button>
+        <button class="filter-btn" data-filter="planned">계획</button>
+    </div>
+
+    <!-- Sitemap Tree -->
+    <div class="sitemap">
+        <ul class="tree">
+            <!-- 홈 -->
+            <li class="tree-item depth-1">
+                <div class="node">
+                    <span class="node-toggle expanded"></span>
+                    <span class="node-status status-dot status-complete"></span>
+                    <span class="node-title">🏠 홈</span>
+                    <span class="node-url">[/]</span>
+                </div>
+                <ul>
+                    <li class="tree-item depth-2">
+                        <a href="fruit_commerce_fruitbridge.html" class="node">
+                            <span class="node-status status-dot status-complete"></span>
+                            <span class="node-title">메인페이지</span>
+                            <span class="node-url">[/index.html]</span>
+                            <span class="node-priority priority-p0">P0</span>
+                        </a>
+                    </li>
+                    <li class="tree-item depth-2">
+                        <a href="fruit_commerce_impact.html" class="node">
+                            <span class="node-status status-dot status-complete"></span>
+                            <span class="node-title">소셜임팩트</span>
+                            <span class="node-url">[/impact.html]</span>
+                            <span class="node-priority priority-p1">P1</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+            <!-- 상품 -->
+            <li class="tree-item depth-1">
+                <div class="node">
+                    <span class="node-toggle expanded"></span>
+                    <span class="node-status status-dot status-planned"></span>
+                    <span class="node-title">📦 상품</span>
+                    <span class="node-url">[/products]</span>
+                </div>
+                <ul>
+                    <li class="tree-item depth-2">
+                        <div class="node">
+                            <span class="node-toggle expanded"></span>
+                            <span class="node-status status-dot status-planned"></span>
+                            <span class="node-title">카테고리</span>
+                        </div>
+                        <ul>
+                            <li class="tree-item depth-3">
+                                <div class="node">
+                                    <span class="node-status status-dot status-planned"></span>
+                                    <span class="node-title">가족루틴</span>
+                                    <span class="node-url">[/products/family]</span>
+                                    <span class="node-priority priority-p0">P0</span>
+                                </div>
+                            </li>
+                            <li class="tree-item depth-3">
+                                <div class="node">
+                                    <span class="node-status status-dot status-planned"></span>
+                                    <span class="node-title">아이간식</span>
+                                    <span class="node-url">[/products/kids]</span>
+                                    <span class="node-priority priority-p0">P0</span>
+                                </div>
+                            </li>
+                            <li class="tree-item depth-3">
+                                <div class="node">
+                                    <span class="node-status status-dot status-planned"></span>
+                                    <span class="node-title">안부전하기</span>
+                                    <span class="node-url">[/products/greeting]</span>
+                                    <span class="node-priority priority-p1">P1</span>
+                                </div>
+                            </li>
+                            <li class="tree-item depth-3">
+                                <div class="node">
+                                    <span class="node-status status-dot status-planned"></span>
+                                    <span class="node-title">나눔과일</span>
+                                    <span class="node-url">[/products/donation]</span>
+                                    <span class="node-priority priority-p0">P0</span>
+                                </div>
+                            </li>
+                            <li class="tree-item depth-3">
+                                <div class="node">
+                                    <span class="node-status status-dot status-planned"></span>
+                                    <span class="node-title">제철과일</span>
+                                    <span class="node-url">[/products/seasonal]</span>
+                                    <span class="node-priority priority-p0">P0</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="tree-item depth-2">
+                        <div class="node">
+                            <span class="node-status status-dot status-planned"></span>
+                            <span class="node-title">베스트</span>
+                            <span class="node-url">[/products/best]</span>
+                            <span class="node-priority priority-p0">P0</span>
+                        </div>
+                    </li>
+                    <li class="tree-item depth-2">
+                        <div class="node">
+                            <span class="node-status status-dot status-planned"></span>
+                            <span class="node-title">신상품</span>
+                            <span class="node-url">[/products/new]</span>
+                            <span class="node-priority priority-p1">P1</span>
+                        </div>
+                    </li>
+                    <li class="tree-item depth-2">
+                        <div class="node">
+                            <span class="node-status status-dot status-planned"></span>
+                            <span class="node-title">상품상세</span>
+                            <span class="node-url">[/products/detail/{id}]</span>
+                            <span class="node-priority priority-p0">P0</span>
+                        </div>
+                    </li>
+                </ul>
+            </li>
+
+            <!-- 구매 -->
+            <li class="tree-item depth-1">
+                <div class="node">
+                    <span class="node-toggle expanded"></span>
+                    <span class="node-status status-dot status-planned"></span>
+                    <span class="node-title">🛒 구매</span>
+                    <span class="node-url">[/order]</span>
+                </div>
+                <ul>
+                    <li class="tree-item depth-2">
+                        <div class="node">
+                            <span class="node-status status-dot status-planned"></span>
+                            <span class="node-title">장바구니</span>
+                            <span class="node-url">[/cart]</span>
+                            <span class="node-priority priority-p0">P0</span>
+                        </div>
+                    </li>
+                    <li class="tree-item depth-2">
+                        <div class="node">
+                            <span class="node-status status-dot status-planned"></span>
+                            <span class="node-title">주문서작성</span>
+                            <span class="node-url">[/order/checkout]</span>
+                            <span class="node-priority priority-p0">P0</span>
+                        </div>
+                    </li>
+                    <li class="tree-item depth-2">
+                        <div class="node">
+                            <span class="node-status status-dot status-planned"></span>
+                            <span class="node-title">결제</span>
+                            <span class="node-url">[/order/payment]</span>
+                            <span class="node-priority priority-p0">P0</span>
+                        </div>
+                    </li>
+                    <li class="tree-item depth-2">
+                        <div class="node">
+                            <span class="node-status status-dot status-planned"></span>
+                            <span class="node-title">주문완료</span>
+                            <span class="node-url">[/order/complete]</span>
+                            <span class="node-priority priority-p0">P0</span>
+                        </div>
+                    </li>
+                </ul>
+            </li>
+
+            <!-- 마이페이지 -->
+            <li class="tree-item depth-1">
+                <div class="node">
+                    <span class="node-toggle collapsed"></span>
+                    <span class="node-status status-dot status-planned"></span>
+                    <span class="node-title">👤 마이페이지</span>
+                    <span class="node-url">[/mypage]</span>
+                </div>
+                <ul style="display: none;">
+                    <li class="tree-item depth-2">
+                        <div class="node">
+                            <span class="node-status status-dot status-planned"></span>
+                            <span class="node-title">주문내역</span>
+                            <span class="node-url">[/mypage/orders]</span>
+                            <span class="node-priority priority-p0">P0</span>
+                        </div>
+                    </li>
+                    <li class="tree-item depth-2">
+                        <div class="node">
+                            <span class="node-status status-dot status-planned"></span>
+                            <span class="node-title">배송조회</span>
+                            <span class="node-url">[/mypage/delivery]</span>
+                            <span class="node-priority priority-p1">P1</span>
+                        </div>
+                    </li>
+                    <li class="tree-item depth-2">
+                        <div class="node">
+                            <span class="node-status status-dot status-planned"></span>
+                            <span class="node-title">찜목록</span>
+                            <span class="node-url">[/mypage/wishlist]</span>
+                            <span class="node-priority priority-p1">P1</span>
+                        </div>
+                    </li>
+                    <li class="tree-item depth-2">
+                        <div class="node">
+                            <span class="node-status status-dot status-planned"></span>
+                            <span class="node-title">쿠폰/포인트</span>
+                            <span class="node-url">[/mypage/benefits]</span>
+                            <span class="node-priority priority-p1">P1</span>
+                        </div>
+                    </li>
+                    <li class="tree-item depth-2">
+                        <div class="node">
+                            <span class="node-status status-dot status-planned"></span>
+                            <span class="node-title">회원정보</span>
+                            <span class="node-url">[/mypage/profile]</span>
+                            <span class="node-priority priority-p0">P0</span>
+                        </div>
+                    </li>
+                </ul>
+            </li>
+
+            <!-- 고객지원 -->
+            <li class="tree-item depth-1">
+                <div class="node">
+                    <span class="node-toggle collapsed"></span>
+                    <span class="node-status status-dot status-planned"></span>
+                    <span class="node-title">📞 고객지원</span>
+                    <span class="node-url">[/support]</span>
+                </div>
+                <ul style="display: none;">
+                    <li class="tree-item depth-2">
+                        <div class="node">
+                            <span class="node-status status-dot status-planned"></span>
+                            <span class="node-title">FAQ</span>
+                            <span class="node-url">[/support/faq]</span>
+                            <span class="node-priority priority-p1">P1</span>
+                        </div>
+                    </li>
+                    <li class="tree-item depth-2">
+                        <div class="node">
+                            <span class="node-status status-dot status-planned"></span>
+                            <span class="node-title">1:1문의</span>
+                            <span class="node-url">[/support/inquiry]</span>
+                            <span class="node-priority priority-p1">P1</span>
+                        </div>
+                    </li>
+                    <li class="tree-item depth-2">
+                        <div class="node">
+                            <span class="node-status status-dot status-planned"></span>
+                            <span class="node-title">공지사항</span>
+                            <span class="node-url">[/support/notice]</span>
+                            <span class="node-priority priority-p1">P1</span>
+                        </div>
+                    </li>
+                </ul>
+            </li>
+
+            <!-- 인증 -->
+            <li class="tree-item depth-1">
+                <div class="node">
+                    <span class="node-toggle collapsed"></span>
+                    <span class="node-status status-dot status-planned"></span>
+                    <span class="node-title">🔐 인증</span>
+                    <span class="node-url">[/auth]</span>
+                </div>
+                <ul style="display: none;">
+                    <li class="tree-item depth-2">
+                        <div class="node">
+                            <span class="node-status status-dot status-planned"></span>
+                            <span class="node-title">로그인</span>
+                            <span class="node-url">[/auth/login]</span>
+                            <span class="node-priority priority-p0">P0</span>
+                        </div>
+                    </li>
+                    <li class="tree-item depth-2">
+                        <div class="node">
+                            <span class="node-status status-dot status-planned"></span>
+                            <span class="node-title">회원가입</span>
+                            <span class="node-url">[/auth/signup]</span>
+                            <span class="node-priority priority-p0">P0</span>
+                        </div>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Statistics -->
+    <div class="stats">
+        <div class="stat-card">
+            <div class="stat-number">60</div>
+            <div class="stat-label">전체 페이지</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number">2</div>
+            <div class="stat-label">완료</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number">1</div>
+            <div class="stat-label">개발중</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number">57</div>
+            <div class="stat-label">계획</div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <p>과일다리 사이트맵 v1.0 | <a href="ia_structure.csv">CSV 다운로드</a></p>
+        <p>© 2024 과일다리. All rights reserved.</p>
+    </div>
+
+    <script>
+        // Toggle functionality
+        document.querySelectorAll('.node-toggle').forEach(toggle => {
+            toggle.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const parent = toggle.closest('.tree-item');
+                const childList = parent.querySelector('ul');
+
+                if (childList) {
+                    if (toggle.classList.contains('expanded')) {
+                        toggle.classList.remove('expanded');
+                        toggle.classList.add('collapsed');
+                        childList.style.display = 'none';
+                    } else {
+                        toggle.classList.remove('collapsed');
+                        toggle.classList.add('expanded');
+                        childList.style.display = 'block';
+                    }
+                }
+            });
+        });
+
+        // Search functionality
+        const searchInput = document.getElementById('searchInput');
+        searchInput.addEventListener('input', (e) => {
+            const searchTerm = e.target.value.toLowerCase();
+            const allNodes = document.querySelectorAll('.tree-item');
+
+            allNodes.forEach(node => {
+                const title = node.querySelector('.node-title');
+                if (title) {
+                    const text = title.textContent.toLowerCase();
+                    if (text.includes(searchTerm)) {
+                        node.style.display = 'block';
+                        // Expand parent nodes
+                        let parent = node.parentElement;
+                        while (parent && parent.classList.contains('tree')) {
+                            parent.style.display = 'block';
+                            parent = parent.parentElement;
+                        }
+                    } else if (searchTerm !== '') {
+                        node.style.display = 'none';
+                    } else {
+                        node.style.display = 'block';
+                    }
+                }
+            });
+        });
+
+        // Filter functionality
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Update active state
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                const filter = btn.dataset.filter;
+                const allNodes = document.querySelectorAll('.tree-item');
+
+                allNodes.forEach(node => {
+                    if (filter === 'all') {
+                        node.style.display = 'block';
+                    } else {
+                        const statusDot = node.querySelector('.node-status');
+                        if (statusDot) {
+                            if (statusDot.classList.contains(`status-${filter}`)) {
+                                node.style.display = 'block';
+                            } else {
+                                node.style.display = 'none';
+                            }
+                        }
+                    }
+                });
+            });
+        });
+
+        // Expand all / Collapse all
+        function expandAll() {
+            document.querySelectorAll('.node-toggle').forEach(toggle => {
+                toggle.classList.remove('collapsed');
+                toggle.classList.add('expanded');
+                const parent = toggle.closest('.tree-item');
+                const childList = parent.querySelector('ul');
+                if (childList) {
+                    childList.style.display = 'block';
+                }
+            });
+        }
+
+        function collapseAll() {
+            document.querySelectorAll('.node-toggle').forEach(toggle => {
+                toggle.classList.remove('expanded');
+                toggle.classList.add('collapsed');
+                const parent = toggle.closest('.tree-item');
+                const childList = parent.querySelector('ul');
+                if (childList) {
+                    childList.style.display = 'none';
+                }
+            });
+        }
+    </script>
+</body>
+</html>

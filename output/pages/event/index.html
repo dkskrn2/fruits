@@ -6,543 +6,10 @@
     <title>이벤트 - 과일다리</title>
     <link rel="stylesheet" href="../../styles/design-system.css">
     <link rel="stylesheet" href="../../styles/components.css">
-    <style>
-        /* Header */
-        .header {
-            position: sticky;
-            top: 0;
-            background: var(--color-white);
-            border-bottom: 1px solid var(--color-gray-200);
-            z-index: var(--z-sticky);
-            padding: var(--space-3) var(--space-4);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .header-left {
-            display: flex;
-            align-items: center;
-            gap: var(--space-3);
-        }
-
-        .header-back {
-            font-size: 24px;
-            cursor: pointer;
-            padding: var(--space-1);
-            margin-left: calc(var(--space-2) * -1);
-        }
-
-        .header-title {
-            font-size: var(--font-size-md);
-            font-weight: var(--font-weight-semibold);
-            color: var(--color-gray-900);
-        }
-
-        .header-actions {
-            display: flex;
-            gap: var(--space-3);
-            font-size: 24px;
-        }
-
-        .header-icon {
-            cursor: pointer;
-            padding: var(--space-1);
-        }
-
-        /* Hero Banner */
-        .hero-banner {
-            position: relative;
-            height: 240px;
-            background: linear-gradient(135deg, #6FCF3F 0%, #5CB82F 100%);
-            overflow: hidden;
-            margin-bottom: var(--space-4);
-        }
-
-        .hero-content {
-            position: absolute;
-            inset: 0;
-            padding: var(--space-6) var(--space-4);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            color: var(--color-white);
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="15" fill="rgba(255,255,255,0.1)"/><circle cx="80" cy="70" r="20" fill="rgba(255,255,255,0.1)"/><circle cx="50" cy="50" r="10" fill="rgba(255,255,255,0.1)"/></svg>');
-            background-size: 200px;
-        }
-
-        .hero-badge {
-            display: inline-flex;
-            padding: var(--space-1) var(--space-3);
-            background: rgba(255, 255, 255, 0.25);
-            border-radius: var(--radius-full);
-            font-size: var(--font-size-xs);
-            font-weight: var(--font-weight-semibold);
-            margin-bottom: var(--space-3);
-            width: fit-content;
-        }
-
-        .hero-title {
-            font-size: var(--font-size-2xl);
-            font-weight: var(--font-weight-bold);
-            margin-bottom: var(--space-2);
-            line-height: var(--line-height-tight);
-        }
-
-        .hero-subtitle {
-            font-size: var(--font-size-base);
-            opacity: 0.95;
-            margin-bottom: var(--space-4);
-        }
-
-        .hero-cta {
-            display: inline-flex;
-            align-items: center;
-            gap: var(--space-2);
-            padding: var(--space-3) var(--space-5);
-            background: var(--color-white);
-            color: var(--color-primary);
-            border-radius: var(--radius-full);
-            font-weight: var(--font-weight-semibold);
-            font-size: var(--font-size-sm);
-            width: fit-content;
-            box-shadow: var(--shadow-lg);
-        }
-
-        /* Category Tabs */
-        .category-tabs {
-            position: sticky;
-            top: 56px;
-            background: var(--color-white);
-            border-bottom: 1px solid var(--color-gray-200);
-            z-index: var(--z-sticky);
-            display: flex;
-            padding: 0 var(--space-4);
-            gap: var(--space-2);
-            overflow-x: auto;
-            scrollbar-width: none;
-        }
-
-        .category-tabs::-webkit-scrollbar {
-            display: none;
-        }
-
-        .category-tab {
-            flex-shrink: 0;
-            padding: var(--space-3) var(--space-4);
-            font-size: var(--font-size-base);
-            font-weight: var(--font-weight-medium);
-            color: var(--color-gray-600);
-            background: transparent;
-            border: none;
-            border-bottom: 2px solid transparent;
-            cursor: pointer;
-            transition: all var(--transition-fast);
-            white-space: nowrap;
-        }
-
-        .category-tab.active {
-            color: var(--color-primary);
-            border-bottom-color: var(--color-primary);
-        }
-
-        /* Event Stats */
-        .event-stats {
-            padding: var(--space-4);
-            display: flex;
-            gap: var(--space-3);
-            overflow-x: auto;
-            scrollbar-width: none;
-        }
-
-        .event-stats::-webkit-scrollbar {
-            display: none;
-        }
-
-        .stat-card {
-            flex: 1;
-            min-width: 100px;
-            padding: var(--space-3);
-            background: var(--color-gray-50);
-            border-radius: var(--radius-lg);
-            text-align: center;
-        }
-
-        .stat-number {
-            font-size: var(--font-size-xl);
-            font-weight: var(--font-weight-bold);
-            color: var(--color-primary);
-            margin-bottom: var(--space-1);
-        }
-
-        .stat-label {
-            font-size: var(--font-size-xs);
-            color: var(--color-gray-600);
-        }
-
-        /* Event Cards */
-        .event-list {
-            padding: var(--space-4);
-            display: flex;
-            flex-direction: column;
-            gap: var(--space-4);
-        }
-
-        .event-card {
-            background: var(--color-white);
-            border-radius: var(--radius-xl);
-            overflow: hidden;
-            box-shadow: var(--shadow-md);
-            cursor: pointer;
-            transition: all var(--transition-base);
-        }
-
-        .event-card:active {
-            transform: scale(0.98);
-        }
-
-        .event-card__banner {
-            position: relative;
-            height: 180px;
-            background: linear-gradient(135deg, var(--color-primary-light) 0%, var(--color-gray-100) 100%);
-            overflow: hidden;
-        }
-
-        .event-card__banner-img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .event-card__banner-icon {
-            position: absolute;
-            inset: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 64px;
-        }
-
-        .event-card__type-badge {
-            position: absolute;
-            top: var(--space-3);
-            left: var(--space-3);
-            padding: var(--space-1) var(--space-3);
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: var(--radius-full);
-            font-size: var(--font-size-xs);
-            font-weight: var(--font-weight-bold);
-            display: flex;
-            align-items: center;
-            gap: var(--space-1);
-            box-shadow: var(--shadow-sm);
-        }
-
-        .event-card__status-badge {
-            position: absolute;
-            top: var(--space-3);
-            right: var(--space-3);
-            padding: var(--space-1) var(--space-3);
-            border-radius: var(--radius-full);
-            font-size: var(--font-size-xs);
-            font-weight: var(--font-weight-bold);
-            display: flex;
-            align-items: center;
-            gap: var(--space-1);
-            box-shadow: var(--shadow-sm);
-        }
-
-        .status-ongoing {
-            background: #4CAF50;
-            color: var(--color-white);
-        }
-
-        .status-dday {
-            background: #FF6B35;
-            color: var(--color-white);
-            animation: pulse 2s infinite;
-        }
-
-        .status-ended {
-            background: var(--color-gray-500);
-            color: var(--color-white);
-        }
-
-        .status-winner {
-            background: #FFD93D;
-            color: var(--color-gray-900);
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.7; }
-        }
-
-        .event-card__content {
-            padding: var(--space-4);
-        }
-
-        .event-card__title {
-            font-size: var(--font-size-md);
-            font-weight: var(--font-weight-bold);
-            color: var(--color-gray-900);
-            margin-bottom: var(--space-2);
-            line-height: var(--line-height-tight);
-        }
-
-        .event-card__desc {
-            font-size: var(--font-size-sm);
-            color: var(--color-gray-600);
-            margin-bottom: var(--space-3);
-            line-height: 1.5;
-        }
-
-        .event-card__meta {
-            display: flex;
-            gap: var(--space-4);
-            padding-top: var(--space-3);
-            border-top: 1px solid var(--color-gray-200);
-        }
-
-        .event-meta-item {
-            display: flex;
-            align-items: center;
-            gap: var(--space-1);
-            font-size: var(--font-size-xs);
-            color: var(--color-gray-600);
-        }
-
-        .event-meta-icon {
-            font-size: 16px;
-        }
-
-        .event-card__footer {
-            padding: 0 var(--space-4) var(--space-4);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .event-card__participants {
-            display: flex;
-            align-items: center;
-            gap: var(--space-2);
-            font-size: var(--font-size-sm);
-            color: var(--color-gray-600);
-        }
-
-        .participant-number {
-            font-weight: var(--font-weight-bold);
-            color: var(--color-primary);
-        }
-
-        .event-card__action {
-            padding: var(--space-2) var(--space-4);
-            background: var(--color-primary);
-            color: var(--color-white);
-            border-radius: var(--radius-lg);
-            font-size: var(--font-size-sm);
-            font-weight: var(--font-weight-semibold);
-            border: none;
-            cursor: pointer;
-            transition: all var(--transition-fast);
-        }
-
-        .event-card__action:active {
-            background: var(--color-primary-dark);
-        }
-
-        .event-card__action.disabled {
-            background: var(--color-gray-300);
-            color: var(--color-gray-600);
-            cursor: not-allowed;
-        }
-
-        /* Floating Participation Button */
-        .floating-btn {
-            position: fixed;
-            bottom: calc(var(--bottom-nav-height) + var(--space-4));
-            left: 50%;
-            transform: translateX(-50%);
-            max-width: calc(var(--max-width-mobile) - var(--space-8));
-            width: calc(100% - var(--space-8));
-            padding: var(--space-4) var(--space-6);
-            background: var(--color-primary);
-            color: var(--color-white);
-            border-radius: var(--radius-full);
-            font-size: var(--font-size-base);
-            font-weight: var(--font-weight-bold);
-            border: none;
-            cursor: pointer;
-            box-shadow: var(--shadow-xl);
-            z-index: var(--z-sticky);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: var(--space-2);
-            transition: all var(--transition-base);
-        }
-
-        .floating-btn:active {
-            transform: translateX(-50%) scale(0.95);
-        }
-
-        /* Bottom Navigation */
-        .bottom-nav {
-            position: fixed;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100%;
-            max-width: var(--max-width-mobile);
-            background: var(--color-white);
-            border-top: 1px solid var(--color-gray-200);
-            display: flex;
-            justify-content: space-around;
-            padding: var(--space-2) 0;
-            z-index: var(--z-sticky);
-        }
-
-        .nav-item {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: var(--space-1);
-            padding: var(--space-1);
-            color: var(--color-gray-600);
-            text-decoration: none;
-            cursor: pointer;
-            transition: all var(--transition-fast);
-        }
-
-        .nav-item.active {
-            color: var(--color-primary);
-        }
-
-        .nav-item .icon {
-            font-size: 24px;
-        }
-
-        .nav-item .label {
-            font-size: var(--font-size-xs);
-            font-weight: var(--font-weight-medium);
-        }
-
-        /* Empty State */
-        .empty-state {
-            padding: var(--space-12) var(--space-6);
-            text-align: center;
-        }
-
-        .empty-state__icon {
-            font-size: 64px;
-            margin-bottom: var(--space-4);
-            opacity: 0.5;
-        }
-
-        .empty-state__title {
-            font-size: var(--font-size-md);
-            font-weight: var(--font-weight-medium);
-            color: var(--color-gray-700);
-            margin-bottom: var(--space-2);
-        }
-
-        .empty-state__desc {
-            font-size: var(--font-size-sm);
-            color: var(--color-gray-500);
-        }
-
-        /* Share Modal */
-        .modal-overlay {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: var(--z-modal);
-            align-items: flex-end;
-        }
-
-        .modal-overlay.show {
-            display: flex;
-        }
-
-        .share-modal {
-            width: 100%;
-            max-width: var(--max-width-mobile);
-            margin: 0 auto;
-            background: var(--color-white);
-            border-radius: var(--radius-xl) var(--radius-xl) 0 0;
-            padding: var(--space-6) var(--space-4);
-            animation: slideUp 0.3s ease;
-        }
-
-        @keyframes slideUp {
-            from {
-                transform: translateY(100%);
-            }
-            to {
-                transform: translateY(0);
-            }
-        }
-
-        .share-modal__title {
-            font-size: var(--font-size-md);
-            font-weight: var(--font-weight-bold);
-            margin-bottom: var(--space-5);
-            text-align: center;
-        }
-
-        .share-options {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: var(--space-4);
-            margin-bottom: var(--space-5);
-        }
-
-        .share-option {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: var(--space-2);
-            cursor: pointer;
-        }
-
-        .share-option__icon {
-            width: 56px;
-            height: 56px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: var(--color-gray-100);
-            border-radius: var(--radius-full);
-            font-size: 28px;
-        }
-
-        .share-option__label {
-            font-size: var(--font-size-xs);
-            color: var(--color-gray-700);
-        }
-
-        .share-modal__close {
-            width: 100%;
-            padding: var(--space-3);
-            background: var(--color-gray-100);
-            border: none;
-            border-radius: var(--radius-lg);
-            font-size: var(--font-size-base);
-            font-weight: var(--font-weight-medium);
-            cursor: pointer;
-        }
-
-        /* Hidden class for filtering */
-        .hidden {
-            display: none !important;
-        }
-    </style>
+    <link rel="stylesheet" href="../../styles/common-layout.css">
 </head>
 <body>
-    <div class="mobile-container">
+    <div class="page-container">
         <!-- Header -->
         <header class="header">
             <div class="header-left">
@@ -558,7 +25,7 @@
         <!-- Hero Banner -->
         <section class="hero-banner">
             <div class="hero-content">
-                <span class="hero-badge">🎁 특별한 혜택</span>
+                <span class="hero-chip">🎁 특별한 혜택</span>
                 <h2 class="hero-title">3월 신학기<br>이벤트 특가</h2>
                 <p class="hero-subtitle">최대 50% 할인과 풍성한 경품을 받아가세요!</p>
                 <button class="hero-cta" onclick="scrollToEvent('featured')">
@@ -613,11 +80,11 @@
             <article class="event-card" data-category="ongoing" data-type="discount" id="featured">
                 <div class="event-card__banner" style="background: linear-gradient(135deg, #FFE0B2 0%, #FF9800 100%);">
                     <div class="event-card__banner-icon">🎉</div>
-                    <span class="event-card__type-badge">
+                    <span class="event-card__type-chip">
                         <span>🏷️</span>
                         할인
                     </span>
-                    <span class="event-card__status-badge status-ongoing">
+                    <span class="event-card__status-chip status-ongoing">
                         진행중
                     </span>
                 </div>
@@ -650,11 +117,11 @@
             <article class="event-card" data-category="ending-soon" data-type="prize">
                 <div class="event-card__banner" style="background: linear-gradient(135deg, #FFD93D 0%, #FFA500 100%);">
                     <div class="event-card__banner-icon">🎁</div>
-                    <span class="event-card__type-badge">
+                    <span class="event-card__type-chip">
                         <span>🎯</span>
                         경품추첨
                     </span>
-                    <span class="event-card__status-badge status-dday">
+                    <span class="event-card__status-chip status-dday">
                         D-3
                     </span>
                 </div>
@@ -687,11 +154,11 @@
             <article class="event-card" data-category="ongoing" data-type="review">
                 <div class="event-card__banner" style="background: linear-gradient(135deg, #E8F5E9 0%, #4CAF50 100%);">
                     <div class="event-card__banner-icon">✍️</div>
-                    <span class="event-card__type-badge">
+                    <span class="event-card__type-chip">
                         <span>⭐</span>
                         리뷰이벤트
                     </span>
-                    <span class="event-card__status-badge status-ongoing">
+                    <span class="event-card__status-chip status-ongoing">
                         진행중
                     </span>
                 </div>
@@ -724,11 +191,11 @@
             <article class="event-card" data-category="ongoing" data-type="newmember">
                 <div class="event-card__banner" style="background: linear-gradient(135deg, #E1F5FE 0%, #03A9F4 100%);">
                     <div class="event-card__banner-icon">🎊</div>
-                    <span class="event-card__type-badge">
+                    <span class="event-card__type-chip">
                         <span>👋</span>
                         신규회원
                     </span>
-                    <span class="event-card__status-badge status-ongoing">
+                    <span class="event-card__status-chip status-ongoing">
                         진행중
                     </span>
                 </div>
@@ -761,11 +228,11 @@
             <article class="event-card" data-category="ongoing" data-type="invite">
                 <div class="event-card__banner" style="background: linear-gradient(135deg, #FCE4EC 0%, #E91E63 100%);">
                     <div class="event-card__banner-icon">💝</div>
-                    <span class="event-card__type-badge">
+                    <span class="event-card__type-chip">
                         <span>👥</span>
                         친구초대
                     </span>
-                    <span class="event-card__status-badge status-ongoing">
+                    <span class="event-card__status-chip status-ongoing">
                         진행중
                     </span>
                 </div>
@@ -798,11 +265,11 @@
             <article class="event-card" data-category="ending-soon" data-type="timesale">
                 <div class="event-card__banner" style="background: linear-gradient(135deg, #FFEBEE 0%, #F44336 100%);">
                     <div class="event-card__banner-icon">⚡</div>
-                    <span class="event-card__type-badge">
+                    <span class="event-card__type-chip">
                         <span>🔥</span>
                         타임특가
                     </span>
-                    <span class="event-card__status-badge status-dday">
+                    <span class="event-card__status-chip status-dday">
                         D-1
                     </span>
                 </div>
@@ -835,11 +302,11 @@
             <article class="event-card" data-category="winner" data-type="winner">
                 <div class="event-card__banner" style="background: linear-gradient(135deg, #FFF9C4 0%, #F9A825 100%);">
                     <div class="event-card__banner-icon">🏆</div>
-                    <span class="event-card__type-badge">
+                    <span class="event-card__type-chip">
                         <span>🎊</span>
                         당첨발표
                     </span>
-                    <span class="event-card__status-badge status-winner">
+                    <span class="event-card__status-chip status-winner">
                         발표완료
                     </span>
                 </div>
@@ -872,11 +339,11 @@
             <article class="event-card" data-category="ended" data-type="discount">
                 <div class="event-card__banner" style="background: linear-gradient(135deg, #F5F5F5 0%, #9E9E9E 100%);">
                     <div class="event-card__banner-icon">🎈</div>
-                    <span class="event-card__type-badge">
+                    <span class="event-card__type-chip">
                         <span>🏷️</span>
                         할인
                     </span>
-                    <span class="event-card__status-badge status-ended">
+                    <span class="event-card__status-chip status-ended">
                         종료됨
                     </span>
                 </div>
@@ -914,19 +381,19 @@
 
         <!-- Bottom Navigation -->
         <nav class="bottom-nav">
-            <a href="../home/main.html" class="nav-item">
+            <a href="../home/main.html" class="nav-link">
                 <span class="icon">🏠</span>
                 <span class="label">홈</span>
             </a>
-            <a href="../products/index.html" class="nav-item">
+            <a href="../products/index.html" class="nav-link">
                 <span class="icon">🍎</span>
                 <span class="label">상품</span>
             </a>
-            <a href="../event/index.html" class="nav-item active">
+            <a href="../event/index.html" class="nav-link active">
                 <span class="icon">🎉</span>
                 <span class="label">이벤트</span>
             </a>
-            <a href="../mypage/index.html" class="nav-item">
+            <a href="../mypage/index.html" class="nav-link">
                 <span class="icon">👤</span>
                 <span class="label">마이</span>
             </a>

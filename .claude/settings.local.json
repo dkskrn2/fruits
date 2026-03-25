@@ -1,0 +1,33 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//c/Users/dkskr/OneDrive/111//**)",
+      "Bash(find /c/Users/dkskr/OneDrive/111/commerce_chat/rasa_version -type f ( -name \"*.py\" -o -name \"*.yml\" -o -name \"*.yaml\" -o -name \"*.js\" -o -name \"*.json\" ) ! -path \"*/.rasa/*\" ! -path \"*/.cache/*\" ! -path \"*/.next/*\" ! -path \"*/node_modules/*\" ! -path \"*/.git/*\" ! -path \"*/.keras/*\" ! -path \"*/.playwright-cli/*\")",
+      "Bash(tree -L 3 -I \".rasa|.cache|.next|node_modules|.git|.keras|.playwright-cli|__pycache__|.config\" /c/Users/dkskr/OneDrive/111/commerce_chat/rasa_version)",
+      "Bash(awk -F, 'NR==1 {for(i=1;i<=NF;i++) print i\"\": \"\"$i}' \"/c/Users/dkskr/OneDrive/111/commerce_chat/rasa_version/bot/catalog/policy/dev/topic_resolution_policy.csv\")",
+      "Bash(find bot/actions bot/components scripts -name \"*.py\" -exec awk 'BEGIN{max=0;file=\"\"\"\"\"\"\"\"} /^def |^class |^async def /{start=NR} /^def |^class |^async def |END/{if(start>0 && NR-start>max){max=NR-start;file=FILENAME}} END{if(max>0)print file,max}' {} +)",
+      "Bash(sort -k2 -nr)",
+      "Read(//c/**)",
+      "Bash(cat \"/c/Users/dkskr/OneDrive/111/commerce_chat/rasa_version/bot/config.yml\")",
+      "Bash(cat \"/c/Users/dkskr/OneDrive/111/commerce_chat/rasa_version/bot/domain.yml\")",
+      "Bash(cat \"/c/Users/dkskr/OneDrive/111/commerce_chat/rasa_version/bot/data/rules.yml\")",
+      "Bash(cat \"/c/Users/dkskr/OneDrive/111/commerce_chat/rasa_version/README.md\")",
+      "Bash(cat bot/tests/intent_confusion_matrix.csv)",
+      "Bash(awk -F',' 'NR>1 {total++; if($6==\"\"true\"\") intent_ok++; if($7==\"\"true\"\") topic_logical_ok++; if($9==\"\"none\"\") topic_none++; if($4==\"\"nlu_fallback\"\") nlu_fallback++} END {print \"\"total:\"\"total, \"\"intent_ok:\"\"intent_ok, \"\"topic_logical_ok:\"\"topic_logical_ok, \"\"topic_none:\"\"topic_none, \"\"nlu_fallback:\"\"nlu_fallback}' bot/tests/frontend_ui_user_128_results_20260306_live.csv)",
+      "Bash(awk -F',' 'NR>1 {total++; if($9==\"\"true\"\") intent_ok++; if($11==\"\"true\"\") topic_logical_ok++; if($7==\"\"none\"\") topic_none++; if($6==\"\"nlu_fallback\"\") nlu_fallback++} END {printf \"\"total:%d intent_ok:%d(%.1f%%) topic_logical_ok:%d(%.1f%%) topic_none:%d nlu_fallback:%d\\n\"\", total, intent_ok, intent_ok*100/total, topic_logical_ok, topic_logical_ok*100/total, topic_none, nlu_fallback}' bot/tests/frontend_ui_user_128_results_20260306_live.csv)",
+      "Bash(awk -F',' 'NR>1 {total++; if($9==\"\"true\"\") intent_ok++; if($11==\"\"true\"\") topic_logical_ok++; if($7==\"\"none\"\") topic_none++; if($6==\"\"nlu_fallback\"\") nlu_fallback++; if($8==\"\"action_fallback\"\") action_fallback++} END {printf \"\"Variation (132):\\n  Intent: %d/%d (%.1f%%)\\n  Topic Logical: %d/%d (%.1f%%)\\n  Topic None: %d\\n  NLU Fallback: %d\\n  Action Fallback: %d\\n\"\", intent_ok, total, intent_ok*100/total, topic_logical_ok, total, topic_logical_ok*100/total, topic_none, nlu_fallback, action_fallback}' bot/tests/frontend_ui_variation_results_20260306_live.csv)",
+      "Bash(awk -F',' 'NR>1 {total++; if($9==\"\"true\"\") intent_ok++; if($11==\"\"true\"\") topic_logical_ok++; if($7==\"\"none\"\") topic_none++; if($6==\"\"nlu_fallback\"\") nlu_fallback++; if($8==\"\"action_fallback\"\") action_fallback++} END {printf \"\"Total: %d\\nIntent OK: %d (%.1f%%)\\nTopic Logical OK: %d (%.1f%%)\\nTopic None: %d\\nNLU Fallback: %d\\nAction Fallback: %d (%.1f%%)\\n\"\", total, intent_ok, intent_ok*100/total, topic_logical_ok, topic_logical_ok*100/total, topic_none, nlu_fallback, action_fallback, action_fallback*100/total}' bot/tests/frontend_ui_user_128_results_20260306_live.csv bot/tests/frontend_ui_variation_results_20260306_live.csv)",
+      "Bash(cat claude_docs/BASELINE_UPDATE.md)",
+      "Bash(awk '{print $9, $5}')",
+      "Bash(awk 'BEGIN {print \"\"Intent: 260/260 =\"\", 260/260*100\"\"%\"\"; print \"\"Topic: 254/260 =\"\", 254/260*100\"\"%\"\"; print \"\"Action Fallback: 108/260 =\"\", 108/260*100\"\"%\"\"}')",
+      "Bash(/dev/null)",
+      "Bash(python -c \"import pytest; print(f''pytest {pytest.__version__}'')\")",
+      "Bash(echo $SHELL)",
+      "Bash(python -c \"\nimport codecs\n\ncontent = ''''''# 소스 코드 리팩토링 실행 계획 (Windows 환경 대응)\n\n**작성 일자**: 2026-03-06\n**환경**: Windows Git Bash, Python 3.10.8, pytest 9.0.2\n**현재 베이스라인**: Intent 100% (260/260), Topic 97.69% (254/260)\n**목표**: 품질 유지 + 구조 개선 (유지보수성, 확장성)\n\n---\n\n## 📊 현재 상태 요약\n\n### ✅ 품질 목표 달성 완료\n- Intent Match: 100% (목표 90% 초과 달성)\n- Topic Logical: 97.69% (목표 85% 초과 달성)\n- Topic None: 0% (목표 5% 이하)\n- NLU Fallback: 0% (목표 3% 이하)\n\n### ❌ 구조 문제\n- **유닛 테스트**: 0% (6,700+ LOC, 테스트 파일 없음)\n- **모놀리식 파일**: actions.py 1758줄, 56개 함수/클래스\n- **Docstring**: 8% (56개 함수 중 4-5개만 문서화)\n- **결과 캐싱**: 부재 (300+ 줄 알고리즘 매 요청마다 실행)\n- **데이터 검증**: CSV 스키마 검증 없음\n- **Git 저장소**: 없음 (롤백 불가)\n\n### 🔍 실제 환경 확인 (2026-03-06)\n- **Python**: 3.10.8\n- **pytest**: 9.0.2 (설치됨)\n- **Git**: 미초기화\n- **CSV 파일**: 21개 (bot/catalog/)\n- **테스트 스크립트**: bot/tests/run_frontend_ui_validation_playwright.js\n- **백업 디렉토리**: 없음\n\n---\n\n## 🎯 실행 전략\n\n### 우선순위\n1. **안전장치 구축** (Week 1-2): Git, 백업, 테스트\n2. **Quick Wins** (Week 1): 1일 이내 완료 가능한 항목\n3. **구조 개선** (Week 3-6): 리팩토링, 캐싱, 문서화\n\n### 핵심 원칙\n- ✅ **품질 유지**: 모든 변경 후 260 케이스 검증\n- ✅ **단계적 진행**: 한 번에 하나씩, 테스트 후 다음 단계\n- ✅ **롤백 가능**: 각 단계마다 Git 커밋\n- ✅ **문서화**: 변경 사항 즉시 문서화\n\n---\n\n## 📅 Week 1: Git 초기화 + 백업 + Quick Wins\n\n### Day 1 Morning: Git 저장소 초기화 (30분)\n\n**목표**: 롤백 가능한 환경 구축\n\n''''''\n\n# UTF-8 BOM으로 저장\nwith codecs.open(''SOURCE_REFACTORING_EXECUTION_PLAN.md'', ''w'', encoding=''utf-8-sig'') as f:\n    f.write(content)\n\nprint(''File created with UTF-8 BOM encoding'')\n\")",
+      "Bash(python scripts/create_execution_plan.py)",
+      "Bash(python -c \"\nimport sys\nimport codecs\nfrom pathlib import Path\n\n# UTF-8 stdout 설정\nsys.stdout.reconfigure(encoding=''utf-8'')\n\ncontent = ''''''# 소스 코드 리팩토링 실행 계획 (Windows 환경 대응)\n\n**작성 일자**: 2026-03-06  \n**환경**: Windows Git Bash, Python 3.10.8, pytest 9.0.2  \n**현재 베이스라인**: Intent 100% (260/260), Topic 97.69% (254/260)  \n**목표**: 품질 유지 + 구조 개선 (유지보수성, 확장성)\n\n---\n\n## 지금 당장 실행 가능 (2시간 완성)\n\n상세 내용은 개별 스크립트 파일 참조:\n- backup_policies_script.py (백업 시스템)\n- validate_csv_duplicates_script.py (CSV 검증)\n- test_utils_script.py (유닛 테스트)\n''''''\n\noutput_file = Path(''claude_docs/SOURCE_REFACTORING_EXECUTION_PLAN.md'')\nwith codecs.open(str(output_file), ''w'', encoding=''utf-8-sig'') as f:\n    f.write(content)\n\nprint(''[OK] File created with UTF-8 BOM'')\n\")"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

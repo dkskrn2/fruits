@@ -6,633 +6,7 @@
     <title>신상품 - 과일다리</title>
     <link rel="stylesheet" href="../../styles/design-system.css">
     <link rel="stylesheet" href="../../styles/components.css">
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        html {
-            background: #e8e8e8;
-            min-height: 100vh;
-        }
-
-        body {
-            font-family: 'Noto Sans KR', -apple-system, sans-serif;
-            color: var(--text-primary);
-            background: var(--bg-white);
-            line-height: 1.6;
-            -webkit-font-smoothing: antialiased;
-            margin: 0 auto;
-            min-height: 100vh;
-            position: relative;
-            padding-bottom: 60px;
-        }
-
-        @media (min-width: 768px) {
-            body {
-                max-width: 430px;
-                box-shadow: 0 0 50px rgba(0,0,0,0.1);
-            }
-        }
-
-        /* Header */
-        .header {
-            background: var(--bg-white);
-            border-bottom: 1px solid var(--border);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            padding: 10px 15px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .header-back {
-            font-size: 24px;
-            cursor: pointer;
-            padding: 5px;
-            margin-left: -5px;
-        }
-
-        .header-title {
-            font-size: 16px;
-            font-weight: 500;
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
-        }
-
-        .header-actions {
-            display: flex;
-            gap: 15px;
-            margin-left: auto;
-        }
-
-        .header-icon {
-            font-size: 24px;
-            cursor: pointer;
-        }
-
-        /* Hero Banner with NEW Animation */
-        .hero-banner {
-            background: linear-gradient(135deg, #FF6F00 0%, #FF9800 50%, #FFC107 100%);
-            padding: 40px 20px;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-            margin-bottom: 20px;
-        }
-
-        .hero-banner::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 70%);
-            animation: sparkleRotate 10s linear infinite;
-        }
-
-        @keyframes sparkleRotate {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .hero-content {
-            position: relative;
-            z-index: 2;
-        }
-
-        .new-badge {
-            display: inline-block;
-            font-size: 48px;
-            font-weight: 900;
-            color: white;
-            text-shadow: 2px 2px 8px rgba(0,0,0,0.3);
-            animation: pulse 2s ease-in-out infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-        }
-
-        .hero-subtitle {
-            color: white;
-            font-size: 16px;
-            font-weight: 500;
-            margin-top: 10px;
-            text-shadow: 1px 1px 4px rgba(0,0,0,0.2);
-        }
-
-        .sparkle {
-            position: absolute;
-            font-size: 24px;
-            animation: sparkle 3s ease-in-out infinite;
-        }
-
-        @keyframes sparkle {
-            0%, 100% { opacity: 0; transform: scale(0); }
-            50% { opacity: 1; transform: scale(1); }
-        }
-
-        .sparkle:nth-child(1) { top: 20%; left: 15%; animation-delay: 0s; }
-        .sparkle:nth-child(2) { top: 30%; right: 20%; animation-delay: 0.5s; }
-        .sparkle:nth-child(3) { bottom: 25%; left: 25%; animation-delay: 1s; }
-        .sparkle:nth-child(4) { bottom: 30%; right: 15%; animation-delay: 1.5s; }
-
-        /* Timeline */
-        .timeline-section {
-            padding: 20px 15px;
-            background: white;
-            margin-bottom: 10px;
-        }
-
-        .timeline-title {
-            font-size: 18px;
-            font-weight: 700;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .timeline {
-            position: relative;
-            padding-left: 30px;
-        }
-
-        .timeline::before {
-            content: '';
-            position: absolute;
-            left: 8px;
-            top: 0;
-            bottom: 0;
-            width: 2px;
-            background: linear-gradient(to bottom, var(--primary-green), var(--light-green));
-        }
-
-        .timeline-item {
-            position: relative;
-            margin-bottom: 20px;
-            padding-bottom: 10px;
-        }
-
-        .timeline-item::before {
-            content: '';
-            position: absolute;
-            left: -26px;
-            top: 5px;
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: var(--primary-green);
-            border: 3px solid white;
-            box-shadow: 0 0 0 2px var(--primary-green);
-        }
-
-        .timeline-item.upcoming::before {
-            background: var(--text-muted);
-            box-shadow: 0 0 0 2px var(--text-muted);
-        }
-
-        .timeline-date {
-            font-size: 12px;
-            color: var(--primary-green);
-            font-weight: 600;
-            margin-bottom: 5px;
-        }
-
-        .timeline-item.upcoming .timeline-date {
-            color: var(--text-muted);
-        }
-
-        .timeline-content {
-            font-size: 14px;
-            color: var(--text-primary);
-            font-weight: 500;
-        }
-
-        /* First Buyer Benefits Banner */
-        .benefits-banner {
-            background: linear-gradient(135deg, #E91E63 0%, #F06292 100%);
-            padding: 20px;
-            border-radius: 12px;
-            margin: 0 15px 20px;
-            color: white;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .benefits-banner::before {
-            content: '🎁';
-            position: absolute;
-            font-size: 120px;
-            opacity: 0.1;
-            right: -20px;
-            bottom: -30px;
-        }
-
-        .benefits-title {
-            font-size: 16px;
-            font-weight: 700;
-            margin-bottom: 10px;
-            position: relative;
-            z-index: 2;
-        }
-
-        .benefits-list {
-            list-style: none;
-            position: relative;
-            z-index: 2;
-        }
-
-        .benefits-list li {
-            font-size: 13px;
-            padding: 5px 0;
-            padding-left: 20px;
-            position: relative;
-        }
-
-        .benefits-list li::before {
-            content: '✓';
-            position: absolute;
-            left: 0;
-            font-weight: bold;
-        }
-
-        /* Product Grid */
-        .products-section {
-            padding: 0 15px 20px;
-        }
-
-        .section-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-
-        .section-title {
-            font-size: 18px;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .product-count {
-            font-size: 14px;
-            color: var(--text-muted);
-        }
-
-        .products-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-        }
-
-        .product-card {
-            background: white;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-            position: relative;
-            transition: transform 0.2s;
-        }
-
-        .product-card:active {
-            transform: scale(0.98);
-        }
-
-        .product-image {
-            height: 140px;
-            background: linear-gradient(135deg, #FFE0B2, #FFCC80);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 64px;
-            position: relative;
-        }
-
-        .new-tag {
-            position: absolute;
-            top: 8px;
-            left: 8px;
-            background: var(--red);
-            color: white;
-            font-size: 11px;
-            font-weight: 700;
-            padding: 4px 10px;
-            border-radius: 12px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-            animation: bounce 2s ease-in-out infinite;
-        }
-
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-5px); }
-        }
-
-        .days-badge {
-            position: absolute;
-            bottom: 8px;
-            right: 8px;
-            background: rgba(0,0,0,0.7);
-            color: white;
-            font-size: 10px;
-            font-weight: 600;
-            padding: 4px 8px;
-            border-radius: 8px;
-        }
-
-        .limited-badge {
-            position: absolute;
-            top: 8px;
-            right: 8px;
-            background: var(--orange);
-            color: white;
-            font-size: 10px;
-            font-weight: 700;
-            padding: 4px 8px;
-            border-radius: 8px;
-            animation: blink 1.5s ease-in-out infinite;
-        }
-
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.6; }
-        }
-
-        .product-info {
-            padding: 12px;
-        }
-
-        .product-name {
-            font-size: 14px;
-            font-weight: 600;
-            margin-bottom: 4px;
-            color: var(--text-primary);
-        }
-
-        .product-desc {
-            font-size: 11px;
-            color: var(--text-secondary);
-            margin-bottom: 8px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-
-        .product-meta {
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            margin-bottom: 8px;
-            flex-wrap: wrap;
-        }
-
-        .brix-badge {
-            background: #FFF3E0;
-            color: #E65100;
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-size: 10px;
-            font-weight: 600;
-        }
-
-        .origin {
-            font-size: 10px;
-            color: var(--text-muted);
-        }
-
-        .product-price {
-            font-weight: 700;
-            color: var(--primary-green);
-            margin-bottom: 8px;
-            font-size: 16px;
-        }
-
-        .stock-alert {
-            background: #FFEBEE;
-            color: var(--red);
-            padding: 4px 8px;
-            border-radius: 6px;
-            font-size: 11px;
-            font-weight: 600;
-            margin-bottom: 8px;
-            text-align: center;
-        }
-
-        .add-cart-btn {
-            width: 100%;
-            padding: 8px;
-            background: var(--primary-green);
-            color: white;
-            border: none;
-            border-radius: 6px;
-            font-size: 12px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background 0.3s;
-        }
-
-        .add-cart-btn:active {
-            background: var(--dark-green);
-        }
-
-        /* Pre-order Section */
-        .preorder-section {
-            background: linear-gradient(135deg, #E3F2FD 0%, #BBDEFB 100%);
-            padding: 20px 15px;
-            margin-bottom: 10px;
-        }
-
-        .preorder-title {
-            font-size: 18px;
-            font-weight: 700;
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .preorder-card {
-            background: white;
-            border-radius: 12px;
-            padding: 15px;
-            margin-bottom: 12px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        }
-
-        .preorder-header {
-            display: flex;
-            gap: 12px;
-            margin-bottom: 12px;
-        }
-
-        .preorder-image {
-            width: 80px;
-            height: 80px;
-            background: linear-gradient(135deg, #FFE0B2, #FFCC80);
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 48px;
-            flex-shrink: 0;
-        }
-
-        .preorder-info {
-            flex: 1;
-        }
-
-        .preorder-name {
-            font-size: 15px;
-            font-weight: 700;
-            margin-bottom: 4px;
-        }
-
-        .preorder-desc {
-            font-size: 12px;
-            color: var(--text-secondary);
-            margin-bottom: 6px;
-        }
-
-        .preorder-price {
-            font-size: 14px;
-            font-weight: 700;
-            color: var(--primary-green);
-        }
-
-        .countdown-box {
-            background: linear-gradient(135deg, #FF6F00, #FF9800);
-            padding: 12px;
-            border-radius: 8px;
-            margin-bottom: 12px;
-        }
-
-        .countdown-label {
-            font-size: 12px;
-            color: white;
-            margin-bottom: 8px;
-            text-align: center;
-            font-weight: 600;
-        }
-
-        .countdown-timer {
-            display: flex;
-            justify-content: center;
-            gap: 8px;
-        }
-
-        .countdown-unit {
-            background: rgba(255,255,255,0.9);
-            padding: 8px 10px;
-            border-radius: 6px;
-            text-align: center;
-            min-width: 45px;
-        }
-
-        .countdown-value {
-            font-size: 18px;
-            font-weight: 700;
-            color: var(--orange);
-            display: block;
-        }
-
-        .countdown-text {
-            font-size: 10px;
-            color: var(--text-secondary);
-            display: block;
-        }
-
-        .preorder-btn {
-            width: 100%;
-            padding: 12px;
-            background: linear-gradient(135deg, #2196F3, #1976D2);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: transform 0.2s;
-        }
-
-        .preorder-btn:active {
-            transform: scale(0.98);
-        }
-
-        /* Bottom Navigation */
-        .bottom-nav {
-            position: fixed;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100%;
-            max-width: 430px;
-            background: white;
-            border-top: 1px solid var(--border);
-            display: flex;
-            justify-content: space-around;
-            padding: 8px 0;
-            z-index: 100;
-        }
-
-        .nav-item {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 4px;
-            padding: 4px;
-            color: var(--text-muted);
-            text-decoration: none;
-            cursor: pointer;
-        }
-
-        .nav-item.active {
-            color: var(--primary-green);
-        }
-
-        .nav-item .icon {
-            font-size: 24px;
-        }
-
-        .nav-item .label {
-            font-size: 11px;
-            font-weight: 500;
-        }
-
-        /* Alert Badge */
-        .alert-pulse {
-            position: relative;
-        }
-
-        .alert-pulse::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 8px;
-            height: 8px;
-            background: var(--red);
-            border-radius: 50%;
-            animation: pulse-dot 2s ease-in-out infinite;
-        }
-
-        @keyframes pulse-dot {
-            0%, 100% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.3); opacity: 0.7; }
-        }
-    </style>
+    <link rel="stylesheet" href="../../styles/common-layout.css">
 </head>
 <body>
     <!-- Header -->
@@ -651,7 +25,7 @@
         <span class="sparkle">✨</span>
         <span class="sparkle">✨</span>
         <div class="hero-content">
-            <div class="new-badge">NEW</div>
+            <div class="new-chip">NEW</div>
             <div class="hero-subtitle">신선한 과일이 도착했어요!</div>
         </div>
     </div>
@@ -706,15 +80,15 @@
             <div class="product-card">
                 <div class="product-image">
                     <span class="new-tag">NEW</span>
-                    <span class="days-badge">오늘 입고</span>
-                    <span class="limited-badge">한정수량</span>
+                    <span class="days-chip">오늘 입고</span>
+                    <span class="limited-chip">한정수량</span>
                     🍇
                 </div>
                 <div class="product-info">
                     <h3 class="product-name">프리미엄 샤인머스켓</h3>
                     <p class="product-desc">당도 최상급 특선 포도</p>
                     <div class="product-meta">
-                        <span class="brix-badge">당도 18.0°</span>
+                        <span class="brix-chip">당도 18.0°</span>
                         <span class="origin">충북 영동</span>
                     </div>
                     <div class="stock-alert">⚠️ 재고 5개 남음</div>
@@ -727,14 +101,14 @@
             <div class="product-card">
                 <div class="product-image">
                     <span class="new-tag">NEW</span>
-                    <span class="days-badge">오늘 입고</span>
+                    <span class="days-chip">오늘 입고</span>
                     🍎
                 </div>
                 <div class="product-info">
                     <h3 class="product-name">청송 프리미엄 사과</h3>
                     <p class="product-desc">아삭한 꿀사과</p>
                     <div class="product-meta">
-                        <span class="brix-badge">당도 14.5°</span>
+                        <span class="brix-chip">당도 14.5°</span>
                         <span class="origin">경북 청송</span>
                     </div>
                     <div class="product-price">32,000원</div>
@@ -746,15 +120,15 @@
             <div class="product-card">
                 <div class="product-image">
                     <span class="new-tag">NEW</span>
-                    <span class="days-badge">3일 전</span>
-                    <span class="limited-badge">한정수량</span>
+                    <span class="days-chip">3일 전</span>
+                    <span class="limited-chip">한정수량</span>
                     🍊
                 </div>
                 <div class="product-info">
                     <h3 class="product-name">제주 프리미엄 한라봉</h3>
                     <p class="product-desc">과즙 가득 달콤함</p>
                     <div class="product-meta">
-                        <span class="brix-badge">당도 13.5°</span>
+                        <span class="brix-chip">당도 13.5°</span>
                         <span class="origin">제주도</span>
                     </div>
                     <div class="stock-alert">⚠️ 재고 8개 남음</div>
@@ -767,14 +141,14 @@
             <div class="product-card">
                 <div class="product-image">
                     <span class="new-tag">NEW</span>
-                    <span class="days-badge">3일 전</span>
+                    <span class="days-chip">3일 전</span>
                     🍐
                 </div>
                 <div class="product-info">
                     <h3 class="product-name">나주 배 특선</h3>
                     <p class="product-desc">시원하고 아삭한 맛</p>
                     <div class="product-meta">
-                        <span class="brix-badge">당도 12.5°</span>
+                        <span class="brix-chip">당도 12.5°</span>
                         <span class="origin">전남 나주</span>
                     </div>
                     <div class="product-price">28,000원</div>
@@ -786,14 +160,14 @@
             <div class="product-card">
                 <div class="product-image">
                     <span class="new-tag">NEW</span>
-                    <span class="days-badge">6일 전</span>
+                    <span class="days-chip">6일 전</span>
                     🍓
                 </div>
                 <div class="product-info">
                     <h3 class="product-name">담양 딸기</h3>
                     <p class="product-desc">새콤달콤 설향</p>
                     <div class="product-meta">
-                        <span class="brix-badge">당도 11.0°</span>
+                        <span class="brix-chip">당도 11.0°</span>
                         <span class="origin">전남 담양</span>
                     </div>
                     <div class="product-price">18,000원</div>
@@ -805,15 +179,15 @@
             <div class="product-card">
                 <div class="product-image">
                     <span class="new-tag">NEW</span>
-                    <span class="days-badge">6일 전</span>
-                    <span class="limited-badge">한정수량</span>
+                    <span class="days-chip">6일 전</span>
+                    <span class="limited-chip">한정수량</span>
                     🍈
                 </div>
                 <div class="product-info">
                     <h3 class="product-name">성주 참외</h3>
                     <p class="product-desc">달콤한 노란 참외</p>
                     <div class="product-meta">
-                        <span class="brix-badge">당도 15.0°</span>
+                        <span class="brix-chip">당도 15.0°</span>
                         <span class="origin">경북 성주</span>
                     </div>
                     <div class="stock-alert">⚠️ 재고 3개 남음</div>
@@ -826,14 +200,14 @@
             <div class="product-card">
                 <div class="product-image">
                     <span class="new-tag">NEW</span>
-                    <span class="days-badge">6일 전</span>
+                    <span class="days-chip">6일 전</span>
                     🍑
                 </div>
                 <div class="product-info">
                     <h3 class="product-name">충주 백복숭아</h3>
                     <p class="product-desc">부드럽고 달콤한</p>
                     <div class="product-meta">
-                        <span class="brix-badge">당도 13.0°</span>
+                        <span class="brix-chip">당도 13.0°</span>
                         <span class="origin">충북 충주</span>
                     </div>
                     <div class="product-price">35,000원</div>
@@ -845,14 +219,14 @@
             <div class="product-card">
                 <div class="product-image">
                     <span class="new-tag">NEW</span>
-                    <span class="days-badge">6일 전</span>
+                    <span class="days-chip">6일 전</span>
                     🥝
                 </div>
                 <div class="product-info">
                     <h3 class="product-name">뉴질랜드 골드키위</h3>
                     <p class="product-desc">비타민 가득 달콤</p>
                     <div class="product-meta">
-                        <span class="brix-badge">당도 14.0°</span>
+                        <span class="brix-chip">당도 14.0°</span>
                         <span class="origin">뉴질랜드</span>
                     </div>
                     <div class="product-price">24,000원</div>
@@ -1005,19 +379,19 @@
 
     <!-- Bottom Navigation -->
     <nav class="bottom-nav">
-        <a href="../home/index.html" class="nav-item">
+        <a href="../home/index.html" class="nav-link">
             <span class="icon">🏠</span>
             <span class="label">홈</span>
         </a>
-        <a href="index.html" class="nav-item active alert-pulse">
+        <a href="index.html" class="nav-link active alert-pulse">
             <span class="icon">🍎</span>
             <span class="label">상품</span>
         </a>
-        <a href="../mypage/index.html" class="nav-item">
+        <a href="../mypage/index.html" class="nav-link">
             <span class="icon">👤</span>
             <span class="label">마이</span>
         </a>
-        <a href="../support/index.html" class="nav-item">
+        <a href="../support/index.html" class="nav-link">
             <span class="icon">💬</span>
             <span class="label">고객지원</span>
         </a>

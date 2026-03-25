@@ -6,667 +6,8 @@
     <title>베스트 상품 - 과일다리</title>
     <link rel="stylesheet" href="../../styles/design-system.css">
     <link rel="stylesheet" href="../../styles/components.css">
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
-    <style>
-        body {
-            padding-bottom: 80px;
-            background: #f8f9fa;
-        }
-
-        /* PC에서 모바일 너비 유지 */
-        @media (min-width: 768px) {
-            body {
-                max-width: 430px;
-                margin: 0 auto;
-                box-shadow: 0 0 50px rgba(0,0,0,0.1);
-            }
-        }
-
-        /* Header */
-        .header {
-            position: sticky;
-            top: 0;
-            background: white;
-            z-index: 100;
-            border-bottom: 1px solid var(--color-gray-200);
-            padding: 12px 16px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .header-back {
-            font-size: 24px;
-            cursor: pointer;
-            padding: 4px;
-        }
-
-        .header-title {
-            font-size: 17px;
-            font-weight: 600;
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
-        }
-
-        .header-actions {
-            display: flex;
-            gap: 12px;
-        }
-
-        .header-icon {
-            font-size: 22px;
-            cursor: pointer;
-            padding: 4px;
-        }
-
-        /* Hero Banner */
-        .hero-banner {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            padding: 32px 20px;
-            color: white;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .hero-content {
-            position: relative;
-            z-index: 2;
-        }
-
-        .best-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            background: rgba(255, 255, 255, 0.25);
-            backdrop-filter: blur(10px);
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 13px;
-            font-weight: 600;
-            margin-bottom: 12px;
-            animation: pulse 2s ease-in-out infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-        }
-
-        .hero-title {
-            font-size: 28px;
-            font-weight: 900;
-            margin-bottom: 8px;
-            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-        }
-
-        .hero-subtitle {
-            font-size: 14px;
-            opacity: 0.9;
-            margin-bottom: 16px;
-        }
-
-        .hero-stats {
-            display: flex;
-            gap: 16px;
-        }
-
-        .hero-stat {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-        }
-
-        .hero-stat-value {
-            font-size: 22px;
-            font-weight: 700;
-        }
-
-        .hero-stat-label {
-            font-size: 12px;
-            opacity: 0.8;
-        }
-
-        .hero-bg {
-            position: absolute;
-            top: 0;
-            right: -50px;
-            font-size: 200px;
-            opacity: 0.1;
-            animation: float 3s ease-in-out infinite;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-20px); }
-        }
-
-        /* Real-time Counter */
-        .realtime-counter {
-            background: white;
-            margin: -20px 16px 16px;
-            border-radius: 16px;
-            padding: 16px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            position: relative;
-            z-index: 3;
-        }
-
-        .counter-icon {
-            width: 48px;
-            height: 48px;
-            background: linear-gradient(135deg, #ff6b6b, #ee5a6f);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-        }
-
-        .counter-content {
-            flex: 1;
-        }
-
-        .counter-label {
-            font-size: 12px;
-            color: var(--color-gray-600);
-            margin-bottom: 4px;
-        }
-
-        .counter-value {
-            font-size: 20px;
-            font-weight: 700;
-            color: var(--color-gray-900);
-        }
-
-        .counter-live {
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-            font-size: 11px;
-            color: #ff6b6b;
-            font-weight: 600;
-        }
-
-        .live-dot {
-            width: 6px;
-            height: 6px;
-            background: #ff6b6b;
-            border-radius: 50%;
-            animation: blink 1s ease-in-out infinite;
-        }
-
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.3; }
-        }
-
-        /* Filter Bar */
-        .filter-section {
-            padding: 16px;
-            background: white;
-            margin-bottom: 8px;
-        }
-
-        .filter-title {
-            font-size: 13px;
-            font-weight: 600;
-            color: var(--color-gray-700);
-            margin-bottom: 12px;
-        }
-
-        .filter-chips {
-            display: flex;
-            gap: 8px;
-            overflow-x: auto;
-            padding-bottom: 4px;
-            -webkit-overflow-scrolling: touch;
-        }
-
-        .filter-chips::-webkit-scrollbar {
-            display: none;
-        }
-
-        .filter-chip {
-            display: inline-flex;
-            align-items: center;
-            padding: 8px 16px;
-            background: var(--color-gray-100);
-            color: var(--color-gray-700);
-            border-radius: 20px;
-            font-size: 13px;
-            font-weight: 500;
-            white-space: nowrap;
-            cursor: pointer;
-            border: 2px solid transparent;
-            transition: all 0.2s;
-        }
-
-        .filter-chip.active {
-            background: var(--color-primary-light);
-            color: var(--color-primary-dark);
-            border-color: var(--color-primary);
-            font-weight: 600;
-        }
-
-        /* Top 3 Podium */
-        .podium-section {
-            padding: 24px 16px;
-            background: white;
-            margin-bottom: 8px;
-        }
-
-        .podium-title {
-            font-size: 18px;
-            font-weight: 700;
-            color: var(--color-gray-900);
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .podium-container {
-            display: flex;
-            align-items: flex-end;
-            justify-content: center;
-            gap: 8px;
-            margin-bottom: 24px;
-        }
-
-        .podium-item {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .podium-item:active {
-            transform: scale(0.95);
-        }
-
-        .podium-product {
-            width: 100%;
-            background: white;
-            border-radius: 12px;
-            padding: 12px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            margin-bottom: 8px;
-            position: relative;
-        }
-
-        .podium-item:nth-child(2) .podium-product {
-            box-shadow: 0 8px 24px rgba(255, 215, 0, 0.3);
-            border: 2px solid #ffd700;
-        }
-
-        .podium-rank {
-            position: absolute;
-            top: -12px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 16px;
-            font-weight: 900;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-        }
-
-        .podium-item:nth-child(1) .podium-rank {
-            background: linear-gradient(135deg, #C0C0C0, #E8E8E8);
-        }
-
-        .podium-item:nth-child(2) .podium-rank {
-            background: linear-gradient(135deg, #FFD700, #FFA500);
-        }
-
-        .podium-item:nth-child(3) .podium-rank {
-            background: linear-gradient(135deg, #CD7F32, #B87333);
-        }
-
-        .podium-image {
-            width: 100%;
-            aspect-ratio: 1;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 42px;
-            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
-            margin-bottom: 8px;
-        }
-
-        .podium-item:nth-child(2) .podium-image {
-            font-size: 52px;
-        }
-
-        .podium-name {
-            font-size: 12px;
-            font-weight: 600;
-            color: var(--color-gray-900);
-            text-align: center;
-            margin-bottom: 4px;
-        }
-
-        .podium-price {
-            font-size: 14px;
-            font-weight: 700;
-            color: var(--color-primary);
-            text-align: center;
-        }
-
-        .podium-base {
-            width: 100%;
-            height: 60px;
-            background: linear-gradient(to top, var(--color-gray-200), var(--color-gray-100));
-            border-radius: 8px 8px 0 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
-            font-weight: 700;
-            color: var(--color-gray-600);
-        }
-
-        .podium-item:nth-child(2) .podium-base {
-            height: 80px;
-            background: linear-gradient(to top, #ffd700, #ffe55c);
-            color: #8B6914;
-        }
-
-        .podium-item:nth-child(3) .podium-base {
-            height: 50px;
-        }
-
-        /* Product Grid */
-        .products-section {
-            padding: 16px;
-        }
-
-        .products-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 16px;
-        }
-
-        .products-title {
-            font-size: 16px;
-            font-weight: 700;
-            color: var(--color-gray-900);
-        }
-
-        .products-count {
-            font-size: 13px;
-            color: var(--color-gray-600);
-        }
-
-        .products-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
-        }
-
-        .product-card {
-            background: white;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-            cursor: pointer;
-            transition: all 0.3s;
-            position: relative;
-        }
-
-        .product-card:active {
-            transform: scale(0.97);
-        }
-
-        .ranking-badge {
-            position: absolute;
-            top: 8px;
-            left: 8px;
-            width: 32px;
-            height: 32px;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 14px;
-            font-weight: 900;
-            color: white;
-            z-index: 2;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-        }
-
-        .hot-indicator {
-            position: absolute;
-            top: 8px;
-            right: 8px;
-            background: #ff6b6b;
-            color: white;
-            padding: 4px 8px;
-            border-radius: 12px;
-            font-size: 10px;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            gap: 2px;
-            z-index: 2;
-            animation: shake 0.5s ease-in-out infinite;
-        }
-
-        @keyframes shake {
-            0%, 100% { transform: rotate(0deg); }
-            25% { transform: rotate(-5deg); }
-            75% { transform: rotate(5deg); }
-        }
-
-        .rising-indicator {
-            position: absolute;
-            top: 8px;
-            right: 8px;
-            background: #20c997;
-            color: white;
-            padding: 4px 8px;
-            border-radius: 12px;
-            font-size: 10px;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            gap: 2px;
-            z-index: 2;
-        }
-
-        .product-image {
-            width: 100%;
-            aspect-ratio: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 64px;
-            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
-            position: relative;
-        }
-
-        .product-content {
-            padding: 12px;
-        }
-
-        .product-name {
-            font-size: 14px;
-            font-weight: 600;
-            color: var(--color-gray-900);
-            margin-bottom: 4px;
-            line-height: 1.3;
-        }
-
-        .product-desc {
-            font-size: 11px;
-            color: var(--color-gray-600);
-            margin-bottom: 8px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-
-        .product-info {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            margin-bottom: 8px;
-        }
-
-        .brix-badge {
-            background: #fff3e0;
-            color: #e65100;
-            padding: 2px 8px;
-            border-radius: 4px;
-            font-size: 10px;
-            font-weight: 600;
-        }
-
-        .product-sales {
-            font-size: 10px;
-            color: var(--color-gray-500);
-        }
-
-        .product-trend {
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            margin-bottom: 8px;
-        }
-
-        .trend-graph {
-            flex: 1;
-            height: 24px;
-            background: var(--color-gray-100);
-            border-radius: 4px;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .trend-bar {
-            height: 100%;
-            background: linear-gradient(90deg, var(--color-primary), var(--color-primary-dark));
-            border-radius: 4px;
-            animation: grow 1s ease-out;
-        }
-
-        @keyframes grow {
-            from { width: 0; }
-        }
-
-        .trend-percent {
-            font-size: 10px;
-            font-weight: 700;
-            color: var(--color-primary);
-        }
-
-        .product-footer {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .product-price {
-            font-size: 16px;
-            font-weight: 700;
-            color: var(--color-gray-900);
-        }
-
-        .cart-btn {
-            width: 32px;
-            height: 32px;
-            background: var(--color-primary);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 16px;
-            border: none;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .cart-btn:active {
-            transform: scale(0.9);
-        }
-
-        .product-review {
-            background: var(--color-gray-50);
-            padding: 8px;
-            border-radius: 8px;
-            margin-top: 8px;
-        }
-
-        .review-text {
-            font-size: 11px;
-            color: var(--color-gray-700);
-            line-height: 1.4;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-
-        .review-author {
-            font-size: 10px;
-            color: var(--color-gray-500);
-            margin-top: 4px;
-        }
-
-        /* Bottom Navigation */
-        .bottom-nav {
-            position: fixed;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100%;
-            max-width: 430px;
-            background: white;
-            border-top: 1px solid var(--color-gray-200);
-            display: flex;
-            justify-content: space-around;
-            padding: 8px 0;
-            z-index: 100;
-        }
-
-        .nav-item {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 4px;
-            padding: 4px;
-            color: var(--color-gray-500);
-            text-decoration: none;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .nav-item.active {
-            color: var(--color-primary);
-        }
-
-        .nav-item .icon {
-            font-size: 24px;
-        }
-
-        .nav-item .label {
-            font-size: 11px;
-            font-weight: 500;
-        }
-    </style>
+    <link rel="stylesheet" href="../../styles/common-layout.css">
+    <link rel="stylesheet" href="../../styles/best-page.css">
 </head>
 <body>
     <!-- Header -->
@@ -682,7 +23,7 @@
     <section class="hero-banner">
         <div class="hero-bg">🏆</div>
         <div class="hero-content">
-            <div class="best-badge">
+            <div class="best-chip">
                 <span>⭐</span>
                 <span>BEST SELLERS</span>
             </div>
@@ -785,7 +126,7 @@
         <div class="products-grid">
             <!-- Product 4 -->
             <div class="product-card" data-category="apple">
-                <div class="ranking-badge">4</div>
+                <div class="ranking-chip">4</div>
                 <div class="hot-indicator">
                     <span>🔥</span>
                     <span>HOT</span>
@@ -795,7 +136,7 @@
                     <h4 class="product-name">청송 사과</h4>
                     <p class="product-desc">달콤한 꿀사과</p>
                     <div class="product-info">
-                        <span class="brix-badge">당도 14.5°</span>
+                        <span class="brix-chip">당도 14.5°</span>
                         <span class="product-sales">일 523개 판매</span>
                     </div>
                     <div class="product-trend">
@@ -817,7 +158,7 @@
 
             <!-- Product 5 -->
             <div class="product-card" data-category="berry">
-                <div class="ranking-badge">5</div>
+                <div class="ranking-chip">5</div>
                 <div class="rising-indicator">
                     <span>📈</span>
                     <span>상승</span>
@@ -827,7 +168,7 @@
                     <h4 class="product-name">국산 블루베리</h4>
                     <p class="product-desc">신선한 생과</p>
                     <div class="product-info">
-                        <span class="brix-badge">당도 12.0°</span>
+                        <span class="brix-chip">당도 12.0°</span>
                         <span class="product-sales">일 487개 판매</span>
                     </div>
                     <div class="product-trend">
@@ -849,13 +190,13 @@
 
             <!-- Product 6 -->
             <div class="product-card" data-category="citrus">
-                <div class="ranking-badge">6</div>
+                <div class="ranking-chip">6</div>
                 <div class="product-image">🍋</div>
                 <div class="product-content">
                     <h4 class="product-name">레드향</h4>
                     <p class="product-desc">제주 특산품</p>
                     <div class="product-info">
-                        <span class="brix-badge">당도 13.0°</span>
+                        <span class="brix-chip">당도 13.0°</span>
                         <span class="product-sales">일 421개 판매</span>
                     </div>
                     <div class="product-trend">
@@ -877,7 +218,7 @@
 
             <!-- Product 7 -->
             <div class="product-card" data-category="apple">
-                <div class="ranking-badge">7</div>
+                <div class="ranking-chip">7</div>
                 <div class="hot-indicator">
                     <span>🔥</span>
                     <span>HOT</span>
@@ -887,7 +228,7 @@
                     <h4 class="product-name">나주 배</h4>
                     <p class="product-desc">아삭한 나주배</p>
                     <div class="product-info">
-                        <span class="brix-badge">당도 12.5°</span>
+                        <span class="brix-chip">당도 12.5°</span>
                         <span class="product-sales">일 398개 판매</span>
                     </div>
                     <div class="product-trend">
@@ -909,7 +250,7 @@
 
             <!-- Product 8 -->
             <div class="product-card" data-category="tropical">
-                <div class="ranking-badge">8</div>
+                <div class="ranking-chip">8</div>
                 <div class="rising-indicator">
                     <span>📈</span>
                     <span>상승</span>
@@ -919,7 +260,7 @@
                     <h4 class="product-name">애플망고</h4>
                     <p class="product-desc">달콤한 열대과일</p>
                     <div class="product-info">
-                        <span class="brix-badge">당도 15.0°</span>
+                        <span class="brix-chip">당도 15.0°</span>
                         <span class="product-sales">일 356개 판매</span>
                     </div>
                     <div class="product-trend">
@@ -941,13 +282,13 @@
 
             <!-- Product 9 -->
             <div class="product-card" data-category="berry">
-                <div class="ranking-badge">9</div>
+                <div class="ranking-chip">9</div>
                 <div class="product-image">🍒</div>
                 <div class="product-content">
                     <h4 class="product-name">체리</h4>
                     <p class="product-desc">프리미엄 체리</p>
                     <div class="product-info">
-                        <span class="brix-badge">당도 16.0°</span>
+                        <span class="brix-chip">당도 16.0°</span>
                         <span class="product-sales">일 334개 판매</span>
                     </div>
                     <div class="product-trend">
@@ -969,13 +310,13 @@
 
             <!-- Product 10 -->
             <div class="product-card" data-category="tropical">
-                <div class="ranking-badge">10</div>
+                <div class="ranking-chip">10</div>
                 <div class="product-image">🍌</div>
                 <div class="product-content">
                     <h4 class="product-name">바나나</h4>
                     <p class="product-desc">필리핀산 바나나</p>
                     <div class="product-info">
-                        <span class="brix-badge">당도 11.0°</span>
+                        <span class="brix-chip">당도 11.0°</span>
                         <span class="product-sales">일 312개 판매</span>
                     </div>
                     <div class="product-trend">
@@ -999,19 +340,19 @@
 
     <!-- Bottom Navigation -->
     <nav class="bottom-nav">
-        <a href="../home/index.html" class="nav-item">
+        <a href="../home/index.html" class="nav-link">
             <span class="icon">🏠</span>
             <span class="label">홈</span>
         </a>
-        <a href="./index.html" class="nav-item active">
+        <a href="./index.html" class="nav-link active">
             <span class="icon">🍎</span>
             <span class="label">상품</span>
         </a>
-        <a href="../mypage/index.html" class="nav-item">
+        <a href="../mypage/index.html" class="nav-link">
             <span class="icon">👤</span>
             <span class="label">마이</span>
         </a>
-        <a href="../support/index.html" class="nav-item">
+        <a href="../support/index.html" class="nav-link">
             <span class="icon">💬</span>
             <span class="label">고객지원</span>
         </a>

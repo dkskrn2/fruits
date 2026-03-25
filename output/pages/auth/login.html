@@ -8,374 +8,40 @@
     <title>로그인 - 과일다리</title>
     <link rel="stylesheet" href="../../styles/design-system.css">
     <link rel="stylesheet" href="../../styles/components.css">
-    <style>
-        /* Login Page Specific Styles */
-        .page-container {
-            width: 430px;
-            margin: 0 auto;
-            background: var(--color-white);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
-
-        /* Header */
-        .login-header {
-            padding: var(--space-4);
-            position: relative;
-        }
-
-        .close-button {
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: transparent;
-            border: none;
-            border-radius: var(--radius-full);
-            font-size: 24px;
-            cursor: pointer;
-            transition: background var(--transition-fast);
-        }
-
-        .close-button:active {
-            background: var(--color-gray-50);
-        }
-
-        /* Logo Section */
-        .logo-section {
-            padding: var(--space-8) var(--space-4) var(--space-6);
-            text-align: center;
-        }
-
-        .logo {
-            width: 80px;
-            height: 80px;
-            background: linear-gradient(135deg, #6FCF3F, #5CB82F);
-            border-radius: var(--radius-xl);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 40px;
-            margin: 0 auto var(--space-4);
-        }
-
-        .brand-name {
-            font-size: 24px;
-            font-weight: 700;
-            color: var(--color-gray-900);
-            margin-bottom: var(--space-2);
-        }
-
-        .brand-tagline {
-            font-size: var(--font-size-sm);
-            color: var(--color-gray-600);
-        }
-
-        /* Login Form */
-        .login-form {
-            padding: 0 var(--space-4) var(--space-6);
-        }
-
-        .form-group {
-            margin-bottom: var(--space-4);
-        }
-
-        .form-input {
-            width: 100%;
-            padding: var(--space-4);
-            border: 1px solid var(--color-gray-200);
-            border-radius: var(--radius-lg);
-            font-size: var(--font-size-base);
-            transition: all var(--transition-fast);
-        }
-
-        .form-input:focus {
-            outline: none;
-            border-color: var(--color-primary);
-            box-shadow: 0 0 0 3px rgba(111, 207, 63, 0.1);
-        }
-
-        .form-input.error {
-            border-color: var(--color-error);
-        }
-
-        .error-message {
-            font-size: var(--font-size-xs);
-            color: var(--color-error);
-            margin-top: var(--space-1);
-            display: none;
-        }
-
-        .error-message.show {
-            display: block;
-        }
-
-        /* Remember & Find */
-        .login-options {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: var(--space-6);
-        }
-
-        .remember-me {
-            display: flex;
-            align-items: center;
-            gap: var(--space-2);
-        }
-
-        .checkbox-wrapper {
-            position: relative;
-            width: 20px;
-            height: 20px;
-        }
-
-        .checkbox-input {
-            position: absolute;
-            opacity: 0;
-            cursor: pointer;
-        }
-
-        .checkbox-custom {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 20px;
-            height: 20px;
-            background: var(--color-white);
-            border: 2px solid var(--color-gray-300);
-            border-radius: var(--radius-sm);
-            transition: all var(--transition-fast);
-        }
-
-        .checkbox-input:checked ~ .checkbox-custom {
-            background: var(--color-primary);
-            border-color: var(--color-primary);
-        }
-
-        .checkbox-input:checked ~ .checkbox-custom::after {
-            content: '✓';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            color: white;
-            font-size: 12px;
-            font-weight: bold;
-        }
-
-        .remember-label {
-            font-size: var(--font-size-sm);
-            color: var(--color-gray-700);
-            cursor: pointer;
-        }
-
-        .find-links {
-            display: flex;
-            gap: var(--space-3);
-        }
-
-        .find-link {
-            font-size: var(--font-size-sm);
-            color: var(--color-gray-600);
-            text-decoration: none;
-        }
-
-        .find-divider {
-            color: var(--color-gray-300);
-        }
-
-        /* Login Button */
-        .login-button {
-            width: 100%;
-            padding: var(--space-4);
-            background: var(--color-primary);
-            color: var(--color-white);
-            border: none;
-            border-radius: var(--radius-lg);
-            font-size: var(--font-size-md);
-            font-weight: 600;
-            cursor: pointer;
-            transition: all var(--transition-fast);
-        }
-
-        .login-button:active {
-            transform: scale(0.98);
-            background: var(--color-primary-dark);
-        }
-
-        .login-button:disabled {
-            background: var(--color-gray-300);
-            cursor: not-allowed;
-        }
-
-        /* Social Login */
-        .social-section {
-            padding: 0 var(--space-4) var(--space-8);
-        }
-
-        .social-divider {
-            display: flex;
-            align-items: center;
-            gap: var(--space-3);
-            margin-bottom: var(--space-5);
-        }
-
-        .social-divider::before,
-        .social-divider::after {
-            content: '';
-            flex: 1;
-            height: 1px;
-            background: var(--color-gray-200);
-        }
-
-        .social-divider-text {
-            font-size: var(--font-size-sm);
-            color: var(--color-gray-500);
-        }
-
-        .social-buttons {
-            display: flex;
-            gap: var(--space-3);
-        }
-
-        .social-button {
-            flex: 1;
-            padding: var(--space-3);
-            border: 1px solid var(--color-gray-200);
-            border-radius: var(--radius-lg);
-            background: var(--color-white);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all var(--transition-fast);
-        }
-
-        .social-button:active {
-            background: var(--color-gray-50);
-            transform: scale(0.98);
-        }
-
-        .social-icon {
-            width: 24px;
-            height: 24px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .social-button.kakao {
-            background: #FEE500;
-            border-color: #FEE500;
-        }
-
-        .social-button.naver {
-            background: #03C75A;
-            border-color: #03C75A;
-        }
-
-        .social-button.google {
-            background: var(--color-white);
-        }
-
-        /* Signup Link */
-        .signup-section {
-            padding: var(--space-4);
-            text-align: center;
-            margin-top: auto;
-            border-top: 1px solid var(--color-gray-100);
-        }
-
-        .signup-text {
-            font-size: var(--font-size-sm);
-            color: var(--color-gray-600);
-        }
-
-        .signup-link {
-            color: var(--color-primary);
-            font-weight: 500;
-            text-decoration: none;
-            margin-left: var(--space-1);
-        }
-
-        /* Loading State */
-        .loading {
-            position: relative;
-            pointer-events: none;
-        }
-
-        .loading::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 20px;
-            height: 20px;
-            margin: -10px 0 0 -10px;
-            border: 2px solid var(--color-white);
-            border-radius: 50%;
-            border-top-color: transparent;
-            animation: spin 0.8s linear infinite;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        /* Password Toggle */
-        .password-wrapper {
-            position: relative;
-        }
-
-        .password-toggle {
-            position: absolute;
-            right: var(--space-4);
-            top: 50%;
-            transform: translateY(-50%);
-            background: none;
-            border: none;
-            color: var(--color-gray-500);
-            cursor: pointer;
-            font-size: 18px;
-            padding: var(--space-2);
-        }
-    </style>
+    <link rel="stylesheet" href="../../styles/common-layout.css">
 </head>
 <body>
-    <div class="page-container">
+    <div class="auth-container">
         <!-- Header -->
-        <header class="login-header">
-            <button class="close-button" onclick="history.back()">✕</button>
+        <header class="auth-header">
+            <button class="btn-icon" onclick="history.back()">✕</button>
         </header>
 
         <!-- Logo Section -->
-        <div class="logo-section">
-            <div class="logo">🍊</div>
-            <h1 class="brand-name">과일다리</h1>
-            <p class="brand-tagline">신선한 과일로 이어지는 행복한 다리</p>
+        <div class="auth-logo-section">
+            <div class="auth-logo">🍊</div>
+            <h1 class="auth-brand-name">과일다리</h1>
+            <p class="auth-brand-tagline">신선한 과일로 이어지는 행복한 다리</p>
         </div>
 
         <!-- Login Form -->
-        <form class="login-form" onsubmit="handleLogin(event)">
-            <div class="form-group">
+        <form class="auth-form" onsubmit="handleLogin(event)">
+            <div class="field">
                 <input
                     type="text"
-                    class="form-input"
+                    class="control"
                     id="username"
                     placeholder="아이디 또는 이메일"
                     required
                 >
-                <div class="error-message" id="username-error">아이디 또는 이메일을 입력해주세요</div>
+                <div class="helper error" id="username-error">아이디 또는 이메일을 입력해주세요</div>
             </div>
 
-            <div class="form-group">
+            <div class="field">
                 <div class="password-wrapper">
                     <input
                         type="password"
-                        class="form-input"
+                        class="control"
                         id="password"
                         placeholder="비밀번호"
                         required
@@ -384,7 +50,7 @@
                         <span id="password-icon">👁️</span>
                     </button>
                 </div>
-                <div class="error-message" id="password-error">비밀번호를 입력해주세요</div>
+                <div class="helper error" id="password-error">비밀번호를 입력해주세요</div>
             </div>
 
             <div class="login-options">
@@ -402,7 +68,7 @@
                 </div>
             </div>
 
-            <button type="submit" class="login-button" id="login-btn">로그인</button>
+            <button type="submit" class="btn btn-primary btn-full" id="login-btn">로그인</button>
         </form>
 
         <!-- Social Login -->
@@ -414,7 +80,7 @@
                 <button class="social-button kakao" onclick="socialLogin('kakao')">
                     <div class="social-icon">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                            <path d="M12 3C6.477 3 2 6.477 2 10.5c0 2.615 1.824 4.903 4.563 6.186-.2.732-.728 2.665-.744 2.748-.023.108.04.212.144.237.104.025.215-.02.277-.09.806-.917 2.95-3.35 3.31-3.76C10.344 15.937 11.16 16 12 16c5.523 0 10-3.477 10-7.5S17.523 3 12 3z" fill="#000000"/>
+                            <path d="M12 3C6.477 3 2 6.477 2 10.5c0 2.615 1.824 4.903 4.563 6.186-.2.732-.728 2.665-.744 2.748-.023.108.04.212.144.237.104.025.215-.02.277-.09.806-.917 2.95-3.35 3.31-3.76C10.344 15.937 11.16 16 12 16c5.523 0 10-3.477 10-7.5S17.523 3 12 3z" fill="var(--color-text-primary)"/>
                         </svg>
                     </div>
                 </button>

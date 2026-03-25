@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <title>카테고리 - 과일다리</title>
+    <link rel="stylesheet" href="../../styles/design-system.css">
+    <link rel="stylesheet" href="../../styles/components.css">
+    <link rel="stylesheet" href="../../styles/common-layout.css">
+    <style>
+        .category-page {
+            background: var(--color-surface);
+            gap: 0;
+            padding: 0 0 calc(var(--bottom-nav-height) + var(--space-8));
+        }
+
+        .category-header {
+            position: sticky;
+            top: 0;
+            z-index: var(--z-sticky);
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+            min-height: var(--header-height);
+            padding: var(--space-3) var(--space-4);
+            border-bottom: var(--border-thin);
+            background:
+                radial-gradient(circle at top right, rgba(231, 169, 141, 0.16), transparent 34%),
+                rgba(255, 253, 249, 0.96);
+            backdrop-filter: blur(14px);
+        }
+
+        .social-impact-badge {
+            flex: 1;
+            min-width: 0;
+            background: linear-gradient(135deg, #fff3f7, #fffdf9);
+            border: 1px solid rgba(122, 163, 122, 0.45);
+            border-radius: var(--radius-pill);
+            padding: 10px 12px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .impact-main {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: var(--space-2);
+            margin-bottom: 6px;
+        }
+
+        .impact-info {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            min-width: 0;
+            font-size: var(--font-size-xs);
+            color: var(--color-text-primary);
+        }
+
+        .impact-count {
+            font-weight: var(--font-weight-bold);
+            color: var(--color-brand-primary-hover);
+        }
+
+        .impact-link {
+            color: var(--color-brand-primary-hover);
+            font-size: var(--font-size-xs);
+            font-weight: var(--font-weight-semibold);
+            white-space: nowrap;
+        }
+
+        .impact-progress {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: var(--space-2);
+            color: var(--color-text-secondary);
+            font-size: var(--font-size-xs);
+        }
+
+        .progress-bar-mini {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.7);
+            height: 6px;
+            border-radius: var(--radius-pill);
+            overflow: hidden;
+        }
+
+        .progress-fill-mini {
+            background: linear-gradient(90deg, var(--color-brand-primary), var(--color-brand-primary-hover));
+            height: 100%;
+        }
+
+        .category-cart-button {
+            width: 40px;
+            height: 40px;
+            flex: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: var(--radius-pill);
+            background: var(--color-surface);
+            border: var(--border-thin);
+            box-shadow: var(--shadow-sm);
+            font-size: 20px;
+            color: var(--color-text-primary);
+        }
+
+        .accordion-list {
+            background: var(--color-surface);
+        }
+
+        .accordion-item {
+            border-bottom: var(--border-thin);
+        }
+
+        .accordion-trigger {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: var(--space-3);
+            padding: 18px var(--space-4);
+            background: transparent;
+            color: var(--color-text-primary);
+            text-align: left;
+        }
+
+        .accordion-trigger[aria-expanded="true"] {
+            background: #fffcf7;
+        }
+
+        .accordion-trigger__left {
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+            min-width: 0;
+        }
+
+        .accordion-trigger__icon {
+            width: 28px;
+            height: 28px;
+            display: grid;
+            place-items: center;
+            border-radius: 9px;
+            background: #f6f1ea;
+            font-size: 18px;
+            flex: none;
+        }
+
+        .accordion-trigger__label {
+            font-size: var(--font-size-lg);
+            font-weight: var(--font-weight-semibold);
+            line-height: 1.35;
+        }
+
+        .accordion-trigger__chevron {
+            color: var(--color-text-secondary);
+            font-size: 20px;
+            line-height: 1;
+            transition: transform var(--transition-fast);
+        }
+
+        .accordion-trigger[aria-expanded="true"] .accordion-trigger__chevron {
+            transform: rotate(180deg);
+        }
+
+        .accordion-panel {
+            display: none;
+            padding: 0 var(--space-4) var(--space-4);
+            background: #fffcf7;
+        }
+
+        .accordion-item.active .accordion-panel {
+            display: block;
+        }
+
+        .taxonomy-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 0 var(--space-8);
+            padding: var(--space-1) 0;
+        }
+
+        .taxonomy-link {
+            display: block;
+            padding: 14px 0;
+            color: var(--color-text-primary);
+            font-size: var(--font-size-md);
+            line-height: 1.4;
+        }
+    </style>
+</head>
+<body>
+    <div class="page-container">
+        <header class="category-header">
+            <div class="social-impact-badge">
+                <div class="impact-main">
+                    <div class="impact-info">
+                        <span>🤝</span>
+                        <span>3월 기부 지수 <span class="impact-count">347박스</span> / 500박스</span>
+                    </div>
+                    <a href="../home/fruit_commerce_fruitbridge.html" class="impact-link">홈에서 보기</a>
+                </div>
+                <div class="impact-progress">
+                    <div class="progress-bar-mini">
+                        <div class="progress-fill-mini" style="width: 69.4%;"></div>
+                    </div>
+                    <span>69.4%</span>
+                </div>
+            </div>
+            <button class="category-cart-button" type="button" onclick="location.href='../cart/index.html'">🛒</button>
+        </header>
+
+        <main class="main-content category-page">
+            <section class="category-section">
+                <div class="section-title">
+                    <span>빠른 카테고리</span>
+                    <a href="./all.html" class="section-link">전체 상품</a>
+                </div>
+                <div class="category-grid">
+                    <a href="./seasonal.html" class="category-item">
+                        <div class="category-icon" style="background: linear-gradient(135deg, #ffe7c2, #ffd18b);">🍊</div>
+                        <span class="category-name">제철 과일</span>
+                    </a>
+                    <a href="./best.html" class="category-item">
+                        <div class="category-icon" style="background: linear-gradient(135deg, #efe8ff, #d9ccff);">🔥</div>
+                        <span class="category-name">베스트</span>
+                    </a>
+                    <a href="./new.html" class="category-item">
+                        <div class="category-icon" style="background: linear-gradient(135deg, #dff7e7, #bfe8cb);">✨</div>
+                        <span class="category-name">신상품</span>
+                    </a>
+                    <a href="./family.html" class="category-item">
+                        <div class="category-icon" style="background: linear-gradient(135deg, #ffe8ee, #ffd0dd);">👨‍👩‍👧‍👦</div>
+                        <span class="category-name">가족용</span>
+                    </a>
+                    <a href="./kids.html" class="category-item">
+                        <div class="category-icon" style="background: linear-gradient(135deg, #fff3cc, #ffe091);">🧒</div>
+                        <span class="category-name">아이 간식</span>
+                    </a>
+                    <a href="./greeting.html" class="category-item">
+                        <div class="category-icon" style="background: linear-gradient(135deg, #ffe5d6, #ffccb2);">🎁</div>
+                        <span class="category-name">선물하기</span>
+                    </a>
+                    <a href="./donation.html" class="category-item">
+                        <div class="category-icon" style="background: linear-gradient(135deg, #e6f4ea, #cbe6d4);">🤝</div>
+                        <span class="category-name">나눔 과일</span>
+                    </a>
+                    <a href="./subscription.html" class="category-item">
+                        <div class="category-icon" style="background: linear-gradient(135deg, #e6ecff, #ccd8ff);">📦</div>
+                        <span class="category-name">정기배송</span>
+                    </a>
+                </div>
+            </section>
+
+            <section class="accordion-list">
+                <article class="accordion-item active">
+                    <button class="accordion-trigger" type="button" aria-expanded="true">
+                        <span class="accordion-trigger__left">
+                            <span class="accordion-trigger__icon">🚚</span>
+                            <span class="accordion-trigger__label">당일/새벽 도착 과일</span>
+                        </span>
+                        <span class="accordion-trigger__chevron">⌄</span>
+                    </button>
+                    <div class="accordion-panel">
+                        <div class="taxonomy-grid">
+                            <a href="./all.html" class="taxonomy-link">전체보기</a>
+                            <a href="./all.html" class="taxonomy-link">당일배송</a>
+                            <a href="./all.html" class="taxonomy-link">새벽배송</a>
+                            <a href="./all.html" class="taxonomy-link">오늘 출고</a>
+                            <a href="./greeting.html" class="taxonomy-link">급한 선물</a>
+                            <a href="./subscription.html" class="taxonomy-link">정기 새벽배송</a>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="accordion-item">
+                    <button class="accordion-trigger" type="button" aria-expanded="false">
+                        <span class="accordion-trigger__left">
+                            <span class="accordion-trigger__icon">🍏</span>
+                            <span class="accordion-trigger__label">국산 과일</span>
+                        </span>
+                        <span class="accordion-trigger__chevron">⌄</span>
+                    </button>
+                    <div class="accordion-panel">
+                        <div class="taxonomy-grid">
+                            <a href="./all.html" class="taxonomy-link">전체보기</a>
+                            <a href="./all.html" class="taxonomy-link">사과/배</a>
+                            <a href="./all.html" class="taxonomy-link">딸기</a>
+                            <a href="./all.html" class="taxonomy-link">수박</a>
+                            <a href="./all.html" class="taxonomy-link">블루베리</a>
+                            <a href="./seasonal.html" class="taxonomy-link">만감</a>
+                            <a href="./all.html" class="taxonomy-link">토마토</a>
+                            <a href="./all.html" class="taxonomy-link">포도</a>
+                            <a href="./all.html" class="taxonomy-link">감</a>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="accordion-item">
+                    <button class="accordion-trigger" type="button" aria-expanded="false">
+                        <span class="accordion-trigger__left">
+                            <span class="accordion-trigger__icon">🍐</span>
+                            <span class="accordion-trigger__label">수입 과일</span>
+                        </span>
+                        <span class="accordion-trigger__chevron">⌄</span>
+                    </button>
+                    <div class="accordion-panel">
+                        <div class="taxonomy-grid">
+                            <a href="./all.html" class="taxonomy-link">전체보기</a>
+                            <a href="./all.html" class="taxonomy-link">망고/열대과일</a>
+                            <a href="./all.html" class="taxonomy-link">포도</a>
+                            <a href="./all.html" class="taxonomy-link">오렌지/자몽</a>
+                            <a href="./all.html" class="taxonomy-link">바나나/아보카도</a>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="accordion-item">
+                    <button class="accordion-trigger" type="button" aria-expanded="false">
+                        <span class="accordion-trigger__left">
+                            <span class="accordion-trigger__icon">🎁</span>
+                            <span class="accordion-trigger__label">마음을 전하는 선물</span>
+                        </span>
+                        <span class="accordion-trigger__chevron">⌄</span>
+                    </button>
+                    <div class="accordion-panel">
+                        <div class="taxonomy-grid">
+                            <a href="./greeting.html" class="taxonomy-link">전체보기</a>
+                            <a href="./greeting.html" class="taxonomy-link">감사 선물</a>
+                            <a href="./greeting.html" class="taxonomy-link">명절 선물</a>
+                            <a href="./greeting.html" class="taxonomy-link">병문안 선물</a>
+                            <a href="./greeting.html" class="taxonomy-link">돌답례</a>
+                            <a href="./greeting.html" class="taxonomy-link">어린이집 답례</a>
+                            <a href="./greeting.html" class="taxonomy-link">가벼운 안부</a>
+                            <a href="./greeting.html" class="taxonomy-link">생신·명절선물</a>
+                            <a href="./greeting.html" class="taxonomy-link">집들이·일상선물</a>
+                            <a href="./greeting.html" class="taxonomy-link">프리미엄 세트</a>
+                            <a href="./donation.html" class="taxonomy-link">나눔 메시지</a>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="accordion-item">
+                    <button class="accordion-trigger" type="button" aria-expanded="false">
+                        <span class="accordion-trigger__left">
+                            <span class="accordion-trigger__icon">🧺</span>
+                            <span class="accordion-trigger__label">대용량과일</span>
+                        </span>
+                        <span class="accordion-trigger__chevron">⌄</span>
+                    </button>
+                    <div class="accordion-panel">
+                        <div class="taxonomy-grid">
+                            <a href="./family.html" class="taxonomy-link">전체보기</a>
+                            <a href="./family.html" class="taxonomy-link">가족용</a>
+                            <a href="./family.html" class="taxonomy-link">사무실 간식</a>
+                            <a href="./family.html" class="taxonomy-link">박스 과일</a>
+                            <a href="./family.html" class="taxonomy-link">사과/배 대용량</a>
+                            <a href="./seasonal.html" class="taxonomy-link">감귤 대용량</a>
+                            <a href="./subscription.html" class="taxonomy-link">주간 과일박스</a>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="accordion-item">
+                    <button class="accordion-trigger" type="button" aria-expanded="false">
+                        <span class="accordion-trigger__left">
+                            <span class="accordion-trigger__icon">🥣</span>
+                            <span class="accordion-trigger__label">소용량과일</span>
+                        </span>
+                        <span class="accordion-trigger__chevron">⌄</span>
+                    </button>
+                    <div class="accordion-panel">
+                        <div class="taxonomy-grid">
+                            <a href="./kids.html" class="taxonomy-link">전체보기</a>
+                            <a href="./kids.html" class="taxonomy-link">1-2인 가구</a>
+                            <a href="./kids.html" class="taxonomy-link">아이 간식</a>
+                            <a href="./all.html" class="taxonomy-link">소포장 딸기</a>
+                            <a href="./all.html" class="taxonomy-link">한입 과일</a>
+                            <a href="./new.html" class="taxonomy-link">체험팩</a>
+                            <a href="./subscription.html" class="taxonomy-link">미니 정기배송</a>
+                        </div>
+                    </div>
+                </article>
+            </section>
+        </main>
+
+        <nav class="bottom-nav">
+            <a href="../home/fruit_commerce_fruitbridge.html" class="nav-link">
+                <span class="nav-link__icon">🏠</span>
+                <span class="nav-link__label">홈</span>
+            </a>
+            <a href="./index.html" class="nav-link active">
+                <span class="nav-link__icon">🍎</span>
+                <span class="nav-link__label">상품</span>
+            </a>
+            <a href="../mypage/index.html" class="nav-link">
+                <span class="nav-link__icon">👤</span>
+                <span class="nav-link__label">마이</span>
+            </a>
+            <a href="../support/index.html" class="nav-link">
+                <span class="nav-link__icon">💬</span>
+                <span class="nav-link__label">고객지원</span>
+            </a>
+        </nav>
+    </div>
+
+    <script>
+        const items = document.querySelectorAll('.accordion-item');
+
+        items.forEach((item) => {
+            const trigger = item.querySelector('.accordion-trigger');
+
+            trigger.addEventListener('click', () => {
+                const isOpen = item.classList.contains('active');
+
+                items.forEach((target) => {
+                    target.classList.remove('active');
+                    target.querySelector('.accordion-trigger').setAttribute('aria-expanded', 'false');
+                });
+
+                if (!isOpen) {
+                    item.classList.add('active');
+                    trigger.setAttribute('aria-expanded', 'true');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
