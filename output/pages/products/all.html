@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -7,55 +8,584 @@
     <link rel="stylesheet" href="../../styles/design-system.css">
     <link rel="stylesheet" href="../../styles/components.css">
     <link rel="stylesheet" href="../../styles/common-layout.css">
+    <link rel="stylesheet" href="../../styles/enhanced-filter.css">
+    <style>
+        /* Body max-width constraint */
+        body {
+            max-width: 430px;
+            margin: 0 auto;
+            background: #f5f5f5;
+            padding: 0;
+        }
+
+        .page-container {
+            background: #ffffff;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* Override header styles */
+        .nav-bar {
+            background: #fff;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-top {
+            display: flex;
+            align-items: center;
+            padding: 12px 16px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .back-button {
+            background: none;
+            border: none;
+            font-size: 20px;
+            padding: 0;
+            margin-right: 12px;
+            cursor: pointer;
+        }
+
+        .header-title {
+            flex: 1;
+            font-size: 18px;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .header-action {
+            background: none;
+            border: none;
+            font-size: 20px;
+            padding: 0;
+            margin-left: 12px;
+            cursor: pointer;
+        }
+
+        /* Enhanced Filter Section - Fixed */
+        .enhanced-filter-section {
+            background: #fff;
+        }
+
+        /* Main Categories - Fixed */
+        .main-categories {
+            display: flex;
+            padding: 16px 12px;
+            gap: 16px;
+            overflow-x: auto;
+            border-bottom: 1px solid #f0f0f0;
+            scrollbar-width: none;
+        }
+
+        .main-categories::-webkit-scrollbar {
+            display: none;
+        }
+
+        .category-tab {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 56px;
+            padding: 0;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .category-tab .emoji {
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f8f8f8;
+            border-radius: 12px;
+            font-size: 24px;
+            margin-bottom: 6px;
+            transition: all 0.2s;
+        }
+
+        .category-tab.active .emoji {
+            background: #FFE8DB;
+        }
+
+        .category-tab .text {
+            font-size: 11px;
+            color: #666;
+            font-weight: 500;
+        }
+
+        .category-tab.active .text {
+            color: #FF6B00;
+            font-weight: 600;
+        }
+
+        /* Sub Filter Tabs - Fixed */
+        .sub-filter-tabs {
+            padding: 12px 16px;
+            background: #fafafa;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .filter-tab-container {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+
+        .filter-tab-container::-webkit-scrollbar {
+            display: none;
+        }
+
+        .sub-filter-tab {
+            padding: 7px 14px;
+            background: #fff;
+            border: 1px solid #e0e0e0;
+            border-radius: 18px;
+            font-size: 13px;
+            color: #333;
+            cursor: pointer;
+            white-space: nowrap;
+            position: relative;
+            transition: all 0.2s;
+        }
+
+        .sub-filter-tab.active {
+            background: #FF6B00;
+            color: #fff;
+            border-color: #FF6B00;
+        }
+
+        .sub-filter-tab.with-badge {
+            padding-right: 40px;
+        }
+
+        .sub-filter-tab .badge {
+            position: absolute;
+            top: -6px;
+            right: -6px;
+            background: #ff3333;
+            color: white;
+            font-size: 9px;
+            font-weight: 700;
+            padding: 2px 6px;
+            border-radius: 10px;
+            letter-spacing: 0.5px;
+        }
+
+        /* Filter Options Bar - Fixed */
+        .filter-options-bar {
+            display: flex;
+            padding: 12px 16px;
+            gap: 8px;
+            overflow-x: auto;
+            background: #fff;
+            border-bottom: 1px solid #f0f0f0;
+            scrollbar-width: none;
+        }
+
+        .filter-options-bar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .filter-option-btn {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            padding: 7px 12px;
+            background: #fff;
+            border: 1px solid #e0e0e0;
+            border-radius: 18px;
+            font-size: 12px;
+            color: #333;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.2s;
+        }
+
+        .filter-option-btn:hover {
+            border-color: #999;
+        }
+
+        .filter-option-btn .arrow {
+            font-size: 10px;
+            color: #999;
+        }
+
+        /* Product Count Bar - Fixed */
+        .product-count-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 16px;
+            background: #fafafa;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .count-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .count-info .main-text {
+            font-size: 13px;
+            color: #666;
+        }
+
+        .count-info .main-text strong {
+            color: #333;
+            font-weight: 600;
+        }
+
+        .count-info .divider {
+            width: 1px;
+            height: 12px;
+            background: #e0e0e0;
+        }
+
+        .count-info .sub-text {
+            font-size: 12px;
+            color: #999;
+        }
+
+        .count-info .sub-text strong {
+            color: #666;
+            font-weight: 600;
+        }
+
+        .view-options {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .view-options .count-text {
+            font-size: 12px;
+            color: #666;
+        }
+
+        .view-toggle {
+            padding: 4px 8px;
+            background: none;
+            border: 1px solid #e0e0e0;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        /* Sort Options Bar - Fixed */
+        .sort-options-bar {
+            padding: 12px 16px;
+            background: #fff;
+            border-bottom: 2px solid #f5f5f5;
+        }
+
+        .sort-select-wrapper {
+            position: relative;
+            width: 100%;
+            max-width: 180px;
+        }
+
+        .sort-select {
+            width: 100%;
+            padding: 10px 36px 10px 14px;
+            background: #fff;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            color: #333;
+            cursor: pointer;
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            transition: all 0.2s;
+        }
+
+        .sort-select:hover {
+            border-color: #FF6B00;
+        }
+
+        .sort-select:focus {
+            outline: none;
+            border-color: #FF6B00;
+            box-shadow: 0 0 0 3px rgba(255, 107, 0, 0.1);
+        }
+
+        .select-arrow {
+            position: absolute;
+            right: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 12px;
+            color: #999;
+            pointer-events: none;
+        }
+
+        /* Main content adjustments */
+        .main-content {
+            padding-top: 0;
+        }
+
+        .products-container {
+            padding: 16px;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        /* Product Card Styles */
+        .product-card {
+            background: #fff;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .product-image-wrapper {
+            position: relative;
+            aspect-ratio: 1;
+            background: #f8f8f8;
+        }
+
+        .product-image {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+        }
+
+        .discount-chip {
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            background: #FF6B00;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .wishlist-button {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            width: 32px;
+            height: 32px;
+            background: rgba(255,255,255,0.9);
+            border: none;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .product-info {
+            padding: 12px;
+        }
+
+        .product-name {
+            font-size: 14px;
+            font-weight: 600;
+            margin: 0 0 4px;
+            color: #333;
+        }
+
+        .product-desc {
+            font-size: 12px;
+            color: #666;
+            margin: 0 0 8px;
+        }
+
+        .product-tags {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 8px;
+        }
+
+        .brix-tag, .origin-tag {
+            font-size: 10px;
+            padding: 2px 6px;
+            border-radius: 4px;
+            background: #f0f0f0;
+            color: #666;
+        }
+
+        .product-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .price-group {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .original-price {
+            font-size: 11px;
+            color: #999;
+            text-decoration: line-through;
+        }
+
+        .current-price {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .cart-button {
+            width: 32px;
+            height: 32px;
+            background: #FF6B00;
+            border: none;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: white;
+            font-size: 16px;
+        }
+    </style>
 </head>
+
 <body>
     <div class="page-container">
         <!-- Page Header -->
         <header class="nav-bar">
-            <div class="header-top">
-                <button class="back-button" onclick="history.back()">←</button>
-                <h1 class="header-title">전체상품</h1>
-                <button class="header-action">🔍</button>
-                <button class="header-action">🛒</button>
-            </div>
 
-            <!-- Filter Bar -->
-            <div class="filter-bar">
-                <button class="filter-chip active">
-                    <span>전체</span>
-                </button>
-                <button class="filter-chip">
-                    <span class="filter-icon">🍊</span>
-                    <span>제철과일</span>
-                </button>
-                <button class="filter-chip">
-                    <span class="filter-icon">🏷️</span>
-                    <span>할인중</span>
-                </button>
-                <button class="filter-chip">
-                    <span class="filter-icon">🆕</span>
-                    <span>신상품</span>
-                </button>
-                <button class="filter-chip">
-                    <span class="filter-icon">📦</span>
-                    <span>무료배송</span>
-                </button>
-                <button class="filter-chip">
-                    <span class="filter-icon">🌟</span>
-                    <span>베스트</span>
-                </button>
+
+            <!-- Enhanced Filter Section -->
+            <div class="enhanced-filter-section">
+                <!-- Main Categories -->
+                <div class="main-categories">
+                    <button class="category-tab active">
+                        <span class="emoji">🏬</span>
+                        <span class="text">전체</span>
+                    </button>
+                    <button class="category-tab">
+                        <span class="emoji">🌟</span>
+                        <span class="text">베스트</span>
+                    </button>
+                    <button class="category-tab">
+                        <span class="emoji">🍊</span>
+                        <span class="text">감귤류</span>
+                    </button>
+                    <button class="category-tab">
+                        <span class="emoji">🍇</span>
+                        <span class="text">포도/베리</span>
+                    </button>
+                    <button class="category-tab">
+                        <span class="emoji">🍎</span>
+                        <span class="text">사과/배</span>
+                    </button>
+                    <button class="category-tab">
+                        <span class="emoji">🍑</span>
+                        <span class="text">복숭아</span>
+                    </button>
+                    <button class="category-tab">
+                        <span class="emoji">🎁</span>
+                        <span class="text">선물세트</span>
+                    </button>
+                </div>
+
+                <!-- Sub Filter Tabs -->
+                <div class="sub-filter-tabs">
+                    <div class="filter-tab-container">
+                        <button class="sub-filter-tab active">무료배송</button>
+                        <button class="sub-filter-tab">쿠폰</button>
+                        <button class="sub-filter-tab with-badge">
+                            <span>타임세일</span>
+                            <span class="badge">HOT</span>
+                        </button>
+                        <button class="sub-filter-tab">단독</button>
+                    </div>
+                </div>
+
+                <!-- Filter Options Bar -->
+                <div class="filter-options-bar">
+                    <button class="filter-option-btn">
+                        <span>정렬</span>
+                        <span class="arrow">▼</span>
+                    </button>
+                    <button class="filter-option-btn" data-filter="origin">
+                        <span>산지</span>
+                        <span class="arrow">▼</span>
+                    </button>
+                    <button class="filter-option-btn" data-filter="sweetness">
+                        <span>당도</span>
+                        <span class="arrow">▼</span>
+                    </button>
+                    <button class="filter-option-btn">
+                        <span>크기</span>
+                        <span class="arrow">▼</span>
+                    </button>
+                    <button class="filter-option-btn">
+                        <span>가격</span>
+                        <span class="arrow">▼</span>
+                    </button>
+                    <button class="filter-option-btn" data-filter="season">
+                        <span>제철</span>
+                        <span class="arrow">▼</span>
+                    </button>
+                    <button class="filter-option-btn">
+                        <span>농장</span>
+                        <span class="arrow">▼</span>
+                    </button>
+                    <button class="filter-option-btn">
+                        <span>인증</span>
+                        <span class="arrow">▼</span>
+                    </button>
+                </div>
             </div>
         </header>
 
         <!-- Main Content -->
         <main class="main-content">
-            <!-- Sort Options -->
-            <div class="sort-section">
-                <span class="result-count">총 <strong>24</strong>개 상품</span>
-                <button class="sort-dropdown">
-                    <span>인기순</span>
-                    <span>▼</span>
-                </button>
+            <!-- Product Count Bar -->
+            <div class="product-count-bar">
+                <div class="count-info">
+                    <span class="main-text">상품 <strong>40,799</strong></span>
+                    <span class="divider"></span>
+                    <span class="sub-text">농장 <strong>1,998</strong></span>
+                    <span class="divider"></span>
+                    <span class="sub-text">품종 <strong>3,324</strong></span>
+                </div>
+                <div class="view-options">
+                    <span class="count-text">40,799개</span>
+                    <button class="view-toggle">
+                        <span class="icon">⚇</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Sort Options Bar -->
+            <div class="sort-options-bar">
+                <div class="sort-select-wrapper">
+                    <select class="sort-select" id="sortSelect">
+                        <option value="recommend" selected>과일다리 추천순</option>
+                        <option value="new">신상품순</option>
+                        <option value="sales">판매순</option>
+                        <option value="discount">할인율순</option>
+                        <option value="price-low">낮은가격순</option>
+                        <option value="price-high">높은가격순</option>
+                        <option value="sweetness">당도순</option>
+                        <option value="review">후기순</option>
+                    </select>
+                    <span class="select-arrow">▼</span>
+                </div>
             </div>
 
             <!-- Product Grid -->
@@ -293,7 +823,7 @@
     <script>
         // Wishlist toggle
         document.querySelectorAll('.wishlist-button').forEach(button => {
-            button.addEventListener('click', function(e) {
+            button.addEventListener('click', function (e) {
                 e.stopPropagation();
                 if (this.classList.contains('active')) {
                     this.classList.remove('active');
@@ -307,7 +837,7 @@
 
         // Cart button animation
         document.querySelectorAll('.cart-button').forEach(button => {
-            button.addEventListener('click', function(e) {
+            button.addEventListener('click', function (e) {
                 e.stopPropagation();
                 // Add to cart animation
                 this.style.transform = 'scale(0.8)';
@@ -317,13 +847,38 @@
             });
         });
 
-        // Filter chip selection
-        document.querySelectorAll('.filter-chip').forEach(chip => {
-            chip.addEventListener('click', function() {
-                document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+        // Category tab selection
+        document.querySelectorAll('.category-tab').forEach(tab => {
+            tab.addEventListener('click', function () {
+                document.querySelectorAll('.category-tab').forEach(t => t.classList.remove('active'));
                 this.classList.add('active');
+            });
+        });
+
+        // Sub filter tab selection
+        document.querySelectorAll('.sub-filter-tab').forEach(tab => {
+            tab.addEventListener('click', function () {
+                this.classList.toggle('active');
+            });
+        });
+
+        // Sort select change handler
+        const sortSelect = document.getElementById('sortSelect');
+        if (sortSelect) {
+            sortSelect.addEventListener('change', function() {
+                console.log('Sort by:', this.value);
+                // Implement sorting logic here
+            });
+        }
+
+        // Filter option buttons
+        document.querySelectorAll('.filter-option-btn').forEach(btn => {
+            btn.addEventListener('click', function () {
+                // Show dropdown or modal for filter options
+                console.log('Filter:', this.textContent);
             });
         });
     </script>
 </body>
+
 </html>
