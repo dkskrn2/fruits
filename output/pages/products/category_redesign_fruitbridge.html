@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>카테고리 - 과일다리</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    :root{--primary:#5f8f3a;--primary-strong:#476d2a;--primary-soft:#edf6e4;--secondary:#ff8c42;--pink-soft:#fff2f5;--sale:#ff6b57;--text-strong:#1d2a1f;--text:#334236;--text-muted:#708072;--line:rgba(61,88,56,.12);--bg:#f6f8f3;--shadow-sm:0 6px 18px rgba(33,52,36,.06);--shadow-md:0 16px 40px rgba(33,52,36,.1);--shadow-lg:0 24px 60px rgba(33,52,36,.14);--max-width:430px}
+    *{box-sizing:border-box;margin:0;padding:0}html{background:linear-gradient(180deg,#eef3ea 0%,#e8eee3 100%);overflow-x:hidden}body{font-family:"Pretendard","Noto Sans KR",-apple-system,BlinkMacSystemFont,sans-serif;color:var(--text);background:radial-gradient(circle at top,rgba(156,194,115,.18),transparent 26%),linear-gradient(180deg,#fbfcf8 0%,#f6f8f3 40%,#f4f6f0 100%);min-height:100vh;width:100%;max-width:var(--max-width);margin:0 auto;position:relative;-webkit-font-smoothing:antialiased;line-height:1.55;overflow-x:hidden}
+    @media (min-width:768px){html,body{min-height:100%}body{border-left:1px solid rgba(61,88,56,.08);border-right:1px solid rgba(61,88,56,.08);box-shadow:0 24px 70px rgba(22,33,23,.18)}}
+    a{text-decoration:none;color:inherit}button{font:inherit;color:inherit}img,svg,video,canvas{max-width:100%;height:auto;display:block}.container{padding:0 18px}.main-content,.section,.surface,.quick-panel,.category-occasion{width:100%}.main-content{padding:16px 0 104px;display:grid;grid-template-columns:minmax(0,1fr);gap:22px}.main-content>*{min-width:0}
+    .top-banner{display:flex;align-items:center;justify-content:center;gap:10px;padding:11px 16px;background:linear-gradient(90deg,#5f8f3a 0%,#80b053 100%);color:#fff;font-size:12px;font-weight:700;letter-spacing:-.01em;position:relative}.close-btn{position:absolute;right:10px;top:50%;transform:translateY(-50%);border:0;background:rgba(255,255,255,.14);color:#fff;width:24px;height:24px;border-radius:999px;cursor:pointer}
+    .header{position:sticky;top:0;z-index:100;backdrop-filter:blur(18px);background:rgba(251,252,248,.82);border-bottom:1px solid rgba(61,88,56,.08)}.header-mobile{padding:16px 18px 14px;display:flex;align-items:center;justify-content:space-between}.logo{display:inline-flex;align-items:center;gap:4px;font-size:21px;font-weight:900;letter-spacing:-.04em}.logo .fruit{color:var(--primary)}.logo .bridge{color:var(--primary-strong)}.header-actions{display:flex;gap:10px}.header-icon{position:relative;width:42px;height:42px;display:grid;place-items:center;border-radius:16px;border:1px solid rgba(61,88,56,.08);background:rgba(255,255,255,.75);box-shadow:var(--shadow-sm);font-size:20px;cursor:pointer}.cart-count{position:absolute;top:-3px;right:-1px;width:18px;height:18px;border-radius:999px;background:var(--sale);color:#fff;font-size:10px;font-weight:800;display:grid;place-items:center;border:2px solid #fff}
+    .social-impact-badge{margin:0 18px 14px;padding:14px 14px 13px;border-radius:20px;border:1px solid rgba(95,143,58,.15);background:linear-gradient(135deg,rgba(255,255,255,.92),rgba(237,246,228,.92));box-shadow:var(--shadow-sm)}.impact-main{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}.impact-info{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:600;color:var(--text)}.impact-count{color:var(--primary-strong);font-weight:900}.impact-link{flex-shrink:0;padding:7px 10px;border-radius:999px;background:rgba(95,143,58,.08);color:var(--primary-strong);font-size:11px;font-weight:800}.progress-bar-mini{height:8px;border-radius:999px;background:rgba(95,143,58,.1);overflow:hidden}.progress-fill-mini{height:100%;border-radius:inherit;background:linear-gradient(90deg,#7caf53,#5f8f3a);width:69.4%;transition:width .5s ease}
+    .tab-nav,.category-pills{-ms-overflow-style:none;scrollbar-width:none}.tab-nav::-webkit-scrollbar,.category-pills::-webkit-scrollbar{display:none}.tab-nav{display:flex;gap:10px;overflow-x:auto;padding:0 18px 14px;border-bottom:1px solid rgba(61,88,56,.08)}.tab-item{white-space:nowrap;padding:10px 14px;border-radius:999px;background:transparent;color:var(--text-muted);font-size:13px;font-weight:700;transition:.2s ease}.tab-item.active{background:var(--primary-strong);color:#fff;box-shadow:0 10px 22px rgba(71,109,42,.24)}.category-pills-wrap{padding-top:2px}.category-pills{display:flex;gap:8px;overflow-x:auto;padding-bottom:2px}.pill{white-space:nowrap;padding:9px 13px;border-radius:999px;border:1px solid var(--line);background:rgba(255,255,255,.92);font-size:12px;font-weight:700;color:var(--text);cursor:pointer;transition:.2s ease}.pill.active{background:#edf6e4;border-color:rgba(95,143,58,.24);color:var(--primary-strong)}
+    .section,.quick-panel,.category-occasion{margin:0 18px;border-radius:30px;overflow:hidden}.surface{background:rgba(255,255,255,.84);border:1px solid rgba(61,88,56,.08);box-shadow:var(--shadow-md);border-radius:28px;padding:20px 16px}.quick-panel{background:linear-gradient(180deg,#eff8e8 0%,#f8fcf4 100%);border:1px solid rgba(95,143,58,.12);box-shadow:var(--shadow-md);padding:20px 0}.category-occasion{background:linear-gradient(180deg,#fff4f7 0%,#fffdfd 100%);border:1px solid rgba(233,30,99,.08);box-shadow:var(--shadow-md);padding:22px 0}.section-header{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:16px}.section-title{font-size:22px;font-weight:900;letter-spacing:-.04em;color:var(--text-strong)}.section-copy{margin-top:5px;color:var(--text-muted);font-size:13px;font-weight:600}.section-more{flex-shrink:0;font-size:12px;font-weight:800;color:var(--text-muted)}.section-badge,.occasion-badge{display:inline-flex;align-items:center;justify-content:center;padding:7px 12px;border-radius:999px;font-size:11px;font-weight:800;margin-bottom:12px}.section-badge{background:var(--primary);color:#fff}.occasion-badge{background:#e94d87;color:#fff}
+    .hero-card{position:relative;overflow:hidden;padding:22px 18px 20px;background:radial-gradient(circle at top right,rgba(255,255,255,.26),transparent 32%),linear-gradient(135deg,#f0f8e8 0%,#ffffff 44%,#fff5ea 100%)}.hero-card::after{content:"";position:absolute;right:-30px;bottom:-40px;width:160px;height:160px;border-radius:50%;background:radial-gradient(circle,rgba(255,140,66,.2),transparent 70%);pointer-events:none}.eyebrow{display:inline-flex;align-items:center;gap:6px;padding:7px 11px;border-radius:999px;background:rgba(95,143,58,.1);color:var(--primary-strong);font-size:11px;font-weight:800;margin-bottom:14px}.hero-card h1{font-size:28px;line-height:1.2;letter-spacing:-.05em;font-weight:900;color:var(--text-strong);margin-bottom:10px}.hero-card p{max-width:280px;font-size:14px;color:var(--text);margin-bottom:18px}.hero-meta{display:flex;flex-wrap:wrap;gap:8px}.hero-chip{padding:8px 11px;border-radius:999px;background:rgba(255,255,255,.88);border:1px solid rgba(61,88,56,.1);font-size:11px;font-weight:800;color:var(--text);box-shadow:var(--shadow-sm)}
+    .quick-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}.quick-item{padding:12px 8px 10px;background:rgba(255,255,255,.9);border:1px solid rgba(61,88,56,.08);border-radius:20px;box-shadow:var(--shadow-sm);display:flex;flex-direction:column;align-items:center;gap:8px;min-height:92px;text-align:center}.quick-icon{width:46px;height:46px;border-radius:16px;display:grid;place-items:center;font-size:23px;background:linear-gradient(135deg,#edf6e4,#fff4e8)}.quick-label{font-size:11px;font-weight:700;line-height:1.3;color:var(--text)}
+    .accordion-list{display:grid;gap:14px}.accordion-item{background:rgba(255,255,255,.92);border:1px solid rgba(61,88,56,.08);border-radius:24px;overflow:hidden;box-shadow:var(--shadow-sm);transition:border-color .2s ease,box-shadow .2s ease}.accordion-item.active{border-color:rgba(95,143,58,.2);box-shadow:0 18px 36px rgba(33,52,36,.1)}.accordion-trigger{width:100%;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:18px 16px;text-align:left;border:0;background:transparent;cursor:pointer}.accordion-trigger__left{display:flex;align-items:center;gap:12px;min-width:0}.accordion-trigger__icon{width:44px;height:44px;border-radius:16px;background:linear-gradient(135deg,#edf6e4,#fff2e7);display:grid;place-items:center;font-size:22px;flex:0 0 auto}.accordion-trigger__copy{min-width:0}.accordion-trigger__eyebrow{display:block;color:var(--text-muted);font-size:11px;font-weight:800;margin-bottom:3px}.accordion-trigger__label{display:block;font-size:17px;font-weight:900;line-height:1.35;letter-spacing:-.03em;color:var(--text-strong)}.accordion-trigger__chevron{color:#7e8a77;font-size:18px;line-height:1;transition:transform .2s ease;flex:0 0 auto}.accordion-item.active .accordion-trigger__chevron{transform:rotate(180deg)}.accordion-panel{display:none;padding:0 16px 16px;background:linear-gradient(180deg,rgba(250,252,248,.96),rgba(255,255,255,.96));border-top:1px solid rgba(61,88,56,.08)}.accordion-item.active .accordion-panel{display:block}.taxonomy-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;padding-top:14px}.taxonomy-link{display:flex;align-items:center;justify-content:space-between;gap:8px;min-height:48px;padding:11px 12px;border-radius:16px;background:rgba(255,255,255,.95);border:1px solid rgba(61,88,56,.08);color:var(--text);font-size:13px;font-weight:800;line-height:1.35;box-shadow:0 4px 12px rgba(33,52,36,.05)}.taxonomy-link::after{content:"→";color:var(--text-muted);font-size:12px;font-weight:900}
+    .occasion-header{text-align:center;margin-bottom:16px}.occasion-title{font-size:24px;font-weight:900;letter-spacing:-.04em;color:var(--text-strong);margin-bottom:4px}.occasion-subtitle{font-size:13px;color:var(--text-muted);font-weight:600}.occasion-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.occasion-card{background:rgba(255,255,255,.88);border:1px solid rgba(233,30,99,.08);border-radius:22px;padding:16px;box-shadow:var(--shadow-sm)}.occasion-icon{width:44px;height:44px;border-radius:16px;display:grid;place-items:center;background:linear-gradient(135deg,#ffe3ec,#fff7f9);font-size:22px;margin-bottom:12px}.occasion-card h3{font-size:15px;font-weight:900;color:var(--text-strong);margin-bottom:6px;letter-spacing:-.03em}.occasion-card p{font-size:12px;color:var(--text-muted);margin-bottom:12px;line-height:1.55}.occasion-link{display:inline-flex;align-items:center;padding:7px 10px;border-radius:999px;background:#fff0f5;color:#c03a6f;font-size:11px;font-weight:800}
+    .bottom-nav{position:fixed;left:50%;transform:translateX(-50%);width:100%;max-width:var(--max-width);bottom:0;z-index:120;padding:10px 12px calc(10px + env(safe-area-inset-bottom));background:transparent}.bottom-nav::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(246,248,243,0),rgba(246,248,243,.94) 42%,rgba(246,248,243,.98));z-index:-2}.bottom-nav-inner{max-width:var(--max-width);margin:0 auto;display:flex;justify-content:space-around;padding:10px 8px;border-radius:24px;background:rgba(255,255,255,.9);border:1px solid rgba(61,88,56,.08);backdrop-filter:blur(18px);box-shadow:0 16px 36px rgba(29,42,31,.12)}.nav-item{min-width:58px;display:flex;flex-direction:column;align-items:center;gap:4px;padding:4px 6px;color:var(--text-muted);font-size:10px;font-weight:700}.nav-item.active{color:var(--primary-strong)}.nav-icon{font-size:19px}
+    @media (max-width:380px){.quick-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.taxonomy-grid,.occasion-grid{grid-template-columns:1fr}.hero-card h1{font-size:24px}.section-title,.occasion-title{font-size:20px}}
+  </style>
+</head>
+<body>
+  <div class="top-banner"><span>🤝 매출 1%는 보육원 아이들의 과일 간식이 됩니다</span><button class="close-btn" type="button" onclick="this.parentElement.style.display='none'">×</button></div>
+  <header class="header">
+    <div class="header-mobile">
+      <a href="../home/fruitbridge-redesign-v3-fixed.html" class="logo"><span class="fruit">과일</span><span class="bridge">다리</span></a>
+      <div class="header-actions">
+        <button class="header-icon" type="button" aria-label="알림">🔔</button>
+        <a href="../cart/index.html" class="header-icon" aria-label="장바구니">🛒<span class="cart-count">3</span></a>
+      </div>
+    </div>
+    <div class="social-impact-badge">
+      <div class="impact-main">
+        <div class="impact-info"><span>💚</span><span>12월 목표: <span class="impact-count">347박스</span> / 500박스</span></div>
+        <a href="../home/fruitbridge-redesign-v3-fixed.html" class="impact-link">자세히 →</a>
+      </div>
+      <div class="progress-bar-mini"><div class="progress-fill-mini"></div></div>
+    </div>
+  </header>
+  <nav class="tab-nav">
+    <a href="#" class="tab-item active">카테고리</a><a href="#" class="tab-item">제철</a><a href="#" class="tab-item">나눔과일</a><a href="#" class="tab-item">가족 루틴</a><a href="#" class="tab-item">아이 간식</a><a href="#" class="tab-item">정기배송</a>
+  </nav>
+  <main class="main-content">
+    <div class="container category-pills-wrap"><div class="category-pills"><span class="pill active">전체</span><span class="pill">빠른 배송</span><span class="pill">선물/안부</span><span class="pill">국산 과일</span><span class="pill">수입 과일</span><span class="pill">대용량</span><span class="pill">아이 간식</span></div></div>
+    <section class="section">
+      <div class="surface hero-card">
+        <span class="eyebrow">🍊 과일다리 카테고리 가이드</span>
+        <h1>원하는 과일을<br />한 번에 찾는 카테고리</h1>
+        <p>홈 화면에서 쓰인 같은 톤의 컬러와 라운드, 카드 밀도를 유지하면서 카테고리 탐색에 맞게 구조를 정리했습니다.</p>
+        <div class="hero-meta"><span class="hero-chip">제철 과일 큐레이션</span><span class="hero-chip">상황별 선물 추천</span><span class="hero-chip">가족 루틴별 분류</span></div>
+      </div>
+    </section>
+    <div class="quick-panel">
+      <div class="container">
+        <span class="section-badge">빠른 이동</span>
+        <div class="section-header">
+          <div><h2 class="section-title">바로 가는 카테고리</h2><p class="section-copy">홈과 같은 아이콘 카드 톤으로 핵심 진입만 먼저 배치했습니다.</p></div>
+          <a href="./all.html" class="section-more">전체보기 →</a>
+        </div>
+        <div class="quick-grid">
+          <a href="./seasonal.html" class="quick-item"><div class="quick-icon">🍓</div><span class="quick-label">제철 과일</span></a>
+          <a href="./best.html" class="quick-item"><div class="quick-icon">🌟</div><span class="quick-label">베스트</span></a>
+          <a href="./new.html" class="quick-item"><div class="quick-icon">🆕</div><span class="quick-label">신상품</span></a>
+          <a href="./family.html" class="quick-item"><div class="quick-icon">🏠</div><span class="quick-label">가족 루틴</span></a>
+          <a href="./kids.html" class="quick-item"><div class="quick-icon">👶</div><span class="quick-label">아이 간식</span></a>
+          <a href="./greeting.html" class="quick-item"><div class="quick-icon">💝</div><span class="quick-label">안부 전하기</span></a>
+          <a href="./donation.html" class="quick-item"><div class="quick-icon">🤝</div><span class="quick-label">나눔 과일</span></a>
+          <a href="./subscription.html" class="quick-item"><div class="quick-icon">📦</div><span class="quick-label">정기배송</span></a>
+        </div>
+      </div>
+    </div>
+    <section class="section">
+      <div class="surface">
+        <div class="section-header"><div><h2 class="section-title">분류별 전체 카테고리</h2><p class="section-copy">카드, 스트로크, 내부 칩 링크를 모두 홈 화면 계열로 맞췄습니다.</p></div></div>
+        <div class="accordion-list">
+          <article class="accordion-item active">
+            <button class="accordion-trigger" type="button" aria-expanded="true"><span class="accordion-trigger__left"><span class="accordion-trigger__icon">🚚</span><span class="accordion-trigger__copy"><span class="accordion-trigger__eyebrow">빠르게 찾기</span><span class="accordion-trigger__label">오늘/내일 받는 빠른 배송</span></span></span><span class="accordion-trigger__chevron">⌄</span></button>
+            <div class="accordion-panel"><div class="taxonomy-grid"><a href="./all.html" class="taxonomy-link">전체 보기</a><a href="./all.html" class="taxonomy-link">오늘 출고</a><a href="./all.html" class="taxonomy-link">내일 도착</a><a href="./greeting.html" class="taxonomy-link">급한 안부 선물</a><a href="./subscription.html" class="taxonomy-link">정기 선물 배송</a><a href="./all.html" class="taxonomy-link">당일 추천 박스</a></div></div>
+          </article>
+          <article class="accordion-item">
+            <button class="accordion-trigger" type="button" aria-expanded="false"><span class="accordion-trigger__left"><span class="accordion-trigger__icon">🍎</span><span class="accordion-trigger__copy"><span class="accordion-trigger__eyebrow">국산 과일</span><span class="accordion-trigger__label">자주 찾는 국내 제철 라인업</span></span></span><span class="accordion-trigger__chevron">⌄</span></button>
+            <div class="accordion-panel"><div class="taxonomy-grid"><a href="./all.html" class="taxonomy-link">사과/배</a><a href="./seasonal.html" class="taxonomy-link">딸기</a><a href="./all.html" class="taxonomy-link">감귤/한라봉</a><a href="./all.html" class="taxonomy-link">참외</a><a href="./all.html" class="taxonomy-link">블루베리</a><a href="./all.html" class="taxonomy-link">포도</a><a href="./all.html" class="taxonomy-link">복숭아</a><a href="./all.html" class="taxonomy-link">수박/멜론</a></div></div>
+          </article>
+          <article class="accordion-item">
+            <button class="accordion-trigger" type="button" aria-expanded="false"><span class="accordion-trigger__left"><span class="accordion-trigger__icon">🌍</span><span class="accordion-trigger__copy"><span class="accordion-trigger__eyebrow">수입 과일</span><span class="accordion-trigger__label">집중해서 보는 인기 수입 과일</span></span></span><span class="accordion-trigger__chevron">⌄</span></button>
+            <div class="accordion-panel"><div class="taxonomy-grid"><a href="./all.html" class="taxonomy-link">망고/열대과일</a><a href="./all.html" class="taxonomy-link">체리</a><a href="./all.html" class="taxonomy-link">오렌지/자몽</a><a href="./all.html" class="taxonomy-link">청포도</a><a href="./all.html" class="taxonomy-link">바나나/아보카도</a><a href="./all.html" class="taxonomy-link">수입 프리미엄 박스</a></div></div>
+          </article>
+          <article class="accordion-item">
+            <button class="accordion-trigger" type="button" aria-expanded="false"><span class="accordion-trigger__left"><span class="accordion-trigger__icon">💌</span><span class="accordion-trigger__copy"><span class="accordion-trigger__eyebrow">선물/안부</span><span class="accordion-trigger__label">마음을 전하는 안부 과일</span></span></span><span class="accordion-trigger__chevron">⌄</span></button>
+            <div class="accordion-panel"><div class="taxonomy-grid"><a href="./greeting.html" class="taxonomy-link">감사 선물</a><a href="./greeting.html" class="taxonomy-link">명절 선물</a><a href="./greeting.html" class="taxonomy-link">병문안 과일</a><a href="./greeting.html" class="taxonomy-link">집들이/오픈 선물</a><a href="./donation.html" class="taxonomy-link">나눔 메시지 카드</a><a href="./greeting.html" class="taxonomy-link">프리미엄 세트</a></div></div>
+          </article>
+          <article class="accordion-item">
+            <button class="accordion-trigger" type="button" aria-expanded="false"><span class="accordion-trigger__left"><span class="accordion-trigger__icon">📦</span><span class="accordion-trigger__copy"><span class="accordion-trigger__eyebrow">대용량/루틴</span><span class="accordion-trigger__label">가족이 함께 먹는 루틴용 구성</span></span></span><span class="accordion-trigger__chevron">⌄</span></button>
+            <div class="accordion-panel"><div class="taxonomy-grid"><a href="./family.html" class="taxonomy-link">가족용 박스</a><a href="./family.html" class="taxonomy-link">대용량 간식</a><a href="./seasonal.html" class="taxonomy-link">제철 대용량</a><a href="./subscription.html" class="taxonomy-link">주간 과일 박스</a><a href="./subscription.html" class="taxonomy-link">정기배송 루틴</a><a href="./all.html" class="taxonomy-link">사과/배 대용량</a></div></div>
+          </article>
+          <article class="accordion-item">
+            <button class="accordion-trigger" type="button" aria-expanded="false"><span class="accordion-trigger__left"><span class="accordion-trigger__icon">🧒</span><span class="accordion-trigger__copy"><span class="accordion-trigger__eyebrow">아이 간식</span><span class="accordion-trigger__label">소포장과 달콤한 아이용 구성</span></span></span><span class="accordion-trigger__chevron">⌄</span></button>
+            <div class="accordion-panel"><div class="taxonomy-grid"><a href="./kids.html" class="taxonomy-link">1-2인 소가구</a><a href="./kids.html" class="taxonomy-link">아이 간식 세트</a><a href="./all.html" class="taxonomy-link">한입 과일</a><a href="./new.html" class="taxonomy-link">처음 먹는 과일</a><a href="./subscription.html" class="taxonomy-link">미니 정기배송</a><a href="./all.html" class="taxonomy-link">소분 포장 과일</a></div></div>
+          </article>
+        </div>
+      </div>
+    </section>
+    <div class="category-occasion">
+      <div class="container">
+        <div class="occasion-header"><span class="occasion-badge">상황별 추천</span><h2 class="occasion-title">필요한 순간에 바로 찾는 분류</h2><p class="occasion-subtitle">홈의 추천 섹션과 같은 밀도로 카드형 분류를 추가했습니다.</p></div>
+        <div class="occasion-grid">
+          <article class="occasion-card"><div class="occasion-icon">🎁</div><h3>선물 고민 중일 때</h3><p>감사, 명절, 병문안처럼 목적이 분명한 선물 카테고리만 먼저 볼 수 있습니다.</p><a href="./greeting.html" class="occasion-link">선물 카테고리 보기</a></article>
+          <article class="occasion-card"><div class="occasion-icon">💚</div><h3>구매와 나눔을 함께</h3><p>기부형 세트와 메시지 카드, 나눔 프로젝트 페이지를 한 묶음으로 정리했습니다.</p><a href="./donation.html" class="occasion-link">나눔 과일 보기</a></article>
+          <article class="occasion-card"><div class="occasion-icon">🍱</div><h3>아이 간식 준비</h3><p>소분 포장, 당도 보장, 반복 구매에 맞는 간식형 구성만 빠르게 탐색할 수 있습니다.</p><a href="./kids.html" class="occasion-link">아이 간식 보기</a></article>
+          <article class="occasion-card"><div class="occasion-icon">📦</div><h3>꾸준히 받아보는 루틴</h3><p>주간 과일 박스와 정기배송만 따로 묶어 루틴형 쇼핑 플로우로 연결합니다.</p><a href="./subscription.html" class="occasion-link">정기배송 보기</a></article>
+        </div>
+      </div>
+    </div>
+  </main>
+  <nav class="bottom-nav"><div class="bottom-nav-inner"><a href="../home/fruitbridge-redesign-v3-fixed.html" class="nav-item"><span class="nav-icon">🏠</span><span>홈</span></a><a href="./donation.html" class="nav-item"><span class="nav-icon">🤝</span><span>나눔</span></a><a href="./category_redesign_fruitbridge.html" class="nav-item active"><span class="nav-icon">🔍</span><span>카테고리</span></a><a href="../wishlist/index.html" class="nav-item"><span class="nav-icon">❤️</span><span>찜목록</span></a><a href="../mypage/index.html" class="nav-item"><span class="nav-icon">👤</span><span>마이</span></a></div></nav>
+  <script>
+    document.querySelectorAll(".tab-item").forEach((tab)=>tab.addEventListener("click",(e)=>{e.preventDefault();document.querySelectorAll(".tab-item").forEach((item)=>item.classList.remove("active"));tab.classList.add("active")}));
+    document.querySelectorAll(".pill").forEach((pill)=>pill.addEventListener("click",()=>{document.querySelectorAll(".pill").forEach((item)=>item.classList.remove("active"));pill.classList.add("active")}));
+    const accordionItems=document.querySelectorAll(".accordion-item");
+    accordionItems.forEach((item)=>{const trigger=item.querySelector(".accordion-trigger");trigger.addEventListener("click",()=>{const isOpen=item.classList.contains("active");accordionItems.forEach((target)=>{target.classList.remove("active");target.querySelector(".accordion-trigger").setAttribute("aria-expanded","false")});if(!isOpen){item.classList.add("active");trigger.setAttribute("aria-expanded","true")}})});
+    const impactCount=document.querySelector(".impact-count");const impactProgress=document.querySelector(".progress-fill-mini");let currentCount=347;
+    setInterval(()=>{currentCount+=Math.floor(Math.random()*2)+1;if(currentCount>500)currentCount=500;impactCount.textContent=currentCount+"박스";impactProgress.style.width=(currentCount/500)*100+"%"},30000);
+  </script>
+</body>
+</html>

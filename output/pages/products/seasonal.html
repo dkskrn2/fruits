@@ -1,613 +1,123 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>제철과일 - 과일다리</title>
-    <link rel="stylesheet" href="../../styles/design-system.css">
-    <link rel="stylesheet" href="../../styles/components.css">
-    <link rel="stylesheet" href="../../styles/common-layout.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>제철과일 - 과일다리</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    :root{--primary:#5f8f3a;--primary-strong:#476d2a;--primary-soft:#edf6e4;--secondary:#ff8c42;--secondary-soft:#fff1e4;--pink-soft:#fff2f5;--sale:#ff6b57;--text-strong:#1d2a1f;--text:#334236;--text-muted:#708072;--line:rgba(61,88,56,.12);--shadow-sm:0 6px 18px rgba(33,52,36,.06);--shadow-md:0 16px 40px rgba(33,52,36,.1);--shadow-lg:0 24px 60px rgba(33,52,36,.14);--max-width:430px}
+    *{box-sizing:border-box;margin:0;padding:0}html{background:linear-gradient(180deg,#eef3ea 0%,#e8eee3 100%);overflow-x:hidden}body{font-family:"Pretendard","Noto Sans KR",-apple-system,BlinkMacSystemFont,sans-serif;color:var(--text);background:radial-gradient(circle at top,rgba(156,194,115,.18),transparent 26%),linear-gradient(180deg,#fbfcf8 0%,#f6f8f3 40%,#f4f6f0 100%);min-height:100vh;width:100%;max-width:var(--max-width);margin:0 auto;position:relative;-webkit-font-smoothing:antialiased;line-height:1.55;overflow-x:hidden}
+    @media (min-width:768px){html,body{min-height:100%}body{border-left:1px solid rgba(61,88,56,.08);border-right:1px solid rgba(61,88,56,.08);box-shadow:0 24px 70px rgba(22,33,23,.18)}}
+    a{text-decoration:none;color:inherit}button{font:inherit;color:inherit}img,svg,video,canvas{max-width:100%;height:auto;display:block}.container{padding:0 18px}.main-content,.section,.surface,.season-hero,.season-band,.coming-panel{width:100%}.main-content{padding:16px 0 104px;display:grid;grid-template-columns:minmax(0,1fr);gap:22px}.main-content>*{min-width:0}
+    .top-banner{display:flex;align-items:center;justify-content:center;gap:10px;padding:11px 16px;background:linear-gradient(90deg,#5f8f3a 0%,#80b053 100%);color:#fff;font-size:12px;font-weight:700;letter-spacing:-.01em;position:relative}.close-btn{position:absolute;right:10px;top:50%;transform:translateY(-50%);border:0;background:rgba(255,255,255,.14);color:#fff;width:24px;height:24px;border-radius:999px;cursor:pointer}
+    .header{position:sticky;top:0;z-index:100;backdrop-filter:blur(18px);background:rgba(251,252,248,.82);border-bottom:1px solid rgba(61,88,56,.08)}.header-mobile{padding:16px 18px 14px;display:flex;align-items:center;justify-content:space-between}.logo{display:inline-flex;align-items:center;gap:4px;font-size:21px;font-weight:900;letter-spacing:-.04em}.logo .fruit{color:var(--primary)}.logo .bridge{color:var(--primary-strong)}.header-actions{display:flex;gap:10px}.header-icon{position:relative;width:42px;height:42px;display:grid;place-items:center;border-radius:16px;border:1px solid rgba(61,88,56,.08);background:rgba(255,255,255,.75);box-shadow:var(--shadow-sm);font-size:20px;cursor:pointer}.cart-count{position:absolute;top:-3px;right:-1px;width:18px;height:18px;border-radius:999px;background:var(--sale);color:#fff;font-size:10px;font-weight:800;display:grid;place-items:center;border:2px solid #fff}
+    .social-impact-badge{margin:0 18px 14px;padding:14px 14px 13px;border-radius:20px;border:1px solid rgba(95,143,58,.15);background:linear-gradient(135deg,rgba(255,255,255,.92),rgba(237,246,228,.92));box-shadow:var(--shadow-sm)}.impact-main{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}.impact-info{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:600;color:var(--text)}.impact-count{color:var(--primary-strong);font-weight:900}.impact-link{flex-shrink:0;padding:7px 10px;border-radius:999px;background:rgba(95,143,58,.08);color:var(--primary-strong);font-size:11px;font-weight:800}.progress-bar-mini{height:8px;border-radius:999px;background:rgba(95,143,58,.1);overflow:hidden}.progress-fill-mini{height:100%;border-radius:inherit;background:linear-gradient(90deg,#7caf53,#5f8f3a);width:64%;transition:width .5s ease}
+    .tab-nav,.season-tabs,.harvest-months{-ms-overflow-style:none;scrollbar-width:none}.tab-nav::-webkit-scrollbar,.season-tabs::-webkit-scrollbar,.harvest-months::-webkit-scrollbar{display:none}.tab-nav{display:flex;gap:10px;overflow-x:auto;padding:0 18px 14px;border-bottom:1px solid rgba(61,88,56,.08)}.tab-item{white-space:nowrap;padding:10px 14px;border-radius:999px;background:transparent;color:var(--text-muted);font-size:13px;font-weight:700;transition:.2s ease}.tab-item.active{background:var(--primary-strong);color:#fff;box-shadow:0 10px 22px rgba(71,109,42,.24)}
+    .section,.season-hero,.season-band,.coming-panel{margin:0 18px;border-radius:30px;overflow:hidden}.surface{background:rgba(255,255,255,.84);border:1px solid rgba(61,88,56,.08);box-shadow:var(--shadow-md);border-radius:28px;padding:20px 16px}.season-hero{color:#fff;box-shadow:var(--shadow-lg);padding:24px 0;transition:background .25s ease}.season-band{background:linear-gradient(180deg,#eff8e8 0%,#f8fcf4 100%);border:1px solid rgba(95,143,58,.12);box-shadow:var(--shadow-md);padding:20px 0}.coming-panel{background:linear-gradient(180deg,#fff4f7 0%,#fffdfd 100%);border:1px solid rgba(233,30,99,.08);box-shadow:var(--shadow-md);padding:22px 0}
+    .section-header{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:16px}.section-title{font-size:22px;font-weight:900;letter-spacing:-.04em;color:var(--text-strong)}.section-copy{margin-top:5px;color:var(--text-muted);font-size:13px;font-weight:600}.section-more{flex-shrink:0;font-size:12px;font-weight:800;color:var(--text-muted)}.badge-green,.badge-pink,.badge-white{display:inline-flex;align-items:center;justify-content:center;padding:7px 12px;border-radius:999px;font-size:11px;font-weight:800;margin-bottom:12px}.badge-green{background:var(--primary);color:#fff}.badge-pink{background:#e94d87;color:#fff}.badge-white{background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.24);color:#fff}
+    .hero-copy{padding:0 22px}.hero-copy h1{font-size:30px;line-height:1.18;font-weight:900;letter-spacing:-.05em;margin-bottom:10px}.hero-copy p{font-size:14px;opacity:.95;margin-bottom:18px;max-width:290px}.hero-meta{display:flex;gap:8px;flex-wrap:wrap}.hero-chip{padding:8px 11px;border-radius:999px;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.2);font-size:11px;font-weight:800}
+    .season-tabs-wrap{padding-top:2px}.season-tabs{display:flex;gap:10px;overflow-x:auto;padding:0 18px}.season-tab{min-width:76px;padding:12px 12px 11px;border-radius:20px;border:1px solid rgba(61,88,56,.08);background:rgba(255,255,255,.92);box-shadow:var(--shadow-sm);display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer}.season-tab.active{background:linear-gradient(180deg,#eff8e8,#ffffff);border-color:rgba(95,143,58,.24);box-shadow:0 18px 36px rgba(33,52,36,.1)}.season-tab__icon{font-size:24px}.season-tab__name{font-size:12px;font-weight:800;color:var(--text)}
+    .harvest-card{background:rgba(255,255,255,.92);border:1px solid rgba(61,88,56,.08);box-shadow:var(--shadow-sm);border-radius:24px;padding:18px}.harvest-months{display:flex;gap:8px;overflow-x:auto;padding-bottom:2px;margin-bottom:14px}.month-chip{min-width:52px;padding:9px 10px;border-radius:999px;background:rgba(255,255,255,.9);border:1px solid var(--line);font-size:11px;font-weight:800;text-align:center;color:var(--text-muted)}.month-chip.current{background:var(--primary-strong);border-color:var(--primary-strong);color:#fff}.month-chip.available{background:#edf6e4;color:var(--primary-strong);border-color:rgba(95,143,58,.24)}.harvest-list{display:grid;gap:10px}.harvest-item{display:flex;align-items:center;gap:12px;padding:12px;border-radius:18px;background:linear-gradient(180deg,rgba(250,252,248,.96),rgba(255,255,255,.96));border:1px solid rgba(61,88,56,.08)}.harvest-icon{width:42px;height:42px;border-radius:16px;display:grid;place-items:center;background:linear-gradient(135deg,#edf6e4,#fff4e8);font-size:20px;flex:0 0 auto}.harvest-name{font-size:14px;font-weight:900;color:var(--text-strong)}.harvest-meta{font-size:12px;color:var(--text-muted);font-weight:600}.harvest-peak{display:inline-flex;margin-top:5px;padding:5px 8px;border-radius:999px;background:#fff0f5;color:#c03a6f;font-size:10px;font-weight:800}
+    .freshness-banner{display:flex;align-items:center;gap:12px;padding:14px 16px;border-radius:22px;background:linear-gradient(135deg,#fff7ea,#fff1e4);border:1px solid rgba(255,140,66,.16);box-shadow:var(--shadow-sm)}.freshness-icon{width:46px;height:46px;border-radius:16px;background:linear-gradient(135deg,#ffebd8,#fff7ef);display:grid;place-items:center;font-size:22px;flex:0 0 auto}.freshness-title{font-size:15px;font-weight:900;color:var(--text-strong)}.freshness-desc{font-size:12px;color:var(--text-muted);font-weight:600}
+    .filter-pills{display:flex;gap:8px;overflow-x:auto;padding-bottom:2px;margin-bottom:16px;-ms-overflow-style:none;scrollbar-width:none}.filter-pills::-webkit-scrollbar{display:none}.filter-pill{white-space:nowrap;padding:9px 13px;border-radius:999px;border:1px solid var(--line);background:rgba(255,255,255,.92);font-size:12px;font-weight:700;color:var(--text);cursor:pointer}.filter-pill.active{background:#edf6e4;border-color:rgba(95,143,58,.24);color:var(--primary-strong)}
+    .product-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.product-card{background:rgba(255,255,255,.92);border:1px solid rgba(61,88,56,.08);border-radius:24px;overflow:hidden;box-shadow:var(--shadow-sm)}.product-image{position:relative;height:152px;border-bottom:1px solid rgba(61,88,56,.06)}.product-emoji{position:absolute;inset:0;display:grid;place-items:center;font-size:42px}.product-badges{position:absolute;top:12px;left:12px;display:flex;gap:6px;flex-wrap:wrap}.product-badge{padding:6px 8px;border-radius:10px;font-size:10px;font-weight:900;color:#fff;box-shadow:0 10px 22px rgba(0,0,0,.1)}.badge-season{background:var(--primary)}.badge-fresh{background:var(--secondary)}.badge-book{background:#d94a7d}.product-info{padding:14px 14px 15px}.product-name{font-size:14px;font-weight:800;line-height:1.4;color:var(--text-strong);min-height:40px;margin-bottom:8px}.product-desc{font-size:12px;color:var(--text-muted);margin-bottom:6px}.product-meta,.product-rating{font-size:11px;font-weight:700;margin-top:4px}.product-meta{color:var(--text-muted)}.product-rating{display:flex;gap:4px;align-items:center;color:var(--text-muted)}.star{color:#f4b400}.product-price{font-size:18px;color:var(--text-strong);font-weight:900;letter-spacing:-.03em;margin-top:8px}.product-btn{width:100%;margin-top:12px;padding:11px 12px;border-radius:16px;border:0;background:var(--primary-strong);color:#fff;font-size:13px;font-weight:800;cursor:pointer}
+    .coming-head{text-align:center;margin-bottom:16px}.coming-title{font-size:24px;font-weight:900;letter-spacing:-.04em;color:var(--text-strong);margin-bottom:4px}.coming-subtitle{font-size:13px;color:var(--text-muted);font-weight:600}.coming-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.coming-card{background:rgba(255,255,255,.88);border:1px solid rgba(233,30,99,.08);border-radius:22px;padding:16px;box-shadow:var(--shadow-sm)}.coming-icon{width:44px;height:44px;border-radius:16px;display:grid;place-items:center;background:linear-gradient(135deg,#ffe3ec,#fff7f9);font-size:22px;margin-bottom:12px}.coming-card h3{font-size:15px;font-weight:900;color:var(--text-strong);margin-bottom:6px;letter-spacing:-.03em}.coming-card p{font-size:12px;color:var(--text-muted);margin-bottom:12px;line-height:1.55}.coming-link{display:inline-flex;align-items:center;padding:7px 10px;border-radius:999px;background:#fff0f5;color:#c03a6f;font-size:11px;font-weight:800}
+    .bottom-nav{position:fixed;left:50%;transform:translateX(-50%);width:100%;max-width:var(--max-width);bottom:0;z-index:120;padding:10px 12px calc(10px + env(safe-area-inset-bottom));background:transparent}.bottom-nav::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(246,248,243,0),rgba(246,248,243,.94) 42%,rgba(246,248,243,.98));z-index:-2}.bottom-nav-inner{max-width:var(--max-width);margin:0 auto;display:flex;justify-content:space-around;padding:10px 8px;border-radius:24px;background:rgba(255,255,255,.9);border:1px solid rgba(61,88,56,.08);backdrop-filter:blur(18px);box-shadow:0 16px 36px rgba(29,42,31,.12)}.nav-item{min-width:58px;display:flex;flex-direction:column;align-items:center;gap:4px;padding:4px 6px;color:var(--text-muted);font-size:10px;font-weight:700}.nav-item.active{color:var(--primary-strong)}.nav-icon{font-size:19px}
+    .toast{position:fixed;left:50%;bottom:98px;transform:translateX(-50%);padding:12px 16px;background:rgba(29,42,31,.92);color:#fff;border-radius:999px;font-size:13px;font-weight:700;box-shadow:0 16px 36px rgba(0,0,0,.18);display:none;z-index:200;white-space:nowrap}.toast.show{display:block}
+    @media (max-width:380px){.product-grid,.coming-grid{grid-template-columns:1fr}.hero-copy h1,.coming-title{font-size:24px}.section-title{font-size:20px}}
+  </style>
 </head>
 <body>
-    <!-- Header -->
-    <header class="header">
-        <span class="header-back" onclick="history.back()">←</span>
-        <h1 class="header-title">제철과일</h1>
-        <div class="header-actions">
-            <span class="header-icon" onclick="location.href='../home/index.html'">🏠</span>
-            <span class="header-icon">🔔</span>
-        </div>
-    </header>
-
-    <!-- Season Hero Banner -->
-    <section class="season-hero">
-        <div class="season-hero__content">
-            <div class="season-hero__season" id="currentSeasonIcon">🌸</div>
-            <h2 class="season-hero__title" id="currentSeasonTitle">봄철 제철과일</h2>
-            <p class="season-hero__subtitle" id="currentSeasonSubtitle">따스한 봄햇살을 머금은 신선한 과일</p>
-            <div class="season-hero__weather">
-                <span>🌡️</span>
-                <span id="currentTemp">15°C</span>
-                <span>•</span>
-                <span id="currentMonth">3월</span>
-            </div>
-        </div>
-    </section>
-
-    <!-- Season Selector Tabs -->
-    <section class="season-tabs">
-        <button class="season-tab active" data-season="spring" onclick="switchSeason('spring')">
-            <div class="season-tab__icon">🌸</div>
-            <div class="season-tab__name">봄</div>
-        </button>
-        <button class="season-tab" data-season="summer" onclick="switchSeason('summer')">
-            <div class="season-tab__icon">☀️</div>
-            <div class="season-tab__name">여름</div>
-        </button>
-        <button class="season-tab" data-season="autumn" onclick="switchSeason('autumn')">
-            <div class="season-tab__icon">🍂</div>
-            <div class="season-tab__name">가을</div>
-        </button>
-        <button class="season-tab" data-season="winter" onclick="switchSeason('winter')">
-            <div class="season-tab__icon">❄️</div>
-            <div class="season-tab__name">겨울</div>
-        </button>
-    </section>
-
-    <!-- Harvest Calendar -->
-    <section class="harvest-calendar">
-        <div class="harvest-calendar__header">
-            <h3 class="harvest-calendar__title">수확 달력</h3>
-            <div class="harvest-calendar__toggle" onclick="toggleCalendar()">
-                <span id="calendarToggleText">펼치기</span>
-                <span id="calendarToggleIcon">▼</span>
-            </div>
-        </div>
-        <div class="harvest-calendar__months">
-            <div class="month-chip">1월</div>
-            <div class="month-chip">2월</div>
-            <div class="month-chip current">3월</div>
-            <div class="month-chip available">4월</div>
-            <div class="month-chip available">5월</div>
-            <div class="month-chip">6월</div>
-            <div class="month-chip">7월</div>
-            <div class="month-chip">8월</div>
-            <div class="month-chip">9월</div>
-            <div class="month-chip">10월</div>
-            <div class="month-chip">11월</div>
-            <div class="month-chip">12월</div>
-        </div>
-        <div class="harvest-calendar__list" id="harvestList">
-            <div class="harvest-item">
-                <div class="harvest-item__icon">🍓</div>
-                <div class="harvest-item__info">
-                    <div class="harvest-item__name">딸기</div>
-                    <div class="harvest-item__months">
-                        12월 ~ 5월 <span class="harvest-item__peak">3-4월 최고</span>
-                    </div>
-                </div>
-            </div>
-            <div class="harvest-item">
-                <div class="harvest-item__icon">🍊</div>
-                <div class="harvest-item__info">
-                    <div class="harvest-item__name">한라봉</div>
-                    <div class="harvest-item__months">
-                        1월 ~ 4월 <span class="harvest-item__peak">2-3월 최고</span>
-                    </div>
-                </div>
-            </div>
-            <div class="harvest-item">
-                <div class="harvest-item__icon">🥝</div>
-                <div class="harvest-item__info">
-                    <div class="harvest-item__name">키위</div>
-                    <div class="harvest-item__months">
-                        11월 ~ 5월 <span class="harvest-item__peak">1-3월 최고</span>
-                    </div>
-                </div>
-            </div>
-            <div class="harvest-item">
-                <div class="harvest-item__icon">🍎</div>
-                <div class="harvest-item__info">
-                    <div class="harvest-item__name">사과</div>
-                    <div class="harvest-item__months">연중 • 저장과</div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Freshness Guarantee Banner -->
-    <div class="freshness-banner">
-        <div class="freshness-banner__icon">✨</div>
-        <div class="freshness-banner__content">
-            <div class="freshness-banner__title">신선도 100% 보장</div>
-            <div class="freshness-banner__desc">당일 수확한 과일만 배송합니다</div>
-        </div>
+  <div class="top-banner"><span>🍓 제철 과일은 가장 맛있는 시기에 소개합니다</span><button class="close-btn" type="button" onclick="this.parentElement.style.display='none'">×</button></div>
+  <header class="header">
+    <div class="header-mobile">
+      <a href="../home/fruitbridge-redesign-v3-fixed.html" class="logo"><span class="fruit">과일</span><span class="bridge">다리</span></a>
+      <div class="header-actions"><button class="header-icon" type="button" aria-label="알림">🔔</button><a href="../cart/index.html" class="header-icon" aria-label="장바구니">🛒<span class="cart-count">3</span></a></div>
+    </div>
+    <div class="social-impact-badge">
+      <div class="impact-main"><div class="impact-info"><span>🍯</span><span>이번 달 제철 픽: <span class="impact-count" id="heroImpact">365박스</span> 출고</span></div><a href="./category_redesign_fruitbridge.html" class="impact-link">카테고리 →</a></div>
+      <div class="progress-bar-mini"><div class="progress-fill-mini" id="heroProgress"></div></div>
+    </div>
+  </header>
+  <nav class="tab-nav"><a href="#" class="tab-item active">제철과일</a><a href="#" class="tab-item">수확 캘린더</a><a href="#" class="tab-item">신선보장</a><a href="#" class="tab-item">지금 제철</a><a href="#" class="tab-item">다음 시즌</a></nav>
+  <main class="main-content">
+    <div class="season-hero" id="seasonHero">
+      <div class="hero-copy">
+        <span class="badge-white" id="heroBadge">🌸 3월의 제철</span>
+        <h1 id="heroTitle">봄철 제철과일로<br />가장 좋은 맛을 만나요</h1>
+        <p id="heroSubtitle">따스한 봄햇살을 머금은 과일을 가장 좋은 시기에 소개합니다.</p>
+        <div class="hero-meta"><span class="hero-chip" id="heroWeather">🌤 15°C</span><span class="hero-chip" id="heroMonth">3월 추천</span><span class="hero-chip" id="heroTag">지금 가장 달콤한 픽</span></div>
+      </div>
     </div>
 
-    <!-- Products Section -->
-    <section class="products-section">
-        <div class="products-section__header">
-            <h3 class="products-section__title" id="productsTitle">봄철 제철과일</h3>
-            <span class="products-section__count" id="productsCount">10개</span>
+    <div class="season-band">
+      <div class="container">
+        <span class="badge-green">계절 선택</span>
+        <div class="season-tabs-wrap"><div class="season-tabs" id="seasonTabs"></div></div>
+      </div>
+    </div>
+
+    <section class="section">
+      <div class="surface">
+        <div class="section-header"><div><h2 class="section-title">수확 캘린더</h2><p class="section-copy">계절별 제철 과일이 언제 가장 맛있는지 한눈에 보이게 정리했습니다.</p></div></div>
+        <div class="harvest-card">
+          <div class="harvest-months" id="harvestMonths"></div>
+          <div class="harvest-list" id="harvestList"></div>
         </div>
-
-        <!-- Filter Chips -->
-        <div class="filter-chips">
-            <div class="chip active">전체</div>
-            <div class="chip">높은 당도</div>
-            <div class="chip">가격순</div>
-            <div class="chip">인기순</div>
-            <div class="chip">신상품</div>
-        </div>
-
-        <!-- Products Grid -->
-        <div class="products-grid" id="productsGrid">
-            <!-- Spring Products -->
-            <div class="product-card" data-season="spring">
-                <div class="product-card__image" style="background: linear-gradient(135deg, #FFE5E5, #FFB6C1);">
-                    <span>🍓</span>
-                    <div class="product-card__chips">
-                        <span class="product-card__chip season">제철</span>
-                        <span class="product-card__chip fresh">신선</span>
-                    </div>
-                </div>
-                <div class="product-card__content">
-                    <h4 class="product-card__title">설향 딸기</h4>
-                    <p class="product-card__desc">달콤한 봄의 맛</p>
-                    <div class="product-card__info">
-                        <span class="product-card__brix">당도 14.5°</span>
-                        <span class="product-card__origin">경남 진주</span>
-                    </div>
-                    <div class="product-card__price">28,000원</div>
-                    <button class="product-card__action">장바구니</button>
-                </div>
-            </div>
-
-            <div class="product-card" data-season="spring">
-                <div class="product-card__image" style="background: linear-gradient(135deg, #FFE0B2, #FFCC80);">
-                    <span>🍊</span>
-                    <div class="product-card__chips">
-                        <span class="product-card__chip season">제철</span>
-                    </div>
-                </div>
-                <div class="product-card__content">
-                    <h4 class="product-card__title">제주 한라봉</h4>
-                    <p class="product-card__desc">새콤달콤 상큼한 맛</p>
-                    <div class="product-card__info">
-                        <span class="product-card__brix">당도 13.5°</span>
-                        <span class="product-card__origin">제주도</span>
-                    </div>
-                    <div class="product-card__price">32,000원</div>
-                    <button class="product-card__action">장바구니</button>
-                </div>
-            </div>
-
-            <div class="product-card" data-season="spring">
-                <div class="product-card__image" style="background: linear-gradient(135deg, #FFECB3, #FFD54F);">
-                    <span>🍋</span>
-                    <div class="product-card__chips">
-                        <span class="product-card__chip season">제철</span>
-                    </div>
-                </div>
-                <div class="product-card__content">
-                    <h4 class="product-card__title">레드향</h4>
-                    <p class="product-card__desc">향긋한 제주 감귤</p>
-                    <div class="product-card__info">
-                        <span class="product-card__brix">당도 13.0°</span>
-                        <span class="product-card__origin">제주 서귀포</span>
-                    </div>
-                    <div class="product-card__price">29,000원</div>
-                    <button class="product-card__action">장바구니</button>
-                </div>
-            </div>
-
-            <div class="product-card" data-season="spring">
-                <div class="product-card__image" style="background: linear-gradient(135deg, #C8E6C9, #81C784);">
-                    <span>🥝</span>
-                    <div class="product-card__chips">
-                        <span class="product-card__chip fresh">신선</span>
-                    </div>
-                </div>
-                <div class="product-card__content">
-                    <h4 class="product-card__title">골드키위</h4>
-                    <p class="product-card__desc">영양 가득 달콤한 키위</p>
-                    <div class="product-card__info">
-                        <span class="product-card__brix">당도 15.0°</span>
-                        <span class="product-card__origin">뉴질랜드</span>
-                    </div>
-                    <div class="product-card__price">22,000원</div>
-                    <button class="product-card__action">장바구니</button>
-                </div>
-            </div>
-
-            <div class="product-card" data-season="spring">
-                <div class="product-card__image" style="background: linear-gradient(135deg, #FFF9C4, #FFF59D);">
-                    <span>🍌</span>
-                </div>
-                <div class="product-card__content">
-                    <h4 class="product-card__title">바나나 프리미엄</h4>
-                    <p class="product-card__desc">부드럽고 달콤한</p>
-                    <div class="product-card__info">
-                        <span class="product-card__brix">당도 16.0°</span>
-                        <span class="product-card__origin">필리핀</span>
-                    </div>
-                    <div class="product-card__price">8,900원</div>
-                    <button class="product-card__action">장바구니</button>
-                </div>
-            </div>
-
-            <div class="product-card" data-season="spring">
-                <div class="product-card__image" style="background: linear-gradient(135deg, #FFE5EC, #FFB6C9);">
-                    <span>🍑</span>
-                    <div class="product-card__chips">
-                        <span class="product-card__chip">예약</span>
-                    </div>
-                </div>
-                <div class="product-card__content">
-                    <h4 class="product-card__title">청도 복숭아</h4>
-                    <p class="product-card__desc">5월 출하 예정</p>
-                    <div class="product-card__info">
-                        <span class="product-card__brix">당도 예상 13.5°</span>
-                        <span class="product-card__origin">경북 청도</span>
-                    </div>
-                    <div class="product-card__price">35,000원</div>
-                    <button class="product-card__action">예약하기</button>
-                </div>
-            </div>
-
-            <div class="product-card" data-season="spring">
-                <div class="product-card__image" style="background: linear-gradient(135deg, #F3E5F5, #E1BEE7);">
-                    <span>🫐</span>
-                    <div class="product-card__chips">
-                        <span class="product-card__chip fresh">신선</span>
-                    </div>
-                </div>
-                <div class="product-card__content">
-                    <h4 class="product-card__title">블루베리</h4>
-                    <p class="product-card__desc">안토시아닌 풍부</p>
-                    <div class="product-card__info">
-                        <span class="product-card__brix">당도 14.0°</span>
-                        <span class="product-card__origin">국내산</span>
-                    </div>
-                    <div class="product-card__price">18,000원</div>
-                    <button class="product-card__action">장바구니</button>
-                </div>
-            </div>
-
-            <div class="product-card" data-season="spring">
-                <div class="product-card__image" style="background: linear-gradient(135deg, #FFCDD2, #EF9A9A);">
-                    <span>🍒</span>
-                    <div class="product-card__chips">
-                        <span class="product-card__chip">예약</span>
-                    </div>
-                </div>
-                <div class="product-card__content">
-                    <h4 class="product-card__title">아메리칸 체리</h4>
-                    <p class="product-card__desc">탱글탱글 달콤한</p>
-                    <div class="product-card__info">
-                        <span class="product-card__brix">당도 16.5°</span>
-                        <span class="product-card__origin">미국</span>
-                    </div>
-                    <div class="product-card__price">42,000원</div>
-                    <button class="product-card__action">예약하기</button>
-                </div>
-            </div>
-
-            <div class="product-card" data-season="spring">
-                <div class="product-card__image" style="background: linear-gradient(135deg, #E8F5E9, #A5D6A7);">
-                    <span>🍐</span>
-                </div>
-                <div class="product-card__content">
-                    <h4 class="product-card__title">신고배</h4>
-                    <p class="product-card__desc">아삭하고 시원한</p>
-                    <div class="product-card__info">
-                        <span class="product-card__brix">당도 12.5°</span>
-                        <span class="product-card__origin">전남 나주</span>
-                    </div>
-                    <div class="product-card__price">26,000원</div>
-                    <button class="product-card__action">장바구니</button>
-                </div>
-            </div>
-
-            <div class="product-card" data-season="spring">
-                <div class="product-card__image" style="background: linear-gradient(135deg, #FCE4EC, #F8BBD0);">
-                    <span>🍇</span>
-                </div>
-                <div class="product-card__content">
-                    <h4 class="product-card__title">샤인머스캣</h4>
-                    <p class="product-card__desc">청포도의 프리미엄</p>
-                    <div class="product-card__info">
-                        <span class="product-card__brix">당도 18.0°</span>
-                        <span class="product-card__origin">경북 상주</span>
-                    </div>
-                    <div class="product-card__price">48,000원</div>
-                    <button class="product-card__action">장바구니</button>
-                </div>
-            </div>
-        </div>
+      </div>
     </section>
 
-    <!-- Coming Soon Section -->
-    <section class="coming-soon-section">
-        <div class="coming-soon-section__header">
-            <h3 class="coming-soon-section__title">🌱 다음 시즌 예고</h3>
-            <p class="coming-soon-section__subtitle">여름철에 만나요!</p>
-        </div>
-        <div class="coming-soon-grid">
-            <div class="coming-soon-item">
-                <div class="coming-soon-item__icon">🍉</div>
-                <div class="coming-soon-item__name">수박</div>
-                <div class="coming-soon-item__date">6월 출하</div>
-            </div>
-            <div class="coming-soon-item">
-                <div class="coming-soon-item__icon">🥭</div>
-                <div class="coming-soon-item__name">망고</div>
-                <div class="coming-soon-item__date">7월 출하</div>
-            </div>
-            <div class="coming-soon-item">
-                <div class="coming-soon-item__icon">🍑</div>
-                <div class="coming-soon-item__name">복숭아</div>
-                <div class="coming-soon-item__date">6월 출하</div>
-            </div>
-            <div class="coming-soon-item">
-                <div class="coming-soon-item__icon">🍈</div>
-                <div class="coming-soon-item__name">멜론</div>
-                <div class="coming-soon-item__date">5월 출하</div>
-            </div>
-        </div>
+    <section class="section">
+      <div class="surface freshness-banner">
+        <div class="freshness-icon">🧺</div>
+        <div><div class="freshness-title">신선도 100% 기준 선별</div><div class="freshness-desc">현재 시즌 수확분을 우선 소싱하고, 출고 기준일이 가까운 상품만 제철 페이지에 노출합니다.</div></div>
+      </div>
     </section>
 
-    <!-- Bottom Navigation -->
-    <nav class="bottom-nav">
-        <a href="../home/index.html" class="nav-link">
-            <span class="nav-link__icon">🏠</span>
-            <span class="nav-link__label">홈</span>
-        </a>
-        <a href="../products/index.html" class="nav-link active">
-            <span class="nav-link__icon">🍎</span>
-            <span class="nav-link__label">상품</span>
-        </a>
-        <a href="../cart/index.html" class="nav-link">
-            <span class="nav-link__icon">🛒</span>
-            <span class="nav-link__label">장바구니</span>
-        </a>
-        <a href="../mypage/index.html" class="nav-link">
-            <span class="nav-link__icon">👤</span>
-            <span class="nav-link__label">마이</span>
-        </a>
-    </nav>
+    <section class="section">
+      <div class="surface">
+        <div class="section-header"><div><h2 class="section-title" id="productsTitle">봄철 제철과일</h2><p class="section-copy" id="productsCopy">지금 가장 맛있는 제철 과일을 카드형으로 정리했습니다.</p></div><span class="section-more" id="productsCount">8개</span></div>
+        <div class="filter-pills"><span class="filter-pill active">전체</span><span class="filter-pill">높은 당도</span><span class="filter-pill">신선 추천</span><span class="filter-pill">예약 가능</span><span class="filter-pill">가성비</span></div>
+        <div class="product-grid" id="productsGrid"></div>
+      </div>
+    </section>
 
-    <script>
-        // Season data
-        const seasonData = {
-            spring: {
-                icon: '🌸',
-                title: '봄철 제철과일',
-                subtitle: '따스한 봄햇살을 머금은 신선한 과일',
-                temp: '15°C',
-                month: '3월',
-                gradient: 'linear-gradient(135deg, #FFE5E5 0%, #FFEEF5 50%, #E8F5E9 100%)',
-                products: [
-                    { emoji: '🍓', name: '설향 딸기', desc: '달콤한 봄의 맛', brix: '14.5', origin: '경남 진주', price: '28,000원', badges: ['제철', '신선'], gradient: 'linear-gradient(135deg, #FFE5E5, #FFB6C1)' },
-                    { emoji: '🍊', name: '제주 한라봉', desc: '새콤달콤 상큼한 맛', brix: '13.5', origin: '제주도', price: '32,000원', badges: ['제철'], gradient: 'linear-gradient(135deg, #FFE0B2, #FFCC80)' },
-                    { emoji: '🍋', name: '레드향', desc: '향긋한 제주 감귤', brix: '13.0', origin: '제주 서귀포', price: '29,000원', badges: ['제철'], gradient: 'linear-gradient(135deg, #FFECB3, #FFD54F)' },
-                    { emoji: '🥝', name: '골드키위', desc: '영양 가득 달콤한 키위', brix: '15.0', origin: '뉴질랜드', price: '22,000원', badges: ['신선'], gradient: 'linear-gradient(135deg, #C8E6C9, #81C784)' },
-                    { emoji: '🍌', name: '바나나 프리미엄', desc: '부드럽고 달콤한', brix: '16.0', origin: '필리핀', price: '8,900원', badges: [], gradient: 'linear-gradient(135deg, #FFF9C4, #FFF59D)' },
-                    { emoji: '🍑', name: '청도 복숭아', desc: '5월 출하 예정', brix: '예상 13.5', origin: '경북 청도', price: '35,000원', badges: ['예약'], gradient: 'linear-gradient(135deg, #FFE5EC, #FFB6C9)' },
-                    { emoji: '🫐', name: '블루베리', desc: '안토시아닌 풍부', brix: '14.0', origin: '국내산', price: '18,000원', badges: ['신선'], gradient: 'linear-gradient(135deg, #F3E5F5, #E1BEE7)' },
-                    { emoji: '🍒', name: '아메리칸 체리', desc: '탱글탱글 달콤한', brix: '16.5', origin: '미국', price: '42,000원', badges: ['예약'], gradient: 'linear-gradient(135deg, #FFCDD2, #EF9A9A)' },
-                    { emoji: '🍐', name: '신고배', desc: '아삭하고 시원한', brix: '12.5', origin: '전남 나주', price: '26,000원', badges: [], gradient: 'linear-gradient(135deg, #E8F5E9, #A5D6A7)' },
-                    { emoji: '🍇', name: '샤인머스캣', desc: '청포도의 프리미엄', brix: '18.0', origin: '경북 상주', price: '48,000원', badges: [], gradient: 'linear-gradient(135deg, #FCE4EC, #F8BBD0)' }
-                ]
-            },
-            summer: {
-                icon: '☀️',
-                title: '여름철 제철과일',
-                subtitle: '시원하고 달콤한 여름 과일',
-                temp: '28°C',
-                month: '7월',
-                gradient: 'linear-gradient(135deg, #FFE5B4 0%, #FFEB99 50%, #FFD700 100%)',
-                products: [
-                    { emoji: '🍉', name: '수박', desc: '시원한 여름의 맛', brix: '11.5', origin: '전남 고흥', price: '25,000원', badges: ['제철', '신선'], gradient: 'linear-gradient(135deg, #FFE5E5, #A5D6A7)' },
-                    { emoji: '🥭', name: '애플망고', desc: '달콤한 열대과일', brix: '15.5', origin: '태국', price: '38,000원', badges: ['제철'], gradient: 'linear-gradient(135deg, #FFD54F, #FFA726)' },
-                    { emoji: '🍑', name: '천도복숭아', desc: '향긋한 여름과일', brix: '13.0', origin: '경북 영천', price: '32,000원', badges: ['제철'], gradient: 'linear-gradient(135deg, #FFE5EC, #FFB6C9)' },
-                    { emoji: '🍈', name: '머스크멜론', desc: '프리미엄 멜론', brix: '16.0', origin: '강원 횡성', price: '45,000원', badges: ['신선'], gradient: 'linear-gradient(135deg, #E8F5E9, #A5D6A7)' },
-                    { emoji: '🍇', name: '거봉포도', desc: '알이 큰 포도', brix: '17.0', origin: '경북 상주', price: '35,000원', badges: ['제철'], gradient: 'linear-gradient(135deg, #E1BEE7, #BA68C8)' },
-                    { emoji: '🍓', name: '체리', desc: '새콤달콤한 맛', brix: '16.5', origin: '미국', price: '42,000원', badges: ['신선'], gradient: 'linear-gradient(135deg, #FFCDD2, #EF5350)' }
-                ]
-            },
-            autumn: {
-                icon: '🍂',
-                title: '가을철 제철과일',
-                subtitle: '풍성하고 달콤한 가을 과일',
-                temp: '18°C',
-                month: '10월',
-                gradient: 'linear-gradient(135deg, #FFF3E0 0%, #FFE0B2 50%, #FFCC80 100%)',
-                products: [
-                    { emoji: '🍎', name: '홍로 사과', desc: '아삭한 가을 사과', brix: '14.0', origin: '경북 영주', price: '32,000원', badges: ['제철', '신선'], gradient: 'linear-gradient(135deg, #FFCDD2, #EF9A9A)' },
-                    { emoji: '🍇', name: '샤인머스캣', desc: '프리미엄 청포도', brix: '18.5', origin: '경북 김천', price: '55,000원', badges: ['제철'], gradient: 'linear-gradient(135deg, #F1F8E9, #C5E1A5)' },
-                    { emoji: '🍐', name: '신고배', desc: '아삭한 배', brix: '12.5', origin: '전남 나주', price: '28,000원', badges: ['제철'], gradient: 'linear-gradient(135deg, #E8F5E9, #A5D6A7)' },
-                    { emoji: '🌰', name: '밤', desc: '고소한 가을 밤', brix: '-', origin: '충남 공주', price: '15,000원', badges: ['제철'], gradient: 'linear-gradient(135deg, #EFEBE9, #BCAAA4)' },
-                    { emoji: '🍊', name: '단감', desc: '달콤한 감', brix: '15.0', origin: '경남 진영', price: '22,000원', badges: ['제철', '신선'], gradient: 'linear-gradient(135deg, #FFE0B2, #FF9800)' },
-                    { emoji: '🥜', name: '호두', desc: '영양 가득', brix: '-', origin: '경기 안성', price: '18,000원', badges: [], gradient: 'linear-gradient(135deg, #EFEBE9, #A1887F)' }
-                ]
-            },
-            winter: {
-                icon: '❄️',
-                title: '겨울철 제철과일',
-                subtitle: '달콤하고 신선한 겨울 과일',
-                temp: '3°C',
-                month: '1월',
-                gradient: 'linear-gradient(135deg, #E3F2FD 0%, #BBDEFB 50%, #90CAF9 100%)',
-                products: [
-                    { emoji: '🍊', name: '제주 감귤', desc: '새콤달콤한 감귤', brix: '13.0', origin: '제주도', price: '25,000원', badges: ['제철', '신선'], gradient: 'linear-gradient(135deg, #FFE0B2, #FFCC80)' },
-                    { emoji: '🍓', name: '설향 딸기', desc: '달콤한 겨울 딸기', brix: '14.0', origin: '경남 진주', price: '28,000원', badges: ['제철'], gradient: 'linear-gradient(135deg, #FFE5E5, #FFB6C1)' },
-                    { emoji: '🍎', name: '후지 사과', desc: '아삭한 사과', brix: '14.5', origin: '경북 영주', price: '30,000원', badges: ['신선'], gradient: 'linear-gradient(135deg, #FFCDD2, #EF5350)' },
-                    { emoji: '🍋', name: '천혜향', desc: '향긋한 제주 감귤', brix: '13.5', origin: '제주 서귀포', price: '32,000원', badges: ['제철'], gradient: 'linear-gradient(135deg, #FFE0B2, #FFB74D)' },
-                    { emoji: '🥝', name: '그린키위', desc: '상큼한 키위', brix: '14.0', origin: '국내산', price: '18,000원', badges: [], gradient: 'linear-gradient(135deg, #C8E6C9, #81C784)' },
-                    { emoji: '🍐', name: '배', desc: '시원한 겨울 배', brix: '12.0', origin: '전남 나주', price: '26,000원', badges: ['신선'], gradient: 'linear-gradient(135deg, #E8F5E9, #A5D6A7)' }
-                ]
-            }
-        };
-
-        let currentSeason = 'spring';
-
-        // Toggle calendar
-        function toggleCalendar() {
-            const list = document.getElementById('harvestList');
-            const toggleText = document.getElementById('calendarToggleText');
-            const toggleIcon = document.getElementById('calendarToggleIcon');
-
-            if (list.classList.contains('expanded')) {
-                list.classList.remove('expanded');
-                toggleText.textContent = '펼치기';
-                toggleIcon.textContent = '▼';
-            } else {
-                list.classList.add('expanded');
-                toggleText.textContent = '접기';
-                toggleIcon.textContent = '▲';
-            }
-        }
-
-        // Switch season
-        function switchSeason(season) {
-            currentSeason = season;
-            const data = seasonData[season];
-
-            // Update tabs
-            document.querySelectorAll('.season-tab').forEach(tab => {
-                tab.classList.remove('active');
-            });
-            document.querySelector(`[data-season="${season}"]`).classList.add('active');
-
-            // Update hero banner
-            document.getElementById('currentSeasonIcon').textContent = data.icon;
-            document.getElementById('currentSeasonTitle').textContent = data.title;
-            document.getElementById('currentSeasonSubtitle').textContent = data.subtitle;
-            document.getElementById('currentTemp').textContent = data.temp;
-            document.getElementById('currentMonth').textContent = data.month;
-            document.querySelector('.season-hero').style.background = data.gradient;
-
-            // Update products section title
-            document.getElementById('productsTitle').textContent = data.title;
-            document.getElementById('productsCount').textContent = `${data.products.length}개`;
-
-            // Update products grid
-            const grid = document.getElementById('productsGrid');
-            grid.classList.remove('fade-in');
-
-            setTimeout(() => {
-                grid.innerHTML = data.products.map(product => `
-                    <div class="product-card" data-season="${season}">
-                        <div class="product-card__image" style="background: ${product.gradient};">
-                            <span>${product.emoji}</span>
-                            ${product.badges.length > 0 ? `
-                            <div class="product-card__chips">
-                                ${product.badges.map(badge => {
-                                    let badgeClass = '';
-                                    if (badge === '제철') badgeClass = 'season';
-                                    else if (badge === '신선') badgeClass = 'fresh';
-                                    return `<span class="product-card__badge ${chipClass}">${badge}</span>`;
-                                }).join('')}
-                            </div>
-                            ` : ''}
-                        </div>
-                        <div class="product-card__content">
-                            <h4 class="product-card__title">${product.name}</h4>
-                            <p class="product-card__desc">${product.desc}</p>
-                            <div class="product-card__info">
-                                ${product.brix !== '-' ? `<span class="product-card__brix">당도 ${product.brix}°</span>` : ''}
-                                <span class="product-card__origin">${product.origin}</span>
-                            </div>
-                            <div class="product-card__price">${product.price}</div>
-                            <button class="product-card__action">${product.badges.includes('예약') ? '예약하기' : '장바구니'}</button>
-                        </div>
-                    </div>
-                `).join('');
-
-                grid.classList.add('fade-in');
-            }, 150);
-
-            // Update coming soon section based on current season
-            updateComingSoon(season);
-        }
-
-        // Update coming soon section
-        function updateComingSoon(season) {
-            const nextSeason = {
-                spring: { name: '여름철', fruits: [
-                    { emoji: '🍉', name: '수박', month: '6월 출하' },
-                    { emoji: '🥭', name: '망고', month: '7월 출하' },
-                    { emoji: '🍑', name: '복숭아', month: '6월 출하' },
-                    { emoji: '🍈', name: '멜론', month: '5월 출하' }
-                ]},
-                summer: { name: '가을철', fruits: [
-                    { emoji: '🍎', name: '사과', month: '9월 출하' },
-                    { emoji: '🍇', name: '포도', month: '9월 출하' },
-                    { emoji: '🍐', name: '배', month: '9월 출하' },
-                    { emoji: '🌰', name: '밤', month: '10월 출하' }
-                ]},
-                autumn: { name: '겨울철', fruits: [
-                    { emoji: '🍊', name: '감귤', month: '11월 출하' },
-                    { emoji: '🍓', name: '딸기', month: '12월 출하' },
-                    { emoji: '🍋', name: '한라봉', month: '1월 출하' },
-                    { emoji: '🥝', name: '키위', month: '11월 출하' }
-                ]},
-                winter: { name: '봄철', fruits: [
-                    { emoji: '🍓', name: '딸기', month: '3월 최고' },
-                    { emoji: '🍊', name: '한라봉', month: '3월 최고' },
-                    { emoji: '🍒', name: '체리', month: '5월 출하' },
-                    { emoji: '🫐', name: '블루베리', month: '4월 출하' }
-                ]}
-            };
-
-            const next = nextSeason[season];
-            document.querySelector('.coming-soon-section__subtitle').textContent = `${next.name}에 만나요!`;
-
-            const grid = document.querySelector('.coming-soon-grid');
-            grid.innerHTML = next.fruits.map(fruit => `
-                <div class="coming-soon-item">
-                    <div class="coming-soon-item__icon">${fruit.emoji}</div>
-                    <div class="coming-soon-item__name">${fruit.name}</div>
-                    <div class="coming-soon-item__date">${fruit.month}</div>
-                </div>
-            `).join('');
-        }
-
-        // Filter chips functionality
-        document.querySelectorAll('.filter-chips .chip').forEach(chip => {
-            chip.addEventListener('click', function() {
-                document.querySelectorAll('.filter-chips .chip').forEach(c => c.classList.remove('active'));
-                this.classList.add('active');
-            });
-        });
-
-        // Add to cart functionality
-        document.addEventListener('click', function(e) {
-            if (e.target.classList.contains('product-card__action')) {
-                const card = e.target.closest('.product-card');
-                const productName = card.querySelector('.product-card__title').textContent;
-
-                // Simple feedback
-                e.target.textContent = '✓ 담김';
-                e.target.style.background = '#4CAF50';
-
-                setTimeout(() => {
-                    if (e.target.textContent === '✓ 담김') {
-                        e.target.textContent = '장바구니';
-                        e.target.style.background = '';
-                    }
-                }, 1500);
-            }
-        });
-
-        // Initialize page
-        document.addEventListener('DOMContentLoaded', function() {
-            // Auto-expand calendar on first load
-            setTimeout(() => {
-                toggleCalendar();
-            }, 500);
-        });
-    </script>
+    <div class="coming-panel">
+      <div class="container">
+        <div class="coming-head"><span class="badge-pink">다음 시즌 예고</span><h2 class="coming-title" id="comingTitle">여름 시즌 미리 보기</h2><p class="coming-subtitle" id="comingSubtitle">곧 가장 맛있어질 과일을 미리 소개합니다.</p></div>
+        <div class="coming-grid" id="comingGrid"></div>
+      </div>
+    </div>
+  </main>
+  <nav class="bottom-nav"><div class="bottom-nav-inner"><a href="../home/fruitbridge-redesign-v3-fixed.html" class="nav-item"><span class="nav-icon">🏠</span><span>홈</span></a><a href="./donation.html" class="nav-item"><span class="nav-icon">🤝</span><span>나눔</span></a><a href="./seasonal.html" class="nav-item active"><span class="nav-icon">🍓</span><span>제철</span></a><a href="../wishlist/index.html" class="nav-item"><span class="nav-icon">❤️</span><span>찜목록</span></a><a href="../mypage/index.html" class="nav-item"><span class="nav-icon">👤</span><span>마이</span></a></div></nav>
+  <div class="toast" id="toast"></div>
+  <script>
+    const seasonData={
+      spring:{icon:"🌸",name:"봄",month:"3월 추천",temp:"🌤 15°C",badge:"🌸 3월의 제철",title:"봄철 제철과일로<br />가장 좋은 맛을 만나요",subtitle:"따스한 봄햇살을 머금은 과일을 가장 좋은 시기에 소개합니다.",tag:"지금 가장 달콤한 픽",gradient:"linear-gradient(135deg,#ff9b8c 0%,#ffbd82 100%)",count:8,impact:365,copy:"지금 가장 맛있는 봄철 과일을 카드형으로 정리했습니다.",months:["1월","2월","3월","4월","5월","6월","7월","8월","9월","10월","11월","12월"],current:[2,3,4],harvest:[{icon:"🍓",name:"설향 딸기",meta:"12월~5월",peak:"3-4월 최고"},{icon:"🍊",name:"한라봉",meta:"1월~4월",peak:"2-3월 최고"},{icon:"🥝",name:"골드키위",meta:"11월~5월",peak:"1-3월 추천"},{icon:"🫐",name:"블루베리",meta:"3월 프리오더",peak:"4월부터 본격 출하"}],products:[{emoji:"🍓",badges:["제철","신선"],name:"설향 딸기",desc:"달콤한 봄의 대표 과일",meta:"당도 14.5Brix+ · 경남 진주",rating:"318",price:"28,000원",action:"장바구니"},{emoji:"🍊",badges:["제철"],name:"제주 한라봉",desc:"새콤달콤 상큼한 맛",meta:"당도 13.5Brix+ · 제주",rating:"244",price:"32,000원",action:"장바구니"},{emoji:"🥝",badges:["신선"],name:"골드키위",desc:"영양 가득 달콤한 키위",meta:"당도 15Brix+ · 뉴질랜드",rating:"198",price:"22,000원",action:"장바구니"},{emoji:"🍌",badges:["가성비"],name:"프리미엄 바나나",desc:"부드럽고 달콤한 과육",meta:"당도 16Brix+ · 필리핀",rating:"153",price:"8,900원",action:"장바구니"},{emoji:"🍑",badges:["예약"],name:"청도 복숭아",desc:"5월 출하 예정",meta:"당도 예상 13.5Brix+ · 경북 청도",rating:"예약 상품",price:"35,000원",action:"예약하기"},{emoji:"🫐",badges:["신선"],name:"블루베리",desc:"안토시아닌 풍부",meta:"당도 14Brix+ · 국내산",rating:"122",price:"18,000원",action:"장바구니"}],coming:{title:"여름 시즌 미리 보기",subtitle:"수박, 멜론, 자두처럼 더운 계절의 대표 과일이 곧 시작됩니다.",cards:[{icon:"🍉",title:"수박 시즌",copy:"당도 높은 여름 대표 과일을 미리 만나보세요.",link:"여름 과일 보기"},{icon:"🍈",title:"멜론 라인업",copy:"산지별 멜론을 크기와 당도로 나눠 소개할 예정입니다.",link:"멜론 알림 받기"}]}},
+      summer:{icon:"☀️",name:"여름",month:"7월 추천",temp:"☀️ 29°C",badge:"☀️ 7월의 제철",title:"무더운 여름에 맞는<br />시원한 제철과일",subtitle:"수분감과 청량감이 살아있는 여름 과일을 가장 맛있는 타이밍에 소개합니다.",tag:"시원하고 청량한 픽",gradient:"linear-gradient(135deg,#40c2c9 0%,#2f8fd8 100%)",count:7,impact:412,copy:"여름에 가장 맛있고 시원한 과일 위주로 정리했습니다.",current:[5,6,7],harvest:[{icon:"🍉",name:"고당도 수박",meta:"6월~8월",peak:"7월 최고"},{icon:"🍈",name:"머스크 멜론",meta:"6월~8월",peak:"7-8월 추천"},{icon:"🍑",name:"복숭아",meta:"6월~9월",peak:"7월 본격 출하"},{icon:"🍒",name:"체리",meta:"5월~7월",peak:"6월 최고"}],products:[{emoji:"🍉",badges:["제철","신선"],name:"고당도 수박",desc:"여름 대표 과일",meta:"당도 11.5Brix+ · 전북 고창",rating:"287",price:"29,000원",action:"장바구니"},{emoji:"🍈",badges:["제철"],name:"머스크 멜론",desc:"향이 진한 프리미엄",meta:"당도 14Brix+ · 충남 논산",rating:"192",price:"34,000원",action:"장바구니"},{emoji:"🍑",badges:["신선"],name:"복숭아 4kg",desc:"과즙 가득 여름 복숭아",meta:"당도 13Brix+ · 경북 영천",rating:"177",price:"31,000원",action:"장바구니"},{emoji:"🍒",badges:["예약"],name:"체리 셀렉션",desc:"한정 수량 입고",meta:"당도 16Brix+ · 미국산",rating:"프리오더",price:"39,000원",action:"예약하기"}],coming:{title:"가을 시즌 미리 보기",subtitle:"사과, 배, 포도처럼 풍성한 가을 과일이 이어집니다.",cards:[{icon:"🍎",title:"사과 시즌",copy:"아삭한 식감과 단맛이 살아나는 가을 대표 과일입니다.",link:"가을 과일 보기"},{icon:"🍇",title:"포도 셀렉션",copy:"거봉과 샤인머스캣 중심으로 라인업이 확장됩니다.",link:"포도 알림 받기"}]}},
+      autumn:{icon:"🍂",name:"가을",month:"10월 추천",temp:"🍁 18°C",badge:"🍂 10월의 제철",title:"풍성한 가을에 만나는<br />당도 높은 제철과일",subtitle:"아삭하고 진한 맛이 올라오는 수확철 과일을 중심으로 큐레이션했습니다.",tag:"풍미가 깊은 픽",gradient:"linear-gradient(135deg,#f0a24b 0%,#cb6f2e 100%)",count:6,impact:508,copy:"가을 수확 시즌에 맞는 대표 과일을 엄선했습니다.",current:[8,9,10],harvest:[{icon:"🍎",name:"부사 사과",meta:"9월~12월",peak:"10-11월 최고"},{icon:"🍐",name:"신고배",meta:"9월~11월",peak:"9-10월 추천"},{icon:"🍇",name:"샤인머스캣",meta:"8월~10월",peak:"9월 최고"},{icon:"🌰",name:"밤·견과류",meta:"9월~11월",peak:"가을 한정"}],products:[{emoji:"🍎",badges:["제철","신선"],name:"부사 사과 5kg",desc:"아삭한 식감과 균형 잡힌 단맛",meta:"당도 14Brix+ · 경북 청송",rating:"341",price:"35,000원",action:"장바구니"},{emoji:"🍐",badges:["제철"],name:"신고배 4kg",desc:"시원하고 풍부한 과즙",meta:"당도 12.5Brix+ · 전남 나주",rating:"206",price:"26,000원",action:"장바구니"},{emoji:"🍇",badges:["신선"],name:"샤인머스캣",desc:"청포도의 프리미엄",meta:"당도 18Brix+ · 경북 상주",rating:"175",price:"48,000원",action:"장바구니"},{emoji:"🌰",badges:["예약"],name:"가을 밤 세트",desc:"한정 시즌 별미",meta:"햇밤 선별 · 국내산",rating:"시즌 한정",price:"22,000원",action:"예약하기"}],coming:{title:"겨울 시즌 미리 보기",subtitle:"감귤, 딸기, 키위처럼 겨울철 대표 과일이 이어집니다.",cards:[{icon:"🍊",title:"감귤 라인업",copy:"새콤달콤한 겨울 감귤을 다양한 크기로 소개합니다.",link:"겨울 과일 보기"},{icon:"🍓",title:"딸기 오픈",copy:"겨울 대표 딸기가 가장 좋은 시기에 맞춰 입고됩니다.",link:"딸기 알림 받기"}]}},
+      winter:{icon:"❄️",name:"겨울",month:"1월 추천",temp:"❄️ 2°C",badge:"❄️ 1월의 제철",title:"차가운 계절에 더 반가운<br />달콤한 겨울 제철과일",subtitle:"겨울철 풍미가 깊어지는 감귤과 딸기, 키위 중심으로 큐레이션했습니다.",tag:"겨울 대표 달콤한 픽",gradient:"linear-gradient(135deg,#6387c8 0%,#4a63ad 100%)",count:7,impact:441,copy:"겨울철 가장 반응이 좋은 제철 과일 위주로 묶었습니다.",current:[11,0,1],harvest:[{icon:"🍊",name:"감귤·한라봉",meta:"11월~3월",peak:"1-2월 최고"},{icon:"🍓",name:"겨울 딸기",meta:"12월~4월",peak:"1-2월 추천"},{icon:"🥝",name:"키위",meta:"11월~3월",peak:"겨울 내내 안정적"},{icon:"🍎",name:"부사 사과",meta:"저장 사과 시즌",peak:"겨울에도 인기"}],products:[{emoji:"🍊",badges:["제철","신선"],name:"제주 감귤 5kg",desc:"겨울철 대표 상큼함",meta:"당도 12.5Brix+ · 제주",rating:"294",price:"21,000원",action:"장바구니"},{emoji:"🍓",badges:["제철"],name:"겨울 딸기 1kg",desc:"달콤한 겨울 대표 과일",meta:"당도 14Brix+ · 경남 산청",rating:"255",price:"27,000원",action:"장바구니"},{emoji:"🥝",badges:["신선"],name:"그린키위 세트",desc:"상큼한 균형감",meta:"당도 13Brix+ · 뉴질랜드",rating:"139",price:"19,000원",action:"장바구니"},{emoji:"🍎",badges:["가성비"],name:"부사 사과 3kg",desc:"겨울철 데일리 과일",meta:"당도 13Brix+ · 경북",rating:"221",price:"24,000원",action:"장바구니"}],coming:{title:"봄 시즌 미리 보기",subtitle:"봄 딸기와 한라봉, 레드향이 다시 메인 시즌으로 돌아옵니다.",cards:[{icon:"🌸",title:"봄 시즌 오픈",copy:"따뜻해지는 계절과 함께 봄 라인업이 다시 시작됩니다.",link:"봄 과일 보기"},{icon:"🍊",title:"시트러스 픽",copy:"한라봉과 레드향 중심의 봄 감귤 셀렉션이 이어집니다.",link:"시트러스 알림 받기"}]}}
+    };
+    const toast=document.getElementById("toast");
+    const seasonTabs=document.getElementById("seasonTabs");
+    const harvestMonths=document.getElementById("harvestMonths");
+    const harvestList=document.getElementById("harvestList");
+    const productsGrid=document.getElementById("productsGrid");
+    const comingGrid=document.getElementById("comingGrid");
+    let currentSeason="spring";
+    function showToast(message){toast.textContent=message;toast.classList.add("show");setTimeout(()=>toast.classList.remove("show"),2500)}
+    function badgeClass(label){if(label==="제철")return"badge-season";if(label==="신선")return"badge-fresh";return"badge-book"}
+    function renderSeasonTabs(){seasonTabs.innerHTML=Object.entries(seasonData).map(([key,value])=>`<button class="season-tab${key===currentSeason?" active":""}" type="button" data-season="${key}"><div class="season-tab__icon">${value.icon}</div><div class="season-tab__name">${value.name}</div></button>`).join("");seasonTabs.querySelectorAll(".season-tab").forEach((button)=>button.addEventListener("click",()=>switchSeason(button.dataset.season)))}
+    function renderHarvest(data){const months=data.months||seasonData.spring.months;harvestMonths.innerHTML=months.map((month,index)=>`<span class="month-chip${data.current.includes(index)?" current":""}${data.current.includes(index+1)?" available":""}">${month}</span>`).join("");harvestList.innerHTML=data.harvest.map((item)=>`<article class="harvest-item"><div class="harvest-icon">${item.icon}</div><div><div class="harvest-name">${item.name}</div><div class="harvest-meta">${item.meta}</div><span class="harvest-peak">${item.peak}</span></div></article>`).join("")}
+    function renderProducts(data){productsGrid.innerHTML=data.products.map((item)=>`<article class="product-card"><div class="product-image" style="background:${data.gradient.replace("100%)","65%)")};"><div class="product-emoji">${item.emoji}</div><div class="product-badges">${item.badges.map((badge)=>`<span class="product-badge ${badgeClass(badge)}">${badge}</span>`).join("")}</div></div><div class="product-info"><div class="product-name">${item.name}</div><div class="product-desc">${item.desc}</div><div class="product-meta">${item.meta}</div><div class="product-rating"><span class="star">★★★★★</span><span>${item.rating}</span></div><div class="product-price">${item.price}</div><button class="product-btn" type="button" data-name="${item.name}">${item.action}</button></div></article>`).join("");productsGrid.querySelectorAll(".product-btn").forEach((button)=>button.addEventListener("click",()=>showToast(button.dataset.name+" 상품을 준비했습니다")))}
+    function renderComing(data){document.getElementById("comingTitle").textContent=data.coming.title;document.getElementById("comingSubtitle").textContent=data.coming.subtitle;comingGrid.innerHTML=data.coming.cards.map((item)=>`<article class="coming-card"><div class="coming-icon">${item.icon}</div><h3>${item.title}</h3><p>${item.copy}</p><a href="#" class="coming-link">${item.link}</a></article>`).join("")}
+    function switchSeason(season){currentSeason=season;const data=seasonData[season];document.getElementById("seasonHero").style.background=data.gradient;document.getElementById("heroBadge").textContent=data.badge;document.getElementById("heroTitle").innerHTML=data.title;document.getElementById("heroSubtitle").textContent=data.subtitle;document.getElementById("heroWeather").textContent=data.temp;document.getElementById("heroMonth").textContent=data.month;document.getElementById("heroTag").textContent=data.tag;document.getElementById("productsTitle").textContent=data.name+"철 제철과일";document.getElementById("productsCopy").textContent=data.copy;document.getElementById("productsCount").textContent=data.count+"개";document.getElementById("heroImpact").textContent=data.impact+"박스";document.getElementById("heroProgress").style.width=Math.min(92,Math.round(data.impact/6))+"%";renderSeasonTabs();renderHarvest(data);renderProducts(data);renderComing(data)}
+    document.querySelectorAll(".tab-item").forEach((tab)=>tab.addEventListener("click",(e)=>{e.preventDefault();document.querySelectorAll(".tab-item").forEach((item)=>item.classList.remove("active"));tab.classList.add("active")}));
+    document.querySelectorAll(".filter-pill").forEach((pill)=>pill.addEventListener("click",()=>{document.querySelectorAll(".filter-pill").forEach((item)=>item.classList.remove("active"));pill.classList.add("active")}));
+    switchSeason("spring");
+  </script>
 </body>
 </html>

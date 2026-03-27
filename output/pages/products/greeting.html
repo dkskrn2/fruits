@@ -1,463 +1,395 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>안부전하기 - 과일다리</title>
-    <link rel="stylesheet" href="../../styles/design-system.css">
-    <link rel="stylesheet" href="../../styles/components.css">
-    <link rel="stylesheet" href="../../styles/common-layout.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>선물하기 - 과일다리</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    :root{--primary:#5f8f3a;--primary-strong:#476d2a;--primary-soft:#edf6e4;--secondary:#ff8c42;--secondary-soft:#fff1e4;--pink-soft:#fff2f5;--pink:#d94a7d;--pink-strong:#ba3464;--sale:#ff6b57;--text-strong:#1d2a1f;--text:#334236;--text-muted:#708072;--line:rgba(61,88,56,.12);--shadow-sm:0 6px 18px rgba(33,52,36,.06);--shadow-md:0 16px 40px rgba(33,52,36,.1);--shadow-lg:0 24px 60px rgba(33,52,36,.14);--max-width:430px}
+    *{box-sizing:border-box;margin:0;padding:0}html{background:linear-gradient(180deg,#eef3ea 0%,#e8eee3 100%);overflow-x:hidden}body{font-family:"Pretendard","Noto Sans KR",-apple-system,BlinkMacSystemFont,sans-serif;color:var(--text);background:radial-gradient(circle at top,rgba(156,194,115,.18),transparent 24%),linear-gradient(180deg,#fbfcf8 0%,#f6f8f3 40%,#f4f6f0 100%);min-height:100vh;width:100%;max-width:var(--max-width);margin:0 auto;position:relative;-webkit-font-smoothing:antialiased;line-height:1.55;overflow-x:hidden}
+    @media (min-width:768px){html,body{min-height:100%}body{border-left:1px solid rgba(61,88,56,.08);border-right:1px solid rgba(61,88,56,.08);box-shadow:0 24px 70px rgba(22,33,23,.18)}}
+    a{text-decoration:none;color:inherit}button{font:inherit;color:inherit;border:0;background:none}img,svg,video,canvas{max-width:100%;height:auto;display:block}
+    .container{padding:0 18px}.main-content{padding:16px 0 104px;display:grid;grid-template-columns:minmax(0,1fr);gap:22px}.main-content>*{min-width:0}
+    .top-banner{display:flex;align-items:center;justify-content:center;gap:10px;padding:11px 16px;background:linear-gradient(90deg,#d94a7d 0%,#ff8c42 100%);color:#fff;font-size:12px;font-weight:700;letter-spacing:-.01em;position:relative}.close-btn{position:absolute;right:10px;top:50%;transform:translateY(-50%);border:0;background:rgba(255,255,255,.14);color:#fff;width:24px;height:24px;border-radius:999px;cursor:pointer}
+    .header{position:sticky;top:0;z-index:100;backdrop-filter:blur(18px);background:rgba(251,252,248,.82);border-bottom:1px solid rgba(61,88,56,.08)}.header-mobile{padding:16px 18px 14px;display:flex;align-items:center;justify-content:space-between}.logo{display:inline-flex;align-items:center;gap:4px;font-size:21px;font-weight:900;letter-spacing:-.04em}.logo .fruit{color:var(--primary)}.logo .bridge{color:var(--primary-strong)}.header-actions{display:flex;gap:10px}.header-icon{position:relative;width:42px;height:42px;display:grid;place-items:center;border-radius:16px;border:1px solid rgba(61,88,56,.08);background:rgba(255,255,255,.75);box-shadow:var(--shadow-sm);font-size:20px;cursor:pointer}.cart-count{position:absolute;top:-3px;right:-1px;width:18px;height:18px;border-radius:999px;background:var(--sale);color:#fff;font-size:10px;font-weight:800;display:grid;place-items:center;border:2px solid #fff}
+    .social-impact-badge{margin:0 18px 14px;padding:14px 14px 13px;border-radius:20px;border:1px solid rgba(217,74,125,.14);background:linear-gradient(135deg,rgba(255,255,255,.94),rgba(255,242,245,.94));box-shadow:var(--shadow-sm)}.impact-main{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}.impact-info{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:600;color:var(--text)}.impact-count{color:var(--pink-strong);font-weight:900}.impact-link{flex-shrink:0;padding:7px 10px;border-radius:999px;background:rgba(217,74,125,.08);color:var(--pink-strong);font-size:11px;font-weight:800}.progress-bar-mini{height:8px;border-radius:999px;background:rgba(217,74,125,.1);overflow:hidden}.progress-fill-mini{height:100%;border-radius:inherit;background:linear-gradient(90deg,#f08db0,#d94a7d);width:74%;transition:width .5s ease}
+    .tab-nav,.occasion-pills,.card-scroll,.date-scroll{-ms-overflow-style:none;scrollbar-width:none}.tab-nav::-webkit-scrollbar,.occasion-pills::-webkit-scrollbar,.card-scroll::-webkit-scrollbar,.date-scroll::-webkit-scrollbar{display:none}
+    .tab-nav{display:flex;gap:10px;overflow-x:auto;padding:0 18px 14px;border-bottom:1px solid rgba(61,88,56,.08)}.tab-item{white-space:nowrap;padding:10px 14px;border-radius:999px;background:transparent;color:var(--text-muted);font-size:13px;font-weight:700;transition:.2s ease}.tab-item.active{background:var(--primary-strong);color:#fff;box-shadow:0 10px 22px rgba(71,109,42,.24)}
+    .section,.hero-greeting,.gift-panel,.message-panel{margin:0 18px;border-radius:30px;overflow:hidden}.surface{background:rgba(255,255,255,.84);border:1px solid rgba(61,88,56,.08);box-shadow:var(--shadow-md);border-radius:28px;padding:20px 16px}.hero-greeting{background:linear-gradient(135deg,#fff2f5 0%,#fff7ed 100%);border:1px solid rgba(217,74,125,.1);box-shadow:var(--shadow-lg)}.gift-panel{background:linear-gradient(180deg,#fff6f8 0%,#fffdfc 100%);border:1px solid rgba(217,74,125,.1);box-shadow:var(--shadow-md);padding:20px 0}.message-panel{background:linear-gradient(180deg,#eff8e8 0%,#f8fcf4 100%);border:1px solid rgba(95,143,58,.12);box-shadow:var(--shadow-md);padding:20px 0}
+    .hero-inner{padding:24px 22px 24px;display:grid;gap:18px}.hero-chip{display:inline-flex;align-items:center;gap:8px;justify-self:start;padding:7px 12px;border-radius:999px;background:rgba(255,255,255,.88);border:1px solid rgba(217,74,125,.12);color:var(--pink-strong);font-size:11px;font-weight:800}.hero-title{font-size:30px;line-height:1.18;font-weight:900;letter-spacing:-.05em;color:var(--text-strong)}.hero-subtitle{font-size:14px;color:var(--text-muted)}.hero-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.hero-stat{padding:14px 12px;border-radius:20px;background:rgba(255,255,255,.88);border:1px solid rgba(61,88,56,.08);box-shadow:var(--shadow-sm)}.hero-stat strong{display:block;font-size:18px;font-weight:900;letter-spacing:-.03em;color:var(--text-strong)}.hero-stat span{display:block;margin-top:4px;font-size:11px;font-weight:700;color:var(--text-muted)}.hero-actions{display:flex;gap:10px;flex-wrap:wrap}.hero-btn{padding:12px 16px;border-radius:999px;font-size:13px;font-weight:800;cursor:pointer}.hero-btn.primary{background:var(--pink-strong);color:#fff;box-shadow:0 16px 32px rgba(217,74,125,.2)}.hero-btn.secondary{background:rgba(255,255,255,.9);border:1px solid rgba(61,88,56,.08);color:var(--text-strong)}
+    .section-header{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:16px}.section-title{font-size:22px;font-weight:900;letter-spacing:-.04em;color:var(--text-strong)}.section-sub{margin-top:5px;color:var(--text-muted);font-size:13px;font-weight:600}.section-more{flex-shrink:0;font-size:12px;font-weight:800;color:var(--text-muted)}.badge-green,.badge-pink,.badge-orange{display:inline-flex;align-items:center;justify-content:center;padding:7px 12px;border-radius:999px;font-size:11px;font-weight:800;margin-bottom:12px}.badge-green{background:var(--primary);color:#fff}.badge-pink{background:var(--pink);color:#fff}.badge-orange{background:var(--secondary);color:#fff}
+    .feature-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.feature-card{padding:16px 14px;border-radius:22px;background:rgba(255,255,255,.92);border:1px solid rgba(61,88,56,.08);box-shadow:var(--shadow-sm)}.feature-icon{width:46px;height:46px;border-radius:16px;display:grid;place-items:center;font-size:22px;background:linear-gradient(135deg,#fff2f5,#fff2e6);margin-bottom:12px}.feature-title{font-size:14px;font-weight:800;color:var(--text-strong)}.feature-desc{margin-top:6px;font-size:12px;color:var(--text-muted)}
+    .occasion-pills{display:flex;gap:8px;overflow-x:auto;padding-bottom:2px}.occasion-pill{white-space:nowrap;padding:10px 14px;border-radius:999px;border:1px solid var(--line);background:rgba(255,255,255,.92);font-size:12px;font-weight:700;color:var(--text);cursor:pointer}.occasion-pill.active{background:#fff1e4;border-color:rgba(255,140,66,.24);color:#b05a1d}
+    .card-scroll{display:flex;gap:12px;overflow-x:auto;padding-bottom:2px}.message-card{flex:0 0 258px;padding:18px 16px;border-radius:24px;background:rgba(255,255,255,.94);border:1px solid rgba(61,88,56,.08);box-shadow:var(--shadow-sm);cursor:pointer;transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease}.message-card.active{transform:translateY(-2px);border-color:rgba(95,143,58,.24);box-shadow:0 20px 38px rgba(95,143,58,.12)}.message-label{display:inline-flex;align-items:center;justify-content:center;padding:6px 10px;border-radius:999px;background:var(--primary-soft);color:var(--primary-strong);font-size:11px;font-weight:800;margin-bottom:12px}.message-title{font-size:16px;font-weight:900;color:var(--text-strong);letter-spacing:-.03em}.message-text{margin-top:10px;font-size:13px;color:var(--text);line-height:1.7}.message-footer{margin-top:12px;font-size:11px;font-weight:700;color:var(--text-muted)}
+    .date-scroll{display:flex;gap:10px;overflow-x:auto;padding-bottom:2px}.date-pill{min-width:74px;padding:12px 10px;border-radius:20px;background:rgba(255,255,255,.94);border:1px solid rgba(61,88,56,.08);box-shadow:var(--shadow-sm);text-align:center;cursor:pointer}.date-pill.active{background:linear-gradient(135deg,#5f8f3a,#7ba94f);color:#fff;border-color:transparent}.date-day{font-size:11px;font-weight:700}.date-num{margin-top:4px;font-size:20px;font-weight:900;line-height:1}.date-caption{margin-top:4px;font-size:11px;font-weight:700;opacity:.88}
+    .summary-card{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px;border-radius:24px;background:linear-gradient(135deg,#fff9ef 0%,#fff2e4 100%);border:1px solid rgba(255,140,66,.14);box-shadow:var(--shadow-sm)}.summary-copy strong{display:block;font-size:17px;font-weight:900;color:var(--text-strong);letter-spacing:-.03em}.summary-copy span{display:block;margin-top:6px;font-size:12px;color:var(--text-muted);font-weight:600}.summary-badge{padding:10px 12px;border-radius:18px;background:#fff;color:#b05a1d;font-size:12px;font-weight:900;box-shadow:0 10px 20px rgba(255,140,66,.12)}
+    .product-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.product-card{background:rgba(255,255,255,.94);border:1px solid rgba(61,88,56,.08);border-radius:24px;overflow:hidden;box-shadow:var(--shadow-sm)}.product-image{position:relative;height:150px;background:linear-gradient(135deg,rgba(255,242,245,.95),rgba(255,241,228,.95));border-bottom:1px solid rgba(61,88,56,.06)}.product-image::before{content:"NO IMAGE";position:absolute;inset:0;display:grid;place-items:center;color:rgba(217,74,125,.32);font-size:12px;font-weight:900;letter-spacing:.14em}.product-emoji{position:absolute;inset:0;display:grid;place-items:center;font-size:42px}.product-badge,.discount-badge{position:absolute;z-index:1;font-weight:900;letter-spacing:-.02em}.product-badge{top:12px;left:12px;padding:6px 8px;border-radius:10px;font-size:10px;color:#fff;background:var(--pink)}.product-badge.orange{background:var(--secondary)}.discount-badge{top:12px;right:12px;min-width:40px;height:40px;padding:0 8px;border-radius:999px;display:grid;place-items:center;background:#fff;color:var(--sale);font-size:11px;box-shadow:0 10px 24px rgba(0,0,0,.1)}
+    .product-info{padding:14px 14px 15px}.product-name{font-size:14px;font-weight:800;line-height:1.4;color:var(--text-strong);min-height:40px;margin-bottom:8px}.product-desc{font-size:12px;color:var(--text-muted);margin-bottom:6px}.product-meta{font-size:11px;font-weight:700;color:var(--text-muted)}.product-price{font-size:18px;color:var(--text-strong);font-weight:900;letter-spacing:-.03em;margin-top:8px}.price-original{font-size:11px;color:#98a39a;text-decoration:line-through;font-weight:700;margin-right:6px}.product-btn{width:100%;margin-top:12px;padding:11px 12px;border-radius:16px;border:0;background:var(--primary-strong);color:#fff;font-size:13px;font-weight:800;cursor:pointer}
+    .service-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.service-card{padding:18px 16px;border-radius:24px;background:rgba(255,255,255,.94);border:1px solid rgba(61,88,56,.08);box-shadow:var(--shadow-sm)}.service-card strong{display:block;font-size:15px;font-weight:900;color:var(--text-strong);letter-spacing:-.03em}.service-card p{margin-top:8px;font-size:12px;color:var(--text-muted)}.service-card a{display:inline-flex;align-items:center;justify-content:center;margin-top:14px;padding:10px 12px;border-radius:14px;background:var(--primary-soft);color:var(--primary-strong);font-size:12px;font-weight:800}
+    .bottom-nav{position:fixed;left:50%;transform:translateX(-50%);width:100%;max-width:var(--max-width);bottom:0;z-index:120;padding:10px 12px calc(10px + env(safe-area-inset-bottom));background:transparent}.bottom-nav::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(246,248,243,0),rgba(246,248,243,.94) 42%,rgba(246,248,243,.98));z-index:-2}.bottom-nav-inner{max-width:var(--max-width);margin:0 auto;display:flex;justify-content:space-around;padding:10px 8px;border-radius:24px;background:rgba(255,255,255,.9);border:1px solid rgba(61,88,56,.08);backdrop-filter:blur(18px);box-shadow:0 16px 36px rgba(29,42,31,.12)}.nav-item{min-width:58px;display:flex;flex-direction:column;align-items:center;gap:4px;padding:4px 6px;color:var(--text-muted);font-size:10px;font-weight:700}.nav-item.active{color:var(--primary-strong)}.nav-icon{font-size:19px}
+    .toast{position:fixed;left:50%;bottom:98px;transform:translateX(-50%);padding:12px 16px;background:rgba(29,42,31,.92);color:#fff;border-radius:999px;font-size:13px;font-weight:700;box-shadow:0 16px 36px rgba(0,0,0,.18);display:none;z-index:200;white-space:nowrap}.toast.show{display:block}
+    @media (max-width:380px){.feature-grid,.product-grid,.service-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.hero-title{font-size:26px}.section-title{font-size:20px}.hero-stats{grid-template-columns:1fr}}
+  </style>
 </head>
 <body>
-    <!-- Header -->
-    <header class="header">
-        <span class="header-back" onclick="history.back()">←</span>
-        <h1 class="header-title">안부전하기</h1>
-        <div class="header-actions">
-            <span class="header-icon">🏠</span>
-        </div>
-    </header>
+  <div class="top-banner"><span>선물 메시지와 지정일 배송으로 마음을 더 정성스럽게 전하세요</span><button class="close-btn" type="button" onclick="this.parentElement.style.display='none'">×</button></div>
 
-    <!-- Hero Banner -->
-    <section class="hero-banner">
-        <div class="hero-content">
-            <div class="hero-icon">💝</div>
-            <h1 class="hero-title">마음을 담은<br>선물과일</h1>
-            <p class="hero-subtitle">부모님께, 소중한 분께<br>정성스러운 과일 선물을 보내세요</p>
+  <header class="header">
+    <div class="header-mobile">
+      <a href="../home/fruitbridge-redesign-v3-fixed.html" class="logo"><span class="fruit">과일</span><span class="bridge">다리</span></a>
+      <div class="header-actions">
+        <a href="./index.html" class="header-icon" aria-label="상품 홈">🛍</a>
+        <a href="../cart/index.html" class="header-icon" aria-label="장바구니">🛒<span class="cart-count">2</span></a>
+      </div>
+    </div>
+    <div class="social-impact-badge">
+      <div class="impact-main">
+        <div class="impact-info"><span>🎁</span><span>이번 주 선물 주문 <span class="impact-count" id="impactCount">248건</span> 준비 중</span></div>
+        <a href="./category_redesign_fruitbridge.html" class="impact-link">카테고리 보기</a>
+      </div>
+      <div class="progress-bar-mini"><div class="progress-fill-mini" id="impactFill"></div></div>
+    </div>
+  </header>
+
+  <nav class="tab-nav">
+    <a href="#" class="tab-item active">선물 홈</a>
+    <a href="#" class="tab-item">상황별</a>
+    <a href="#" class="tab-item">메시지 카드</a>
+    <a href="#" class="tab-item">지정 배송</a>
+    <a href="#" class="tab-item">베스트 세트</a>
+  </nav>
+
+  <main class="main-content">
+    <section class="hero-greeting">
+      <div class="hero-inner">
+        <span class="hero-chip">💌 마음을 담아 보내는 과일 선물</span>
+        <div>
+          <h1 class="hero-title">부모님과 소중한 사람에게<br />정성이 느껴지는 과일 선물</h1>
+          <p class="hero-subtitle">프리미엄 포장, 메시지 카드, 지정일 배송까지 한 번에 구성한 선물 전용 페이지입니다.</p>
         </div>
+        <div class="hero-stats">
+          <div class="hero-stat"><strong>24시간</strong><span>주문 확인 후 큐레이션</span></div>
+          <div class="hero-stat"><strong>4종 서비스</strong><span>포장, 카드, 리본, 안내서</span></div>
+          <div class="hero-stat"><strong>평균 4.9</strong><span>선물 만족도 리뷰 기준</span></div>
+        </div>
+        <div class="hero-actions">
+          <a href="#giftProducts" class="hero-btn primary">선물 세트 보기</a>
+          <button class="hero-btn secondary" type="button" id="copyMessageBtn">추천 문구 받기</button>
+        </div>
+      </div>
     </section>
 
-    <!-- Occasion Filter -->
-    <section class="occasion-filter">
-        <div class="filter-scroll">
-            <button class="filter-chip active" data-occasion="all">전체</button>
-            <button class="filter-chip" data-occasion="birthday">🎂 생신</button>
-            <button class="filter-chip" data-occasion="holiday">🌕 명절</button>
-            <button class="filter-chip" data-occasion="anniversary">🎊 기념일</button>
-            <button class="filter-chip" data-occasion="hospital">💐 병문안</button>
-        </div>
-    </section>
-
-    <!-- Gift Features -->
-    <section class="gift-features">
-        <div class="features-grid">
-            <div class="feature-card">
-                <div class="feature-icon">🎁</div>
-                <div class="feature-title">프리미엄 포장</div>
-                <div class="feature-desc">고급스러운 선물 포장</div>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">💌</div>
-                <div class="feature-title">메시지 카드</div>
-                <div class="feature-desc">진심을 담은 메시지</div>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">🚚</div>
-                <div class="feature-title">원하는 날짜 배송</div>
-                <div class="feature-desc">정확한 시간 약속</div>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">🏅</div>
-                <div class="feature-title">최상품 과일</div>
-                <div class="feature-desc">엄선된 프리미엄</div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Message Card Templates -->
-    <section class="message-cards">
+    <div class="gift-panel">
+      <div class="container">
+        <span class="badge-pink">선물 서비스</span>
         <div class="section-header">
-            <h2>메시지 카드 선택</h2>
-            <span class="view-all">전체보기 →</span>
+          <div>
+            <h2 class="section-title">받는 순간까지 정돈된 선물 경험</h2>
+            <p class="section-sub">홈과 같은 카드 톤을 유지하면서 선물 전용 정보만 별도로 배치했습니다.</p>
+          </div>
         </div>
-        <div class="cards-scroll">
-            <div class="message-card">
-                <div class="message-card-title">생신 축하</div>
-                <div class="message-card-text">"늘 건강하시고 행복하세요. 사랑합니다, 부모님."</div>
-            </div>
-            <div class="message-card">
-                <div class="message-card-title">명절 인사</div>
-                <div class="message-card-text">"풍성한 한가위 되시길 바랍니다. 항상 감사드려요."</div>
-            </div>
-            <div class="message-card">
-                <div class="card-title">감사 인사</div>
-                <div class="message-card-text">"늘 아껴주셔서 감사합니다. 건강하세요."</div>
-            </div>
-            <div class="message-card">
-                <div class="message-card-title">쾌유 기원</div>
-                <div class="message-card-text">"빠른 쾌유를 기원합니다. 힘내세요!"</div>
-            </div>
+        <div class="feature-grid">
+          <article class="feature-card">
+            <div class="feature-icon">🎀</div>
+            <div class="feature-title">프리미엄 포장</div>
+            <div class="feature-desc">과일 상태를 지키는 완충 포장과 리본 패키지로 마감합니다.</div>
+          </article>
+          <article class="feature-card">
+            <div class="feature-icon">💌</div>
+            <div class="feature-title">메시지 카드</div>
+            <div class="feature-desc">상황에 맞는 문구를 바로 선택하고 카드에 인쇄합니다.</div>
+          </article>
+          <article class="feature-card">
+            <div class="feature-icon">📅</div>
+            <div class="feature-title">지정일 배송</div>
+            <div class="feature-desc">기념일과 방문 일정에 맞춰 희망 날짜로 예약할 수 있습니다.</div>
+          </article>
+          <article class="feature-card">
+            <div class="feature-icon">🍎</div>
+            <div class="feature-title">선물 등급 선별</div>
+            <div class="feature-desc">외형과 당도를 기준으로 선물 적합 상품만 별도로 큐레이션합니다.</div>
+          </article>
         </div>
-    </section>
+      </div>
+    </div>
 
-    <!-- Delivery Date Selector -->
-    <section class="delivery-selector">
+    <section class="section">
+      <div class="surface">
+        <span class="badge-orange">상황별 추천</span>
         <div class="section-header">
-            <h2>배송 희망일</h2>
+          <div>
+            <h2 class="section-title">어떤 자리에 보내시나요</h2>
+            <p class="section-sub">상황을 고르면 선물 세트와 메시지 카드가 함께 맞춰집니다.</p>
+          </div>
         </div>
-        <div class="date-scroll" id="dateScroll">
-            <!-- Dates will be generated by JavaScript -->
+        <div class="occasion-pills" id="occasionPills">
+          <button class="occasion-pill active" type="button" data-occasion="all">전체</button>
+          <button class="occasion-pill" type="button" data-occasion="birthday">생일</button>
+          <button class="occasion-pill" type="button" data-occasion="holiday">명절</button>
+          <button class="occasion-pill" type="button" data-occasion="thanks">감사</button>
+          <button class="occasion-pill" type="button" data-occasion="hospital">병문안</button>
+          <button class="occasion-pill" type="button" data-occasion="anniversary">기념일</button>
         </div>
+      </div>
     </section>
 
-    <!-- Products Grid -->
-    <section class="products-section">
-        <div class="products-grid" id="productsGrid">
-            <!-- Product: 프리미엄 샤인머스켓 -->
-            <div class="gift-product-card" data-occasions="birthday,anniversary,holiday">
-                <span class="gift-badge premium-chip">프리미엄</span>
-                <div class="product-image" style="background: linear-gradient(135deg, #E8F5E9, #C8E6C9);">
-                    🍇
-                </div>
-                <div class="product-content">
-                    <h3 class="product-name">프리미엄 샤인머스켓 선물세트</h3>
-                    <p class="product-desc">최고급 샤인머스켓 특선</p>
-                    <div class="product-tags">
-                        <span class="product-tag brix-tag">당도 18.0°</span>
-                        <span class="product-tag">경상북도 상주</span>
-                    </div>
-                    <div class="product-footer">
-                        <span class="product-price">89,000원</span>
-                        <button class="add-cart-btn" onclick="addToCart('프리미엄 샤인머스켓 선물세트')">+</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Product: 황금 사과 -->
-            <div class="gift-product-card" data-occasions="birthday,hospital,anniversary">
-                <span class="gift-badge popular-chip">인기</span>
-                <div class="product-image" style="background: linear-gradient(135deg, #FFF8E1, #FFE082);">
-                    🍎
-                </div>
-                <div class="product-content">
-                    <h3 class="product-name">황금빛 프리미엄 사과 세트</h3>
-                    <p class="product-desc">아삭한 식감의 명품 사과</p>
-                    <div class="product-tags">
-                        <span class="product-tag brix-tag">당도 14.5°</span>
-                        <span class="product-tag">충청북도 충주</span>
-                    </div>
-                    <div class="product-footer">
-                        <span class="product-price">45,000원</span>
-                        <button class="add-cart-btn" onclick="addToCart('황금빛 프리미엄 사과 세트')">+</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Product: 나주배 -->
-            <div class="gift-product-card" data-occasions="birthday,hospital,holiday">
-                <span class="gift-chip">선물추천</span>
-                <div class="product-image" style="background: linear-gradient(135deg, #FFF3E0, #FFCC80);">
-                    🍐
-                </div>
-                <div class="product-content">
-                    <h3 class="product-name">나주 명품 배 선물세트</h3>
-                    <p class="product-desc">시원하고 아삭한 나주배</p>
-                    <div class="product-tags">
-                        <span class="product-tag brix-tag">당도 13.0°</span>
-                        <span class="product-tag">전라남도 나주</span>
-                    </div>
-                    <div class="product-footer">
-                        <span class="product-price">52,000원</span>
-                        <button class="add-cart-btn" onclick="addToCart('나주 명품 배 선물세트')">+</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Product: 딸기 -->
-            <div class="gift-product-card" data-occasions="birthday,anniversary,hospital">
-                <span class="gift-badge premium-chip">프리미엄</span>
-                <div class="product-image" style="background: linear-gradient(135deg, #FCE4EC, #F8BBD0);">
-                    🍓
-                </div>
-                <div class="product-content">
-                    <h3 class="product-name">설향 프리미엄 딸기</h3>
-                    <p class="product-desc">당도 높은 신선 딸기</p>
-                    <div class="product-tags">
-                        <span class="product-tag brix-tag">당도 15.5°</span>
-                        <span class="product-tag">충청남도 논산</span>
-                    </div>
-                    <div class="product-footer">
-                        <span class="product-price">68,000원</span>
-                        <button class="add-cart-btn" onclick="addToCart('설향 프리미엄 딸기')">+</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Product: 천혜향 -->
-            <div class="gift-product-card" data-occasions="holiday,anniversary,birthday">
-                <span class="gift-chip">인기</span>
-                <div class="product-image" style="background: linear-gradient(135deg, #FFF9E6, #FFE57F);">
-                    🍊
-                </div>
-                <div class="product-content">
-                    <h3 class="product-name">제주 천혜향 특선세트</h3>
-                    <p class="product-desc">향긋한 제주 감귤의 최고봉</p>
-                    <div class="product-tags">
-                        <span class="product-tag brix-tag">당도 13.5°</span>
-                        <span class="product-tag">제주도</span>
-                    </div>
-                    <div class="product-footer">
-                        <span class="product-price">58,000원</span>
-                        <button class="add-cart-btn" onclick="addToCart('제주 천혜향 특선세트')">+</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Product: 복숭아 -->
-            <div class="gift-product-card" data-occasions="birthday,anniversary">
-                <span class="gift-badge premium-chip">프리미엄</span>
-                <div class="product-image" style="background: linear-gradient(135deg, #FFE5E5, #FFCCCB);">
-                    🍑
-                </div>
-                <div class="product-content">
-                    <h3 class="product-name">황도 프리미엄 복숭아</h3>
-                    <p class="product-desc">달콤한 과즙이 가득</p>
-                    <div class="product-tags">
-                        <span class="product-tag brix-tag">당도 16.0°</span>
-                        <span class="product-tag">경상북도 영천</span>
-                    </div>
-                    <div class="product-footer">
-                        <span class="product-price">72,000원</span>
-                        <button class="add-cart-btn" onclick="addToCart('황도 프리미엄 복숭아')">+</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Product: 멜론 -->
-            <div class="gift-product-card" data-occasions="birthday,hospital,anniversary">
-                <span class="gift-chip">선물추천</span>
-                <div class="product-image" style="background: linear-gradient(135deg, #E8F5E9, #AED581);">
-                    🍈
-                </div>
-                <div class="product-content">
-                    <h3 class="product-name">머스크 프리미엄 멜론</h3>
-                    <p class="product-desc">진한 향과 달콤한 맛</p>
-                    <div class="product-tags">
-                        <span class="product-tag brix-tag">당도 15.0°</span>
-                        <span class="product-tag">경상남도 함안</span>
-                    </div>
-                    <div class="product-footer">
-                        <span class="product-price">95,000원</span>
-                        <button class="add-cart-btn" onclick="addToCart('머스크 프리미엄 멜론')">+</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Product: 혼합 과일 -->
-            <div class="gift-product-card" data-occasions="holiday,birthday,anniversary">
-                <span class="gift-badge popular-chip">인기</span>
-                <div class="product-image" style="background: linear-gradient(135deg, #FFF8DC, #FFD54F);">
-                    🎁
-                </div>
-                <div class="product-content">
-                    <h3 class="product-name">프리미엄 혼합 과일 세트</h3>
-                    <p class="product-desc">최고급 과일 모음 특선</p>
-                    <div class="product-tags">
-                        <span class="product-tag brix-tag">엄선된 과일</span>
-                        <span class="product-tag">전국</span>
-                    </div>
-                    <div class="product-footer">
-                        <span class="product-price">120,000원</span>
-                        <button class="add-cart-btn" onclick="addToCart('프리미엄 혼합 과일 세트')">+</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Product: 수박 -->
-            <div class="gift-product-card" data-occasions="holiday,birthday">
-                <span class="gift-chip">선물추천</span>
-                <div class="product-image" style="background: linear-gradient(135deg, #E8F5E9, #81C784);">
-                    🍉
-                </div>
-                <div class="product-content">
-                    <h3 class="product-name">명품 프리미엄 수박</h3>
-                    <p class="product-desc">시원하고 달콤한 여름 과일</p>
-                    <div class="product-tags">
-                        <span class="product-tag brix-tag">당도 12.5°</span>
-                        <span class="product-tag">전라북도 고창</span>
-                    </div>
-                    <div class="product-footer">
-                        <span class="product-price">38,000원</span>
-                        <button class="add-cart-btn" onclick="addToCart('명품 프리미엄 수박')">+</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Product: 감 -->
-            <div class="gift-product-card" data-occasions="holiday,birthday,hospital">
-                <span class="gift-chip">선물추천</span>
-                <div class="product-image" style="background: linear-gradient(135deg, #FFF3E0, #FFB74D);">
-                    🍂
-                </div>
-                <div class="product-content">
-                    <h3 class="product-name">상주 대봉감 선물세트</h3>
-                    <p class="product-desc">달콤하고 부드러운 명품 감</p>
-                    <div class="product-tags">
-                        <span class="product-tag brix-tag">당도 17.0°</span>
-                        <span class="product-tag">경상북도 상주</span>
-                    </div>
-                    <div class="product-footer">
-                        <span class="product-price">48,000원</span>
-                        <button class="add-cart-btn" onclick="addToCart('상주 대봉감 선물세트')">+</button>
-                    </div>
-                </div>
-            </div>
+    <div class="message-panel">
+      <div class="container">
+        <span class="badge-green">메시지 카드</span>
+        <div class="section-header">
+          <div>
+            <h2 class="section-title">상황에 맞는 문구를 바로 고르기</h2>
+            <p class="section-sub">선물 주문 시 함께 넣을 문구 템플릿을 선택할 수 있습니다.</p>
+          </div>
+          <button class="section-more" type="button" id="messagePreviewBtn">문구 미리보기</button>
         </div>
+        <div class="card-scroll" id="messageCards">
+          <article class="message-card active" data-message="생일을 진심으로 축하드립니다. 건강하고 행복한 하루 보내세요.">
+            <div class="message-label">생일 축하</div>
+            <div class="message-title">따뜻한 생일 인사</div>
+            <div class="message-text">생일을 진심으로 축하드립니다. 건강하고 행복한 하루 보내세요.</div>
+            <div class="message-footer">카드에 그대로 인쇄되는 기본 문구</div>
+          </article>
+          <article class="message-card" data-message="늘 아껴주셔서 감사합니다. 정성껏 고른 과일로 마음을 전합니다.">
+            <div class="message-label">감사 인사</div>
+            <div class="message-title">감사의 마음</div>
+            <div class="message-text">늘 아껴주셔서 감사합니다. 정성껏 고른 과일로 마음을 전합니다.</div>
+            <div class="message-footer">부모님과 선생님 선물에 적합한 톤</div>
+          </article>
+          <article class="message-card" data-message="빠른 회복을 진심으로 바랍니다. 몸도 마음도 편안해지시길 바랍니다.">
+            <div class="message-label">병문안</div>
+            <div class="message-title">회복을 바라는 마음</div>
+            <div class="message-text">빠른 회복을 진심으로 바랍니다. 몸도 마음도 편안해지시길 바랍니다.</div>
+            <div class="message-footer">차분하고 부담 없는 병문안 카드 문구</div>
+          </article>
+          <article class="message-card" data-message="소중한 기념일을 축하드립니다. 오늘의 순간이 오래 기억되길 바랍니다.">
+            <div class="message-label">기념일</div>
+            <div class="message-title">특별한 날의 축하</div>
+            <div class="message-text">소중한 기념일을 축하드립니다. 오늘의 순간이 오래 기억되길 바랍니다.</div>
+            <div class="message-footer">부부, 연인, 가족 기념일에 추천</div>
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <section class="section">
+      <div class="surface">
+        <span class="badge-orange">배송 선택</span>
+        <div class="section-header">
+          <div>
+            <h2 class="section-title">희망 날짜를 고르세요</h2>
+            <p class="section-sub">오전 주문 기준, 가장 빠른 준비 가능한 날짜부터 보여드립니다.</p>
+          </div>
+        </div>
+        <div class="date-scroll" id="dateScroll"></div>
+        <div class="summary-card" style="margin-top:16px">
+          <div class="summary-copy">
+            <strong id="selectedDateText">가장 빠른 배송일은 3월 29일(일)입니다</strong>
+            <span>기념일 배송이 필요하면 메시지 카드와 함께 주문 메모에 남겨주세요.</span>
+          </div>
+          <div class="summary-badge">지정 배송 가능</div>
+        </div>
+      </div>
     </section>
 
-    <!-- Bottom Navigation -->
-    <nav class="bottom-nav">
-        <a href="../home/index.html" class="nav-link">
-            <span class="nav-icon">🏠</span>
-            <span class="nav-label">홈</span>
-        </a>
-        <a href="../products/index.html" class="nav-link active">
-            <span class="nav-icon">🍎</span>
-            <span class="nav-label">상품</span>
-        </a>
-        <a href="../cart/index.html" class="nav-link">
-            <span class="nav-icon">🛒</span>
-            <span class="nav-label">장바구니</span>
-        </a>
-        <a href="../mypage/index.html" class="nav-link">
-            <span class="nav-icon">👤</span>
-            <span class="nav-label">마이</span>
-        </a>
-    </nav>
+    <section class="section" id="giftProducts">
+      <div class="surface">
+        <span class="badge-pink">베스트 선물 세트</span>
+        <div class="section-header">
+          <div>
+            <h2 class="section-title">상황별로 고른 과일 선물 세트</h2>
+            <p class="section-sub">필터에 맞는 세트만 남기고 보여줍니다.</p>
+          </div>
+          <a href="./index.html" class="section-more">상품 홈</a>
+        </div>
+        <div class="product-grid" id="productsGrid"></div>
+      </div>
+    </section>
 
-    <!-- Toast Notification -->
-    <div class="toast" id="toast"></div>
+    <section class="section">
+      <div class="surface">
+        <span class="badge-green">추가 서비스</span>
+        <div class="section-header">
+          <div>
+            <h2 class="section-title">받는 사람 기준으로 한 번 더 다듬기</h2>
+            <p class="section-sub">선물 세트만 고르는 것이 아니라 전달 방식까지 함께 설계합니다.</p>
+          </div>
+        </div>
+        <div class="service-grid">
+          <article class="service-card">
+            <strong>받는 분 연령대 추천</strong>
+            <p>부모님, 아이, 직장 동료 등 대상에 따라 산미와 식감이 다른 과일 조합을 제안합니다.</p>
+            <a href="./family.html">가족 추천 보기</a>
+          </article>
+          <article class="service-card">
+            <strong>나눔 연계 선물</strong>
+            <p>선물 구매와 동시에 소외 이웃에게 과일을 기부하는 옵션도 함께 안내합니다.</p>
+            <a href="./donation.html">나눔 상품 보기</a>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
 
-    <script>
-        // Generate delivery dates (next 7 days)
-        function generateDeliveryDates() {
-            const dateScroll = document.getElementById('dateScroll');
-            const today = new Date();
-            const days = ['일', '월', '화', '수', '목', '금', '토'];
+  <nav class="bottom-nav">
+    <div class="bottom-nav-inner">
+      <a href="../home/fruitbridge-redesign-v3-fixed.html" class="nav-item"><span class="nav-icon">🏠</span><span>홈</span></a>
+      <a href="./donation.html" class="nav-item"><span class="nav-icon">🤝</span><span>나눔</span></a>
+      <a href="./index.html" class="nav-item active"><span class="nav-icon">🛍</span><span>상품</span></a>
+      <a href="../wishlist/index.html" class="nav-item"><span class="nav-icon">❤️</span><span>찜목록</span></a>
+      <a href="../mypage/index.html" class="nav-item"><span class="nav-icon">👤</span><span>마이</span></a>
+    </div>
+  </nav>
 
-            for (let i = 1; i <= 7; i++) {
-                const date = new Date(today);
-                date.setDate(today.getDate() + i);
+  <div class="toast" id="toast"></div>
 
-                const dayName = days[date.getDay()];
-                const dateStr = `${date.getMonth() + 1}/${date.getDate()}`;
-                const isWeekend = date.getDay() === 0 || date.getDay() === 6;
+  <script>
+    const tabs = document.querySelectorAll(".tab-item");
+    tabs.forEach((tab) => tab.addEventListener("click", (event) => {
+      event.preventDefault();
+      tabs.forEach((item) => item.classList.remove("active"));
+      tab.classList.add("active");
+    }));
 
-                const dateChip = document.createElement('div');
-                dateChip.className = 'date-chip';
-                if (i === 1) dateChip.classList.add('active');
+    const toast = document.getElementById("toast");
+    const showToast = (message) => {
+      toast.textContent = message;
+      toast.classList.add("show");
+      clearTimeout(showToast.timer);
+      showToast.timer = setTimeout(() => toast.classList.remove("show"), 2400);
+    };
 
-                dateChip.innerHTML = `
-                    <div class="date-day">${dayName}요일</div>
-                    <div class="date-date">${dateStr}</div>
-                `;
+    const products = [
+      { name: "프리미엄 샤인머스캣 선물 세트", desc: "기념일과 생일에 반응이 좋은 고당도 포도 세트", meta: "당도 18Brix+ · 영동", price: "89,000원", original: "118,000원", badge: "프리미엄", emoji: "🍇", occasions: ["birthday", "anniversary", "thanks"] },
+      { name: "제주 만감 감사 세트", desc: "부모님과 거래처 선물용으로 안정적인 감귤 조합", meta: "당도 13Brix+ · 제주", price: "58,000원", original: "72,000원", badge: "감사 추천", emoji: "🍊", occasions: ["thanks", "holiday", "anniversary"] },
+      { name: "설향 딸기 병문안 세트", desc: "부드럽게 먹기 좋은 딸기와 사과 구성", meta: "당도 11.5Brix+ · 담양", price: "63,000원", original: "79,000원", badge: "회복 기원", emoji: "🍓", occasions: ["hospital", "birthday"] },
+      { name: "명절 한상 사과배 세트", desc: "명절 인사에 맞춘 정갈한 사과배 구성", meta: "당도 14Brix+ · 충주", price: "74,000원", original: "95,000원", badge: "명절 베스트", emoji: "🍎", occasions: ["holiday", "thanks"] },
+      { name: "애플망고 시그니처 기프트", desc: "특별한 날에 어울리는 열대과일 중심 구성", meta: "당도 17Brix+ · 태국", price: "96,000원", original: "128,000원", badge: "스페셜", emoji: "🥭", occasions: ["anniversary", "birthday"] },
+      { name: "배와 천혜향 안부 세트", desc: "부담 없이 보내기 좋은 산뜻한 조합", meta: "당도 13Brix+ · 나주/제주", price: "49,000원", original: "62,000원", badge: "안부 추천", emoji: "🍐", occasions: ["hospital", "thanks", "holiday"] }
+    ];
 
-                dateChip.addEventListener('click', function() {
-                    document.querySelectorAll('.date-chip').forEach(chip => {
-                        chip.classList.remove('active');
-                    });
-                    this.classList.add('active');
-                    showToast(`${dateStr} (${dayName}) 배송 선택됨`);
-                });
+    const productsGrid = document.getElementById("productsGrid");
+    const occasionPills = document.querySelectorAll(".occasion-pill");
+    let selectedOccasion = "all";
 
-                dateScroll.appendChild(dateChip);
-            }
-        }
+    function renderProducts() {
+      const filtered = selectedOccasion === "all"
+        ? products
+        : products.filter((product) => product.occasions.includes(selectedOccasion));
 
-        // Occasion filter functionality
-        const filterChips = document.querySelectorAll('.filter-chip');
-        const productCards = document.querySelectorAll('.gift-product-card');
+      productsGrid.innerHTML = filtered.map((product, index) => `
+        <article class="product-card">
+          <div class="product-image">
+            <span class="product-badge${index % 2 ? " orange" : ""}">${product.badge}</span>
+            <span class="discount-badge">${Math.max(18, 36 - index * 3)}%</span>
+            <div class="product-emoji">${product.emoji}</div>
+          </div>
+          <div class="product-info">
+            <div class="product-name">${product.name}</div>
+            <div class="product-desc">${product.desc}</div>
+            <div class="product-meta">${product.meta}</div>
+            <div class="product-price"><span class="price-original">${product.original}</span>${product.price}</div>
+            <button class="product-btn" type="button" data-name="${product.name}">선물 담기</button>
+          </div>
+        </article>
+      `).join("");
 
-        filterChips.forEach(chip => {
-            chip.addEventListener('click', function() {
-                // Update active state
-                filterChips.forEach(c => c.classList.remove('active'));
-                this.classList.add('active');
+      bindProductButtons();
+    }
 
-                const occasion = this.dataset.occasion;
-
-                // Filter products
-                productCards.forEach(card => {
-                    if (occasion === 'all') {
-                        card.style.display = 'block';
-                    } else {
-                        const occasions = card.dataset.occasions;
-                        if (occasions && occasions.includes(occasion)) {
-                            card.style.display = 'block';
-                        } else {
-                            card.style.display = 'none';
-                        }
-                    }
-                });
-            });
+    function bindProductButtons() {
+      document.querySelectorAll(".product-btn").forEach((button) => {
+        button.addEventListener("click", (event) => {
+          event.stopPropagation();
+          showToast(`${button.dataset.name}을(를) 선물 장바구니에 담았습니다`);
         });
+      });
+    }
 
-        // Add to cart function
-        function addToCart(productName) {
-            showToast(`${productName}이(가) 장바구니에 담겼습니다`);
-        }
+    occasionPills.forEach((pill) => {
+      pill.addEventListener("click", () => {
+        occasionPills.forEach((item) => item.classList.remove("active"));
+        pill.classList.add("active");
+        selectedOccasion = pill.dataset.occasion;
+        renderProducts();
+      });
+    });
 
-        // Toast notification
-        function showToast(message) {
-            const toast = document.getElementById('toast');
-            toast.textContent = message;
-            toast.classList.add('show');
+    const messageCards = document.querySelectorAll(".message-card");
+    let selectedMessage = messageCards[0].dataset.message;
+    messageCards.forEach((card) => {
+      card.addEventListener("click", () => {
+        messageCards.forEach((item) => item.classList.remove("active"));
+        card.classList.add("active");
+        selectedMessage = card.dataset.message;
+        showToast("메시지 카드 문구를 선택했습니다");
+      });
+    });
 
-            setTimeout(() => {
-                toast.classList.remove('show');
-            }, 2000);
-        }
+    document.getElementById("copyMessageBtn").addEventListener("click", () => {
+      showToast(`추천 문구: ${selectedMessage}`);
+    });
 
-        // Product card click (navigate to detail)
-        productCards.forEach(card => {
-            card.addEventListener('click', function(e) {
-                // Don't trigger if clicking the add to cart button
-                if (e.target.classList.contains('add-cart-btn')) {
-                    e.stopPropagation();
-                    return;
-                }
+    document.getElementById("messagePreviewBtn").addEventListener("click", () => {
+      showToast(selectedMessage);
+    });
 
-                const productName = this.querySelector('.product-name').textContent;
-                console.log('Navigate to product detail:', productName);
-                // In a real app, navigate to product detail page
-                // window.location.href = `/product-detail.html?product=${encodeURIComponent(productName)}`;
-            });
+    const dateScroll = document.getElementById("dateScroll");
+    const selectedDateText = document.getElementById("selectedDateText");
+    const week = ["일", "월", "화", "수", "목", "금", "토"];
+    const dateLabels = ["가장 빠름", "추천", "여유 있음", "예약 가능", "주말 예약", "기념일 추천", "선택 가능"];
+
+    function renderDates() {
+      const today = new Date();
+      const days = Array.from({ length: 7 }, (_, index) => {
+        const date = new Date(today);
+        date.setDate(today.getDate() + index + 1);
+        return {
+          index,
+          month: date.getMonth() + 1,
+          day: date.getDate(),
+          week: week[date.getDay()],
+          label: dateLabels[index]
+        };
+      });
+
+      dateScroll.innerHTML = days.map((item, index) => `
+        <button class="date-pill${index === 0 ? " active" : ""}" type="button" data-text="${item.month}월 ${item.day}일(${item.week})">
+          <div class="date-day">${item.week}요일</div>
+          <div class="date-num">${item.day}</div>
+          <div class="date-caption">${item.label}</div>
+        </button>
+      `).join("");
+
+      selectedDateText.textContent = `가장 빠른 배송일은 ${days[0].month}월 ${days[0].day}일(${days[0].week})입니다`;
+
+      document.querySelectorAll(".date-pill").forEach((pill) => {
+        pill.addEventListener("click", () => {
+          document.querySelectorAll(".date-pill").forEach((item) => item.classList.remove("active"));
+          pill.classList.add("active");
+          selectedDateText.textContent = `선택한 배송일은 ${pill.dataset.text}입니다`;
+          showToast(`${pill.dataset.text} 배송으로 예약했습니다`);
         });
+      });
+    }
 
-        // Initialize
-        document.addEventListener('DOMContentLoaded', function() {
-            generateDeliveryDates();
-        });
+    function animateImpact() {
+      const impactCount = document.getElementById("impactCount");
+      const impactFill = document.getElementById("impactFill");
+      let count = 248;
+      setInterval(() => {
+        count += Math.floor(Math.random() * 3) + 1;
+        impactCount.textContent = `${count}건`;
+        impactFill.style.width = `${72 + Math.min(18, count % 18)}%`;
+      }, 8000);
+    }
 
-        // Smooth scroll for horizontal scrollers
-        const scrollContainers = document.querySelectorAll('.filter-scroll, .cards-scroll, .date-scroll');
-        scrollContainers.forEach(container => {
-            let isDown = false;
-            let startX;
-            let scrollLeft;
-
-            container.addEventListener('mousedown', (e) => {
-                isDown = true;
-                startX = e.pageX - container.offsetLeft;
-                scrollLeft = container.scrollLeft;
-            });
-
-            container.addEventListener('mouseleave', () => {
-                isDown = false;
-            });
-
-            container.addEventListener('mouseup', () => {
-                isDown = false;
-            });
-
-            container.addEventListener('mousemove', (e) => {
-                if (!isDown) return;
-                e.preventDefault();
-                const x = e.pageX - container.offsetLeft;
-                const walk = (x - startX) * 2;
-                container.scrollLeft = scrollLeft - walk;
-            });
-        });
-    </script>
+    renderProducts();
+    renderDates();
+    animateImpact();
+  </script>
 </body>
 </html>

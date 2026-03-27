@@ -1,573 +1,92 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>타임세일 - 과일다리</title>
-    <link rel="stylesheet" href="../../styles/design-system.css">
-    <link rel="stylesheet" href="../../styles/components.css">
-    <link rel="stylesheet" href="../../styles/common-layout.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>타임세일 - 과일다리</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    :root{--primary:#5f8f3a;--primary-strong:#476d2a;--text-strong:#1d2a1f;--text:#334236;--text-muted:#708072;--line:rgba(61,88,56,.12);--sale:#ff6b57;--shadow-sm:0 6px 18px rgba(33,52,36,.06);--shadow-md:0 16px 40px rgba(33,52,36,.1);--shadow-lg:0 24px 60px rgba(33,52,36,.14);--max-width:430px}
+    *{box-sizing:border-box;margin:0;padding:0}html{background:linear-gradient(180deg,#eef3ea 0%,#e8eee3 100%);overflow-x:hidden}body{font-family:"Pretendard","Noto Sans KR",-apple-system,BlinkMacSystemFont,sans-serif;color:var(--text);background:radial-gradient(circle at top,rgba(156,194,115,.18),transparent 26%),linear-gradient(180deg,#fbfcf8 0%,#f6f8f3 40%,#f4f6f0 100%);min-height:100vh;width:100%;max-width:var(--max-width);margin:0 auto;position:relative;-webkit-font-smoothing:antialiased;line-height:1.55;overflow-x:hidden}
+    @media (min-width:768px){html,body{min-height:100%}body{border-left:1px solid rgba(61,88,56,.08);border-right:1px solid rgba(61,88,56,.08);box-shadow:0 24px 70px rgba(22,33,23,.18)}}
+    a{text-decoration:none;color:inherit}button{font:inherit;color:inherit}.container{padding:0 18px}.main-content,.section,.surface,.hero-sale,.next-sale{width:100%}.main-content{padding:16px 0 104px;display:grid;grid-template-columns:minmax(0,1fr);gap:22px}.main-content>*{min-width:0}
+    .top-banner{display:flex;align-items:center;justify-content:center;gap:10px;padding:11px 16px;background:linear-gradient(90deg,#5f8f3a 0%,#80b053 100%);color:#fff;font-size:12px;font-weight:700;letter-spacing:-.01em;position:relative}.close-btn{position:absolute;right:10px;top:50%;transform:translateY(-50%);border:0;background:rgba(255,255,255,.14);color:#fff;width:24px;height:24px;border-radius:999px;cursor:pointer}
+    .header{position:sticky;top:0;z-index:100;backdrop-filter:blur(18px);background:rgba(251,252,248,.82);border-bottom:1px solid rgba(61,88,56,.08)}.header-mobile{padding:16px 18px 14px;display:flex;align-items:center;justify-content:space-between}.logo{display:inline-flex;align-items:center;gap:4px;font-size:21px;font-weight:900;letter-spacing:-.04em}.logo .fruit{color:var(--primary)}.logo .bridge{color:var(--primary-strong)}.header-actions{display:flex;gap:10px}.header-icon{position:relative;width:42px;height:42px;display:grid;place-items:center;border-radius:16px;border:1px solid rgba(61,88,56,.08);background:rgba(255,255,255,.75);box-shadow:var(--shadow-sm);font-size:20px;cursor:pointer}
+    .social-impact-badge{margin:0 18px 14px;padding:14px 14px 13px;border-radius:20px;border:1px solid rgba(95,143,58,.15);background:linear-gradient(135deg,rgba(255,255,255,.92),rgba(237,246,228,.92));box-shadow:var(--shadow-sm)}.impact-main{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}.impact-info{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:600;color:var(--text)}.impact-count{color:var(--primary-strong);font-weight:900}.impact-link{flex-shrink:0;padding:7px 10px;border-radius:999px;background:rgba(95,143,58,.08);color:var(--primary-strong);font-size:11px;font-weight:800}.progress-bar-mini{height:8px;border-radius:999px;background:rgba(95,143,58,.1);overflow:hidden}.progress-fill-mini{height:100%;border-radius:inherit;background:linear-gradient(90deg,#7caf53,#5f8f3a);width:83%}
+    .tab-nav,.activity-feed,.product-grid{-ms-overflow-style:none;scrollbar-width:none}.tab-nav::-webkit-scrollbar,.activity-feed::-webkit-scrollbar,.product-grid::-webkit-scrollbar{display:none}.tab-nav{display:flex;gap:10px;overflow-x:auto;padding:0 18px 14px;border-bottom:1px solid rgba(61,88,56,.08)}.tab-item{white-space:nowrap;padding:10px 14px;border-radius:999px;background:transparent;color:var(--text-muted);font-size:13px;font-weight:700;transition:.2s ease}.tab-item.active{background:var(--primary-strong);color:#fff;box-shadow:0 10px 22px rgba(71,109,42,.24)}
+    .section,.hero-sale,.next-sale{margin:0 18px;border-radius:30px;overflow:hidden}.surface{background:rgba(255,255,255,.84);border:1px solid rgba(61,88,56,.08);box-shadow:var(--shadow-md);border-radius:28px;padding:20px 16px}.hero-sale{background:linear-gradient(135deg,#ff7d36 0%,#ff5f55 100%);box-shadow:0 24px 50px rgba(255,103,75,.28);padding:24px 0;color:#fff}.next-sale{background:linear-gradient(180deg,#fff4f7 0%,#fffdfd 100%);border:1px solid rgba(233,30,99,.08);box-shadow:var(--shadow-md);padding:22px 0}
+    .section-header{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:16px}.section-title{font-size:22px;font-weight:900;letter-spacing:-.04em;color:var(--text-strong)}.section-title.light{color:#fff}.section-sub{margin-top:5px;color:var(--text-muted);font-size:13px;font-weight:600}.section-more{flex-shrink:0;font-size:12px;font-weight:800;color:var(--text-muted)}.badge-white,.badge-pink{display:inline-flex;align-items:center;justify-content:center;padding:7px 12px;border-radius:999px;font-size:11px;font-weight:800;margin-bottom:12px}.badge-white{background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.24);color:#fff}.badge-pink{background:#e94d87;color:#fff}
+    .hero-copy{padding:0 22px}.hero-copy h1{font-size:30px;line-height:1.16;font-weight:900;letter-spacing:-.05em;margin-bottom:10px}.hero-copy p{font-size:14px;opacity:.94;margin-bottom:18px;max-width:290px}.countdown{display:flex;gap:10px;flex-wrap:wrap}.countdown-item{min-width:80px;padding:12px 14px;border-radius:18px;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.18);backdrop-filter:blur(6px);text-align:center}.countdown-number{font-size:26px;font-weight:900;line-height:1}.countdown-label{font-size:10px;margin-top:5px;font-weight:700;opacity:.92}
+    .activity-wrap{display:grid;gap:12px}.live-header{display:flex;align-items:center;justify-content:space-between;gap:10px}.live-title{display:flex;align-items:center;gap:10px;font-size:15px;font-weight:900;color:var(--text-strong)}.live-icon{width:44px;height:44px;border-radius:16px;background:linear-gradient(135deg,#fff0ea,#fff7ef);display:grid;place-items:center;font-size:22px}.live-pill{display:inline-flex;align-items:center;gap:6px;padding:7px 10px;border-radius:999px;background:#fff0f5;color:#c03a6f;font-size:11px;font-weight:900}.live-dot{width:8px;height:8px;border-radius:999px;background:#ff5f55;box-shadow:0 0 0 6px rgba(255,95,85,.12)}.activity-feed{display:flex;flex-direction:column;gap:10px;max-height:180px;overflow:auto}.activity-item{display:flex;align-items:center;gap:8px;padding:12px 14px;border-radius:18px;background:rgba(255,255,255,.92);border:1px solid rgba(61,88,56,.08);box-shadow:var(--shadow-sm);font-size:12px;font-weight:700}.activity-user{color:var(--text-strong)}.activity-product{color:var(--primary-strong)}.activity-time{margin-left:auto;color:var(--text-muted);font-size:11px}
+    .limited-alert{display:flex;align-items:center;gap:12px;padding:14px 16px;border-radius:22px;background:linear-gradient(135deg,#fff7ea,#fff1e4);border:1px solid rgba(255,140,66,.16);box-shadow:var(--shadow-sm)}.limited-icon{width:46px;height:46px;border-radius:16px;background:linear-gradient(135deg,#ffebd8,#fff7ef);display:grid;place-items:center;font-size:22px;flex:0 0 auto}.limited-title{font-size:15px;font-weight:900;color:var(--text-strong)}.limited-desc{font-size:12px;color:var(--text-muted);font-weight:600}
+    .product-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.flash-card{background:rgba(255,255,255,.92);border:1px solid rgba(61,88,56,.08);border-radius:24px;overflow:hidden;box-shadow:var(--shadow-sm)}.flash-image{position:relative;height:164px;background:linear-gradient(135deg,rgba(255,239,231,.96),rgba(255,244,228,.96));border-bottom:1px solid rgba(61,88,56,.06)}.flash-image::before{content:"NO IMAGE";position:absolute;inset:0;display:grid;place-items:center;color:rgba(255,140,66,.32);font-size:12px;font-weight:900;letter-spacing:.14em}.flash-emoji{position:absolute;inset:0;display:grid;place-items:center;font-size:44px}.flash-badge{position:absolute;top:12px;left:12px;padding:6px 8px;border-radius:10px;font-size:10px;font-weight:900;color:#fff;background:var(--sale);box-shadow:0 10px 22px rgba(255,107,87,.22)}.stock-chip{position:absolute;right:12px;top:12px;min-width:42px;height:42px;padding:0 8px;border-radius:999px;display:grid;place-items:center;background:#fff;color:var(--sale);font-size:11px;font-weight:900;box-shadow:0 10px 24px rgba(0,0,0,.1)}.stock-panel{position:absolute;left:12px;right:12px;bottom:12px;padding:10px;border-radius:16px;background:rgba(255,255,255,.86);backdrop-filter:blur(6px)}.stock-row{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:10px;font-weight:800;color:var(--text-muted);margin-bottom:8px}.stock-bar{height:8px;border-radius:999px;background:rgba(255,95,85,.12);overflow:hidden}.stock-fill{height:100%;border-radius:inherit;background:linear-gradient(90deg,#ff9f6d,#ff5f55)}.flash-info{padding:14px 14px 15px}.flash-name{font-size:14px;font-weight:800;line-height:1.4;color:var(--text-strong);min-height:40px;margin-bottom:8px}.flash-price{font-size:18px;color:var(--text-strong);font-weight:900;letter-spacing:-.03em}.flash-off{font-size:11px;color:var(--sale);font-weight:900;margin-right:6px}.flash-original{font-size:11px;color:#98a39a;text-decoration:line-through;font-weight:700;margin-top:4px}.flash-btn{width:100%;margin-top:12px;padding:11px 12px;border-radius:16px;border:0;background:var(--primary-strong);color:#fff;font-size:13px;font-weight:800;cursor:pointer}
+    .next-head{text-align:center;margin-bottom:16px}.next-title{font-size:24px;font-weight:900;letter-spacing:-.04em;color:var(--text-strong);margin-bottom:4px}.next-subtitle{font-size:13px;color:var(--text-muted);font-weight:600}.next-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.next-card{background:rgba(255,255,255,.88);border:1px solid rgba(233,30,99,.08);border-radius:22px;padding:16px;box-shadow:var(--shadow-sm);text-align:center}.next-icon{width:46px;height:46px;border-radius:16px;display:grid;place-items:center;background:linear-gradient(135deg,#ffe3ec,#fff7f9);font-size:22px;margin:0 auto 12px}.next-card h3{font-size:14px;font-weight:900;color:var(--text-strong);margin-bottom:6px}.next-card p{font-size:12px;color:var(--text-muted);line-height:1.5}.notify-btn{margin-top:18px;display:flex;justify-content:center}.notify-btn a{display:inline-flex;align-items:center;justify-content:center;padding:11px 16px;border-radius:999px;background:#fff0f5;color:#c03a6f;font-size:12px;font-weight:800}
+    .bottom-nav{position:fixed;left:50%;transform:translateX(-50%);width:100%;max-width:var(--max-width);bottom:0;z-index:120;padding:10px 12px calc(10px + env(safe-area-inset-bottom));background:transparent}.bottom-nav::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(246,248,243,0),rgba(246,248,243,.94) 42%,rgba(246,248,243,.98));z-index:-2}.bottom-nav-inner{max-width:var(--max-width);margin:0 auto;display:flex;justify-content:space-around;padding:10px 8px;border-radius:24px;background:rgba(255,255,255,.9);border:1px solid rgba(61,88,56,.08);backdrop-filter:blur(18px);box-shadow:0 16px 36px rgba(29,42,31,.12)}.nav-item{min-width:58px;display:flex;flex-direction:column;align-items:center;gap:4px;padding:4px 6px;color:var(--text-muted);font-size:10px;font-weight:700}.nav-item.active{color:var(--primary-strong)}.nav-icon{font-size:19px}
+    .toast{position:fixed;left:50%;bottom:98px;transform:translateX(-50%);padding:12px 16px;background:rgba(29,42,31,.92);color:#fff;border-radius:999px;font-size:13px;font-weight:700;box-shadow:0 16px 36px rgba(0,0,0,.18);display:none;z-index:200;white-space:nowrap}.toast.show{display:block}
+    @media (max-width:380px){.product-grid,.next-grid{grid-template-columns:1fr}.hero-copy h1,.next-title{font-size:24px}.section-title{font-size:20px}}
+  </style>
 </head>
 <body>
-    <!-- Header -->
-    <header class="header">
-        <span class="header-back" onclick="history.back()">←</span>
-        <h1 class="header-title">⚡ 타임세일</h1>
-        <span class="header-icon">🏠</span>
-    </header>
-
-    <!-- Countdown Banner -->
-    <section class="countdown-banner">
-        <div class="countdown-banner__content">
-            <div class="countdown-banner__icon">⚡</div>
-            <h2 class="countdown-banner__title">특급 타임세일!</h2>
-            <p class="countdown-banner__desc">지금이 아니면 늦어요! 최대 70% 할인</p>
-            <div class="countdown-timer">
-                <div class="countdown-timer__item">
-                    <span class="countdown-timer__value" id="hours">00</span>
-                    <span class="countdown-timer__label">시간</span>
-                </div>
-                <div class="countdown-timer__item">
-                    <span class="countdown-timer__value" id="minutes">00</span>
-                    <span class="countdown-timer__label">분</span>
-                </div>
-                <div class="countdown-timer__item">
-                    <span class="countdown-timer__value" id="seconds">00</span>
-                    <span class="countdown-timer__label">초</span>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Real-time Activity Feed -->
-    <section class="activity-feed">
-        <div id="activityFeed">
-            <div class="activity-feed__item">
-                <span class="activity-feed__icon">🔥</span>
-                <span class="activity-feed__user">김**</span>님이
-                <span class="activity-feed__product">제주 감귤</span> 구매
-                <span class="activity-feed__time">방금 전</span>
-            </div>
-        </div>
-    </section>
-
-    <!-- Limited Alert -->
-    <div class="limited-alert">
-        <div class="limited-alert__icon">⏰</div>
-        <div class="limited-alert__content">
-            <div class="limited-alert__title">한정 수량 특가!</div>
-            <div class="limited-alert__desc">빠르게 소진되고 있어요. 서두르세요!</div>
-        </div>
+  <div class="top-banner"><span>⏰ 빠르게 품절되는 특가만 실시간으로 보여드립니다</span><button class="close-btn" type="button" onclick="this.parentElement.style.display='none'">×</button></div>
+  <header class="header">
+    <div class="header-mobile">
+      <a href="../home/fruitbridge-redesign-v3-fixed.html" class="logo"><span class="fruit">과일</span><span class="bridge">다리</span></a>
+      <div class="header-actions"><a href="./index.html" class="header-icon" aria-label="상품 홈">🛍</a><a href="../cart/index.html" class="header-icon" aria-label="장바구니">🛒</a></div>
+    </div>
+    <div class="social-impact-badge">
+      <div class="impact-main"><div class="impact-info"><span>🔥</span><span>오늘 특가 상품 <span class="impact-count">10개</span> 오픈</span></div><a href="./index.html" class="impact-link">상품 홈 →</a></div>
+      <div class="progress-bar-mini"><div class="progress-fill-mini"></div></div>
+    </div>
+  </header>
+  <nav class="tab-nav"><a href="#" class="tab-item active">타임세일</a><a href="#" class="tab-item">실시간</a><a href="#" class="tab-item">특가 상품</a><a href="#" class="tab-item">다음 오픈</a></nav>
+  <main class="main-content">
+    <div class="hero-sale">
+      <div class="hero-copy"><span class="badge-white">⚡ 한정 수량 특가</span><h1>지금 아니면 놓치는<br />오늘의 타임세일</h1><p>남은 시간 안에만 열리는 특가 상품입니다. 홈의 세일 섹션 톤을 확장해서 전용 랜딩으로 구성했습니다.</p><div class="countdown"><div class="countdown-item"><div class="countdown-number" id="hours">02</div><div class="countdown-label">시간</div></div><div class="countdown-item"><div class="countdown-number" id="minutes">34</div><div class="countdown-label">분</div></div><div class="countdown-item"><div class="countdown-number" id="seconds">12</div><div class="countdown-label">초</div></div></div></div>
     </div>
 
-    <!-- Products Section -->
-    <section class="products-section">
-        <div class="products-header">
-            <h3 class="products-header__title">번개특가 상품</h3>
-            <span class="products-header__count" id="productCount">10개 남음</span>
+    <section class="section">
+      <div class="surface activity-wrap">
+        <div class="live-header"><div class="live-title"><div class="live-icon">📡</div><span>실시간 구매 피드</span></div><div class="live-pill"><span class="live-dot"></span>LIVE</div></div>
+        <div class="activity-feed" id="activityFeed">
+          <div class="activity-item"><span>🛒</span><span class="activity-user">김**</span><span>님이</span><span class="activity-product">제주 감귤</span><span>구매</span><span class="activity-time">방금 전</span></div>
         </div>
-
-        <div class="products-grid" id="productsGrid">
-            <!-- Product 1 -->
-            <div class="flash-product">
-                <div class="flash-product__image">
-                    <img src="https://images.unsplash.com/photo-1568702846914-96b305d2aaeb?w=400" alt="제주 한라봉">
-                    <div class="flash-chip">
-                        <span class="flash-chip__icon">⚡</span>
-                        <span>70% OFF</span>
-                    </div>
-                    <div class="stock-overlay">
-                        <div class="stock-overlay__label">
-                            <span>남은 수량</span>
-                            <span class="stock-overlay__count" data-stock="85">85%</span>
-                        </div>
-                        <div class="progress-bar">
-                            <div class="progress-bar__fill" style="width: 85%"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="flash-product__content">
-                    <h4 class="flash-product__title">제주 프리미엄 한라봉 2kg</h4>
-                    <div class="flash-product__price-box">
-                        <span class="flash-product__discount">70%</span>
-                        <span class="flash-product__price">9,900원</span>
-                    </div>
-                    <div class="flash-product__original">33,000원</div>
-                    <button class="flash-product__action">바로 구매</button>
-                </div>
-            </div>
-
-            <!-- Product 2 -->
-            <div class="flash-product">
-                <div class="flash-product__image">
-                    <img src="https://images.unsplash.com/photo-1587049352846-4a222e784f4f?w=400" alt="샤인머스캣">
-                    <div class="flash-chip">
-                        <span class="flash-chip__icon">⚡</span>
-                        <span>65% OFF</span>
-                    </div>
-                    <div class="stock-overlay">
-                        <div class="stock-overlay__label">
-                            <span>남은 수량</span>
-                            <span class="stock-overlay__count" data-stock="42">42%</span>
-                        </div>
-                        <div class="progress-bar">
-                            <div class="progress-bar__fill" style="width: 42%"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="flash-product__content">
-                    <h4 class="flash-product__title">고당도 샤인머스캣 1kg</h4>
-                    <div class="flash-product__price-box">
-                        <span class="flash-product__discount">65%</span>
-                        <span class="flash-product__price">17,500원</span>
-                    </div>
-                    <div class="flash-product__original">50,000원</div>
-                    <button class="flash-product__action">바로 구매</button>
-                </div>
-            </div>
-
-            <!-- Product 3 -->
-            <div class="flash-product">
-                <div class="flash-product__image">
-                    <img src="https://images.unsplash.com/photo-1619546813926-a78fa6372cd2?w=400" alt="국내산 딸기">
-                    <div class="flash-chip">
-                        <span class="flash-chip__icon">⚡</span>
-                        <span>60% OFF</span>
-                    </div>
-                    <div class="stock-overlay">
-                        <div class="stock-overlay__label">
-                            <span>남은 수량</span>
-                            <span class="stock-overlay__count" data-stock="18">18%</span>
-                        </div>
-                        <div class="progress-bar">
-                            <div class="progress-bar__fill" style="width: 18%"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="flash-product__content">
-                    <h4 class="flash-product__title">설향 딸기 프리미엄 1kg</h4>
-                    <div class="flash-product__price-box">
-                        <span class="flash-product__discount">60%</span>
-                        <span class="flash-product__price">11,900원</span>
-                    </div>
-                    <div class="flash-product__original">29,800원</div>
-                    <button class="flash-product__action">바로 구매</button>
-                </div>
-            </div>
-
-            <!-- Product 4 -->
-            <div class="flash-product">
-                <div class="flash-product__image">
-                    <img src="https://images.unsplash.com/photo-1584306670957-acf935f5033c?w=400" alt="애플망고">
-                    <div class="flash-chip">
-                        <span class="flash-chip__icon">⚡</span>
-                        <span>55% OFF</span>
-                    </div>
-                    <div class="stock-overlay">
-                        <div class="stock-overlay__label">
-                            <span>남은 수량</span>
-                            <span class="stock-overlay__count" data-stock="67">67%</span>
-                        </div>
-                        <div class="progress-bar">
-                            <div class="progress-bar__fill" style="width: 67%"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="flash-product__content">
-                    <h4 class="flash-product__title">애플망고 대과 3입</h4>
-                    <div class="flash-product__price-box">
-                        <span class="flash-product__discount">55%</span>
-                        <span class="flash-product__price">22,500원</span>
-                    </div>
-                    <div class="flash-product__original">50,000원</div>
-                    <button class="flash-product__action">바로 구매</button>
-                </div>
-            </div>
-
-            <!-- Product 5 -->
-            <div class="flash-product">
-                <div class="flash-product__image">
-                    <img src="https://images.unsplash.com/photo-1528821128474-27f963b062bf?w=400" alt="제주 레드향">
-                    <div class="flash-chip">
-                        <span class="flash-chip__icon">⚡</span>
-                        <span>68% OFF</span>
-                    </div>
-                    <div class="stock-overlay">
-                        <div class="stock-overlay__label">
-                            <span>남은 수량</span>
-                            <span class="stock-overlay__count" data-stock="29">29%</span>
-                        </div>
-                        <div class="progress-bar">
-                            <div class="progress-bar__fill" style="width: 29%"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="flash-product__content">
-                    <h4 class="flash-product__title">제주 레드향 프리미엄 3kg</h4>
-                    <div class="flash-product__price-box">
-                        <span class="flash-product__discount">68%</span>
-                        <span class="flash-product__price">12,800원</span>
-                    </div>
-                    <div class="flash-product__original">40,000원</div>
-                    <button class="flash-product__action">바로 구매</button>
-                </div>
-            </div>
-
-            <!-- Product 6 -->
-            <div class="flash-product">
-                <div class="flash-product__image">
-                    <img src="https://images.unsplash.com/photo-1590005354167-6da97870c757?w=400" alt="국내산 수박">
-                    <div class="flash-chip">
-                        <span class="flash-chip__icon">⚡</span>
-                        <span>50% OFF</span>
-                    </div>
-                    <div class="stock-overlay">
-                        <div class="stock-overlay__label">
-                            <span>남은 수량</span>
-                            <span class="stock-overlay__count" data-stock="91">91%</span>
-                        </div>
-                        <div class="progress-bar">
-                            <div class="progress-bar__fill" style="width: 91%"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="flash-product__content">
-                    <h4 class="flash-product__title">국내산 꿀수박 특대</h4>
-                    <div class="flash-product__price-box">
-                        <span class="flash-product__discount">50%</span>
-                        <span class="flash-product__price">14,900원</span>
-                    </div>
-                    <div class="flash-product__original">29,800원</div>
-                    <button class="flash-product__action">바로 구매</button>
-                </div>
-            </div>
-
-            <!-- Product 7 -->
-            <div class="flash-product">
-                <div class="flash-product__image">
-                    <img src="https://images.unsplash.com/photo-1587132117816-5a7e0e5f7f43?w=400" alt="청포도">
-                    <div class="flash-chip">
-                        <span class="flash-chip__icon">⚡</span>
-                        <span>62% OFF</span>
-                    </div>
-                    <div class="stock-overlay">
-                        <div class="stock-overlay__label">
-                            <span>남은 수량</span>
-                            <span class="stock-overlay__count" data-stock="55">55%</span>
-                        </div>
-                        <div class="progress-bar">
-                            <div class="progress-bar__fill" style="width: 55%"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="flash-product__content">
-                    <h4 class="flash-product__title">고당도 청포도 2kg</h4>
-                    <div class="flash-product__price-box">
-                        <span class="flash-product__discount">62%</span>
-                        <span class="flash-product__price">15,200원</span>
-                    </div>
-                    <div class="flash-product__original">40,000원</div>
-                    <button class="flash-product__action">바로 구매</button>
-                </div>
-            </div>
-
-            <!-- Product 8 -->
-            <div class="flash-product">
-                <div class="flash-product__image">
-                    <img src="https://images.unsplash.com/photo-1610832745053-94118a75c0d3?w=400" alt="복숭아">
-                    <div class="flash-chip">
-                        <span class="flash-chip__icon">⚡</span>
-                        <span>58% OFF</span>
-                    </div>
-                    <div class="stock-overlay">
-                        <div class="stock-overlay__label">
-                            <span>남은 수량</span>
-                            <span class="stock-overlay__count" data-stock="73">73%</span>
-                        </div>
-                        <div class="progress-bar">
-                            <div class="progress-bar__fill" style="width: 73%"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="flash-product__content">
-                    <h4 class="flash-product__title">당도선별 백도 복숭아 2kg</h4>
-                    <div class="flash-product__price-box">
-                        <span class="flash-product__discount">58%</span>
-                        <span class="flash-product__price">16,800원</span>
-                    </div>
-                    <div class="flash-product__original">40,000원</div>
-                    <button class="flash-product__action">바로 구매</button>
-                </div>
-            </div>
-
-            <!-- Product 9 -->
-            <div class="flash-product">
-                <div class="flash-product__image">
-                    <img src="https://images.unsplash.com/photo-1563114773-84221bd62daa?w=400" alt="파인애플">
-                    <div class="flash-chip">
-                        <span class="flash-chip__icon">⚡</span>
-                        <span>52% OFF</span>
-                    </div>
-                    <div class="stock-overlay">
-                        <div class="stock-overlay__label">
-                            <span>남은 수량</span>
-                            <span class="stock-overlay__count" data-stock="34">34%</span>
-                        </div>
-                        <div class="progress-bar">
-                            <div class="progress-bar__fill" style="width: 34%"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="flash-product__content">
-                    <h4 class="flash-product__title">필리핀 스위트 파인애플</h4>
-                    <div class="flash-product__price-box">
-                        <span class="flash-product__discount">52%</span>
-                        <span class="flash-product__price">9,600원</span>
-                    </div>
-                    <div class="flash-product__original">20,000원</div>
-                    <button class="flash-product__action">바로 구매</button>
-                </div>
-            </div>
-
-            <!-- Product 10 -->
-            <div class="flash-product">
-                <div class="flash-product__image">
-                    <img src="https://images.unsplash.com/photo-1587049352823-abea0a7e6d9a?w=400" alt="사과">
-                    <div class="flash-chip">
-                        <span class="flash-chip__icon">⚡</span>
-                        <span>48% OFF</span>
-                    </div>
-                    <div class="stock-overlay">
-                        <div class="stock-overlay__label">
-                            <span>남은 수량</span>
-                            <span class="stock-overlay__count" data-stock="8">8%</span>
-                        </div>
-                        <div class="progress-bar">
-                            <div class="progress-bar__fill" style="width: 8%"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="flash-product__content">
-                    <h4 class="flash-product__title">프리미엄 사과 대과 5입</h4>
-                    <div class="flash-product__price-box">
-                        <span class="flash-product__discount">48%</span>
-                        <span class="flash-product__price">13,000원</span>
-                    </div>
-                    <div class="flash-product__original">25,000원</div>
-                    <button class="flash-product__action">바로 구매</button>
-                </div>
-            </div>
-        </div>
+        <div class="limited-alert"><div class="limited-icon">🚨</div><div><div class="limited-title">한정 수량 특가 진행 중</div><div class="limited-desc">남은 재고가 빠르게 줄고 있어요. 지금 보고 있는 상품부터 확인하세요.</div></div></div>
+      </div>
     </section>
 
-    <!-- Next Sale Preview -->
-    <section class="next-sale">
-        <div class="next-sale__header">
-            <h3 class="next-sale__title">🔔 다음 타임세일 예고</h3>
-            <div class="next-sale__time">오늘 저녁 8시 시작</div>
-        </div>
-        <div class="next-sale__products">
-            <div class="next-sale__item">
-                <img src="https://images.unsplash.com/photo-1568702846914-96b305d2aaeb?w=200" alt="Mystery Product">
-            </div>
-            <div class="next-sale__item">
-                <img src="https://images.unsplash.com/photo-1587049352846-4a222e784f4f?w=200" alt="Mystery Product">
-            </div>
-            <div class="next-sale__item">
-                <img src="https://images.unsplash.com/photo-1619546813926-a78fa6372cd2?w=200" alt="Mystery Product">
-            </div>
-        </div>
-        <button class="next-sale__notify">🔔 알림 받기</button>
+    <section class="section">
+      <div class="surface">
+        <div class="section-header"><div><h2 class="section-title">번개특가 상품</h2><p class="section-sub">재고가 남아 있는 특가 상품만 실시간으로 보여줍니다.</p></div><span class="section-more" id="productCount">10개 열림</span></div>
+        <div class="product-grid" id="productsGrid"></div>
+      </div>
     </section>
 
-    <!-- Bottom Navigation -->
-    <nav class="bottom-nav">
-        <a href="../home/index.html" class="nav-link">
-            <span class="nav-link__icon">🏠</span>
-            <span class="nav-link__label">홈</span>
-        </a>
-        <a href="../products/index.html" class="nav-link active">
-            <span class="nav-link__icon">🍎</span>
-            <span class="nav-link__label">상품</span>
-        </a>
-        <a href="../mypage/index.html" class="nav-link">
-            <span class="nav-link__icon">👤</span>
-            <span class="nav-link__label">마이</span>
-        </a>
-        <a href="../support/index.html" class="nav-link">
-            <span class="nav-link__icon">💬</span>
-            <span class="nav-link__label">고객지원</span>
-        </a>
-    </nav>
-
-    <script>
-        // Countdown Timer
-        function startCountdown() {
-            const targetTime = new Date();
-            targetTime.setHours(targetTime.getHours() + 2);
-            targetTime.setMinutes(targetTime.getMinutes() + 30);
-            targetTime.setSeconds(targetTime.getSeconds() + 45);
-
-            function updateTimer() {
-                const now = new Date();
-                const diff = targetTime - now;
-
-                if (diff <= 0) {
-                    document.getElementById('hours').textContent = '00';
-                    document.getElementById('minutes').textContent = '00';
-                    document.getElementById('seconds').textContent = '00';
-                    return;
-                }
-
-                const hours = Math.floor(diff / (1000 * 60 * 60));
-                const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-                const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-
-                document.getElementById('hours').textContent = String(hours).padStart(2, '0');
-                document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
-                document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
-            }
-
-            updateTimer();
-            setInterval(updateTimer, 1000);
-        }
-
-        // Stock Decrease Simulation
-        function simulateStockDecrease() {
-            const stockElements = document.querySelectorAll('.stock-overlay__count');
-            const progressBars = document.querySelectorAll('.progress-bar__fill');
-
-            setInterval(() => {
-                stockElements.forEach((element, index) => {
-                    let currentStock = parseInt(element.getAttribute('data-stock'));
-
-                    if (currentStock > 0) {
-                        const decrease = Math.floor(Math.random() * 3) + 1;
-                        currentStock = Math.max(0, currentStock - decrease);
-                        element.setAttribute('data-stock', currentStock);
-                        element.textContent = currentStock + '%';
-
-                        if (progressBars[index]) {
-                            progressBars[index].style.width = currentStock + '%';
-                        }
-
-                        // Change color when stock is low
-                        if (currentStock < 20) {
-                            element.style.color = '#FF4757';
-                        } else if (currentStock < 50) {
-                            element.style.color = '#FF9800';
-                        }
-
-                        // Update product count
-                        const totalStock = Array.from(stockElements).reduce((sum, el) => {
-                            return sum + parseInt(el.getAttribute('data-stock'));
-                        }, 0);
-                        const avgStock = Math.floor(totalStock / stockElements.length);
-                        document.getElementById('productCount').textContent = avgStock + '% 평균 재고';
-                    }
-                });
-            }, 5000); // Update every 5 seconds
-        }
-
-        // Real-time Purchase Activity Feed
-        function startActivityFeed() {
-            const activities = [
-                { user: '김**', product: '제주 한라봉', emoji: '🔥' },
-                { user: '이**', product: '샤인머스캣', emoji: '⚡' },
-                { user: '박**', product: '설향 딸기', emoji: '🎉' },
-                { user: '최**', product: '애플망고', emoji: '🔥' },
-                { user: '정**', product: '제주 레드향', emoji: '⚡' },
-                { user: '강**', product: '꿀수박', emoji: '🎉' },
-                { user: '조**', product: '청포도', emoji: '🔥' },
-                { user: '윤**', product: '백도 복숭아', emoji: '⚡' },
-                { user: '장**', product: '파인애플', emoji: '🎉' },
-                { user: '임**', product: '사과', emoji: '🔥' }
-            ];
-
-            function addActivity() {
-                const activity = activities[Math.floor(Math.random() * activities.length)];
-                const timeUnits = ['방금 전', '1분 전', '2분 전', '3분 전'];
-                const time = timeUnits[Math.floor(Math.random() * timeUnits.length)];
-
-                const activityHTML = `
-                    <div class="activity-feed__item">
-                        <span class="activity-feed__icon">${activity.emoji}</span>
-                        <span class="activity-feed__user">${activity.user}</span>님이
-                        <span class="activity-feed__product">${activity.product}</span> 구매
-                        <span class="activity-feed__time">${time}</span>
-                    </div>
-                `;
-
-                const feedContainer = document.getElementById('activityFeed');
-                feedContainer.insertAdjacentHTML('afterbegin', activityHTML);
-
-                // Keep only the last 3 activities
-                const items = feedContainer.querySelectorAll('.activity-feed__item');
-                if (items.length > 3) {
-                    items[items.length - 1].remove();
-                }
-            }
-
-            // Add activity every 3-7 seconds
-            setInterval(() => {
-                addActivity();
-            }, Math.floor(Math.random() * 4000) + 3000);
-        }
-
-        // Product Click Handler
-        function setupProductHandlers() {
-            const products = document.querySelectorAll('.flash-product');
-            products.forEach(product => {
-                product.addEventListener('click', (e) => {
-                    if (!e.target.classList.contains('flash-product__action')) {
-                        // Navigate to product detail page
-                        console.log('Product clicked');
-                    }
-                });
-            });
-
-            const buyButtons = document.querySelectorAll('.flash-product__action');
-            buyButtons.forEach(button => {
-                button.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    if (!button.classList.contains('flash-product__action--soldout')) {
-                        alert('장바구니에 담았습니다!');
-                    }
-                });
-            });
-        }
-
-        // Next Sale Notification
-        function setupNotification() {
-            const notifyButton = document.querySelector('.next-sale__notify');
-            notifyButton.addEventListener('click', () => {
-                alert('알림이 설정되었습니다! 다음 타임세일 시작 시 알려드릴게요.');
-            });
-        }
-
-        // Initialize all features
-        document.addEventListener('DOMContentLoaded', () => {
-            startCountdown();
-            simulateStockDecrease();
-            startActivityFeed();
-            setupProductHandlers();
-            setupNotification();
-        });
-
-        // Page Visibility API - Pause animations when tab is not visible
-        document.addEventListener('visibilitychange', () => {
-            if (document.hidden) {
-                // Pause animations
-                document.querySelectorAll('.flash-badge, .limited-alert').forEach(el => {
-                    el.style.animationPlayState = 'paused';
-                });
-            } else {
-                // Resume animations
-                document.querySelectorAll('.flash-badge, .limited-alert').forEach(el => {
-                    el.style.animationPlayState = 'running';
-                });
-            }
-        });
-    </script>
+    <div class="next-sale">
+      <div class="container">
+        <div class="next-head"><span class="badge-pink">다음 오픈</span><h2 class="next-title">오늘 저녁 8시 다음 타임세일</h2><p class="next-subtitle">인기 높은 과일만 미리 예고해두고 알림으로 연결합니다.</p></div>
+        <div class="next-grid">
+          <article class="next-card"><div class="next-icon">🍓</div><h3>설향 딸기</h3><p>당도 높은 프리미엄 딸기가 저녁 타임세일에 열립니다.</p></article>
+          <article class="next-card"><div class="next-icon">🍊</div><h3>천혜향</h3><p>제주 감귤 라인업 중 가장 반응이 좋은 상품입니다.</p></article>
+          <article class="next-card"><div class="next-icon">🍇</div><h3>샤인머스캣</h3><p>고당도 포도 셀렉션이 한정 수량으로 오픈됩니다.</p></article>
+        </div>
+        <div class="notify-btn"><a href="#" id="notifyBtn">🔔 알림 받기</a></div>
+      </div>
+    </div>
+  </main>
+  <nav class="bottom-nav"><div class="bottom-nav-inner"><a href="../home/fruitbridge-redesign-v3-fixed.html" class="nav-item"><span class="nav-icon">🏠</span><span>홈</span></a><a href="./donation.html" class="nav-item"><span class="nav-icon">🤝</span><span>나눔</span></a><a href="./timesale.html" class="nav-item active"><span class="nav-icon">⏰</span><span>타임세일</span></a><a href="../wishlist/index.html" class="nav-item"><span class="nav-icon">❤️</span><span>찜목록</span></a><a href="../mypage/index.html" class="nav-item"><span class="nav-icon">👤</span><span>마이</span></a></div></nav>
+  <div class="toast" id="toast"></div>
+  <script>
+    const products=[{emoji:"🍊",name:"제주 프리미엄 한라봉 3kg",discount:70,price:"9,900원",original:"33,000원",stock:85,desc:"새콤달콤 제주 특산품",meta:"당도 14Brix+ · 제주"},{emoji:"🍇",name:"샤인머스캣 1kg",discount:65,price:"17,500원",original:"50,000원",stock:42,desc:"껍질째 먹는 청포도",meta:"당도 18Brix+ · 영동"},{emoji:"🍓",name:"설향 딸기 1kg",discount:60,price:"11,900원",original:"29,800원",stock:18,desc:"달콤한 비타민 폭탄",meta:"당도 11.5Brix+ · 담양"},{emoji:"🥭",name:"애플망고 3입",discount:55,price:"22,500원",original:"50,000원",stock:67,desc:"달콤한 열대 과일",meta:"당도 17Brix+ · 태국"},{emoji:"🍊",name:"제주 레드향 3kg",discount:68,price:"12,800원",original:"40,000원",stock:29,desc:"향긋한 제주 감귤",meta:"당도 13Brix+ · 제주"},{emoji:"🍈",name:"국내산 머스크 멜론",discount:50,price:"14,900원",original:"29,800원",stock:91,desc:"부드럽고 향이 진한 멜론",meta:"당도 14Brix+ · 논산"}];
+    const activities=["김**님이 제주 감귤 구매","박**님이 샤인머스캣 구매","이**님이 설향 딸기 구매","최**님이 애플망고 구매","정**님이 레드향 구매"];
+    const tabs=document.querySelectorAll(".tab-item");tabs.forEach((tab)=>tab.addEventListener("click",(e)=>{e.preventDefault();tabs.forEach((item)=>item.classList.remove("active"));tab.classList.add("active")}));
+    const toast=document.getElementById("toast");const showToast=(message)=>{toast.textContent=message;toast.classList.add("show");setTimeout(()=>toast.classList.remove("show"),2500)};
+    document.getElementById("productsGrid").innerHTML=products.map((item)=>`<article class="flash-card"><div class="flash-image"><div class="flash-emoji">${item.emoji}</div><span class="flash-badge">번개특가</span><span class="stock-chip">${item.discount}%</span><div class="stock-panel"><div class="stock-row"><span>남은 수량</span><span>${item.stock}%</span></div><div class="stock-bar"><div class="stock-fill" style="width:${item.stock}%"></div></div></div></div><div class="flash-info"><div class="flash-name">${item.name}</div><div class="section-sub">${item.desc}</div><div class="section-sub">${item.meta}</div><div class="flash-price"><span class="flash-off">${item.discount}%</span>${item.price}</div><div class="flash-original">${item.original}</div><button class="flash-btn" type="button" data-name="${item.name}">바로 구매</button></div></article>`).join("");
+    document.querySelectorAll(".flash-btn").forEach((button)=>button.addEventListener("click",()=>showToast(button.dataset.name+" 특가 구매를 준비했습니다")));
+    const feed=document.getElementById("activityFeed");let activityIndex=0;setInterval(()=>{activityIndex=(activityIndex+1)%activities.length;const [user,productText]=activities[activityIndex].split("님이 ");const product=productText.replace(" 구매","");const item=document.createElement("div");item.className="activity-item";item.innerHTML=`<span>🛒</span><span class="activity-user">${user}</span><span>님이</span><span class="activity-product">${product}</span><span>구매</span><span class="activity-time">방금 전</span>`;feed.prepend(item);while(feed.children.length>5)feed.removeChild(feed.lastChild)},4000);
+    const target=new Date();target.setHours(target.getHours()+2,target.getMinutes()+34,target.getSeconds()+12);function updateTimer(){const diff=Math.max(0,target-new Date());const hours=String(Math.floor(diff/36e5)).padStart(2,"0");const minutes=String(Math.floor(diff%36e5/6e4)).padStart(2,"0");const seconds=String(Math.floor(diff%6e4/1e3)).padStart(2,"0");document.getElementById("hours").textContent=hours;document.getElementById("minutes").textContent=minutes;document.getElementById("seconds").textContent=seconds}updateTimer();setInterval(updateTimer,1000);
+    document.getElementById("notifyBtn").addEventListener("click",(e)=>{e.preventDefault();showToast("다음 타임세일 알림을 설정했습니다")});
+  </script>
 </body>
 </html>

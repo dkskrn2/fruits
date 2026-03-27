@@ -1,465 +1,136 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>나눔과일 - 과일다리</title>
-    <link rel="stylesheet" href="../../styles/design-system.css">
-    <link rel="stylesheet" href="../../styles/components.css">
-    <link rel="stylesheet" href="../../styles/common-layout.css">
-    <link rel="stylesheet" href="../../styles/donation-page.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>나눔과일 - 과일다리</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    :root{--primary:#5f8f3a;--primary-strong:#476d2a;--primary-soft:#edf6e4;--secondary:#ff8c42;--secondary-soft:#fff1e4;--pink-soft:#fff2f5;--sale:#ff6b57;--text-strong:#1d2a1f;--text:#334236;--text-muted:#708072;--line:rgba(61,88,56,.12);--donation:#ecfff0;--shadow-sm:0 6px 18px rgba(33,52,36,.06);--shadow-md:0 16px 40px rgba(33,52,36,.1);--shadow-lg:0 24px 60px rgba(33,52,36,.14);--max-width:430px}
+    *{box-sizing:border-box;margin:0;padding:0}html{background:linear-gradient(180deg,#eef3ea 0%,#e8eee3 100%);overflow-x:hidden}body{font-family:"Pretendard","Noto Sans KR",-apple-system,BlinkMacSystemFont,sans-serif;color:var(--text);background:radial-gradient(circle at top,rgba(156,194,115,.18),transparent 26%),linear-gradient(180deg,#fbfcf8 0%,#f6f8f3 40%,#f4f6f0 100%);min-height:100vh;width:100%;max-width:var(--max-width);margin:0 auto;position:relative;-webkit-font-smoothing:antialiased;line-height:1.55;overflow-x:hidden}
+    @media (min-width:768px){html,body{min-height:100%}body{border-left:1px solid rgba(61,88,56,.08);border-right:1px solid rgba(61,88,56,.08);box-shadow:0 24px 70px rgba(22,33,23,.18)}}
+    a{text-decoration:none;color:inherit}button{font:inherit;color:inherit}img,svg,video,canvas{max-width:100%;height:auto;display:block}.container{padding:0 18px}.main-content,.section,.surface,.donation-hero,.impact-section,.story-section,.certificate-section{width:100%}.main-content{padding:16px 0 104px;display:grid;grid-template-columns:minmax(0,1fr);gap:22px}.main-content>*{min-width:0}
+    .top-banner{display:flex;align-items:center;justify-content:center;gap:10px;padding:11px 16px;background:linear-gradient(90deg,#5f8f3a 0%,#80b053 100%);color:#fff;font-size:12px;font-weight:700;letter-spacing:-.01em;position:relative}.close-btn{position:absolute;right:10px;top:50%;transform:translateY(-50%);border:0;background:rgba(255,255,255,.14);color:#fff;width:24px;height:24px;border-radius:999px;cursor:pointer}
+    .header{position:sticky;top:0;z-index:100;backdrop-filter:blur(18px);background:rgba(251,252,248,.82);border-bottom:1px solid rgba(61,88,56,.08)}.header-mobile{padding:16px 18px 14px;display:flex;align-items:center;justify-content:space-between}.logo{display:inline-flex;align-items:center;gap:4px;font-size:21px;font-weight:900;letter-spacing:-.04em}.logo .fruit{color:var(--primary)}.logo .bridge{color:var(--primary-strong)}.header-actions{display:flex;gap:10px}.header-icon{position:relative;width:42px;height:42px;display:grid;place-items:center;border-radius:16px;border:1px solid rgba(61,88,56,.08);background:rgba(255,255,255,.75);box-shadow:var(--shadow-sm);font-size:20px;cursor:pointer}.cart-count{position:absolute;top:-3px;right:-1px;width:18px;height:18px;border-radius:999px;background:var(--sale);color:#fff;font-size:10px;font-weight:800;display:grid;place-items:center;border:2px solid #fff}
+    .social-impact-badge{margin:0 18px 14px;padding:14px 14px 13px;border-radius:20px;border:1px solid rgba(95,143,58,.15);background:linear-gradient(135deg,rgba(255,255,255,.92),rgba(237,246,228,.92));box-shadow:var(--shadow-sm)}.impact-main{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}.impact-info{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:600;color:var(--text)}.impact-count{color:var(--primary-strong);font-weight:900}.impact-link{flex-shrink:0;padding:7px 10px;border-radius:999px;background:rgba(95,143,58,.08);color:var(--primary-strong);font-size:11px;font-weight:800}.progress-bar-mini{height:8px;border-radius:999px;background:rgba(95,143,58,.1);overflow:hidden}.progress-fill-mini{height:100%;border-radius:inherit;background:linear-gradient(90deg,#7caf53,#5f8f3a);width:73%;transition:width .5s ease}
+    .tab-nav,.story-scroll{-ms-overflow-style:none;scrollbar-width:none}.tab-nav::-webkit-scrollbar,.story-scroll::-webkit-scrollbar{display:none}.tab-nav{display:flex;gap:10px;overflow-x:auto;padding:0 18px 14px;border-bottom:1px solid rgba(61,88,56,.08)}.tab-item{white-space:nowrap;padding:10px 14px;border-radius:999px;background:transparent;color:var(--text-muted);font-size:13px;font-weight:700;transition:.2s ease}.tab-item.active{background:var(--primary-strong);color:#fff;box-shadow:0 10px 22px rgba(71,109,42,.24)}
+    .section,.donation-hero,.impact-section,.story-section,.certificate-section{margin:0 18px;border-radius:30px;overflow:hidden}.surface{background:rgba(255,255,255,.84);border:1px solid rgba(61,88,56,.08);box-shadow:var(--shadow-md);border-radius:28px;padding:20px 16px}.donation-hero{background:linear-gradient(135deg,#6f9f47 0%,#476d2a 100%);box-shadow:var(--shadow-lg);color:#fff;padding:24px 0}.impact-section{background:linear-gradient(180deg,#eff8e8 0%,#f8fcf4 100%);border:1px solid rgba(95,143,58,.12);box-shadow:var(--shadow-md);padding:20px 0}.story-section{background:linear-gradient(180deg,#fff4f7 0%,#fffdfd 100%);border:1px solid rgba(233,30,99,.08);box-shadow:var(--shadow-md);padding:22px 0}.certificate-section{background:linear-gradient(135deg,#ff7d36 0%,#ff5f55 100%);box-shadow:0 24px 50px rgba(255,103,75,.28);padding:22px 0;color:#fff}
+    .section-header{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:16px}.section-title{font-size:22px;font-weight:900;letter-spacing:-.04em;color:var(--text-strong)}.section-title.light{color:#fff}.section-copy{margin-top:5px;color:var(--text-muted);font-size:13px;font-weight:600}.section-more{flex-shrink:0;font-size:12px;font-weight:800;color:var(--text-muted)}.badge-green,.badge-pink,.badge-white{display:inline-flex;align-items:center;justify-content:center;padding:7px 12px;border-radius:999px;font-size:11px;font-weight:800;margin-bottom:12px}.badge-green{background:var(--primary);color:#fff}.badge-pink{background:#e94d87;color:#fff}.badge-white{background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.24);color:#fff}
+    .hero-copy{padding:0 22px}.hero-copy h1{font-size:30px;line-height:1.18;font-weight:900;letter-spacing:-.05em;margin-bottom:10px}.hero-copy p{font-size:14px;opacity:.95;margin-bottom:18px;max-width:280px}.hero-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;padding:0 22px}.stat-card{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.18);backdrop-filter:blur(6px);border-radius:18px;padding:14px 10px;text-align:center}.stat-card strong{display:block;font-size:22px;font-weight:900;line-height:1}.stat-card span{display:block;font-size:11px;font-weight:700;margin-top:5px;opacity:.88}
+    .live-card{background:rgba(255,255,255,.92);border:1px solid rgba(61,88,56,.08);box-shadow:var(--shadow-sm);border-radius:24px;padding:18px}.live-header{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:14px}.live-title{display:flex;align-items:center;gap:10px;font-size:15px;font-weight:900;color:var(--text-strong)}.live-icon{width:44px;height:44px;border-radius:16px;background:linear-gradient(135deg,#edf6e4,#fff2e7);display:grid;place-items:center;font-size:22px}.live-pill{display:inline-flex;align-items:center;gap:6px;padding:7px 10px;border-radius:999px;background:#fff0f5;color:#c03a6f;font-size:11px;font-weight:900}.live-dot{width:8px;height:8px;border-radius:999px;background:#ff5f55;box-shadow:0 0 0 6px rgba(255,95,85,.12)}.live-amount{font-size:30px;font-weight:900;letter-spacing:-.04em;color:var(--text-strong);margin-bottom:4px}.live-desc{font-size:13px;color:var(--text-muted);font-weight:600}
+    .partner-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.partner-card{background:rgba(255,255,255,.92);border:1px solid rgba(61,88,56,.08);border-radius:22px;padding:16px;box-shadow:var(--shadow-sm);display:flex;align-items:center;gap:12px}.partner-logo{width:48px;height:48px;border-radius:18px;display:grid;place-items:center;background:linear-gradient(135deg,#edf6e4,#fff4e8);font-size:24px;flex:0 0 auto}.partner-name{font-size:14px;font-weight:900;color:var(--text-strong);line-height:1.35}.partner-tag{display:block;font-size:11px;color:var(--text-muted);font-weight:700;margin-top:2px}
+    .story-scroll{display:flex;gap:12px;overflow-x:auto;padding:4px 0 2px}.story-card{flex:0 0 274px;background:rgba(255,255,255,.88);border:1px solid rgba(233,30,99,.08);border-radius:22px;padding:16px;box-shadow:var(--shadow-sm)}.story-header{display:flex;align-items:center;gap:10px;margin-bottom:12px}.story-icon{width:42px;height:42px;border-radius:16px;display:grid;place-items:center;background:linear-gradient(135deg,#ffe3ec,#fff7f9);font-size:20px}.story-title{font-size:14px;font-weight:900;color:var(--text-strong)}.story-copy{font-size:12px;color:var(--text);line-height:1.65}.story-impact{display:inline-block;margin-top:12px;padding:6px 10px;border-radius:999px;background:#fff0f5;color:#c03a6f;font-size:11px;font-weight:800}
+    .goal-card{background:rgba(255,255,255,.92);border:1px solid rgba(61,88,56,.08);box-shadow:var(--shadow-sm);border-radius:24px;padding:18px}.goal-row{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}.goal-label{font-size:15px;font-weight:900;color:var(--text-strong)}.goal-value{font-size:18px;font-weight:900;color:var(--primary-strong)}.goal-bar{height:12px;border-radius:999px;background:rgba(95,143,58,.1);overflow:hidden;margin-bottom:12px}.goal-fill{height:100%;border-radius:inherit;background:linear-gradient(90deg,#7caf53,#5f8f3a);width:73%}.goal-text{font-size:13px;color:var(--text-muted);font-weight:600}
+    .product-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.product-card{background:rgba(255,255,255,.92);border:1px solid rgba(61,88,56,.08);border-radius:24px;overflow:hidden;box-shadow:var(--shadow-sm)}.product-image{position:relative;height:152px;background:linear-gradient(135deg,rgba(237,246,228,.95),rgba(255,241,228,.95));border-bottom:1px solid rgba(61,88,56,.06)}.product-image::before{content:"NO IMAGE";position:absolute;inset:0;display:grid;place-items:center;color:rgba(95,143,58,.45);font-size:12px;font-weight:900;letter-spacing:.14em}.product-chip,.donation-chip{position:absolute;top:12px;font-weight:900;letter-spacing:-.02em}.product-chip{left:12px;padding:6px 8px;border-radius:10px;font-size:10px;color:#fff;background:linear-gradient(90deg,#6d9d46,#4f7c2e);box-shadow:0 10px 22px rgba(95,143,58,.2)}.donation-chip{right:12px;min-width:42px;height:42px;padding:0 8px;border-radius:999px;display:grid;place-items:center;background:#fff;color:var(--sale);font-size:11px;box-shadow:0 10px 24px rgba(0,0,0,.1)}.product-info{padding:14px 14px 15px}.product-name{font-size:14px;font-weight:800;line-height:1.4;color:var(--text-strong);min-height:40px;margin-bottom:8px}.product-meta,.product-donation,.product-rating{font-size:11px;font-weight:700;margin-top:4px}.product-meta{color:var(--text-muted)}.product-donation{color:var(--primary-strong)}.product-rating{display:flex;gap:4px;align-items:center;color:var(--text-muted)}.star{color:#f4b400}.product-price{font-size:18px;color:var(--text-strong);font-weight:900;letter-spacing:-.03em;margin-top:8px}.add-cart-btn{width:100%;margin-top:12px;padding:11px 12px;border-radius:16px;border:0;background:var(--primary-strong);color:#fff;font-size:13px;font-weight:800;cursor:pointer}
+    .certificate-card{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.18);border-radius:24px;padding:18px;backdrop-filter:blur(6px)}.certificate-card h3{font-size:24px;font-weight:900;letter-spacing:-.04em;margin-bottom:6px}.certificate-card p{font-size:13px;opacity:.92;margin-bottom:18px}.certificate-actions{display:flex;gap:10px;flex-wrap:wrap}.certificate-btn,.certificate-sub{display:inline-flex;align-items:center;justify-content:center;padding:11px 14px;border-radius:999px;font-size:12px;font-weight:800}.certificate-btn{background:#fff;color:var(--text-strong)}.certificate-sub{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.22);color:#fff}
+    .bottom-nav{position:fixed;left:50%;transform:translateX(-50%);width:100%;max-width:var(--max-width);bottom:0;z-index:120;padding:10px 12px calc(10px + env(safe-area-inset-bottom));background:transparent}.bottom-nav::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(246,248,243,0),rgba(246,248,243,.94) 42%,rgba(246,248,243,.98));z-index:-2}.bottom-nav-inner{max-width:var(--max-width);margin:0 auto;display:flex;justify-content:space-around;padding:10px 8px;border-radius:24px;background:rgba(255,255,255,.9);border:1px solid rgba(61,88,56,.08);backdrop-filter:blur(18px);box-shadow:0 16px 36px rgba(29,42,31,.12)}.nav-item{min-width:58px;display:flex;flex-direction:column;align-items:center;gap:4px;padding:4px 6px;color:var(--text-muted);font-size:10px;font-weight:700}.nav-item.active{color:var(--primary-strong)}.nav-icon{font-size:19px}
+    .toast{position:fixed;left:50%;bottom:98px;transform:translateX(-50%);padding:12px 16px;background:rgba(29,42,31,.92);color:#fff;border-radius:999px;font-size:13px;font-weight:700;box-shadow:0 16px 36px rgba(0,0,0,.18);display:none;z-index:200;white-space:nowrap}.toast.show{display:block}
+    @media (max-width:380px){.hero-stats,.partner-grid,.product-grid{grid-template-columns:1fr}.live-amount,.hero-copy h1{font-size:24px}.section-title{font-size:20px}}
+  </style>
 </head>
 <body>
-    <!-- Header -->
-    <header class="header">
-        <span class="header-back" onclick="history.back()">←</span>
-        <h1 class="header-title">나눔과일 ❤️</h1>
-        <div class="header-actions">
-            <span class="header-icon">🏠</span>
-            <span class="header-icon">🛒</span>
-        </div>
-    </header>
+  <div class="top-banner"><span>🤝 매출 1%는 보육원 아이들의 과일 간식이 됩니다</span><button class="close-btn" type="button" onclick="this.parentElement.style.display='none'">×</button></div>
+  <header class="header">
+    <div class="header-mobile">
+      <a href="../home/fruitbridge-redesign-v3-fixed.html" class="logo"><span class="fruit">과일</span><span class="bridge">다리</span></a>
+      <div class="header-actions"><button class="header-icon" type="button" aria-label="알림">🔔</button><a href="../cart/index.html" class="header-icon" aria-label="장바구니">🛒<span class="cart-count">3</span></a></div>
+    </div>
+    <div class="social-impact-badge">
+      <div class="impact-main"><div class="impact-info"><span>💚</span><span>이번 달 목표: <span class="impact-count">365명</span> / 500명</span></div><a href="../home/fruitbridge-redesign-v3-fixed.html" class="impact-link">자세히 →</a></div>
+      <div class="progress-bar-mini"><div class="progress-fill-mini"></div></div>
+    </div>
+  </header>
+  <nav class="tab-nav"><a href="#" class="tab-item active">나눔과일</a><a href="#" class="tab-item">스토리</a><a href="#" class="tab-item">파트너</a><a href="#" class="tab-item">목표</a><a href="#" class="tab-item">상품</a><a href="#" class="tab-item">인증서</a></nav>
+  <main class="main-content">
+    <div class="donation-hero">
+      <div class="hero-copy"><span class="badge-white">💚 함께하는 나눔 프로젝트</span><h1>구매할수록 커지는<br />따뜻한 과일 나눔</h1><p>과일다리의 나눔 상품은 구매와 동시에 기부가 연결됩니다. 디자인 톤은 홈과 같게, 메시지는 더 분명하게 정리했습니다.</p></div>
+      <div class="hero-stats">
+        <div class="stat-card"><strong>1,234</strong><span>참여 고객</span></div>
+        <div class="stat-card"><strong id="totalDonation">32.5M</strong><span>누적 기부금</span></div>
+        <div class="stat-card"><strong>156</strong><span>지원 가정</span></div>
+      </div>
+    </div>
 
-    <!-- Impact Hero Banner -->
-    <section class="impact-hero">
-        <div class="impact-hero__title">함께하는 나눔,<br>따뜻한 세상을 만듭니다</div>
-        <div class="impact-hero__subtitle">구매할 때마다 기부가 함께 전달됩니다</div>
-
-        <div class="stats-grid">
-            <div class="stat-item">
-                <div class="stat-number">1,234</div>
-                <div class="stat-label">참여 고객</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-number" id="totalDonation">32.5M</div>
-                <div class="stat-label">총 기부금</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-number">156</div>
-                <div class="stat-label">수혜 가정</div>
-            </div>
+    <div class="impact-section">
+      <div class="container">
+        <span class="badge-green">실시간 나눔</span>
+        <div class="live-card">
+          <div class="live-header"><div class="live-title"><div class="live-icon">❤️</div><span>오늘의 나눔 현황</span></div><div class="live-pill"><span class="live-dot"></span>LIVE</div></div>
+          <div class="live-amount" id="todayDonation">1,234,567원</div>
+          <div class="live-desc">오늘 모인 마음이 곧바로 필요한 곳에 전달됩니다.</div>
         </div>
+      </div>
+    </div>
+
+    <section class="section">
+      <div class="surface">
+        <div class="section-header"><div><h2 class="section-title">함께하는 파트너</h2><p class="section-copy">신뢰할 수 있는 기관과 연결된 나눔 프로젝트만 운영합니다.</p></div><a href="#" class="section-more">전체보기 →</a></div>
+        <div class="partner-grid">
+          <article class="partner-card"><div class="partner-logo">🤝</div><div><div class="partner-name">유니세프 어린이 지원</div><span class="partner-tag">아동 식생활 개선</span></div></article>
+          <article class="partner-card"><div class="partner-logo">🌿</div><div><div class="partner-name">초록우산 재단</div><span class="partner-tag">가정 지원 프로그램</span></div></article>
+          <article class="partner-card"><div class="partner-logo">📦</div><div><div class="partner-name">푸드뱅크 네트워크</div><span class="partner-tag">정기 과일 배송</span></div></article>
+          <article class="partner-card"><div class="partner-logo">🏡</div><div><div class="partner-name">지역 아동센터 연계</div><span class="partner-tag">신선 과일 간식 지원</span></div></article>
+        </div>
+      </div>
     </section>
 
-    <!-- Real-time Donation Counter -->
-    <section class="donation-counter">
-        <div class="counter-header">
-            <div class="counter-icon">❤️</div>
-            <div class="counter-title">오늘의 나눔 현황</div>
-            <div class="counter-live">
-                <span class="live-dot"></span>
-                LIVE
-            </div>
+    <div class="story-section">
+      <div class="container">
+        <span class="badge-pink">나눔 이야기</span>
+        <div class="section-header"><div><h2 class="section-title">과일이 닿은 변화</h2><p class="section-copy">후기형 카드 구성을 유지하면서 실제 임팩트 스토리로 바꿨습니다.</p></div></div>
+        <div class="story-scroll">
+          <article class="story-card"><div class="story-header"><div class="story-icon">👨‍👩‍👧</div><div class="story-title">결식 우려 가정 지원</div></div><p class="story-copy">경제적으로 어려운 가정에 정기적으로 과일을 전달해 아이들의 기본 영양을 보완하고 있습니다.</p><span class="story-impact">45가정 지원</span></article>
+          <article class="story-card"><div class="story-header"><div class="story-icon">👶</div><div class="story-title">아동 간식 프로그램</div></div><p class="story-copy">지역 아동센터와 연계해 아이들이 신선한 과일을 간식으로 접할 수 있도록 꾸준히 공급합니다.</p><span class="story-impact">120명 지원</span></article>
+          <article class="story-card"><div class="story-header"><div class="story-icon">🏠</div><div class="story-title">계절 과일 꾸러미</div></div><p class="story-copy">계절별 제철 과일을 소분해 필요한 가정에 보내며 가족 단위 식생활의 질을 높이고 있습니다.</p><span class="story-impact">80가정 지원</span></article>
         </div>
-        <div class="counter-amount" id="todayDonation">1,234,567원</div>
-        <div class="counter-desc">오늘 모인 따뜻한 마음</div>
+      </div>
+    </div>
+
+    <section class="section">
+      <div class="surface goal-card">
+        <div class="section-header"><div><h2 class="section-title">이번 달 목표 달성률</h2><p class="section-copy">현재 달성 속도를 한눈에 볼 수 있도록 홈의 진행형 패턴을 가져왔습니다.</p></div></div>
+        <div class="goal-row"><span class="goal-label">3,000만원 목표</span><span class="goal-value">73%</span></div>
+        <div class="goal-bar"><div class="goal-fill"></div></div>
+        <div class="goal-text">목표 달성까지 810만원 남았습니다. 구매가 곧 다음 지원으로 이어집니다.</div>
+      </div>
     </section>
 
-    <!-- Partner Organizations -->
-    <section class="partners-section">
-        <div class="section-header">
-            <h2 class="section-title">함께하는 파트너</h2>
-            <a href="#" class="view-all">전체보기 →</a>
+    <section class="section">
+      <div class="surface">
+        <div class="section-header"><div><h2 class="section-title">나눔 상품 둘러보기</h2><p class="section-copy">홈 카드 규격을 유지하되 기부 금액 정보를 전면에 배치했습니다.</p></div></div>
+        <div class="product-grid">
+          <article class="product-card"><div class="product-image"><span class="product-chip">나눔</span><span class="donation-chip">10%</span></div><div class="product-info"><div class="product-name">청송 사과 3kg</div><div class="product-meta">당도 14Brix+ · 경북 청송</div><div class="product-donation">💚 구매 시 2,500원 기부</div><div class="product-rating"><span class="star">★★★★★</span><span>328</span></div><div class="product-price">25,000원</div><button class="add-cart-btn" type="button" data-product="청송 사과 3kg">장바구니 담기</button></div></article>
+          <article class="product-card"><div class="product-image"><span class="product-chip">나눔</span><span class="donation-chip">15%</span></div><div class="product-info"><div class="product-name">제주 한라봉 3kg</div><div class="product-meta">당도 13.5Brix+ · 제주</div><div class="product-donation">💚 구매 시 4,800원 기부</div><div class="product-rating"><span class="star">★★★★★</span><span>412</span></div><div class="product-price">32,000원</div><button class="add-cart-btn" type="button" data-product="제주 한라봉 3kg">장바구니 담기</button></div></article>
+          <article class="product-card"><div class="product-image"><span class="product-chip">나눔</span><span class="donation-chip">10%</span></div><div class="product-info"><div class="product-name">샤인머스캣 2kg</div><div class="product-meta">당도 18Brix+ · 경북 김천</div><div class="product-donation">💚 구매 시 4,500원 기부</div><div class="product-rating"><span class="star">★★★★★</span><span>210</span></div><div class="product-price">45,000원</div><button class="add-cart-btn" type="button" data-product="샤인머스캣 2kg">장바구니 담기</button></div></article>
+          <article class="product-card"><div class="product-image"><span class="product-chip">나눔</span><span class="donation-chip">12%</span></div><div class="product-info"><div class="product-name">향 딸기 1kg</div><div class="product-meta">당도 10.5Brix+ · 전남 담양</div><div class="product-donation">💚 구매 시 2,100원 기부</div><div class="product-rating"><span class="star">★★★★☆</span><span>189</span></div><div class="product-price">18,000원</div><button class="add-cart-btn" type="button" data-product="향 딸기 1kg">장바구니 담기</button></div></article>
+          <article class="product-card"><div class="product-image"><span class="product-chip">나눔</span><span class="donation-chip">10%</span></div><div class="product-info"><div class="product-name">백도 복숭아 4kg</div><div class="product-meta">당도 13Brix+ · 전북 무주</div><div class="product-donation">💚 구매 시 3,000원 기부</div><div class="product-rating"><span class="star">★★★★★</span><span>254</span></div><div class="product-price">30,000원</div><button class="add-cart-btn" type="button" data-product="백도 복숭아 4kg">장바구니 담기</button></div></article>
+          <article class="product-card"><div class="product-image"><span class="product-chip">나눔</span><span class="donation-chip">15%</span></div><div class="product-info"><div class="product-name">체리 세트 2kg</div><div class="product-meta">당도 16Brix+ · 프리미엄 선별</div><div class="product-donation">💚 구매 시 6,000원 기부</div><div class="product-rating"><span class="star">★★★★★</span><span>145</span></div><div class="product-price">40,000원</div><button class="add-cart-btn" type="button" data-product="체리 세트 2kg">장바구니 담기</button></div></article>
         </div>
-        <div class="partners-grid">
-            <div class="partner-item">
-                <div class="partner-auth-logo">🤝</div>
-                <div class="partner-name">유니세프<br>한국위원회</div>
-            </div>
-            <div class="partner-item">
-                <div class="partner-auth-logo">🏥</div>
-                <div class="partner-name">초록우산<br>어린이재단</div>
-            </div>
-            <div class="partner-item">
-                <div class="partner-auth-logo">🍚</div>
-                <div class="partner-name">푸드뱅크<br>네트워크</div>
-            </div>
-            <div class="partner-item">
-                <div class="partner-auth-logo">👨‍👩‍👧</div>
-                <div class="partner-name">사랑의<br>열매</div>
-            </div>
-        </div>
+      </div>
     </section>
 
-    <!-- Impact Stories Carousel -->
-    <section class="stories-section">
-        <div class="section-header">
-            <h2 class="section-title">나눔 이야기</h2>
+    <div class="certificate-section">
+      <div class="container">
+        <div class="section-header"><div><span class="badge-white">기부 인증</span><h2 class="section-title light">구매 후 확인하는 인증서</h2></div></div>
+        <div class="certificate-card">
+          <h3>감사 인증서를 받아보세요</h3>
+          <p>구매한 상품의 기부 내역과 전달 현황을 확인하고, 감사 인증서를 저장할 수 있도록 같은 톤의 CTA 카드로 정리했습니다.</p>
+          <div class="certificate-actions"><a href="#" class="certificate-btn">인증서 보기</a><a href="#" class="certificate-sub">프로젝트 소개</a></div>
         </div>
-        <div class="stories-carousel">
-            <div class="story-card">
-                <div class="story-icon">👨‍👩‍👧‍👦</div>
-                <div class="story-title">따뜻한 과일 나눔</div>
-                <div class="story-content">
-                    독거노인 가정에 신선한 과일을 전달했습니다.
-                    건강한 영양 섭취에 큰 도움이 되었어요.
-                </div>
-                <span class="story-impact">45가정 지원</span>
-            </div>
-
-            <div class="story-card">
-                <div class="story-icon">👶</div>
-                <div class="story-title">아동 급식 지원</div>
-                <div class="story-content">
-                    결식 아동들에게 신선한 과일을 제공하여
-                    건강한 성장을 돕고 있습니다.
-                </div>
-                <span class="story-impact">120명 지원</span>
-            </div>
-
-            <div class="story-card">
-                <div class="story-icon">🏠</div>
-                <div class="story-title">지역사회 나눔</div>
-                <div class="story-content">
-                    취약계층 가정에 계절 과일을 정기적으로
-                    배송하여 삶의 질 향상에 기여합니다.
-                </div>
-                <span class="story-impact">80가정 지원</span>
-            </div>
-        </div>
-    </section>
-
-    <!-- Donation Progress -->
-    <section class="progress-section">
-        <div class="section-header">
-            <h2 class="section-title">이번 달 목표 달성률</h2>
-        </div>
-        <div class="progress-header">
-            <span class="progress-label">3,000만원 목표</span>
-            <span class="progress-value">73%</span>
-        </div>
-        <div class="progress-bar-container">
-            <div class="progress-bar-fill" style="width: 73%"></div>
-        </div>
-        <div class="progress-text">목표 달성까지 810만원 남았어요!</div>
-    </section>
-
-    <!-- Products Grid -->
-    <section class="products-section">
-        <div class="section-header">
-            <h2 class="section-title">나눔 상품 둘러보기</h2>
-        </div>
-
-        <div class="products-grid">
-            <!-- Product 1 -->
-            <div class="donation-product-card">
-                <div class="donation-chip">구매금액 10%</div>
-                <div class="product-image">🍎</div>
-                <div class="product-content">
-                    <h3 class="product-title">청송 사과</h3>
-                    <p class="product-desc">달콤한 꿀사과</p>
-                    <div class="product-info">
-                        <span class="brix-chip">당도 14.0°</span>
-                        <span class="origin-text">경북 청송</span>
-                    </div>
-                    <div class="donation-info">
-                        <div class="donation-amount">❤️ 2,500원 기부</div>
-                    </div>
-                    <div class="product-price">25,000원</div>
-                    <button class="add-cart-btn" onclick="addToCart(1)">장바구니 담기</button>
-                </div>
-            </div>
-
-            <!-- Product 2 -->
-            <div class="donation-product-card">
-                <div class="donation-chip">구매금액 15%</div>
-                <div class="product-image">🍊</div>
-                <div class="product-content">
-                    <h3 class="product-title">제주 한라봉</h3>
-                    <p class="product-desc">프리미엄 감귤</p>
-                    <div class="product-info">
-                        <span class="brix-chip">당도 13.5°</span>
-                        <span class="origin-text">제주도</span>
-                    </div>
-                    <div class="donation-info">
-                        <div class="donation-amount">❤️ 4,800원 기부</div>
-                    </div>
-                    <div class="product-price">32,000원</div>
-                    <button class="add-cart-btn" onclick="addToCart(2)">장바구니 담기</button>
-                </div>
-            </div>
-
-            <!-- Product 3 -->
-            <div class="donation-product-card">
-                <div class="donation-chip">구매금액 10%</div>
-                <div class="product-image">🍇</div>
-                <div class="product-content">
-                    <h3 class="product-title">샤인머스켓</h3>
-                    <p class="product-desc">청송 프리미엄</p>
-                    <div class="product-info">
-                        <span class="brix-chip">당도 18.0°</span>
-                        <span class="origin-text">경북 청송</span>
-                    </div>
-                    <div class="donation-info">
-                        <div class="donation-amount">❤️ 4,500원 기부</div>
-                    </div>
-                    <div class="product-price">45,000원</div>
-                    <button class="add-cart-btn" onclick="addToCart(3)">장바구니 담기</button>
-                </div>
-            </div>
-
-            <!-- Product 4 -->
-            <div class="donation-product-card">
-                <div class="donation-chip">구매금액 12%</div>
-                <div class="product-image">🍓</div>
-                <div class="product-content">
-                    <h3 class="product-title">설향 딸기</h3>
-                    <p class="product-desc">향긋한 국내산</p>
-                    <div class="product-info">
-                        <span class="brix-chip">당도 10.5°</span>
-                        <span class="origin-text">전남 담양</span>
-                    </div>
-                    <div class="donation-info">
-                        <div class="donation-amount">❤️ 2,100원 기부</div>
-                    </div>
-                    <div class="product-price">18,000원</div>
-                    <button class="add-cart-btn" onclick="addToCart(4)">장바구니 담기</button>
-                </div>
-            </div>
-
-            <!-- Product 5 -->
-            <div class="donation-product-card">
-                <div class="donation-chip">구매금액 10%</div>
-                <div class="product-image">🍑</div>
-                <div class="product-content">
-                    <h3 class="product-title">백도 복숭아</h3>
-                    <p class="product-desc">당도 높은 과즙</p>
-                    <div class="product-info">
-                        <span class="brix-chip">당도 13.0°</span>
-                        <span class="origin-text">전북 무주</span>
-                    </div>
-                    <div class="donation-info">
-                        <div class="donation-amount">❤️ 3,000원 기부</div>
-                    </div>
-                    <div class="product-price">30,000원</div>
-                    <button class="add-cart-btn" onclick="addToCart(5)">장바구니 담기</button>
-                </div>
-            </div>
-
-            <!-- Product 6 -->
-            <div class="donation-product-card">
-                <div class="donation-chip">구매금액 15%</div>
-                <div class="product-image">🍈</div>
-                <div class="product-content">
-                    <h3 class="product-title">성주 참외</h3>
-                    <p class="product-desc">달콤한 여름 과일</p>
-                    <div class="product-info">
-                        <span class="brix-chip">당도 15.0°</span>
-                        <span class="origin-text">경북 성주</span>
-                    </div>
-                    <div class="donation-info">
-                        <div class="donation-amount">❤️ 3,300원 기부</div>
-                    </div>
-                    <div class="product-price">22,000원</div>
-                    <button class="add-cart-btn" onclick="addToCart(6)">장바구니 담기</button>
-                </div>
-            </div>
-
-            <!-- Product 7 -->
-            <div class="donation-product-card">
-                <div class="donation-chip">구매금액 10%</div>
-                <div class="product-image">🍐</div>
-                <div class="product-content">
-                    <h3 class="product-title">나주 배</h3>
-                    <p class="product-desc">아삭한 식감</p>
-                    <div class="product-info">
-                        <span class="brix-chip">당도 12.0°</span>
-                        <span class="origin-text">전남 나주</span>
-                    </div>
-                    <div class="donation-info">
-                        <div class="donation-amount">❤️ 2,800원 기부</div>
-                    </div>
-                    <div class="product-price">28,000원</div>
-                    <button class="add-cart-btn" onclick="addToCart(7)">장바구니 담기</button>
-                </div>
-            </div>
-
-            <!-- Product 8 -->
-            <div class="donation-product-card">
-                <div class="donation-chip">구매금액 12%</div>
-                <div class="product-image">🍉</div>
-                <div class="product-content">
-                    <h3 class="product-title">고당도 수박</h3>
-                    <p class="product-desc">시원한 여름 과일</p>
-                    <div class="product-info">
-                        <span class="brix-chip">당도 11.5°</span>
-                        <span class="origin-text">전북 고창</span>
-                    </div>
-                    <div class="donation-info">
-                        <div class="donation-amount">❤️ 3,600원 기부</div>
-                    </div>
-                    <div class="product-price">30,000원</div>
-                    <button class="add-cart-btn" onclick="addToCart(8)">장바구니 담기</button>
-                </div>
-            </div>
-
-            <!-- Product 9 -->
-            <div class="donation-product-card">
-                <div class="donation-chip">구매금액 10%</div>
-                <div class="product-image">🥝</div>
-                <div class="product-content">
-                    <h3 class="product-title">골드 키위</h3>
-                    <p class="product-desc">비타민C 풍부</p>
-                    <div class="product-info">
-                        <span class="brix-chip">당도 14.5°</span>
-                        <span class="origin-text">국내산</span>
-                    </div>
-                    <div class="donation-info">
-                        <div class="donation-amount">❤️ 2,400원 기부</div>
-                    </div>
-                    <div class="product-price">24,000원</div>
-                    <button class="add-cart-btn" onclick="addToCart(9)">장바구니 담기</button>
-                </div>
-            </div>
-
-            <!-- Product 10 -->
-            <div class="donation-product-card">
-                <div class="donation-chip">구매금액 15%</div>
-                <div class="product-image">🍒</div>
-                <div class="product-content">
-                    <h3 class="product-title">체리 세트</h3>
-                    <p class="product-desc">프리미엄 품질</p>
-                    <div class="product-info">
-                        <span class="brix-chip">당도 16.0°</span>
-                        <span class="origin-text">국내산</span>
-                    </div>
-                    <div class="donation-info">
-                        <div class="donation-amount">❤️ 6,000원 기부</div>
-                    </div>
-                    <div class="product-price">40,000원</div>
-                    <button class="add-cart-btn" onclick="addToCart(10)">장바구니 담기</button>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Certificate Preview -->
-    <section class="certificate-section">
-        <div class="section-header">
-            <h2 class="section-title">기부 인증서</h2>
-        </div>
-        <div class="certificate-preview">
-            <div class="certificate-icon">🏆</div>
-            <div class="certificate-title">감사 인증서를 받으세요</div>
-            <div class="certificate-desc">
-                구매하신 상품의 기부 내역을 확인하고<br>
-                감사 인증서를 다운로드 받을 수 있습니다
-            </div>
-            <a href="#" class="view-certificate-btn">내 인증서 보기</a>
-        </div>
-    </section>
-
-    <!-- Bottom Navigation -->
-    <nav class="bottom-nav">
-        <a href="../home/index.html" class="nav-link">
-            <span class="icon">🏠</span>
-            <span class="label">홈</span>
-        </a>
-        <a href="../products/index.html" class="nav-link active">
-            <span class="icon">🍎</span>
-            <span class="label">상품</span>
-        </a>
-        <a href="../mypage/index.html" class="nav-link">
-            <span class="icon">👤</span>
-            <span class="label">마이</span>
-        </a>
-        <a href="../support/index.html" class="nav-link">
-            <span class="icon">💬</span>
-            <span class="label">고객지원</span>
-        </a>
-    </nav>
-
-    <script>
-        // Real-time donation counter animation
-        function animateCounter() {
-            const counterElement = document.getElementById('todayDonation');
-            let current = 1234567;
-
-            setInterval(() => {
-                current += Math.floor(Math.random() * 1000) + 100;
-                counterElement.textContent = current.toLocaleString('ko-KR') + '원';
-            }, 3000);
-        }
-
-        // Initialize counter on page load
-        window.addEventListener('DOMContentLoaded', () => {
-            animateCounter();
-
-            // Animate progress bar
-            setTimeout(() => {
-                const progressBar = document.querySelector('.progress-bar-fill');
-                if (progressBar) {
-                    progressBar.style.width = '73%';
-                }
-            }, 500);
-        });
-
-        // Add to cart function
-        function addToCart(productId) {
-            // Create ripple effect
-            const btn = event.target;
-            const ripple = document.createElement('span');
-            ripple.style.position = 'absolute';
-            ripple.style.width = ripple.style.height = '100px';
-            ripple.style.left = event.offsetX + 'px';
-            ripple.style.top = event.offsetY + 'px';
-
-            // Show success message
-            alert('❤️ 장바구니에 담겼습니다!\n구매 시 기부금이 함께 전달됩니다.');
-
-            // In a real app, this would call an API
-            console.log('Added product', productId, 'to cart with donation');
-        }
-
-        // Smooth scroll for carousel
-        const carousel = document.querySelector('.stories-carousel');
-        let isScrolling = false;
-        let startX;
-        let scrollLeft;
-
-        if (carousel) {
-            carousel.addEventListener('mousedown', (e) => {
-                isScrolling = true;
-                startX = e.pageX - carousel.offsetLeft;
-                scrollLeft = carousel.scrollLeft;
-            });
-
-            carousel.addEventListener('mouseleave', () => {
-                isScrolling = false;
-            });
-
-            carousel.addEventListener('mouseup', () => {
-                isScrolling = false;
-            });
-
-            carousel.addEventListener('mousemove', (e) => {
-                if (!isScrolling) return;
-                e.preventDefault();
-                const x = e.pageX - carousel.offsetLeft;
-                const walk = (x - startX) * 2;
-                carousel.scrollLeft = scrollLeft - walk;
-            });
-        }
-
-        // Track scroll for analytics
-        window.addEventListener('scroll', () => {
-            const scrollPercentage = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
-
-            if (scrollPercentage > 50) {
-                console.log('User engaged with donation page');
-            }
-        });
-
-        // Home button navigation
-        document.querySelectorAll('.header-icon').forEach((icon, index) => {
-            icon.addEventListener('click', () => {
-                if (index === 0) {
-                    window.location.href = '../home/index.html';
-                } else if (index === 1) {
-                    window.location.href = '../cart/index.html';
-                }
-            });
-        });
-    </script>
+      </div>
+    </div>
+  </main>
+  <nav class="bottom-nav"><div class="bottom-nav-inner"><a href="../home/fruitbridge-redesign-v3-fixed.html" class="nav-item"><span class="nav-icon">🏠</span><span>홈</span></a><a href="./donation.html" class="nav-item active"><span class="nav-icon">🤝</span><span>나눔</span></a><a href="./category_redesign_fruitbridge.html" class="nav-item"><span class="nav-icon">🔍</span><span>카테고리</span></a><a href="../wishlist/index.html" class="nav-item"><span class="nav-icon">❤️</span><span>찜목록</span></a><a href="../mypage/index.html" class="nav-item"><span class="nav-icon">👤</span><span>마이</span></a></div></nav>
+  <div class="toast" id="toast"></div>
+  <script>
+    document.querySelectorAll(".tab-item").forEach((tab)=>tab.addEventListener("click",(e)=>{e.preventDefault();document.querySelectorAll(".tab-item").forEach((item)=>item.classList.remove("active"));tab.classList.add("active")}));
+    const toast=document.getElementById("toast");const showToast=(message)=>{toast.textContent=message;toast.classList.add("show");setTimeout(()=>toast.classList.remove("show"),2500)};
+    document.querySelectorAll(".add-cart-btn").forEach((button)=>button.addEventListener("click",()=>showToast(button.dataset.product+"이(가) 장바구니에 담겼습니다")));
+    const todayDonation=document.getElementById("todayDonation");let currentToday=1234567;setInterval(()=>{currentToday+=Math.floor(Math.random()*1000)+100;todayDonation.textContent=currentToday.toLocaleString("ko-KR")+"원"},3000);
+    const totalDonation=document.getElementById("totalDonation");let currentTotal=32.5;setInterval(()=>{currentTotal=Math.min(39.9,currentTotal+0.1);totalDonation.textContent=currentTotal.toFixed(1)+"M"},12000);
+    const impactCount=document.querySelector(".impact-count");const impactProgress=document.querySelector(".progress-fill-mini");let currentImpact=365;setInterval(()=>{currentImpact=Math.min(500,currentImpact+1);impactCount.textContent=currentImpact+"명";impactProgress.style.width=(currentImpact/500)*100+"%"},30000);
+  </script>
 </body>
 </html>

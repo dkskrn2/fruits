@@ -1,686 +1,122 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <title>상품 - 과일다리</title>
-    <link rel="stylesheet" href="../../styles/design-system.css">
-    <link rel="stylesheet" href="../../styles/components.css">
-    <link rel="stylesheet" href="../../styles/common-layout.css">
-<!-- Design System CSS -->
-        
-    </head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>상품 - 과일다리</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    :root{--primary:#5f8f3a;--primary-strong:#476d2a;--primary-soft:#edf6e4;--secondary:#ff8c42;--secondary-soft:#fff1e4;--pink-soft:#fff2f5;--sale:#ff6b57;--text-strong:#1d2a1f;--text:#334236;--text-muted:#708072;--line:rgba(61,88,56,.12);--shadow-sm:0 6px 18px rgba(33,52,36,.06);--shadow-md:0 16px 40px rgba(33,52,36,.1);--shadow-lg:0 24px 60px rgba(33,52,36,.14);--max-width:430px}
+    *{box-sizing:border-box;margin:0;padding:0}html{background:linear-gradient(180deg,#eef3ea 0%,#e8eee3 100%);overflow-x:hidden}body{font-family:"Pretendard","Noto Sans KR",-apple-system,BlinkMacSystemFont,sans-serif;color:var(--text);background:radial-gradient(circle at top,rgba(156,194,115,.18),transparent 26%),linear-gradient(180deg,#fbfcf8 0%,#f6f8f3 40%,#f4f6f0 100%);min-height:100vh;width:100%;max-width:var(--max-width);margin:0 auto;position:relative;-webkit-font-smoothing:antialiased;line-height:1.55;overflow-x:hidden}
+    @media (min-width:768px){html,body{min-height:100%}body{border-left:1px solid rgba(61,88,56,.08);border-right:1px solid rgba(61,88,56,.08);box-shadow:0 24px 70px rgba(22,33,23,.18)}}
+    a{text-decoration:none;color:inherit}button{font:inherit;color:inherit}img,svg,video,canvas{max-width:100%;height:auto;display:block}.container{padding:0 18px}.main-content,.section,.surface,.hero-banner,.md-panel,.moms-panel,.sale-panel{width:100%}.main-content{padding:16px 0 104px;display:grid;grid-template-columns:minmax(0,1fr);gap:22px}.main-content>*{min-width:0}
+    .top-banner{display:flex;align-items:center;justify-content:center;gap:10px;padding:11px 16px;background:linear-gradient(90deg,#5f8f3a 0%,#80b053 100%);color:#fff;font-size:12px;font-weight:700;letter-spacing:-.01em;position:relative}.close-btn{position:absolute;right:10px;top:50%;transform:translateY(-50%);border:0;background:rgba(255,255,255,.14);color:#fff;width:24px;height:24px;border-radius:999px;cursor:pointer}
+    .header{position:sticky;top:0;z-index:100;backdrop-filter:blur(18px);background:rgba(251,252,248,.82);border-bottom:1px solid rgba(61,88,56,.08)}.header-mobile{padding:16px 18px 14px;display:flex;align-items:center;justify-content:space-between}.logo{display:inline-flex;align-items:center;gap:4px;font-size:21px;font-weight:900;letter-spacing:-.04em}.logo .fruit{color:var(--primary)}.logo .bridge{color:var(--primary-strong)}.header-actions{display:flex;gap:10px}.header-icon{position:relative;width:42px;height:42px;display:grid;place-items:center;border-radius:16px;border:1px solid rgba(61,88,56,.08);background:rgba(255,255,255,.75);box-shadow:var(--shadow-sm);font-size:20px;cursor:pointer}.cart-count{position:absolute;top:-3px;right:-1px;width:18px;height:18px;border-radius:999px;background:var(--sale);color:#fff;font-size:10px;font-weight:800;display:grid;place-items:center;border:2px solid #fff}
+    .social-impact-badge{margin:0 18px 14px;padding:14px 14px 13px;border-radius:20px;border:1px solid rgba(95,143,58,.15);background:linear-gradient(135deg,rgba(255,255,255,.92),rgba(237,246,228,.92));box-shadow:var(--shadow-sm)}.impact-main{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}.impact-info{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:600;color:var(--text)}.impact-count{color:var(--primary-strong);font-weight:900}.impact-link{flex-shrink:0;padding:7px 10px;border-radius:999px;background:rgba(95,143,58,.08);color:var(--primary-strong);font-size:11px;font-weight:800}.progress-bar-mini{height:8px;border-radius:999px;background:rgba(95,143,58,.1);overflow:hidden}.progress-fill-mini{height:100%;border-radius:inherit;background:linear-gradient(90deg,#7caf53,#5f8f3a);width:71%;transition:width .5s ease}
+    .tab-nav,.category-pills,.product-scroll,.hero-dots{-ms-overflow-style:none;scrollbar-width:none}.tab-nav::-webkit-scrollbar,.category-pills::-webkit-scrollbar,.product-scroll::-webkit-scrollbar,.hero-dots::-webkit-scrollbar{display:none}.tab-nav{display:flex;gap:10px;overflow-x:auto;padding:0 18px 14px;border-bottom:1px solid rgba(61,88,56,.08)}.tab-item{white-space:nowrap;padding:10px 14px;border-radius:999px;background:transparent;color:var(--text-muted);font-size:13px;font-weight:700;transition:.2s ease}.tab-item.active{background:var(--primary-strong);color:#fff;box-shadow:0 10px 22px rgba(71,109,42,.24)}
+    .category-pills-wrap{padding-top:2px}.category-pills{display:flex;gap:8px;overflow-x:auto;padding-bottom:2px}.pill{white-space:nowrap;padding:9px 13px;border-radius:999px;border:1px solid var(--line);background:rgba(255,255,255,.92);font-size:12px;font-weight:700;color:var(--text);cursor:pointer}.pill.active{background:#edf6e4;border-color:rgba(95,143,58,.24);color:var(--primary-strong)}
+    .section,.hero-banner,.md-panel,.moms-panel,.sale-panel{margin:0 18px;border-radius:30px;overflow:hidden}.surface{background:rgba(255,255,255,.84);border:1px solid rgba(61,88,56,.08);box-shadow:var(--shadow-md);border-radius:28px;padding:20px 16px}.hero-banner{box-shadow:var(--shadow-lg)}.md-panel{background:linear-gradient(180deg,#eff8e8 0%,#f8fcf4 100%);border:1px solid rgba(95,143,58,.12);box-shadow:var(--shadow-md);padding:20px 0}.moms-panel{background:linear-gradient(180deg,#fff4f7 0%,#fffdfd 100%);border:1px solid rgba(233,30,99,.08);box-shadow:var(--shadow-md);padding:22px 0}.sale-panel{background:linear-gradient(135deg,#ff7d36 0%,#ff5f55 100%);box-shadow:0 24px 50px rgba(255,103,75,.28);padding:22px 0;color:#fff}
+    .section-header{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:16px}.section-title{font-size:22px;font-weight:900;letter-spacing:-.04em;color:var(--text-strong)}.section-sub{margin-top:5px;color:var(--text-muted);font-size:13px;font-weight:600}.section-more{flex-shrink:0;font-size:12px;font-weight:800;color:var(--text-muted)}.badge-green,.badge-pink{display:inline-flex;align-items:center;justify-content:center;padding:7px 12px;border-radius:999px;font-size:11px;font-weight:800;margin-bottom:12px}.badge-green{background:var(--primary);color:#fff}.badge-pink{background:#e94d87;color:#fff}
+    .hero-carousel{position:relative;min-height:250px;border-radius:30px;overflow:hidden}.hero-slide{position:absolute;inset:0;opacity:0;transition:opacity .45s ease}.hero-slide.active{opacity:1}.hero-bg{position:absolute;inset:0}.hero-bg::after{content:"";position:absolute;inset:0;background:linear-gradient(135deg,rgba(0,0,0,.04),rgba(0,0,0,.18))}.hero-content{position:relative;z-index:1;min-height:250px;padding:26px 22px 72px;display:flex;flex-direction:column;justify-content:flex-end;color:#fff}.hero-chip{align-self:flex-start;padding:6px 11px;border-radius:999px;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.24);backdrop-filter:blur(8px);font-size:11px;font-weight:800;margin-bottom:12px}.hero-title{font-size:28px;line-height:1.2;font-weight:900;letter-spacing:-.05em;margin-bottom:8px}.hero-subtitle{font-size:14px;opacity:.95;margin-bottom:18px}.hero-cta{align-self:flex-start;padding:11px 16px;border-radius:999px;background:#fff;color:var(--text-strong);font-size:13px;font-weight:800;box-shadow:0 12px 26px rgba(0,0,0,.14)}.hero-dots{position:absolute;left:22px;bottom:20px;display:flex;gap:8px;z-index:2}.hero-dot{width:8px;height:8px;border-radius:999px;background:rgba(255,255,255,.42);cursor:pointer;transition:.2s ease}.hero-dot.active{width:26px;background:#fff}
+    .quick-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}.quick-item{padding:12px 8px 10px;background:rgba(255,255,255,.9);border:1px solid rgba(61,88,56,.08);border-radius:20px;box-shadow:var(--shadow-sm);display:flex;flex-direction:column;align-items:center;gap:8px;min-height:92px;text-align:center}.quick-icon{width:46px;height:46px;border-radius:16px;display:grid;place-items:center;font-size:23px;background:linear-gradient(135deg,#edf6e4,#fff4e8)}.quick-label{font-size:11px;font-weight:700;line-height:1.3;color:var(--text)}
+    .product-scroll{display:flex;gap:12px;overflow-x:auto;padding-bottom:2px}.product-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.product-card,.product-wide{background:rgba(255,255,255,.92);border:1px solid rgba(61,88,56,.08);border-radius:24px;overflow:hidden;box-shadow:var(--shadow-sm)}.product-card{cursor:pointer}.product-wide{flex:0 0 286px}.product-image{position:relative;height:152px;background:linear-gradient(135deg,rgba(237,246,228,.95),rgba(255,241,228,.95));border-bottom:1px solid rgba(61,88,56,.06)}.product-image::before{content:"NO IMAGE";position:absolute;inset:0;display:grid;place-items:center;color:rgba(95,143,58,.45);font-size:12px;font-weight:900;letter-spacing:.14em}.product-emoji{position:absolute;inset:0;display:grid;place-items:center;font-size:42px}.product-badge,.discount-badge{position:absolute;z-index:1;font-weight:900;letter-spacing:-.02em}.product-badge{top:12px;left:12px;padding:6px 8px;border-radius:10px;font-size:10px;color:#fff;background:var(--primary);box-shadow:0 10px 22px rgba(95,143,58,.2)}.product-badge.rank{background:var(--secondary)}.product-badge.mom{background:#d94a7d}.discount-badge{top:12px;right:12px;min-width:40px;height:40px;padding:0 8px;border-radius:999px;display:grid;place-items:center;background:#fff;color:var(--sale);font-size:11px;box-shadow:0 10px 24px rgba(0,0,0,.1)}.product-info{padding:14px 14px 15px}.product-name{font-size:14px;font-weight:800;line-height:1.4;color:var(--text-strong);min-height:40px;margin-bottom:8px}.product-desc{font-size:12px;color:var(--text-muted);margin-bottom:6px}.product-meta,.product-rating{font-size:11px;font-weight:700;margin-top:4px}.product-meta{color:var(--text-muted)}.product-rating{display:flex;gap:4px;align-items:center;color:var(--text-muted)}.star{color:#f4b400}.product-price{font-size:18px;color:var(--text-strong);font-weight:900;letter-spacing:-.03em;margin-top:8px}.price-original{font-size:11px;color:#98a39a;text-decoration:line-through;font-weight:700;margin-right:6px}.product-btn{width:100%;margin-top:12px;padding:11px 12px;border-radius:16px;border:0;background:var(--primary-strong);color:#fff;font-size:13px;font-weight:800;cursor:pointer}
+    .countdown{display:flex;gap:10px;margin:14px 0 18px}.countdown-item{min-width:68px;padding:10px 12px;border-radius:16px;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.18);backdrop-filter:blur(6px);text-align:center}.countdown-number{font-size:22px;font-weight:900;line-height:1}.countdown-label{font-size:10px;margin-top:4px;font-weight:700;opacity:.9}
+    .moms-head{text-align:center;margin-bottom:16px}.moms-title{font-size:24px;font-weight:900;letter-spacing:-.04em;color:var(--text-strong);margin-bottom:4px}.moms-subtitle{font-size:13px;color:var(--text-muted);font-weight:600}
+    .bottom-nav{position:fixed;left:50%;transform:translateX(-50%);width:100%;max-width:var(--max-width);bottom:0;z-index:120;padding:10px 12px calc(10px + env(safe-area-inset-bottom));background:transparent}.bottom-nav::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(246,248,243,0),rgba(246,248,243,.94) 42%,rgba(246,248,243,.98));z-index:-2}.bottom-nav-inner{max-width:var(--max-width);margin:0 auto;display:flex;justify-content:space-around;padding:10px 8px;border-radius:24px;background:rgba(255,255,255,.9);border:1px solid rgba(61,88,56,.08);backdrop-filter:blur(18px);box-shadow:0 16px 36px rgba(29,42,31,.12)}.nav-item{min-width:58px;display:flex;flex-direction:column;align-items:center;gap:4px;padding:4px 6px;color:var(--text-muted);font-size:10px;font-weight:700}.nav-item.active{color:var(--primary-strong)}.nav-icon{font-size:19px}
+    .toast{position:fixed;left:50%;bottom:98px;transform:translateX(-50%);padding:12px 16px;background:rgba(29,42,31,.92);color:#fff;border-radius:999px;font-size:13px;font-weight:700;box-shadow:0 16px 36px rgba(0,0,0,.18);display:none;z-index:200;white-space:nowrap}.toast.show{display:block}
+    @media (max-width:380px){.quick-grid,.product-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.hero-title,.moms-title{font-size:24px}.section-title{font-size:20px}}
+  </style>
+</head>
 <body>
-    <div class="page-container">
-        <!-- App Header -->
-        <header class="app-header">
-            <h1 class="app-header__title">상품</h1>
-            <div class="app-header__actions">
-                <button class="icon-button" onclick="location.href='../search/index.html'">
-                    🔍
-                </button>
-                <button class="icon-button" onclick="location.href='../cart/index.html'">
-                    🛒
-                </button>
-            </div>
-        </header>
+  <div class="top-banner"><span>🛍 오늘 가장 반응 좋은 상품만 모아 보여드립니다</span><button class="close-btn" type="button" onclick="this.parentElement.style.display='none'">×</button></div>
+  <header class="header">
+    <div class="header-mobile">
+      <a href="../home/fruitbridge-redesign-v3-fixed.html" class="logo"><span class="fruit">과일</span><span class="bridge">다리</span></a>
+      <div class="header-actions"><a href="../search/index.html" class="header-icon" aria-label="검색">🔍</a><a href="../cart/index.html" class="header-icon" aria-label="장바구니">🛒<span class="cart-count">3</span></a></div>
+    </div>
+    <div class="social-impact-badge">
+      <div class="impact-main"><div class="impact-info"><span>📦</span><span>오늘 추천 상품 <span class="impact-count">128개</span> 준비 완료</span></div><a href="./category_redesign_fruitbridge.html" class="impact-link">카테고리 →</a></div>
+      <div class="progress-bar-mini"><div class="progress-fill-mini"></div></div>
+    </div>
+  </header>
+  <nav class="tab-nav"><a href="#" class="tab-item active">상품</a><a href="#" class="tab-item">카테고리</a><a href="#" class="tab-item">타임세일</a><a href="#" class="tab-item">베스트</a><a href="#" class="tab-item">신상품</a><a href="#" class="tab-item">제철</a></nav>
+  <main class="main-content">
+    <section class="hero-banner">
+      <div class="hero-carousel">
+        <article class="hero-slide active"><div class="hero-bg" style="background:linear-gradient(135deg,#ff8f47 0%,#ffb561 100%)"></div><div class="hero-content"><span class="hero-chip">🍊 12월 제철과일</span><h2 class="hero-title">겨울에 가장 맛있는<br />감귤과 천혜향</h2><p class="hero-subtitle">당도 13Brix 이상 선별 상품만 소개합니다.</p><a href="./seasonal.html" class="hero-cta">지금 보러가기</a></div></article>
+        <article class="hero-slide"><div class="hero-bg" style="background:linear-gradient(135deg,#79aa49 0%,#456d2b 100%)"></div><div class="hero-content"><span class="hero-chip">🎉 신규 가입 혜택</span><h2 class="hero-title">첫 구매 50% 할인<br />+ 무료배송</h2><p class="hero-subtitle">3만원 이상 구매 시 바로 적용됩니다.</p><a href="../auth/signup.html" class="hero-cta">혜택 받기</a></div></article>
+        <article class="hero-slide"><div class="hero-bg" style="background:linear-gradient(135deg,#ea5a87 0%,#f38da7 100%)"></div><div class="hero-content"><span class="hero-chip">🔥 오늘만 특가</span><h2 class="hero-title">타임세일 최대<br />70% 할인</h2><p class="hero-subtitle">매일 오전 10시에 새로운 특가가 열립니다.</p><a href="./timesale.html" class="hero-cta">특가 확인하기</a></div></article>
+        <div class="hero-dots"><span class="hero-dot active" data-slide="0"></span><span class="hero-dot" data-slide="1"></span><span class="hero-dot" data-slide="2"></span></div>
+      </div>
+    </section>
 
-        <!-- Main Content -->
-        <main class="main-content">
-            <!-- Hero Banner Carousel -->
-            <div class="hero-banner">
-                <div class="banner-carousel">
-                    <!-- Slide 1: 제철과일 프로모션 -->
-                    <div class="banner-slide active">
-                        <div class="banner-bg" style="background: linear-gradient(135deg, #FF6F00, #FFB74D);"></div>
-                        <div class="banner-content">
-                            <span class="banner-chip">🍊 12월 제철과일</span>
-                            <h2 class="banner-title">겨울의 맛<br>달콤한 귤과 한라봉</h2>
-                            <p class="banner-subtitle">당도 13Brix 이상 보장</p>
-                            <a href="seasonal.html" class="banner-cta">지금 보러가기</a>
-                        </div>
-                    </div>
-
-                    <!-- Slide 2: 신규가입 혜택 -->
-                    <div class="banner-slide">
-                        <div class="banner-bg" style="background: linear-gradient(135deg, var(--color-brand-primary), var(--color-brand-primary-hover));"></div>
-                        <div class="banner-content">
-                            <span class="banner-chip">🎉 신규가입 혜택</span>
-                            <h2 class="banner-title">첫 구매 50% 할인<br>+ 무료배송</h2>
-                            <p class="banner-subtitle">3만원 이상 구매 시 적용</p>
-                            <a href="../auth/signup.html" class="banner-cta">가입하고 혜택받기</a>
-                        </div>
-                    </div>
-
-                    <!-- Slide 3: 타임세일 -->
-                    <div class="banner-slide">
-                        <div class="banner-bg" style="background: linear-gradient(135deg, #F44336, #EF5350);"></div>
-                        <div class="banner-content">
-                            <span class="banner-chip">⏰ 오늘만 특가</span>
-                            <h2 class="banner-title">타임세일<br>최대 70% 할인</h2>
-                            <p class="banner-subtitle">매일 오전 10시 오픈</p>
-                            <a href="timesale.html" class="banner-cta">특가 확인하기</a>
-                        </div>
-                    </div>
-
-                    <!-- Carousel Indicators -->
-                    <div class="carousel-indicators">
-                        <span class="indicator active" data-slide="0"></span>
-                        <span class="indicator" data-slide="1"></span>
-                        <span class="indicator" data-slide="2"></span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Category Grid -->
-            <section class="category-section">
-                <div class="section-title">
-                    <span>카테고리 둘러보기</span>
-                    <a href="category.html" class="section-link">카테고리 맵</a>
-                </div>
-                <div class="category-grid">
-                    <a href="family.html" class="category-item">
-                        <div class="category-icon">👨‍👩‍👧‍👦</div>
-                        <span class="category-label">가족루틴</span>
-                    </a>
-                    <a href="kids.html" class="category-item">
-                        <div class="category-icon">🧒</div>
-                        <span class="category-label">아이간식</span>
-                    </a>
-                    <a href="greeting.html" class="category-item">
-                        <div class="category-icon">💝</div>
-                        <span class="category-label">안부전하기</span>
-                    </a>
-                    <a href="donation.html" class="category-item">
-                        <div class="category-icon">🤝</div>
-                        <span class="category-label">나눔과일</span>
-                    </a>
-                    <a href="seasonal.html" class="category-item">
-                        <div class="category-icon">🍊</div>
-                        <span class="category-label">제철과일</span>
-                    </a>
-                    <a href="subscription.html" class="category-item">
-                        <div class="category-icon">📦</div>
-                        <span class="category-label">정기배송</span>
-                    </a>
-                    <a href="best.html" class="category-item">
-                        <div class="category-icon">🏆</div>
-                        <span class="category-label">베스트</span>
-                    </a>
-                    <a href="new.html" class="category-item">
-                        <div class="category-icon">✨</div>
-                        <span class="category-label">신상품</span>
-                    </a>
-                </div>
-            </section>
-
-            <!-- Filter Chips -->
-            <div class="filter-chips">
-                <button class="filter-chip active">
-                    🔥 전체
-                </button>
-                <button class="filter-chip">
-                    🍎 사과/배
-                </button>
-                <button class="filter-chip">
-                    🍊 감귤류
-                </button>
-                <button class="filter-chip">
-                    🍇 포도/베리
-                </button>
-                <button class="filter-chip">
-                    🍑 복숭아/자두
-                </button>
-                <button class="filter-chip">
-                    🥭 열대과일
-                </button>
-            </div>
-
-            <!-- Time Sale Section -->
-            <section class="special-deal-section">
-                <div class="deal-header">
-                    <h2 class="deal-title">⏰ 오늘만 특가</h2>
-                    <div class="deal-timer">
-                        <span>⏱️</span>
-                        <span id="timer">02:34:12</span>
-                    </div>
-                </div>
-                <div class="product-scroll">
-                    <div class="product-card-wide">
-                        <div class="product-card-wide__image">
-                            <div style="background: linear-gradient(135deg, #E8F5E9, #C8E6C9); height: 100%; display: flex; align-items: center; justify-content: center; font-size: 64px;">
-                                🍇
-                            </div>
-                            <div class="time-sale-chip">
-                                <span>⚡</span>
-                                <span>70% 할인</span>
-                            </div>
-                        </div>
-                        <div class="product-card__content">
-                            <h3 class="product-card__title">프리미엄 샤인머스켓</h3>
-                            <p class="product-card__desc">껍질째 먹는 청포도</p>
-                            <div class="product-card__info">
-                                <span class="product-card__brix">당도 18.0°</span>
-                                <span class="product-card__origin">영동</span>
-                            </div>
-                            <div class="product-card__footer">
-                                <div class="product-card__price">
-                                    <span class="product-card__price-original">60,000원</span>
-                                    18,000원
-                                </div>
-                                <button class="product-card__action">🛒</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="product-card-wide">
-                        <div class="product-card-wide__image">
-                            <div style="background: linear-gradient(135deg, #FFE0B2, #FFCC80); height: 100%; display: flex; align-items: center; justify-content: center; font-size: 64px;">
-                                🍊
-                            </div>
-                            <div class="time-sale-chip">
-                                <span>⚡</span>
-                                <span>50% 할인</span>
-                            </div>
-                        </div>
-                        <div class="product-card__content">
-                            <h3 class="product-card__title">제주 프리미엄 한라봉</h3>
-                            <p class="product-card__desc">새콤달콤 제주 특산품</p>
-                            <div class="product-card__info">
-                                <span class="product-card__brix">당도 14.0°</span>
-                                <span class="product-card__origin">제주</span>
-                            </div>
-                            <div class="product-card__footer">
-                                <div class="product-card__price">
-                                    <span class="product-card__price-original">45,000원</span>
-                                    22,500원
-                                </div>
-                                <button class="product-card__action">🛒</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="product-card-wide">
-                        <div class="product-card-wide__image">
-                            <div style="background: linear-gradient(135deg, #FFEBEE, #FFCDD2); height: 100%; display: flex; align-items: center; justify-content: center; font-size: 64px;">
-                                🍓
-                            </div>
-                            <div class="time-sale-chip">
-                                <span>⚡</span>
-                                <span>40% 할인</span>
-                            </div>
-                        </div>
-                        <div class="product-card__content">
-                            <h3 class="product-card__title">설향 딸기 특선</h3>
-                            <p class="product-card__desc">달콤한 비타민 폭탄</p>
-                            <div class="product-card__info">
-                                <span class="product-card__brix">당도 11.5°</span>
-                                <span class="product-card__origin">담양</span>
-                            </div>
-                            <div class="product-card__footer">
-                                <div class="product-card__price">
-                                    <span class="product-card__price-original">30,000원</span>
-                                    18,000원
-                                </div>
-                                <button class="product-card__action">🛒</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Best Sellers -->
-            <section class="product-section">
-                <div class="section-header">
-                    <div>
-                        <h2 class="section-title">🔥 베스트셀러</h2>
-                        <p class="section-subtitle">가장 많이 선택한 과일</p>
-                    </div>
-                    <a href="best.html" class="section-more">더보기 →</a>
-                </div>
-                <div class="product-grid">
-                    <div class="product-card">
-                        <div class="product-card__image">
-                            <div style="background: linear-gradient(135deg, #FFE0B2, #FFCC80); height: 100%; display: flex; align-items: center; justify-content: center; font-size: 48px;">
-                                🍊
-                            </div>
-                            <span class="product-card__chip">1위</span>
-                        </div>
-                        <div class="product-card__content">
-                            <h3 class="product-card__title">제주 한라봉</h3>
-                            <p class="product-card__desc">새콤달콤 제주 특산품</p>
-                            <div class="product-card__info">
-                                <span class="product-card__brix">당도 13.5°</span>
-                                <span class="product-card__origin">제주</span>
-                            </div>
-                            <div class="product-card__footer">
-                                <div class="product-card__price">32,000원</div>
-                                <button class="product-card__action">🛒</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="product-card">
-                        <div class="product-card__image">
-                            <div style="background: linear-gradient(135deg, #E8F5E9, #C8E6C9); height: 100%; display: flex; align-items: center; justify-content: center; font-size: 48px;">
-                                🍇
-                            </div>
-                            <span class="product-card__chip">2위</span>
-                        </div>
-                        <div class="product-card__content">
-                            <h3 class="product-card__title">샤인머스켓</h3>
-                            <p class="product-card__desc">달콤한 청포도의 정석</p>
-                            <div class="product-card__info">
-                                <span class="product-card__brix">당도 16.0°</span>
-                                <span class="product-card__origin">영동</span>
-                            </div>
-                            <div class="product-card__footer">
-                                <div class="product-card__price">45,000원</div>
-                                <button class="product-card__action">🛒</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="product-card">
-                        <div class="product-card__image">
-                            <div style="background: linear-gradient(135deg, #FFF9C4, #FFE082); height: 100%; display: flex; align-items: center; justify-content: center; font-size: 48px;">
-                                🍎
-                            </div>
-                            <span class="product-card__chip">3위</span>
-                        </div>
-                        <div class="product-card__content">
-                            <h3 class="product-card__title">청송 꿀사과</h3>
-                            <p class="product-card__desc">아삭하고 달콤한 사과</p>
-                            <div class="product-card__info">
-                                <span class="product-card__brix">당도 14.0°</span>
-                                <span class="product-card__origin">청송</span>
-                            </div>
-                            <div class="product-card__footer">
-                                <div class="product-card__price">25,000원</div>
-                                <button class="product-card__action">🛒</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="product-card">
-                        <div class="product-card__image">
-                            <div style="background: linear-gradient(135deg, #FFEBEE, #FFCDD2); height: 100%; display: flex; align-items: center; justify-content: center; font-size: 48px;">
-                                🍓
-                            </div>
-                            <span class="product-card__chip">4위</span>
-                        </div>
-                        <div class="product-card__content">
-                            <h3 class="product-card__title">담양 설향 딸기</h3>
-                            <p class="product-card__desc">새콤달콤 비타민C</p>
-                            <div class="product-card__info">
-                                <span class="product-card__brix">당도 10.5°</span>
-                                <span class="product-card__origin">담양</span>
-                            </div>
-                            <div class="product-card__footer">
-                                <div class="product-card__price">18,000원</div>
-                                <button class="product-card__action">🛒</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- New Arrivals -->
-            <section class="product-section">
-                <div class="section-header">
-                    <div>
-                        <h2 class="section-title">✨ 신상품</h2>
-                        <p class="section-subtitle">이번주 새로 입고된 상품</p>
-                    </div>
-                    <a href="new.html" class="section-more">더보기 →</a>
-                </div>
-                <div class="product-grid">
-                    <div class="product-card">
-                        <div class="product-card__image">
-                            <div style="background: linear-gradient(135deg, #F3E5F5, #E1BEE7); height: 100%; display: flex; align-items: center; justify-content: center; font-size: 48px;">
-                                🥝
-                            </div>
-                            <span class="new-chip">NEW</span>
-                        </div>
-                        <div class="product-card__content">
-                            <h3 class="product-card__title">뉴질랜드 골드키위</h3>
-                            <p class="product-card__desc">달콤한 황금 키위</p>
-                            <div class="product-card__info">
-                                <span class="product-card__brix">당도 15.0°</span>
-                                <span class="product-card__origin">뉴질랜드</span>
-                            </div>
-                            <div class="product-card__footer">
-                                <div class="product-card__price">19,000원</div>
-                                <button class="product-card__action">🛒</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="product-card">
-                        <div class="product-card__image">
-                            <div style="background: linear-gradient(135deg, #E0F2F1, #B2DFDB); height: 100%; display: flex; align-items: center; justify-content: center; font-size: 48px;">
-                                🥑
-                            </div>
-                            <span class="new-chip">NEW</span>
-                        </div>
-                        <div class="product-card__content">
-                            <h3 class="product-card__title">프리미엄 아보카도</h3>
-                            <p class="product-card__desc">부드러운 슈퍼푸드</p>
-                            <div class="product-card__info">
-                                <span class="product-card__origin">멕시코</span>
-                            </div>
-                            <div class="product-card__footer">
-                                <div class="product-card__price">12,000원</div>
-                                <button class="product-card__action">🛒</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="product-card">
-                        <div class="product-card__image">
-                            <div style="background: linear-gradient(135deg, #FFF8E1, #FFECB3); height: 100%; display: flex; align-items: center; justify-content: center; font-size: 48px;">
-                                🥭
-                            </div>
-                            <span class="new-chip">NEW</span>
-                        </div>
-                        <div class="product-card__content">
-                            <h3 class="product-card__title">태국 애플망고</h3>
-                            <p class="product-card__desc">달콤한 열대 과일</p>
-                            <div class="product-card__info">
-                                <span class="product-card__brix">당도 17.0°</span>
-                                <span class="product-card__origin">태국</span>
-                            </div>
-                            <div class="product-card__footer">
-                                <div class="product-card__price">28,000원</div>
-                                <button class="product-card__action">🛒</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="product-card">
-                        <div class="product-card__image">
-                            <div style="background: linear-gradient(135deg, #FCE4EC, #F8BBD0); height: 100%; display: flex; align-items: center; justify-content: center; font-size: 48px;">
-                                🍒
-                            </div>
-                            <span class="new-chip">NEW</span>
-                        </div>
-                        <div class="product-card__content">
-                            <h3 class="product-card__title">미국산 체리</h3>
-                            <p class="product-card__desc">새콤달콤한 체리</p>
-                            <div class="product-card__info">
-                                <span class="product-card__brix">당도 19.0°</span>
-                                <span class="product-card__origin">미국</span>
-                            </div>
-                            <div class="product-card__footer">
-                                <div class="product-card__price">38,000원</div>
-                                <button class="product-card__action">🛒</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Seasonal Recommendations -->
-            <section class="product-section">
-                <div class="section-header">
-                    <div>
-                        <h2 class="section-title">🍊 12월 제철과일</h2>
-                        <p class="section-subtitle">지금이 가장 맛있어요</p>
-                    </div>
-                    <a href="seasonal.html" class="section-more">더보기 →</a>
-                </div>
-                <div class="product-grid">
-                    <div class="product-card">
-                        <div class="product-card__image">
-                            <div style="background: linear-gradient(135deg, #FFE0B2, #FFCC80); height: 100%; display: flex; align-items: center; justify-content: center; font-size: 48px;">
-                                🍊
-                            </div>
-                            <span class="season-chip">🌟 제철</span>
-                        </div>
-                        <div class="product-card__content">
-                            <h3 class="product-card__title">감평 로얄감</h3>
-                            <p class="product-card__desc">달콤한 겨울 귤</p>
-                            <div class="product-card__info">
-                                <span class="product-card__brix">당도 12.5°</span>
-                                <span class="product-card__origin">제주</span>
-                            </div>
-                            <div class="product-card__footer">
-                                <div class="product-card__price">22,000원</div>
-                                <button class="product-card__action">🛒</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="product-card">
-                        <div class="product-card__image">
-                            <div style="background: linear-gradient(135deg, #FFF3E0, #FFE0B2); height: 100%; display: flex; align-items: center; justify-content: center; font-size: 48px;">
-                                🍊
-                            </div>
-                            <span class="season-chip">🌟 제철</span>
-                        </div>
-                        <div class="product-card__content">
-                            <h3 class="product-card__title">천혜향</h3>
-                            <p class="product-card__desc">향기로운 감귤</p>
-                            <div class="product-card__info">
-                                <span class="product-card__brix">당도 13.0°</span>
-                                <span class="product-card__origin">제주</span>
-                            </div>
-                            <div class="product-card__footer">
-                                <div class="product-card__price">28,000원</div>
-                                <button class="product-card__action">🛒</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="product-card">
-                        <div class="product-card__image">
-                            <div style="background: linear-gradient(135deg, #F3E5F5, #E1BEE7); height: 100%; display: flex; align-items: center; justify-content: center; font-size: 48px;">
-                                🍐
-                            </div>
-                            <span class="season-chip">🌟 제철</span>
-                        </div>
-                        <div class="product-card__content">
-                            <h3 class="product-card__title">나주 배</h3>
-                            <p class="product-card__desc">시원하고 아삭한 배</p>
-                            <div class="product-card__info">
-                                <span class="product-card__brix">당도 12.0°</span>
-                                <span class="product-card__origin">나주</span>
-                            </div>
-                            <div class="product-card__footer">
-                                <div class="product-card__price">28,000원</div>
-                                <button class="product-card__action">🛒</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="product-card">
-                        <div class="product-card__image">
-                            <div style="background: linear-gradient(135deg, #E8F5E9, #C8E6C9); height: 100%; display: flex; align-items: center; justify-content: center; font-size: 48px;">
-                                🍏
-                            </div>
-                            <span class="season-chip">🌟 제철</span>
-                        </div>
-                        <div class="product-card__content">
-                            <h3 class="product-card__title">왕림 사과</h3>
-                            <p class="product-card__desc">새콤달콤한 사과</p>
-                            <div class="product-card__info">
-                                <span class="product-card__brix">당도 13.5°</span>
-                                <span class="product-card__origin">충주</span>
-                            </div>
-                            <div class="product-card__footer">
-                                <div class="product-card__price">23,000원</div>
-                                <button class="product-card__action">🛒</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Special Category: Mom's Pick -->
-            <section class="product-section">
-                <div class="section-header">
-                    <div>
-                        <h2 class="section-title">💚 엄마가 고른 과일</h2>
-                        <p class="section-subtitle">아이에게 안심하고 먹일 수 있는</p>
-                    </div>
-                    <a href="moms-pick.html" class="section-more">더보기 →</a>
-                </div>
-                <div class="product-grid">
-                    <div class="product-card">
-                        <div class="product-card__image">
-                            <div style="background: linear-gradient(135deg, #FFEBEE, #FFCDD2); height: 100%; display: flex; align-items: center; justify-content: center; font-size: 48px;">
-                                🍓
-                            </div>
-                            <span class="product-card__chip">친환경</span>
-                        </div>
-                        <div class="product-card__content">
-                            <h3 class="product-card__title">무농약 딸기</h3>
-                            <p class="product-card__desc">아이 간식으로 안심</p>
-                            <div class="product-card__info">
-                                <span class="product-card__brix">당도 11.0°</span>
-                                <span class="product-card__origin">논산</span>
-                            </div>
-                            <div class="product-card__footer">
-                                <div class="product-card__price">22,000원</div>
-                                <button class="product-card__action">🛒</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="product-card">
-                        <div class="product-card__image">
-                            <div style="background: linear-gradient(135deg, #E8F5E9, #C8E6C9); height: 100%; display: flex; align-items: center; justify-content: center; font-size: 48px;">
-                                🍎
-                            </div>
-                            <span class="product-card__chip">유기농</span>
-                        </div>
-                        <div class="product-card__content">
-                            <h3 class="product-card__title">유기농 사과</h3>
-                            <p class="product-card__desc">껍질째 먹는 사과</p>
-                            <div class="product-card__info">
-                                <span class="product-card__brix">당도 13.0°</span>
-                                <span class="product-card__origin">예산</span>
-                            </div>
-                            <div class="product-card__footer">
-                                <div class="product-card__price">29,000원</div>
-                                <button class="product-card__action">🛒</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-        </main>
-
-        <!-- Bottom Navigation -->
-        <nav class="bottom-nav">
-            <a href="../home/main.html" class="nav-link">
-                <span class="nav-link__icon">🏠</span>
-                <span class="nav-link__label">홈</span>
-            </a>
-            <a href="index.html" class="nav-link active">
-                <span class="nav-link__icon">🍎</span>
-                <span class="nav-link__label">상품</span>
-            </a>
-            <a href="../mypage/index.html" class="nav-link">
-                <span class="nav-link__icon">👤</span>
-                <span class="nav-link__label">마이</span>
-            </a>
-            <a href="../support/index.html" class="nav-link">
-                <span class="nav-link__icon">💬</span>
-                <span class="nav-link__label">고객지원</span>
-            </a>
-        </nav>
+    <div class="md-panel">
+      <div class="container">
+        <span class="badge-green">빠른 진입</span>
+        <div class="section-header"><div><h2 class="section-title">카테고리 둘러보기</h2><p class="section-sub">상품 허브 역할에 맞게 자주 가는 진입만 먼저 배치했습니다.</p></div><a href="./category_redesign_fruitbridge.html" class="section-more">맵 보기 →</a></div>
+        <div class="quick-grid">
+          <a href="./family.html" class="quick-item"><div class="quick-icon">🏠</div><span class="quick-label">가족 루틴</span></a>
+          <a href="./kids.html" class="quick-item"><div class="quick-icon">👶</div><span class="quick-label">아이 간식</span></a>
+          <a href="./greeting.html" class="quick-item"><div class="quick-icon">💝</div><span class="quick-label">안부 전하기</span></a>
+          <a href="./donation.html" class="quick-item"><div class="quick-icon">🤝</div><span class="quick-label">나눔 과일</span></a>
+          <a href="./seasonal.html" class="quick-item"><div class="quick-icon">🍊</div><span class="quick-label">제철과일</span></a>
+          <a href="./subscription.html" class="quick-item"><div class="quick-icon">📦</div><span class="quick-label">정기배송</span></a>
+          <a href="./best.html" class="quick-item"><div class="quick-icon">🏆</div><span class="quick-label">베스트</span></a>
+          <a href="./new.html" class="quick-item"><div class="quick-icon">✨</div><span class="quick-label">신상품</span></a>
+        </div>
+      </div>
     </div>
 
-    <script>
-        // Banner Carousel
-        let currentSlide = 0;
-        const slides = document.querySelectorAll('.banner-slide');
-        const indicators = document.querySelectorAll('.indicator');
+    <div class="container category-pills-wrap"><div class="category-pills"><span class="pill active">전체</span><span class="pill">사과/배</span><span class="pill">감귤류</span><span class="pill">포도/베리</span><span class="pill">복숭아/자두</span><span class="pill">열대과일</span></div></div>
 
-        function showSlide(index) {
-            slides.forEach(slide => slide.classList.remove('active'));
-            indicators.forEach(indicator => indicator.classList.remove('active'));
+    <div class="sale-panel">
+      <div class="container">
+        <div class="section-header"><div><h2 class="section-title" style="color:#fff">⏰ 오늘의 타임세일</h2><p class="section-sub" style="color:rgba(255,255,255,.82)">빠르게 품절되는 상품만 별도로 묶었습니다.</p></div><span style="font-size:13px;font-weight:800">남은 시간 02:34:12</span></div>
+        <div class="countdown"><div class="countdown-item"><div class="countdown-number">02</div><div class="countdown-label">시간</div></div><div class="countdown-item"><div class="countdown-number">34</div><div class="countdown-label">분</div></div><div class="countdown-item"><div class="countdown-number">12</div><div class="countdown-label">초</div></div></div>
+        <div class="product-scroll">
+          <article class="product-wide"><div class="product-image"><div class="product-emoji">🍇</div><span class="discount-badge">70%</span></div><div class="product-info"><div class="product-name">프리미엄 샤인머스캣</div><div class="product-desc">껍질째 먹는 청포도</div><div class="product-meta">당도 18Brix+ · 영동</div><div class="product-price"><span class="price-original">60,000원</span>18,000원</div><button class="product-btn" type="button" data-name="프리미엄 샤인머스캣">장바구니</button></div></article>
+          <article class="product-wide"><div class="product-image"><div class="product-emoji">🍊</div><span class="discount-badge">50%</span></div><div class="product-info"><div class="product-name">제주 프리미엄 한라봉</div><div class="product-desc">새콤달콤 제주 특산품</div><div class="product-meta">당도 14Brix+ · 제주</div><div class="product-price"><span class="price-original">45,000원</span>22,500원</div><button class="product-btn" type="button" data-name="제주 프리미엄 한라봉">장바구니</button></div></article>
+          <article class="product-wide"><div class="product-image"><div class="product-emoji">🍓</div><span class="discount-badge">40%</span></div><div class="product-info"><div class="product-name">설향 딸기 특선</div><div class="product-desc">달콤한 비타민 폭탄</div><div class="product-meta">당도 11.5Brix+ · 담양</div><div class="product-price"><span class="price-original">30,000원</span>18,000원</div><button class="product-btn" type="button" data-name="설향 딸기 특선">장바구니</button></div></article>
+        </div>
+      </div>
+    </div>
 
-            slides[index].classList.add('active');
-            indicators[index].classList.add('active');
-            currentSlide = index;
-        }
+    <section class="section"><div class="surface"><div class="section-header"><div><h2 class="section-title">🔥 베스트셀러</h2><p class="section-sub">가장 많이 선택한 과일</p></div><a href="./best.html" class="section-more">더보기 →</a></div><div class="product-grid">
+      <article class="product-card"><div class="product-image"><div class="product-emoji">🍊</div><span class="product-badge rank">1위</span></div><div class="product-info"><div class="product-name">제주 한라봉</div><div class="product-desc">새콤달콤 제주 특산품</div><div class="product-meta">당도 13.5Brix+ · 제주</div><div class="product-rating"><span class="star">★★★★★</span><span>1,204</span></div><div class="product-price">32,000원</div><button class="product-btn" type="button" data-name="제주 한라봉">장바구니</button></div></article>
+      <article class="product-card"><div class="product-image"><div class="product-emoji">🍇</div><span class="product-badge rank">2위</span></div><div class="product-info"><div class="product-name">샤인머스캣</div><div class="product-desc">달콤한 청포도의 정석</div><div class="product-meta">당도 16Brix+ · 영동</div><div class="product-rating"><span class="star">★★★★★</span><span>947</span></div><div class="product-price">45,000원</div><button class="product-btn" type="button" data-name="샤인머스캣">장바구니</button></div></article>
+      <article class="product-card"><div class="product-image"><div class="product-emoji">🍎</div><span class="product-badge rank">3위</span></div><div class="product-info"><div class="product-name">청송 꿀사과</div><div class="product-desc">아삭하고 달콤한 사과</div><div class="product-meta">당도 14Brix+ · 청송</div><div class="product-rating"><span class="star">★★★★★</span><span>812</span></div><div class="product-price">25,000원</div><button class="product-btn" type="button" data-name="청송 꿀사과">장바구니</button></div></article>
+      <article class="product-card"><div class="product-image"><div class="product-emoji">🍓</div><span class="product-badge rank">4위</span></div><div class="product-info"><div class="product-name">담양 설향 딸기</div><div class="product-desc">새콤달콤 비타민C</div><div class="product-meta">당도 10.5Brix+ · 담양</div><div class="product-rating"><span class="star">★★★★☆</span><span>650</span></div><div class="product-price">18,000원</div><button class="product-btn" type="button" data-name="담양 설향 딸기">장바구니</button></div></article>
+    </div></div></section>
 
-        function nextSlide() {
-            currentSlide = (currentSlide + 1) % slides.length;
-            showSlide(currentSlide);
-        }
+    <section class="section"><div class="surface"><div class="section-header"><div><h2 class="section-title">✨ 신상품</h2><p class="section-sub">이번주 새로 입고된 상품</p></div><a href="./new.html" class="section-more">더보기 →</a></div><div class="product-grid">
+      <article class="product-card"><div class="product-image"><div class="product-emoji">🥝</div><span class="product-badge">NEW</span></div><div class="product-info"><div class="product-name">뉴질랜드 골드키위</div><div class="product-desc">달콤한 황금 키위</div><div class="product-meta">당도 15Brix+ · 뉴질랜드</div><div class="product-price">19,000원</div><button class="product-btn" type="button" data-name="뉴질랜드 골드키위">장바구니</button></div></article>
+      <article class="product-card"><div class="product-image"><div class="product-emoji">🥑</div><span class="product-badge">NEW</span></div><div class="product-info"><div class="product-name">프리미엄 아보카도</div><div class="product-desc">부드러운 슈퍼푸드</div><div class="product-meta">멕시코 직수입</div><div class="product-price">12,000원</div><button class="product-btn" type="button" data-name="프리미엄 아보카도">장바구니</button></div></article>
+      <article class="product-card"><div class="product-image"><div class="product-emoji">🥭</div><span class="product-badge">NEW</span></div><div class="product-info"><div class="product-name">태국 애플망고</div><div class="product-desc">달콤한 열대 과일</div><div class="product-meta">당도 17Brix+ · 태국</div><div class="product-price">28,000원</div><button class="product-btn" type="button" data-name="태국 애플망고">장바구니</button></div></article>
+      <article class="product-card"><div class="product-image"><div class="product-emoji">🍒</div><span class="product-badge">NEW</span></div><div class="product-info"><div class="product-name">미국산 체리</div><div class="product-desc">새콤달콤한 체리</div><div class="product-meta">당도 19Brix+ · 미국</div><div class="product-price">38,000원</div><button class="product-btn" type="button" data-name="미국산 체리">장바구니</button></div></article>
+    </div></div></section>
 
-        // Auto-play carousel (4 seconds)
-        setInterval(nextSlide, 4000);
+    <div class="md-panel"><div class="container"><span class="badge-green">제철 큐레이션</span><div class="section-header"><div><h2 class="section-title">🍊 12월 제철과일</h2><p class="section-sub">지금이 가장 맛있는 과일만 따로 모았습니다.</p></div><a href="./seasonal.html" class="section-more">더보기 →</a></div><div class="product-grid">
+      <article class="product-card"><div class="product-image"><div class="product-emoji">🍊</div><span class="product-badge">제철</span></div><div class="product-info"><div class="product-name">감평 로얄감</div><div class="product-desc">달콤한 겨울 귤</div><div class="product-meta">당도 12.5Brix+ · 제주</div><div class="product-price">22,000원</div><button class="product-btn" type="button" data-name="감평 로얄감">장바구니</button></div></article>
+      <article class="product-card"><div class="product-image"><div class="product-emoji">🍊</div><span class="product-badge">제철</span></div><div class="product-info"><div class="product-name">천혜향</div><div class="product-desc">향기로운 감귤</div><div class="product-meta">당도 13Brix+ · 제주</div><div class="product-price">28,000원</div><button class="product-btn" type="button" data-name="천혜향">장바구니</button></div></article>
+      <article class="product-card"><div class="product-image"><div class="product-emoji">🍐</div><span class="product-badge">제철</span></div><div class="product-info"><div class="product-name">나주 배</div><div class="product-desc">시원하고 아삭한 배</div><div class="product-meta">당도 12Brix+ · 나주</div><div class="product-price">28,000원</div><button class="product-btn" type="button" data-name="나주 배">장바구니</button></div></article>
+      <article class="product-card"><div class="product-image"><div class="product-emoji">🍎</div><span class="product-badge">제철</span></div><div class="product-info"><div class="product-name">왕림 사과</div><div class="product-desc">새콤달콤한 사과</div><div class="product-meta">당도 13.5Brix+ · 충주</div><div class="product-price">23,000원</div><button class="product-btn" type="button" data-name="왕림 사과">장바구니</button></div></article>
+    </div></div></div>
 
-        // Indicator click
-        indicators.forEach((indicator, index) => {
-            indicator.addEventListener('click', () => showSlide(index));
-        });
-
-        // Time Sale Countdown Timer
-        function updateTimer() {
-            const now = new Date();
-            const endOfDay = new Date();
-            endOfDay.setHours(23, 59, 59, 999);
-
-            const diff = endOfDay - now;
-
-            const hours = Math.floor(diff / (1000 * 60 * 60));
-            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-
-            const timerElement = document.getElementById('timer');
-            if (timerElement) {
-                timerElement.textContent =
-                    `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-            }
-        }
-
-        // Update timer every second
-        updateTimer();
-        setInterval(updateTimer, 1000);
-
-        // Filter Chips Interaction
-        const filterChips = document.querySelectorAll('.filter-chip');
-        filterChips.forEach(chip => {
-            chip.addEventListener('click', function() {
-                filterChips.forEach(c => c.classList.remove('active'));
-                this.classList.add('active');
-            });
-        });
-
-        // Product Card Click Handler
-        document.querySelectorAll('.product-card, .product-card-wide').forEach(card => {
-            card.addEventListener('click', function(e) {
-                // Don't navigate if clicking the cart button
-                if (e.target.classList.contains('product-card__action') ||
-                    e.target.closest('.product-card__action')) {
-                    e.stopPropagation();
-                    // Add to cart functionality would go here
-                    alert('장바구니에 담았습니다!');
-                    return;
-                }
-
-                // Navigate to product detail page
-                window.location.href = 'detail.html';
-            });
-        });
-
-        // Category Item Click Handler
-        document.querySelectorAll('.category-item').forEach(item => {
-            item.addEventListener('click', function(e) {
-                e.preventDefault();
-                const href = this.getAttribute('href');
-                console.log('Navigating to:', href);
-                // In production, this would navigate to the category page
-                // window.location.href = href;
-            });
-        });
-    </script>
+    <div class="moms-panel"><div class="container"><div class="moms-head"><span class="badge-pink">엄마 추천</span><h2 class="moms-title">아이에게 안심하고 먹이는 과일</h2><p class="moms-subtitle">안심, 친환경, 소포장 중심으로 별도 큐레이션했습니다.</p></div><div class="product-grid">
+      <article class="product-card"><div class="product-image"><div class="product-emoji">🍓</div><span class="product-badge mom">친환경</span></div><div class="product-info"><div class="product-name">무농약 딸기</div><div class="product-desc">아이 간식으로 안심</div><div class="product-meta">당도 11Brix+ · 논산</div><div class="product-price">22,000원</div><button class="product-btn" type="button" data-name="무농약 딸기">장바구니</button></div></article>
+      <article class="product-card"><div class="product-image"><div class="product-emoji">🍎</div><span class="product-badge mom">유기농</span></div><div class="product-info"><div class="product-name">유기농 사과</div><div class="product-desc">껍질째 먹는 사과</div><div class="product-meta">당도 13Brix+ · 예산</div><div class="product-price">29,000원</div><button class="product-btn" type="button" data-name="유기농 사과">장바구니</button></div></article>
+    </div></div></div>
+  </main>
+  <nav class="bottom-nav"><div class="bottom-nav-inner"><a href="../home/fruitbridge-redesign-v3-fixed.html" class="nav-item"><span class="nav-icon">🏠</span><span>홈</span></a><a href="./donation.html" class="nav-item"><span class="nav-icon">🤝</span><span>나눔</span></a><a href="./index.html" class="nav-item active"><span class="nav-icon">🛍</span><span>상품</span></a><a href="../wishlist/index.html" class="nav-item"><span class="nav-icon">❤️</span><span>찜목록</span></a><a href="../mypage/index.html" class="nav-item"><span class="nav-icon">👤</span><span>마이</span></a></div></nav>
+  <div class="toast" id="toast"></div>
+  <script>
+    const tabs=document.querySelectorAll(".tab-item");tabs.forEach((tab)=>tab.addEventListener("click",(e)=>{e.preventDefault();tabs.forEach((item)=>item.classList.remove("active"));tab.classList.add("active")}));
+    const pills=document.querySelectorAll(".pill");pills.forEach((pill)=>pill.addEventListener("click",()=>{pills.forEach((item)=>item.classList.remove("active"));pill.classList.add("active")}));
+    const toast=document.getElementById("toast");const showToast=(message)=>{toast.textContent=message;toast.classList.add("show");setTimeout(()=>toast.classList.remove("show"),2500)};
+    document.querySelectorAll(".product-btn,.product-card,.product-wide").forEach((node)=>{if(node.classList.contains("product-btn")){node.addEventListener("click",(e)=>{e.stopPropagation();showToast((node.dataset.name||"상품")+"을(를) 담았습니다")})}else{node.addEventListener("click",()=>{const name=node.querySelector(".product-name")?.textContent;if(name)showToast(name+" 상세로 이동합니다")})}});
+    const slides=document.querySelectorAll(".hero-slide");const dots=document.querySelectorAll(".hero-dot");let currentSlide=0;function showSlide(index){slides.forEach((slide)=>slide.classList.remove("active"));dots.forEach((dot)=>dot.classList.remove("active"));slides[index].classList.add("active");dots[index].classList.add("active");currentSlide=index}function nextSlide(){showSlide((currentSlide+1)%slides.length)}let autoPlay=setInterval(nextSlide,4000);dots.forEach((dot,index)=>dot.addEventListener("click",()=>{clearInterval(autoPlay);showSlide(index);autoPlay=setInterval(nextSlide,4000)}));
+  </script>
 </body>
 </html>
