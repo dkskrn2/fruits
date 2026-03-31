@@ -407,6 +407,156 @@
       color: var(--text);
     }
 
+    .gift-spotlight {
+      background: linear-gradient(135deg, #fff3f7 0%, #fff9ef 100%);
+      border: 1px solid rgba(217,74,125,0.10);
+      box-shadow: var(--shadow-md);
+    }
+    .gift-spotlight-inner { display: grid; gap: 18px; }
+    .gift-chip {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: fit-content;
+      padding: 7px 12px;
+      border-radius: 999px;
+      background: rgba(217,74,125,0.10);
+      color: #ba3464;
+      font-size: 11px;
+      font-weight: 800;
+    }
+    .gift-headline {
+      font-size: 26px;
+      line-height: 1.2;
+      font-weight: 900;
+      letter-spacing: -0.05em;
+      color: var(--text-strong);
+    }
+    .gift-subtitle {
+      margin-top: 8px;
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+    .gift-value-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+    .gift-value-card {
+      padding: 14px 12px;
+      border-radius: 20px;
+      background: rgba(255,255,255,0.92);
+      border: 1px solid rgba(61,88,56,0.08);
+      box-shadow: var(--shadow-sm);
+    }
+    .gift-value-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      margin-bottom: 10px;
+      font-size: 20px;
+      background: linear-gradient(135deg, #fff2f5, #fff2e6);
+    }
+    .gift-value-title {
+      font-size: 13px;
+      font-weight: 800;
+      color: var(--text-strong);
+      line-height: 1.35;
+    }
+    .gift-value-text {
+      margin-top: 6px;
+      font-size: 11px;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+    .gift-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+    .gift-action {
+      padding: 12px 16px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 800;
+      box-shadow: var(--shadow-sm);
+    }
+    .gift-action.primary {
+      background: linear-gradient(135deg, #d94a7d 0%, #ff8c42 100%);
+      color: white;
+      box-shadow: 0 16px 30px rgba(217,74,125,0.18);
+    }
+    .gift-action.secondary {
+      background: rgba(255,255,255,0.92);
+      border: 1px solid rgba(61,88,56,0.08);
+      color: var(--text-strong);
+    }
+    .gift-preview-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+    .gift-preview-card {
+      border-radius: 22px;
+      overflow: hidden;
+      background: rgba(255,255,255,0.94);
+      border: 1px solid rgba(61,88,56,0.08);
+      box-shadow: var(--shadow-sm);
+    }
+    .gift-preview-visual {
+      position: relative;
+      height: 132px;
+      background: linear-gradient(135deg, rgba(255,242,245,0.96), rgba(255,241,228,0.96));
+      border-bottom: 1px solid rgba(61,88,56,0.06);
+    }
+    .gift-preview-visual::before {
+      content: "GIFT";
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      color: rgba(217,74,125,0.24);
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: 0.18em;
+    }
+    .gift-preview-emoji {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      font-size: 42px;
+    }
+    .gift-preview-badge {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      padding: 6px 8px;
+      border-radius: 10px;
+      background: #d94a7d;
+      color: white;
+      font-size: 10px;
+      font-weight: 900;
+      letter-spacing: -0.02em;
+    }
+    .gift-preview-info { padding: 14px; }
+    .gift-preview-name {
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--text-strong);
+      line-height: 1.4;
+    }
+    .gift-preview-copy {
+      margin-top: 6px;
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+    .gift-preview-price {
+      margin-top: 10px;
+      font-size: 18px;
+      font-weight: 900;
+      letter-spacing: -0.03em;
+      color: var(--text-strong);
+    }
+
     .section,
     .md-pick,
     .moms-choice,
@@ -825,12 +975,12 @@
         </div>
 
         <div class="banner-slide">
-          <div class="banner-bg" style="background:linear-gradient(135deg, #ea5a87 0%, #f38da7 100%);"></div>
+          <div class="banner-bg" style="background:linear-gradient(135deg, #f27b91 0%, #f6af7f 100%);"></div>
           <div class="banner-content">
-            <span class="banner-badge">🏆 이번 주 베스트</span>
-            <h2 class="banner-title">3만 엄마가 선택한<br>가족 과일 세트</h2>
-            <p class="banner-subtitle">재구매율 92% | 리뷰 1,234개</p>
-            <a href="#" class="banner-cta">베스트 상품 보기</a>
+            <span class="banner-badge">🎁 마음을 전하는 선물</span>
+            <h2 class="banner-title">메시지 카드와 지정일 배송까지<br>한 번에 고르는 과일 선물</h2>
+            <p class="banner-subtitle">부모님, 거래처, 기념일 선물까지 상황별로 바로 추천해드려요</p>
+            <a href="../products/greeting.html" class="banner-cta">선물 페이지 가기</a>
           </div>
         </div>
 
@@ -846,9 +996,10 @@
 
     <div class="container">
       <div class="quick-menu">
+        <a href="../products/greeting.html" class="quick-item"><div class="quick-icon">🎁</div><span class="quick-label">선물하기</span></a>
         <a href="#" class="quick-item"><div class="quick-icon">🏠</div><span class="quick-label">가족 루틴</span></a>
         <a href="#" class="quick-item"><div class="quick-icon">👶</div><span class="quick-label">아이 간식</span></a>
-        <a href="#" class="quick-item"><div class="quick-icon">💝</div><span class="quick-label">안부 전하기</span></a>
+        <a href="../products/greeting.html" class="quick-item"><div class="quick-icon">💝</div><span class="quick-label">안부 전하기</span></a>
         <a href="#" class="quick-item"><div class="quick-icon">🤝</div><span class="quick-label">나눔 과일</span></a>
         <a href="#" class="quick-item"><div class="quick-icon">🍓</div><span class="quick-label">제철과일</span></a>
         <a href="#" class="quick-item"><div class="quick-icon">🌟</div><span class="quick-label">베스트</span></a>
@@ -856,6 +1007,63 @@
         <a href="#" class="quick-item"><div class="quick-icon">📋</div><span class="quick-label">보관가이드</span></a>
       </div>
     </div>
+
+    <section class="section">
+      <div class="surface gift-spotlight">
+        <div class="gift-spotlight-inner">
+          <span class="gift-chip">선물 페이지</span>
+          <div>
+            <h2 class="gift-headline">오늘 마음까지 함께 보내는<br>과일 선물</h2>
+            <p class="gift-subtitle">선물 세트, 메시지 카드, 지정일 배송까지 한 번에 고를 수 있는 선물 전용 페이지를 준비했어요.</p>
+          </div>
+          <div class="gift-value-grid">
+            <article class="gift-value-card">
+              <div class="gift-value-icon">🎀</div>
+              <div class="gift-value-title">프리미엄 포장</div>
+              <div class="gift-value-text">받는 순간이 깔끔한 선물 전용 패키지</div>
+            </article>
+            <article class="gift-value-card">
+              <div class="gift-value-icon">💌</div>
+              <div class="gift-value-title">메시지 카드</div>
+              <div class="gift-value-text">상황에 맞춰 바로 쓰는 카드 문구</div>
+            </article>
+            <article class="gift-value-card">
+              <div class="gift-value-icon">📆</div>
+              <div class="gift-value-title">지정일 배송</div>
+              <div class="gift-value-text">기념일 일정에 맞춰 도착일 선택</div>
+            </article>
+          </div>
+          <div class="gift-actions">
+            <a href="../products/greeting.html" class="gift-action primary">상황별 선물 보기</a>
+            <a href="../products/greeting.html#messageCards" class="gift-action secondary">메시지 카드 고르기</a>
+          </div>
+          <div class="gift-preview-grid">
+            <a href="../products/greeting.html#giftProducts" class="gift-preview-card">
+              <div class="gift-preview-visual">
+                <span class="gift-preview-badge">감사 추천</span>
+                <div class="gift-preview-emoji">🍊</div>
+              </div>
+              <div class="gift-preview-info">
+                <div class="gift-preview-name">제주 만감 감사 세트</div>
+                <div class="gift-preview-copy">부모님과 거래처 선물에 반응이 좋은 안정적인 조합</div>
+                <div class="gift-preview-price">58,000원</div>
+              </div>
+            </a>
+            <a href="../products/greeting.html#giftProducts" class="gift-preview-card">
+              <div class="gift-preview-visual">
+                <span class="gift-preview-badge">프리미엄</span>
+                <div class="gift-preview-emoji">🍇</div>
+              </div>
+              <div class="gift-preview-info">
+                <div class="gift-preview-name">프리미엄 샤인머스캣 세트</div>
+                <div class="gift-preview-copy">기념일과 생일에 바로 고르기 좋은 고당도 선물 세트</div>
+                <div class="gift-preview-price">89,000원</div>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
 
     <div class="md-pick">
       <div class="container">
@@ -1056,11 +1264,11 @@
 
   <nav class="bottom-nav">
     <div class="bottom-nav-inner">
-      <a href="#" class="nav-item active"><span class="nav-icon">🏠</span><span>홈</span></a>
-      <a href="#" class="nav-item"><span class="nav-icon">🤝</span><span>나눔</span></a>
-      <a href="#" class="nav-item"><span class="nav-icon">🔍</span><span>검색</span></a>
-      <a href="#" class="nav-item"><span class="nav-icon">❤️</span><span>찜목록</span></a>
-      <a href="#" class="nav-item"><span class="nav-icon">👤</span><span>마이</span></a>
+      <a href="./main.html" class="nav-item active"><span class="nav-icon">🏠</span><span>홈</span></a>
+      <a href="../products/category_redesign_fruitbridge.html" class="nav-item"><span class="nav-icon">🗂️</span><span>카테고리</span></a>
+      <a href="../search/index.html" class="nav-item"><span class="nav-icon">🔍</span><span>검색</span></a>
+      <a href="../cart/index.html" class="nav-item"><span class="nav-icon">🛒</span><span>장바구니</span></a>
+      <a href="../mypage/index.html" class="nav-item"><span class="nav-icon">👤</span><span>마이</span></a>
     </div>
   </nav>
 
