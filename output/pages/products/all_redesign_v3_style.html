@@ -1,0 +1,838 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>전체상품 - 과일다리</title>
+  <style>
+    :root{
+      --primary:#5f8f3a;
+      --primary-strong:#476d2a;
+      --primary-soft:#edf6e4;
+      --secondary:#ff8c42;
+      --secondary-soft:#fff1e4;
+      --sale:#ff6b57;
+      --text-strong:#1d2a1f;
+      --text:#334236;
+      --text-muted:#708072;
+      --line:rgba(61,88,56,.12);
+      --line-strong:rgba(61,88,56,.18);
+      --bg:#f6f8f3;
+      --white:#fff;
+      --shadow-sm:0 6px 18px rgba(33,52,36,.06);
+      --shadow-md:0 16px 40px rgba(33,52,36,.10);
+      --shadow-lg:0 24px 60px rgba(33,52,36,.14);
+      --radius-xl:28px;
+      --radius-lg:22px;
+      --radius-md:18px;
+      --radius-sm:14px;
+      --max-width:430px;
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    html{
+      background:linear-gradient(180deg,#eef3ea 0%,#e8eee3 100%);
+      overflow-x:hidden;
+    }
+    body{
+      font-family:'Pretendard','Noto Sans KR',-apple-system,BlinkMacSystemFont,sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(circle at top, rgba(156,194,115,.18), transparent 26%),
+        linear-gradient(180deg,#fbfcf8 0%,#f6f8f3 40%,#f4f6f0 100%);
+      min-height:100vh;
+      width:100%;
+      max-width:var(--max-width);
+      margin:0 auto;
+      position:relative;
+      line-height:1.55;
+      overflow-x:hidden;
+      -webkit-font-smoothing:antialiased;
+    }
+    @media (min-width:768px){
+      html,body{min-height:100%}
+      body{
+        border-left:1px solid rgba(61,88,56,.08);
+        border-right:1px solid rgba(61,88,56,.08);
+        box-shadow:0 24px 70px rgba(22,33,23,.18);
+      }
+    }
+
+    a{color:inherit;text-decoration:none}
+    button,select{font:inherit}
+    button{background:none;border:0;cursor:pointer}
+    .container{padding:0 18px}
+    .main-content>*{min-width:0}
+
+    .top-banner{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      padding:11px 16px;
+      background:linear-gradient(90deg,#5f8f3a 0%,#80b053 100%);
+      color:#fff;
+      font-size:12px;
+      font-weight:700;
+      position:relative;
+    }
+    .close-btn{
+      position:absolute;
+      right:10px;top:50%;
+      transform:translateY(-50%);
+      width:24px;height:24px;
+      border-radius:999px;
+      background:rgba(255,255,255,.14);
+      color:#fff;
+    }
+
+    .header{
+      position:sticky;
+      top:0;
+      z-index:100;
+      backdrop-filter:blur(18px);
+      background:rgba(251,252,248,.82);
+      border-bottom:1px solid rgba(61,88,56,.08);
+    }
+    .header-mobile{
+      padding:16px 18px 14px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+    }
+    .header-title{
+      font-size:21px;
+      font-weight:900;
+      letter-spacing:-.04em;
+      color:var(--primary-strong);
+    }
+    .header-actions{display:flex;gap:10px}
+    .header-icon{
+      position:relative;
+      width:42px;height:42px;
+      display:grid;place-items:center;
+      border-radius:16px;
+      border:1px solid rgba(61,88,56,.08);
+      background:rgba(255,255,255,.75);
+      box-shadow:var(--shadow-sm);
+      font-size:20px;
+    }
+    .cart-count{
+      position:absolute;
+      top:-3px;right:-1px;
+      width:18px;height:18px;
+      border-radius:999px;
+      background:var(--sale);
+      color:#fff;
+      font-size:10px;
+      font-weight:800;
+      display:grid;place-items:center;
+      border:2px solid #fff;
+    }
+
+    .social-impact-badge{
+      margin:0 18px 14px;
+      padding:14px 14px 13px;
+      border-radius:20px;
+      border:1px solid rgba(95,143,58,.15);
+      background:linear-gradient(135deg,rgba(255,255,255,.92),rgba(237,246,228,.92));
+      box-shadow:var(--shadow-sm);
+    }
+    .impact-main{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      margin-bottom:10px;
+    }
+    .impact-info{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      font-size:12px;
+      font-weight:600;
+      color:var(--text);
+    }
+    .impact-count{color:var(--primary-strong);font-weight:900}
+    .impact-link{
+      flex-shrink:0;
+      padding:7px 10px;
+      border-radius:999px;
+      background:rgba(95,143,58,.08);
+      color:var(--primary-strong);
+      font-size:11px;
+      font-weight:800;
+    }
+    .progress-bar-mini{
+      height:8px;border-radius:999px;
+      background:rgba(95,143,58,.10);
+      overflow:hidden;
+    }
+    .progress-fill-mini{
+      width:69.4%;height:100%;
+      border-radius:inherit;
+      background:linear-gradient(90deg,#7caf53,#5f8f3a);
+    }
+
+    .main-categories,
+    .filter-tab-container,
+    .filter-options-bar{scrollbar-width:none;-ms-overflow-style:none}
+    .main-categories::-webkit-scrollbar,
+    .filter-tab-container::-webkit-scrollbar,
+    .filter-options-bar::-webkit-scrollbar{display:none}
+
+    .main-categories{
+      display:flex;
+      gap:14px;
+      overflow-x:auto;
+      padding:2px 18px 16px;
+      border-bottom:1px solid rgba(61,88,56,.08);
+    }
+    .category-tab{
+      flex:0 0 auto;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:6px;
+      min-width:58px;
+      color:var(--text-muted);
+    }
+    .category-tab .emoji{
+      width:50px;height:50px;
+      display:grid;place-items:center;
+      border-radius:16px;
+      background:rgba(255,255,255,.92);
+      border:1px solid var(--line);
+      box-shadow:var(--shadow-sm);
+      font-size:24px;
+    }
+    .category-tab .text{
+      font-size:11px;
+      font-weight:700;
+      white-space:nowrap;
+    }
+    .category-tab.active .emoji{
+      background:linear-gradient(135deg,#edf6e4,#fff4e8);
+      border-color:rgba(95,143,58,.22);
+    }
+    .category-tab.active .text{color:var(--primary-strong)}
+
+    .sub-filter-tabs{
+      padding:14px 18px 0;
+    }
+    .filter-tab-container{
+      display:flex;
+      gap:8px;
+      overflow-x:auto;
+      padding-bottom:2px;
+    }
+    .sub-filter-tab{
+      flex:0 0 auto;
+      padding:9px 14px;
+      border-radius:999px;
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.92);
+      font-size:12px;
+      font-weight:700;
+      color:var(--text);
+      position:relative;
+      white-space:nowrap;
+    }
+    .sub-filter-tab.active{
+      background:var(--primary-strong);
+      color:#fff;
+      box-shadow:0 10px 22px rgba(71,109,42,.24);
+      border-color:transparent;
+    }
+    .sub-filter-tab.with-badge{padding-right:40px}
+    .sub-filter-tab .badge{
+      position:absolute;
+      top:-6px;right:-4px;
+      padding:2px 6px;
+      border-radius:999px;
+      background:var(--sale);
+      color:#fff;
+      font-size:9px;
+      font-weight:900;
+      line-height:1.2;
+    }
+
+    .filter-options-bar{
+      display:flex;
+      gap:8px;
+      overflow-x:auto;
+      padding:14px 18px 0;
+    }
+    .filter-option-btn{
+      flex:0 0 auto;
+      display:flex;
+      align-items:center;
+      gap:4px;
+      padding:9px 12px;
+      border-radius:999px;
+      background:#fff;
+      border:1px solid var(--line);
+      color:var(--text);
+      font-size:12px;
+      font-weight:700;
+      white-space:nowrap;
+      box-shadow:var(--shadow-sm);
+    }
+    .filter-option-btn .arrow{font-size:10px;color:var(--text-muted)}
+
+    .product-count-bar,
+    .sort-options-bar,
+    .products-section{
+      margin:18px 18px 0;
+      background:rgba(255,255,255,.84);
+      border:1px solid rgba(61,88,56,.08);
+      box-shadow:var(--shadow-md);
+      border-radius:28px;
+    }
+    .product-count-bar{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      padding:16px;
+    }
+    .count-info{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      flex-wrap:wrap;
+      min-width:0;
+      font-size:12px;
+      color:var(--text-muted);
+      font-weight:700;
+    }
+    .count-info strong{color:var(--text-strong);font-weight:900}
+    .count-info .divider{
+      width:1px;height:12px;
+      background:rgba(61,88,56,.12);
+    }
+    .view-options{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      flex-shrink:0;
+      font-size:12px;
+      color:var(--text-muted);
+      font-weight:700;
+    }
+    .view-toggle{
+      width:32px;height:32px;
+      display:grid;place-items:center;
+      border-radius:12px;
+      background:#fff;
+      border:1px solid var(--line);
+      box-shadow:var(--shadow-sm);
+    }
+
+    .sort-options-bar{padding:16px}
+    .sort-select-wrapper{position:relative;max-width:190px}
+    .sort-select{
+      width:100%;
+      padding:11px 36px 11px 14px;
+      border-radius:16px;
+      border:1px solid var(--line);
+      background:#fff;
+      color:var(--text);
+      appearance:none;
+      box-shadow:var(--shadow-sm);
+      font-size:13px;
+      font-weight:700;
+    }
+    .select-arrow{
+      position:absolute;
+      right:14px;top:50%;
+      transform:translateY(-50%);
+      font-size:10px;
+      color:var(--text-muted);
+      pointer-events:none;
+    }
+
+    .main-content{
+      padding:0 0 108px;
+      display:grid;
+      grid-template-columns:minmax(0,1fr);
+    }
+
+    .products-section{padding:16px}
+    .product-grid{
+      display:grid;
+      grid-template-columns:repeat(2,minmax(0,1fr));
+      gap:12px;
+    }
+    .product-card{
+      min-width:0;
+      background:rgba(255,255,255,.92);
+      border:1px solid rgba(61,88,56,.08);
+      border-radius:24px;
+      overflow:hidden;
+      box-shadow:var(--shadow-sm);
+      transition:transform .18s ease, box-shadow .18s ease;
+      position:relative;
+    }
+    .product-card:hover{
+      transform:translateY(-2px);
+      box-shadow:0 16px 30px rgba(33,52,36,.12);
+    }
+    .product-image-wrapper{
+      position:relative;
+      aspect-ratio:1/1;
+      background:linear-gradient(135deg,#edf6e4,#fff4e8);
+      border-bottom:1px solid rgba(61,88,56,.06);
+    }
+    .product-image{
+      width:100%;
+      height:100%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:48px;
+    }
+    .discount-chip{
+      position:absolute;
+      top:12px;left:12px;
+      padding:6px 8px;
+      border-radius:10px;
+      background:var(--sale);
+      color:#fff;
+      font-size:10px;
+      font-weight:900;
+      box-shadow:0 10px 22px rgba(255,107,87,.22);
+    }
+    .wishlist-button{
+      position:absolute;
+      top:12px;right:12px;
+      width:36px;height:36px;
+      display:grid;place-items:center;
+      border-radius:999px;
+      background:rgba(255,255,255,.92);
+      box-shadow:0 10px 24px rgba(0,0,0,.10);
+      font-size:16px;
+    }
+    .product-info{padding:14px}
+    .product-name{
+      font-size:14px;
+      font-weight:800;
+      color:var(--text-strong);
+      line-height:1.4;
+      min-height:40px;
+      margin-bottom:6px;
+    }
+    .product-desc{
+      font-size:12px;
+      color:var(--text-muted);
+      margin-bottom:8px;
+      min-height:19px;
+    }
+    .product-tags{
+      display:flex;
+      flex-wrap:wrap;
+      gap:6px;
+      margin-bottom:10px;
+    }
+    .brix-tag,.origin-tag{
+      font-size:10px;
+      padding:4px 6px;
+      border-radius:999px;
+      background:var(--primary-soft);
+      color:var(--primary-strong);
+      font-weight:800;
+    }
+    .origin-tag{
+      background:var(--secondary-soft);
+      color:#c9701e;
+    }
+    .product-footer{
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-end;
+      gap:10px;
+    }
+    .price-group{
+      display:flex;
+      flex-direction:column;
+      gap:2px;
+      min-width:0;
+    }
+    .original-price{
+      font-size:11px;
+      color:#98a39a;
+      text-decoration:line-through;
+      font-weight:700;
+    }
+    .current-price{
+      font-size:18px;
+      color:var(--text-strong);
+      font-weight:900;
+      letter-spacing:-.03em;
+    }
+    .cart-button{
+      width:38px;height:38px;
+      display:grid;place-items:center;
+      border-radius:999px;
+      background:var(--primary-strong);
+      color:#fff;
+      box-shadow:0 10px 22px rgba(71,109,42,.24);
+      font-size:17px;
+      flex-shrink:0;
+    }
+
+    .loading-more{
+      margin-top:16px;
+      padding:14px;
+      text-align:center;
+      border-radius:18px;
+      background:linear-gradient(135deg,#edf6e4,#fff4e8);
+      border:1px solid rgba(95,143,58,.12);
+      color:var(--primary-strong);
+      font-size:13px;
+      font-weight:800;
+    }
+
+    .bottom-nav{
+      position:fixed;
+      left:50%;
+      transform:translateX(-50%);
+      width:100%;
+      max-width:var(--max-width);
+      bottom:0;
+      z-index:120;
+      padding:10px 12px calc(10px + env(safe-area-inset-bottom));
+      background:transparent;
+    }
+    .bottom-nav::before{
+      content:"";
+      position:absolute;inset:0;
+      background:linear-gradient(180deg, rgba(246,248,243,0), rgba(246,248,243,.94) 42%, rgba(246,248,243,.98));
+      z-index:-2;
+    }
+    .bottom-nav-inner{
+      margin:0 auto;
+      display:flex;
+      justify-content:space-around;
+      padding:10px 8px;
+      border-radius:24px;
+      background:rgba(255,255,255,.9);
+      border:1px solid rgba(61,88,56,.08);
+      backdrop-filter:blur(18px);
+      box-shadow:0 16px 36px rgba(29,42,31,.12);
+    }
+    .nav-item{
+      min-width:58px;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:4px;
+      padding:4px 6px;
+      color:var(--text-muted);
+      font-size:10px;
+      font-weight:700;
+    }
+    .nav-item.active{color:var(--primary-strong)}
+    .nav-icon{font-size:19px}
+
+    @media (max-width:380px){
+      .container{padding:0 14px}
+      .header-mobile{padding:14px 14px 12px}
+      .social-impact-badge,.product-count-bar,.sort-options-bar,.products-section{margin-left:14px;margin-right:14px}
+      .main-categories,.sub-filter-tabs,.filter-options-bar{padding-left:14px;padding-right:14px}
+      .product-grid{gap:10px}
+      .product-info{padding:12px}
+      .current-price{font-size:17px}
+    }
+  </style>
+</head>
+<body>
+  <div class="top-banner">
+    <span>🤝 매출 1%는 보육원 아이들의 과일 간식이 됩니다</span>
+    <button class="close-btn" onclick="this.parentElement.style.display='none'">×</button>
+  </div>
+
+  <header class="header">
+    <div class="header-mobile">
+      <div class="header-title">전체상품</div>
+      <div class="header-actions">
+        <span class="header-icon">🔔</span>
+        <span class="header-icon">🛒<span class="cart-count">3</span></span>
+      </div>
+    </div>
+
+    <div class="social-impact-badge">
+      <div class="impact-main">
+        <div class="impact-info">
+          <span>💚</span>
+          <span>12월 목표: <span class="impact-count">347명</span> / 500명</span>
+        </div>
+        <a href="#" class="impact-link">자세히 →</a>
+      </div>
+      <div class="progress-bar-mini"><div class="progress-fill-mini"></div></div>
+    </div>
+
+    <div class="main-categories">
+      <button class="category-tab active">
+        <span class="emoji">🏬</span>
+        <span class="text">전체</span>
+      </button>
+      <button class="category-tab">
+        <span class="emoji">🌟</span>
+        <span class="text">베스트</span>
+      </button>
+      <button class="category-tab">
+        <span class="emoji">🍊</span>
+        <span class="text">감귤류</span>
+      </button>
+      <button class="category-tab">
+        <span class="emoji">🍇</span>
+        <span class="text">포도/베리</span>
+      </button>
+      <button class="category-tab">
+        <span class="emoji">🍎</span>
+        <span class="text">사과/배</span>
+      </button>
+      <button class="category-tab">
+        <span class="emoji">🍑</span>
+        <span class="text">복숭아</span>
+      </button>
+      <button class="category-tab">
+        <span class="emoji">🎁</span>
+        <span class="text">선물세트</span>
+      </button>
+    </div>
+
+    <div class="sub-filter-tabs">
+      <div class="filter-tab-container">
+        <button class="sub-filter-tab active">무료배송</button>
+        <button class="sub-filter-tab">쿠폰</button>
+        <button class="sub-filter-tab with-badge">타임세일<span class="badge">HOT</span></button>
+        <button class="sub-filter-tab">단독</button>
+      </div>
+    </div>
+
+    <div class="filter-options-bar">
+      <button class="filter-option-btn">정렬 <span class="arrow">▼</span></button>
+      <button class="filter-option-btn">산지 <span class="arrow">▼</span></button>
+      <button class="filter-option-btn">당도 <span class="arrow">▼</span></button>
+      <button class="filter-option-btn">크기 <span class="arrow">▼</span></button>
+      <button class="filter-option-btn">가격 <span class="arrow">▼</span></button>
+      <button class="filter-option-btn">제철 <span class="arrow">▼</span></button>
+      <button class="filter-option-btn">농장 <span class="arrow">▼</span></button>
+      <button class="filter-option-btn">인증 <span class="arrow">▼</span></button>
+    </div>
+  </header>
+
+  <main class="main-content">
+    <section class="product-count-bar">
+      <div class="count-info">
+        <span>상품 <strong>40,799</strong></span>
+        <span class="divider"></span>
+        <span>농장 <strong>1,998</strong></span>
+        <span class="divider"></span>
+        <span>품종 <strong>3,324</strong></span>
+      </div>
+      <div class="view-options">
+        <span>40,799개</span>
+        <button class="view-toggle">⚇</button>
+      </div>
+    </section>
+
+    <section class="sort-options-bar">
+      <div class="sort-select-wrapper">
+        <select class="sort-select" id="sortSelect">
+          <option value="recommend" selected>과일다리 추천순</option>
+          <option value="new">신상품순</option>
+          <option value="sales">판매순</option>
+          <option value="discount">할인율순</option>
+          <option value="price-low">낮은가격순</option>
+          <option value="price-high">높은가격순</option>
+          <option value="sweetness">당도순</option>
+          <option value="review">후기순</option>
+        </select>
+        <span class="select-arrow">▼</span>
+      </div>
+    </section>
+
+    <section class="products-section">
+      <div class="product-grid">
+        <div class="product-card">
+          <div class="product-image-wrapper">
+            <div class="product-image" style="background:linear-gradient(135deg,#FFE0B2,#FFCC80)">🍊</div>
+            <span class="discount-chip">20% OFF</span>
+            <button class="wishlist-button">🤍</button>
+          </div>
+          <div class="product-info">
+            <h3 class="product-name">제주 한라봉</h3>
+            <p class="product-desc">새콤달콤 제주 특산품</p>
+            <div class="product-tags"><span class="brix-tag">당도 13.5°</span><span class="origin-tag">제주</span></div>
+            <div class="product-footer">
+              <div class="price-group"><span class="original-price">40,000원</span><span class="current-price">32,000원</span></div>
+              <button class="cart-button">🛒</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card">
+          <div class="product-image-wrapper">
+            <div class="product-image" style="background:linear-gradient(135deg,#E8F5E9,#C8E6C9)">🍇</div>
+            <span class="discount-chip" style="background:var(--secondary)">베스트</span>
+            <button class="wishlist-button">❤️</button>
+          </div>
+          <div class="product-info">
+            <h3 class="product-name">샤인머스켓</h3>
+            <p class="product-desc">달콤한 청포도의 정석</p>
+            <div class="product-tags"><span class="brix-tag">당도 16.0°</span><span class="origin-tag">영동</span></div>
+            <div class="product-footer">
+              <div class="price-group"><span class="current-price">45,000원</span></div>
+              <button class="cart-button">🛒</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card">
+          <div class="product-image-wrapper">
+            <div class="product-image" style="background:linear-gradient(135deg,#FFF9C4,#FFE082)">🍎</div>
+            <button class="wishlist-button">🤍</button>
+          </div>
+          <div class="product-info">
+            <h3 class="product-name">청송 꿀사과</h3>
+            <p class="product-desc">아삭하고 달콤한 사과</p>
+            <div class="product-tags"><span class="brix-tag">당도 14.0°</span><span class="origin-tag">청송</span></div>
+            <div class="product-footer">
+              <div class="price-group"><span class="current-price">25,000원</span></div>
+              <button class="cart-button">🛒</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card">
+          <div class="product-image-wrapper">
+            <div class="product-image" style="background:linear-gradient(135deg,#FFEBEE,#FFCDD2)">🍓</div>
+            <span class="discount-chip">15% OFF</span>
+            <button class="wishlist-button">🤍</button>
+          </div>
+          <div class="product-info">
+            <h3 class="product-name">담양 딸기</h3>
+            <p class="product-desc">새콤달콤 비타민C</p>
+            <div class="product-tags"><span class="brix-tag">당도 10.0°</span><span class="origin-tag">담양</span></div>
+            <div class="product-footer">
+              <div class="price-group"><span class="original-price">21,000원</span><span class="current-price">18,000원</span></div>
+              <button class="cart-button">🛒</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card">
+          <div class="product-image-wrapper">
+            <div class="product-image" style="background:linear-gradient(135deg,#F3E5F5,#E1BEE7)">🍐</div>
+            <button class="wishlist-button">🤍</button>
+          </div>
+          <div class="product-info">
+            <h3 class="product-name">나주 배</h3>
+            <p class="product-desc">시원하고 아삭한 배</p>
+            <div class="product-tags"><span class="brix-tag">당도 12.0°</span><span class="origin-tag">나주</span></div>
+            <div class="product-footer">
+              <div class="price-group"><span class="current-price">28,000원</span></div>
+              <button class="cart-button">🛒</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card">
+          <div class="product-image-wrapper">
+            <div class="product-image" style="background:linear-gradient(135deg,#FCE4EC,#F8BBD0)">🍑</div>
+            <span class="discount-chip" style="background:var(--primary)">신상품</span>
+            <button class="wishlist-button">🤍</button>
+          </div>
+          <div class="product-info">
+            <h3 class="product-name">백도 복숭아</h3>
+            <p class="product-desc">향긋한 여름 복숭아</p>
+            <div class="product-tags"><span class="brix-tag">당도 13.0°</span><span class="origin-tag">무주</span></div>
+            <div class="product-footer">
+              <div class="price-group"><span class="current-price">30,000원</span></div>
+              <button class="cart-button">🛒</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card">
+          <div class="product-image-wrapper">
+            <div class="product-image" style="background:linear-gradient(135deg,#FFF3E0,#FFE0B2)">🥝</div>
+            <button class="wishlist-button">🤍</button>
+          </div>
+          <div class="product-info">
+            <h3 class="product-name">제주 골드키위</h3>
+            <p class="product-desc">달콤한 골드키위</p>
+            <div class="product-tags"><span class="brix-tag">당도 15.0°</span><span class="origin-tag">제주</span></div>
+            <div class="product-footer">
+              <div class="price-group"><span class="current-price">35,000원</span></div>
+              <button class="cart-button">🛒</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card">
+          <div class="product-image-wrapper">
+            <div class="product-image" style="background:linear-gradient(135deg,#E0F2F1,#B2DFDB)">🍈</div>
+            <span class="discount-chip">10% OFF</span>
+            <button class="wishlist-button">🤍</button>
+          </div>
+          <div class="product-info">
+            <h3 class="product-name">성주 참외</h3>
+            <p class="product-desc">여름 대표 과일</p>
+            <div class="product-tags"><span class="brix-tag">당도 11.5°</span><span class="origin-tag">성주</span></div>
+            <div class="product-footer">
+              <div class="price-group"><span class="original-price">20,000원</span><span class="current-price">18,000원</span></div>
+              <button class="cart-button">🛒</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="loading-more">더 많은 상품 보기</div>
+    </section>
+  </main>
+
+  <nav class="bottom-nav">
+    <div class="bottom-nav-inner">
+      <a href="#" class="nav-item"><span class="nav-icon">🏠</span><span>홈</span></a>
+      <a href="#" class="nav-item active"><span class="nav-icon">🍎</span><span>상품</span></a>
+      <a href="#" class="nav-item"><span class="nav-icon">👤</span><span>마이</span></a>
+      <a href="#" class="nav-item"><span class="nav-icon">💬</span><span>고객지원</span></a>
+    </div>
+  </nav>
+
+  <script>
+    document.querySelectorAll('.wishlist-button').forEach((button) => {
+      button.addEventListener('click', function (e) {
+        e.stopPropagation();
+        this.textContent = this.textContent === '❤️' ? '🤍' : '❤️';
+      });
+    });
+
+    document.querySelectorAll('.cart-button').forEach((button) => {
+      button.addEventListener('click', function (e) {
+        e.stopPropagation();
+        this.style.transform = 'scale(0.88)';
+        setTimeout(() => { this.style.transform = ''; }, 180);
+      });
+    });
+
+    document.querySelectorAll('.category-tab').forEach((tab) => {
+      tab.addEventListener('click', function () {
+        document.querySelectorAll('.category-tab').forEach((t) => t.classList.remove('active'));
+        this.classList.add('active');
+      });
+    });
+
+    document.querySelectorAll('.sub-filter-tab').forEach((tab) => {
+      tab.addEventListener('click', function () {
+        document.querySelectorAll('.sub-filter-tab').forEach((t) => t.classList.remove('active'));
+        this.classList.add('active');
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,1092 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>베스트 상품 - 과일다리</title>
+  <style>
+    :root {
+      --primary: #5f8f3a;
+      --primary-strong: #476d2a;
+      --primary-soft: #edf6e4;
+      --secondary: #ff8c42;
+      --secondary-soft: #fff1e4;
+      --pink-soft: #fff2f5;
+      --donation: #ecfff0;
+      --sale: #ff6b57;
+      --gold: #f4b400;
+      --text-strong: #1d2a1f;
+      --text: #334236;
+      --text-muted: #708072;
+      --line: rgba(61, 88, 56, 0.12);
+      --bg: #f6f8f3;
+      --white: #ffffff;
+      --shadow-sm: 0 6px 18px rgba(33, 52, 36, 0.06);
+      --shadow-md: 0 16px 40px rgba(33, 52, 36, 0.10);
+      --shadow-lg: 0 24px 60px rgba(33, 52, 36, 0.14);
+      --radius-xl: 28px;
+      --radius-lg: 22px;
+      --radius-md: 18px;
+      --radius-sm: 14px;
+      --max-width: 430px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html {
+      background: linear-gradient(180deg, #eef3ea 0%, #e8eee3 100%);
+      overflow-x: hidden;
+    }
+    body {
+      font-family: 'Pretendard', 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top, rgba(156, 194, 115, 0.18), transparent 26%),
+        linear-gradient(180deg, #fbfcf8 0%, #f6f8f3 40%, #f4f6f0 100%);
+      min-height: 100vh;
+      width: 100%;
+      max-width: var(--max-width);
+      margin: 0 auto;
+      position: relative;
+      -webkit-font-smoothing: antialiased;
+      line-height: 1.55;
+      overflow-x: hidden;
+    }
+    @media (min-width: 768px) {
+      html, body { min-height: 100%; }
+      body {
+        border-left: 1px solid rgba(61, 88, 56, 0.08);
+        border-right: 1px solid rgba(61, 88, 56, 0.08);
+        box-shadow: 0 24px 70px rgba(22, 33, 23, 0.18);
+      }
+    }
+
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; border: 0; background: none; cursor: pointer; }
+    .container { padding: 0 18px; }
+    .main-content > * { min-width: 0; }
+
+    .top-banner {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 11px 16px;
+      background: linear-gradient(90deg, #5f8f3a 0%, #80b053 100%);
+      color: white;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      position: relative;
+    }
+    .close-btn {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 24px;
+      height: 24px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.14);
+      color: white;
+    }
+
+    .header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(18px);
+      background: rgba(251, 252, 248, 0.82);
+      border-bottom: 1px solid rgba(61, 88, 56, 0.08);
+    }
+    .header-mobile {
+      padding: 16px 18px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .header-title {
+      font-size: 21px;
+      font-weight: 900;
+      letter-spacing: -0.04em;
+      color: var(--primary-strong);
+    }
+    .header-actions { display: flex; gap: 10px; }
+    .header-icon {
+      position: relative;
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      border-radius: 16px;
+      border: 1px solid rgba(61, 88, 56, 0.08);
+      background: rgba(255,255,255,0.75);
+      box-shadow: var(--shadow-sm);
+      font-size: 20px;
+      cursor: pointer;
+    }
+
+    .social-impact-badge {
+      margin: 0 18px 14px;
+      padding: 14px 14px 13px;
+      border-radius: 20px;
+      border: 1px solid rgba(95, 143, 58, 0.15);
+      background: linear-gradient(135deg, rgba(255,255,255,0.92), rgba(237,246,228,0.92));
+      box-shadow: var(--shadow-sm);
+    }
+    .impact-main {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+    .impact-info {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text);
+    }
+    .impact-count { color: var(--primary-strong); font-weight: 900; }
+    .impact-link {
+      flex-shrink: 0;
+      padding: 7px 10px;
+      border-radius: 999px;
+      background: rgba(95, 143, 58, 0.08);
+      color: var(--primary-strong);
+      font-size: 11px;
+      font-weight: 800;
+    }
+    .progress-bar-mini {
+      height: 8px;
+      border-radius: 999px;
+      background: rgba(95, 143, 58, 0.10);
+      overflow: hidden;
+    }
+    .progress-fill-mini {
+      width: 69.4%;
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, #7caf53, #5f8f3a);
+    }
+
+    .filter-wrap, .podium-scroll { scrollbar-width: none; -ms-overflow-style: none; }
+    .filter-wrap::-webkit-scrollbar, .podium-scroll::-webkit-scrollbar { display: none; }
+
+    .hero-banner {
+      margin: 0 18px;
+      border-radius: 30px;
+      overflow: hidden;
+      background: linear-gradient(135deg, #ffb04f 0%, #ff8c42 46%, #ff6b57 100%);
+      box-shadow: var(--shadow-lg);
+      position: relative;
+    }
+    .hero-banner::after {
+      content: "🏆";
+      position: absolute;
+      right: 18px;
+      top: 18px;
+      font-size: 72px;
+      opacity: 0.14;
+      line-height: 1;
+    }
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      padding: 24px 20px 22px;
+      color: white;
+    }
+    .best-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.16);
+      border: 1px solid rgba(255,255,255,0.24);
+      font-size: 11px;
+      font-weight: 800;
+      margin-bottom: 12px;
+    }
+    .hero-title {
+      font-size: 28px;
+      line-height: 1.18;
+      font-weight: 900;
+      letter-spacing: -0.05em;
+      margin-bottom: 6px;
+    }
+    .hero-subtitle {
+      font-size: 14px;
+      opacity: 0.94;
+      margin-bottom: 18px;
+    }
+    .hero-stats {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+    .hero-stat {
+      padding: 12px 10px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.14);
+      border: 1px solid rgba(255,255,255,0.18);
+      backdrop-filter: blur(8px);
+      text-align: center;
+    }
+    .hero-stat-value {
+      font-size: 21px;
+      font-weight: 900;
+      line-height: 1;
+    }
+    .hero-stat-label {
+      font-size: 11px;
+      font-weight: 700;
+      margin-top: 5px;
+      opacity: 0.9;
+    }
+
+    .realtime-counter {
+      margin: 18px 18px 0;
+      padding: 16px;
+      border-radius: 24px;
+      background: rgba(255,255,255,0.84);
+      border: 1px solid rgba(61,88,56,0.08);
+      box-shadow: var(--shadow-md);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .counter-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 18px;
+      display: grid;
+      place-items: center;
+      font-size: 24px;
+      background: linear-gradient(135deg, #fff1e4, #ffe1cb);
+      flex-shrink: 0;
+    }
+    .counter-content { min-width: 0; flex: 1; }
+    .counter-label {
+      font-size: 12px;
+      color: var(--text-muted);
+      font-weight: 700;
+      margin-bottom: 2px;
+    }
+    .counter-value {
+      font-size: 24px;
+      font-weight: 900;
+      color: var(--text-strong);
+      letter-spacing: -0.04em;
+    }
+    .counter-live {
+      padding: 8px 10px;
+      border-radius: 999px;
+      background: #fff6f4;
+      color: var(--sale);
+      font-size: 11px;
+      font-weight: 900;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+    .live-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: var(--sale);
+      box-shadow: 0 0 0 6px rgba(255,107,87,0.14);
+      animation: pulse 1.4s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(0.88); opacity: .7; }
+    }
+
+    .filter-section {
+      margin: 18px 18px 0;
+      padding: 18px 16px;
+      border-radius: 28px;
+      background: rgba(255,255,255,0.84);
+      border: 1px solid rgba(61,88,56,0.08);
+      box-shadow: var(--shadow-md);
+    }
+    .filter-title {
+      font-size: 18px;
+      font-weight: 900;
+      color: var(--text-strong);
+      margin-bottom: 12px;
+      letter-spacing: -0.03em;
+    }
+    .filter-wrap {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 2px;
+    }
+    .filter-chip {
+      flex: 0 0 auto;
+      padding: 10px 14px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.92);
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text);
+      white-space: nowrap;
+    }
+    .filter-chip.active {
+      background: var(--primary-strong);
+      color: white;
+      border-color: transparent;
+      box-shadow: 0 10px 22px rgba(71,109,42,0.24);
+    }
+
+    .podium-section {
+      margin: 18px 18px 0;
+      padding: 18px 16px 16px;
+      border-radius: 28px;
+      background: linear-gradient(180deg, #fff8e9 0%, #fffdf6 100%);
+      border: 1px solid rgba(244,180,0,0.14);
+      box-shadow: var(--shadow-md);
+    }
+    .podium-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 20px;
+      font-weight: 900;
+      letter-spacing: -0.03em;
+      color: var(--text-strong);
+      margin-bottom: 14px;
+    }
+    .podium-scroll {
+      display: flex;
+      gap: 12px;
+      overflow-x: auto;
+      padding-bottom: 2px;
+    }
+    .podium-item {
+      flex: 0 0 140px;
+      display: flex;
+      flex-direction: column;
+      justify-content: end;
+      text-align: center;
+    }
+    .podium-product {
+      padding: 14px 12px 16px;
+      border-radius: 22px 22px 18px 18px;
+      background: rgba(255,255,255,0.94);
+      border: 1px solid rgba(244,180,0,0.16);
+      box-shadow: var(--shadow-sm);
+      position: relative;
+    }
+    .podium-item[data-rank="1"] .podium-product {
+      background: linear-gradient(180deg, #fff5c7 0%, #fffdf1 100%);
+      transform: translateY(-8px);
+    }
+    .podium-item[data-rank="2"] .podium-product {
+      background: linear-gradient(180deg, #f3f5f7 0%, #fff 100%);
+    }
+    .podium-item[data-rank="3"] .podium-product {
+      background: linear-gradient(180deg, #ffe9d8 0%, #fff 100%);
+    }
+    .podium-rank {
+      position: absolute;
+      top: -10px;
+      left: 12px;
+      width: 34px;
+      height: 34px;
+      border-radius: 999px;
+      display: grid;
+      place-items: center;
+      color: white;
+      font-weight: 900;
+      font-size: 14px;
+      box-shadow: 0 10px 22px rgba(0,0,0,0.12);
+      background: var(--gold);
+    }
+    .podium-item[data-rank="2"] .podium-rank { background: #95a2af; }
+    .podium-item[data-rank="3"] .podium-rank { background: #d58b53; }
+    .podium-image {
+      height: 78px;
+      border-radius: 18px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, #edf6e4, #fff4e8);
+      font-size: 40px;
+      margin-bottom: 10px;
+    }
+    .podium-name {
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--text-strong);
+      line-height: 1.35;
+      margin-bottom: 4px;
+      min-height: 38px;
+    }
+    .podium-price {
+      font-size: 16px;
+      font-weight: 900;
+      color: var(--primary-strong);
+    }
+    .podium-base {
+      margin-top: 8px;
+      padding: 10px 0;
+      border-radius: 16px;
+      background: rgba(71,109,42,0.08);
+      color: var(--primary-strong);
+      font-size: 12px;
+      font-weight: 900;
+    }
+    .podium-item[data-rank="1"] .podium-base {
+      background: linear-gradient(90deg, #f4b400, #ffd45f);
+      color: white;
+    }
+
+    .products-section {
+      margin: 18px 18px 0;
+      padding: 18px 16px 16px;
+      border-radius: 28px;
+      background: rgba(255,255,255,0.84);
+      border: 1px solid rgba(61,88,56,0.08);
+      box-shadow: var(--shadow-md);
+    }
+    .products-header {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+    .products-title {
+      font-size: 22px;
+      font-weight: 900;
+      color: var(--text-strong);
+      letter-spacing: -0.04em;
+      line-height: 1.2;
+    }
+    .products-count {
+      flex-shrink: 0;
+      font-size: 12px;
+      font-weight: 800;
+      color: var(--text-muted);
+    }
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .product-card {
+      min-width: 0;
+      background: rgba(255,255,255,0.92);
+      border: 1px solid rgba(61,88,56,0.08);
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      position: relative;
+      transition: transform .18s ease, box-shadow .18s ease, opacity .3s ease;
+    }
+    .product-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 16px 30px rgba(33,52,36,0.12);
+    }
+    .product-image-wrap {
+      position: relative;
+      height: 152px;
+      background: linear-gradient(135deg, rgba(237,246,228,0.95), rgba(255,241,228,0.95));
+      border-bottom: 1px solid rgba(61,88,56,0.06);
+      display: grid;
+      place-items: center;
+      font-size: 52px;
+    }
+    .ranking-chip {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      z-index: 2;
+      min-width: 34px;
+      height: 34px;
+      padding: 0 10px;
+      border-radius: 999px;
+      display: grid;
+      place-items: center;
+      background: var(--primary-strong);
+      color: white;
+      font-size: 13px;
+      font-weight: 900;
+      box-shadow: 0 10px 22px rgba(71,109,42,0.24);
+    }
+    .hot-indicator,
+    .rising-indicator {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      z-index: 2;
+      padding: 6px 8px;
+      border-radius: 999px;
+      font-size: 10px;
+      font-weight: 900;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: #fff;
+      box-shadow: 0 10px 24px rgba(0,0,0,0.10);
+    }
+    .hot-indicator { color: var(--sale); }
+    .rising-indicator { color: #2e92ff; }
+
+    .product-content { padding: 14px; }
+    .product-name {
+      font-size: 14px;
+      font-weight: 800;
+      line-height: 1.4;
+      color: var(--text-strong);
+      min-height: 40px;
+      margin-bottom: 4px;
+    }
+    .product-desc {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+      min-height: 18px;
+    }
+    .product-info {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    .brix-chip,
+    .product-sales {
+      font-size: 10px;
+      padding: 4px 6px;
+      border-radius: 999px;
+      font-weight: 800;
+    }
+    .brix-chip {
+      background: var(--primary-soft);
+      color: var(--primary-strong);
+    }
+    .product-sales {
+      background: var(--secondary-soft);
+      color: #c9701e;
+    }
+    .product-trend {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+    .trend-graph {
+      flex: 1;
+      height: 8px;
+      border-radius: 999px;
+      background: rgba(61,88,56,0.08);
+      overflow: hidden;
+    }
+    .trend-bar {
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, #7caf53, #5f8f3a);
+    }
+    .trend-percent {
+      flex-shrink: 0;
+      font-size: 11px;
+      font-weight: 900;
+      color: var(--primary-strong);
+    }
+    .product-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+    .product-price {
+      font-size: 18px;
+      color: var(--text-strong);
+      font-weight: 900;
+      letter-spacing: -0.03em;
+    }
+    .cart-btn {
+      width: 38px;
+      height: 38px;
+      display: grid;
+      place-items: center;
+      border-radius: 999px;
+      background: var(--primary-strong);
+      color: white;
+      box-shadow: 0 10px 22px rgba(71,109,42,0.24);
+      font-size: 17px;
+      flex-shrink: 0;
+      transition: transform .2s ease;
+    }
+    .product-review {
+      padding: 10px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, #f8fbf3, #fff);
+      border: 1px solid rgba(61,88,56,0.06);
+    }
+    .review-text {
+      font-size: 11px;
+      color: var(--text);
+      font-weight: 700;
+      line-height: 1.5;
+      margin-bottom: 4px;
+    }
+    .review-author {
+      font-size: 10px;
+      color: var(--text-muted);
+      font-weight: 700;
+    }
+
+    .bottom-nav {
+      position: fixed;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      max-width: var(--max-width);
+      bottom: 0;
+      z-index: 120;
+      padding: 10px 12px calc(10px + env(safe-area-inset-bottom));
+      background: transparent;
+    }
+    .bottom-nav::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(246,248,243,0), rgba(246,248,243,0.94) 42%, rgba(246,248,243,0.98));
+      z-index: -2;
+    }
+    .bottom-nav-inner {
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-around;
+      padding: 10px 8px;
+      border-radius: 24px;
+      background: rgba(255,255,255,0.9);
+      border: 1px solid rgba(61,88,56,0.08);
+      backdrop-filter: blur(18px);
+      box-shadow: 0 16px 36px rgba(29,42,31,0.12);
+    }
+    .nav-link {
+      min-width: 58px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 6px;
+      color: var(--text-muted);
+      font-size: 10px;
+      font-weight: 700;
+    }
+    .nav-link.active { color: var(--primary-strong); }
+    .nav-link .icon { font-size: 19px; }
+
+    @media (max-width: 380px) {
+      .hero-stats { gap: 8px; }
+      .hero-stat { padding: 10px 8px; }
+      .products-grid { gap: 10px; }
+      .product-content { padding: 12px; }
+      .product-price { font-size: 17px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="top-banner">
+    <span>🤝 매출 1%는 보육원 아이들의 과일 간식이 됩니다</span>
+    <button class="close-btn" onclick="this.parentElement.style.display='none'">×</button>
+  </div>
+
+  <header class="header">
+    <div class="header-mobile">
+      <div class="header-title">베스트 상품</div>
+      <div class="header-actions">
+        <span class="header-icon" onclick="history.back()">←</span>
+        <span class="header-icon" onclick="location.href='../home/index.html'">🏠</span>
+      </div>
+    </div>
+
+    <div class="social-impact-badge">
+      <div class="impact-main">
+        <div class="impact-info">
+          <span>💚</span>
+          <span>12월 목표: <span class="impact-count">347명</span> / 500명</span>
+        </div>
+        <a href="#" class="impact-link">자세히 →</a>
+      </div>
+      <div class="progress-bar-mini"><div class="progress-fill-mini"></div></div>
+    </div>
+  </header>
+
+  <main class="main-content">
+    <section class="hero-banner">
+      <div class="hero-content">
+        <div class="best-chip"><span>⭐</span><span>BEST SELLERS</span></div>
+        <h2 class="hero-title">지금 가장 핫한 상품</h2>
+        <p class="hero-subtitle">실시간 판매 베스트 TOP 10</p>
+        <div class="hero-stats">
+          <div class="hero-stat">
+            <div class="hero-stat-value" id="totalSales">1,247</div>
+            <div class="hero-stat-label">오늘 판매</div>
+          </div>
+          <div class="hero-stat">
+            <div class="hero-stat-value">10</div>
+            <div class="hero-stat-label">베스트 상품</div>
+          </div>
+          <div class="hero-stat">
+            <div class="hero-stat-value">98%</div>
+            <div class="hero-stat-label">만족도</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="realtime-counter">
+      <div class="counter-icon">🔥</div>
+      <div class="counter-content">
+        <div class="counter-label">실시간 구매중</div>
+        <div class="counter-value"><span id="realtimeCount">342</span>명</div>
+      </div>
+      <div class="counter-live"><span class="live-dot"></span><span>LIVE</span></div>
+    </div>
+
+    <section class="filter-section">
+      <div class="filter-title">카테고리 필터</div>
+      <div class="filter-wrap">
+        <button class="filter-chip active" data-category="all">전체</button>
+        <button class="filter-chip" data-category="citrus">감귤류</button>
+        <button class="filter-chip" data-category="berry">베리류</button>
+        <button class="filter-chip" data-category="tropical">열대과일</button>
+        <button class="filter-chip" data-category="apple">사과/배</button>
+        <button class="filter-chip" data-category="grape">포도류</button>
+      </div>
+    </section>
+
+    <section class="podium-section">
+      <h3 class="podium-title"><span>🥇</span><span>TOP 3 시상대</span></h3>
+      <div class="podium-scroll">
+        <div class="podium-item" data-rank="2">
+          <div class="podium-product">
+            <div class="podium-rank">2</div>
+            <div class="podium-image">🍊</div>
+            <div class="podium-name">제주 천혜향</div>
+            <div class="podium-price">28,000원</div>
+          </div>
+          <div class="podium-base">2위</div>
+        </div>
+
+        <div class="podium-item" data-rank="1">
+          <div class="podium-product">
+            <div class="podium-rank">1</div>
+            <div class="podium-image">🍇</div>
+            <div class="podium-name">샤인머스켓</div>
+            <div class="podium-price">35,000원</div>
+          </div>
+          <div class="podium-base">1위</div>
+        </div>
+
+        <div class="podium-item" data-rank="3">
+          <div class="podium-product">
+            <div class="podium-rank">3</div>
+            <div class="podium-image">🍓</div>
+            <div class="podium-name">설향 딸기</div>
+            <div class="podium-price">24,000원</div>
+          </div>
+          <div class="podium-base">3위</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="products-section">
+      <div class="products-header">
+        <h3 class="products-title">베스트 4위 ~ 10위</h3>
+        <span class="products-count">7개 상품</span>
+      </div>
+
+      <div class="products-grid">
+        <div class="product-card" data-category="apple">
+          <div class="product-image-wrap">
+            <div class="ranking-chip">4</div>
+            <div class="hot-indicator"><span>🔥</span><span>HOT</span></div>
+            <div class="product-image">🍎</div>
+          </div>
+          <div class="product-content">
+            <h4 class="product-name">청송 사과</h4>
+            <p class="product-desc">달콤한 꿀사과</p>
+            <div class="product-info">
+              <span class="brix-chip">당도 14.5°</span>
+              <span class="product-sales">일 523개 판매</span>
+            </div>
+            <div class="product-trend">
+              <div class="trend-graph"><div class="trend-bar" style="width:85%"></div></div>
+              <span class="trend-percent">↑ 85%</span>
+            </div>
+            <div class="product-footer">
+              <span class="product-price">25,000원</span>
+              <button class="cart-btn">🛒</button>
+            </div>
+            <div class="product-review">
+              <div class="review-text">"⭐⭐⭐⭐⭐ 정말 달고 맛있어요!"</div>
+              <div class="review-author">김** 고객님</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card" data-category="berry">
+          <div class="product-image-wrap">
+            <div class="ranking-chip">5</div>
+            <div class="rising-indicator"><span>📈</span><span>상승</span></div>
+            <div class="product-image">🫐</div>
+          </div>
+          <div class="product-content">
+            <h4 class="product-name">국산 블루베리</h4>
+            <p class="product-desc">신선한 생과</p>
+            <div class="product-info">
+              <span class="brix-chip">당도 12.0°</span>
+              <span class="product-sales">일 487개 판매</span>
+            </div>
+            <div class="product-trend">
+              <div class="trend-graph"><div class="trend-bar" style="width:78%"></div></div>
+              <span class="trend-percent">↑ 78%</span>
+            </div>
+            <div class="product-footer">
+              <span class="product-price">18,000원</span>
+              <button class="cart-btn">🛒</button>
+            </div>
+            <div class="product-review">
+              <div class="review-text">"⭐⭐⭐⭐⭐ 싱싱하고 알이 굵어요"</div>
+              <div class="review-author">이** 고객님</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card" data-category="citrus">
+          <div class="product-image-wrap">
+            <div class="ranking-chip">6</div>
+            <div class="product-image">🍋</div>
+          </div>
+          <div class="product-content">
+            <h4 class="product-name">레드향</h4>
+            <p class="product-desc">제주 특산품</p>
+            <div class="product-info">
+              <span class="brix-chip">당도 13.0°</span>
+              <span class="product-sales">일 421개 판매</span>
+            </div>
+            <div class="product-trend">
+              <div class="trend-graph"><div class="trend-bar" style="width:72%"></div></div>
+              <span class="trend-percent">↑ 72%</span>
+            </div>
+            <div class="product-footer">
+              <span class="product-price">32,000원</span>
+              <button class="cart-btn">🛒</button>
+            </div>
+            <div class="product-review">
+              <div class="review-text">"⭐⭐⭐⭐ 새콤달콤 향이 좋아요"</div>
+              <div class="review-author">박** 고객님</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card" data-category="apple">
+          <div class="product-image-wrap">
+            <div class="ranking-chip">7</div>
+            <div class="hot-indicator"><span>🔥</span><span>HOT</span></div>
+            <div class="product-image">🍐</div>
+          </div>
+          <div class="product-content">
+            <h4 class="product-name">나주 배</h4>
+            <p class="product-desc">아삭한 나주배</p>
+            <div class="product-info">
+              <span class="brix-chip">당도 12.5°</span>
+              <span class="product-sales">일 398개 판매</span>
+            </div>
+            <div class="product-trend">
+              <div class="trend-graph"><div class="trend-bar" style="width:68%"></div></div>
+              <span class="trend-percent">↑ 68%</span>
+            </div>
+            <div class="product-footer">
+              <span class="product-price">28,000원</span>
+              <button class="cart-btn">🛒</button>
+            </div>
+            <div class="product-review">
+              <div class="review-text">"⭐⭐⭐⭐⭐ 시원하고 아삭해요"</div>
+              <div class="review-author">최** 고객님</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card" data-category="tropical">
+          <div class="product-image-wrap">
+            <div class="ranking-chip">8</div>
+            <div class="rising-indicator"><span>📈</span><span>상승</span></div>
+            <div class="product-image">🥭</div>
+          </div>
+          <div class="product-content">
+            <h4 class="product-name">애플망고</h4>
+            <p class="product-desc">달콤한 열대과일</p>
+            <div class="product-info">
+              <span class="brix-chip">당도 15.0°</span>
+              <span class="product-sales">일 356개 판매</span>
+            </div>
+            <div class="product-trend">
+              <div class="trend-graph"><div class="trend-bar" style="width:64%"></div></div>
+              <span class="trend-percent">↑ 64%</span>
+            </div>
+            <div class="product-footer">
+              <span class="product-price">42,000원</span>
+              <button class="cart-btn">🛒</button>
+            </div>
+            <div class="product-review">
+              <div class="review-text">"⭐⭐⭐⭐⭐ 향이 정말 좋아요"</div>
+              <div class="review-author">정** 고객님</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card" data-category="berry">
+          <div class="product-image-wrap">
+            <div class="ranking-chip">9</div>
+            <div class="product-image">🍒</div>
+          </div>
+          <div class="product-content">
+            <h4 class="product-name">체리</h4>
+            <p class="product-desc">프리미엄 체리</p>
+            <div class="product-info">
+              <span class="brix-chip">당도 16.0°</span>
+              <span class="product-sales">일 334개 판매</span>
+            </div>
+            <div class="product-trend">
+              <div class="trend-graph"><div class="trend-bar" style="width:58%"></div></div>
+              <span class="trend-percent">↑ 58%</span>
+            </div>
+            <div class="product-footer">
+              <span class="product-price">52,000원</span>
+              <button class="cart-btn">🛒</button>
+            </div>
+            <div class="product-review">
+              <div class="review-text">"⭐⭐⭐⭐ 달고 아삭해요"</div>
+              <div class="review-author">강** 고객님</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-card" data-category="tropical">
+          <div class="product-image-wrap">
+            <div class="ranking-chip">10</div>
+            <div class="product-image">🍌</div>
+          </div>
+          <div class="product-content">
+            <h4 class="product-name">바나나</h4>
+            <p class="product-desc">필리핀산 바나나</p>
+            <div class="product-info">
+              <span class="brix-chip">당도 11.0°</span>
+              <span class="product-sales">일 312개 판매</span>
+            </div>
+            <div class="product-trend">
+              <div class="trend-graph"><div class="trend-bar" style="width:52%"></div></div>
+              <span class="trend-percent">↑ 52%</span>
+            </div>
+            <div class="product-footer">
+              <span class="product-price">6,500원</span>
+              <button class="cart-btn">🛒</button>
+            </div>
+            <div class="product-review">
+              <div class="review-text">"⭐⭐⭐⭐⭐ 가성비 최고예요"</div>
+              <div class="review-author">윤** 고객님</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <nav class="bottom-nav">
+    <div class="bottom-nav-inner">
+      <a href="../home/index.html" class="nav-link">
+        <span class="icon">🏠</span>
+        <span class="label">홈</span>
+      </a>
+      <a href="./index.html" class="nav-link active">
+        <span class="icon">🍎</span>
+        <span class="label">상품</span>
+      </a>
+      <a href="../mypage/index.html" class="nav-link">
+        <span class="icon">👤</span>
+        <span class="label">마이</span>
+      </a>
+      <a href="../support/index.html" class="nav-link">
+        <span class="icon">💬</span>
+        <span class="label">고객지원</span>
+      </a>
+    </div>
+  </nav>
+
+  <script>
+    function animateCounter() {
+      const counter = document.getElementById('realtimeCount');
+      const totalSales = document.getElementById('totalSales');
+
+      setInterval(() => {
+        const currentCount = parseInt(counter.textContent, 10);
+        counter.textContent = currentCount + Math.floor(Math.random() * 3);
+
+        if (Math.random() > 0.7) {
+          const currentSales = parseInt(totalSales.textContent.replace(',', ''), 10);
+          totalSales.textContent = (currentSales + 1).toLocaleString();
+        }
+      }, 3000);
+    }
+
+    function initFilters() {
+      const filterChips = document.querySelectorAll('.filter-chip');
+      const productCards = document.querySelectorAll('.product-card');
+
+      filterChips.forEach(chip => {
+        chip.addEventListener('click', () => {
+          filterChips.forEach(c => c.classList.remove('active'));
+          chip.classList.add('active');
+
+          const category = chip.dataset.category;
+
+          productCards.forEach(card => {
+            if (category === 'all' || card.dataset.category === category) {
+              card.style.display = 'block';
+              requestAnimationFrame(() => {
+                card.style.opacity = '1';
+                card.style.transform = 'translateY(0)';
+              });
+            } else {
+              card.style.opacity = '0';
+              card.style.transform = 'translateY(8px)';
+              setTimeout(() => { card.style.display = 'none'; }, 180);
+            }
+          });
+        });
+      });
+    }
+
+    function initCartButtons() {
+      document.querySelectorAll('.cart-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          btn.style.transform = 'scale(0.9)';
+          setTimeout(() => { btn.style.transform = ''; }, 180);
+        });
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      animateCounter();
+      initFilters();
+      initCartButtons();
+    });
+  </script>
+</body>
+</html>

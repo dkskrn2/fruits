@@ -1,499 +1,607 @@
-<!DOCTYPE html>
+from pathlib import Path
+
+out = Path('/mnt/data/best_keyword_v3_style.html')
+
+html = """<!doctype html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>베스트 상품 - 과일다리</title>
-    <link rel="stylesheet" href="../../styles/design-system.css">
-    <link rel="stylesheet" href="../../styles/components.css">
-    <link rel="stylesheet" href="../../styles/common-layout.css">
-    <link rel="stylesheet" href="../../styles/best-page.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>BEST KEYWORD - 과일다리</title>
+  <style>
+    :root {
+      --primary: #5f8f3a;
+      --primary-strong: #476d2a;
+      --primary-soft: #edf6e4;
+      --secondary-soft: #fff1e4;
+      --sale: #ff6b57;
+      --text-strong: #1d2a1f;
+      --text: #334236;
+      --text-muted: #708072;
+      --line: rgba(61, 88, 56, 0.12);
+      --shadow-sm: 0 6px 18px rgba(33, 52, 36, 0.06);
+      --shadow-md: 0 16px 40px rgba(33, 52, 36, 0.10);
+      --max-width: 430px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html {
+      background: linear-gradient(180deg, #eef3ea 0%, #e8eee3 100%);
+      overflow-x: hidden;
+    }
+    body {
+      font-family: 'Pretendard', 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top, rgba(156, 194, 115, 0.18), transparent 26%),
+        linear-gradient(180deg, #fbfcf8 0%, #f6f8f3 40%, #f4f6f0 100%);
+      min-height: 100vh;
+      width: 100%;
+      max-width: var(--max-width);
+      margin: 0 auto;
+      position: relative;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      line-height: 1.5;
+    }
+    @media (min-width: 768px) {
+      html, body { min-height: 100%; }
+      body {
+        border-left: 1px solid rgba(61, 88, 56, 0.08);
+        border-right: 1px solid rgba(61, 88, 56, 0.08);
+        box-shadow: 0 24px 70px rgba(22, 33, 23, 0.18);
+      }
+    }
+
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; border: 0; background: none; cursor: pointer; }
+
+    .top-banner {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 11px 16px;
+      background: linear-gradient(90deg, #5f8f3a 0%, #80b053 100%);
+      color: white;
+      font-size: 12px;
+      font-weight: 700;
+      position: relative;
+    }
+    .close-btn {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 24px;
+      height: 24px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.14);
+      color: white;
+    }
+    .header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(18px);
+      background: rgba(251, 252, 248, 0.82);
+      border-bottom: 1px solid rgba(61, 88, 56, 0.08);
+    }
+    .header-mobile {
+      padding: 16px 18px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .header-title {
+      font-size: 21px;
+      font-weight: 900;
+      letter-spacing: -0.04em;
+      color: var(--primary-strong);
+    }
+    .header-actions { display: flex; gap: 10px; }
+    .header-icon {
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      border-radius: 16px;
+      border: 1px solid rgba(61, 88, 56, 0.08);
+      background: rgba(255,255,255,0.75);
+      box-shadow: var(--shadow-sm);
+      font-size: 20px;
+    }
+    .social-impact-badge {
+      margin: 0 18px 14px;
+      padding: 14px 14px 13px;
+      border-radius: 20px;
+      border: 1px solid rgba(95, 143, 58, 0.15);
+      background: linear-gradient(135deg, rgba(255,255,255,0.92), rgba(237,246,228,0.92));
+      box-shadow: var(--shadow-sm);
+    }
+    .impact-main {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+    .impact-info {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text);
+    }
+    .impact-count { color: var(--primary-strong); font-weight: 900; }
+    .impact-link {
+      flex-shrink: 0;
+      padding: 7px 10px;
+      border-radius: 999px;
+      background: rgba(95, 143, 58, 0.08);
+      color: var(--primary-strong);
+      font-size: 11px;
+      font-weight: 800;
+    }
+    .progress-bar-mini {
+      height: 8px;
+      border-radius: 999px;
+      background: rgba(95, 143, 58, 0.10);
+      overflow: hidden;
+    }
+    .progress-fill-mini {
+      width: 69.4%;
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, #7caf53, #5f8f3a);
+    }
+
+    .main-content { padding: 18px 18px 108px; }
+    .keyword-hero {
+      text-align: center;
+      margin-bottom: 16px;
+    }
+    .keyword-topline {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+    .keyword-select {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      border: 1.5px solid var(--sale);
+      background: rgba(255,255,255,0.92);
+      color: var(--sale);
+      font-size: 13px;
+      font-weight: 800;
+      box-shadow: var(--shadow-sm);
+    }
+    .keyword-rank-info {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text-muted);
+      white-space: nowrap;
+    }
+    .keyword-title {
+      font-size: 24px;
+      line-height: 1.1;
+      letter-spacing: -0.05em;
+      font-weight: 900;
+      color: #111;
+      margin-bottom: 14px;
+    }
+    .keyword-tabs {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .keyword-tab {
+      padding: 10px 16px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.92);
+      color: var(--text);
+      font-size: 13px;
+      font-weight: 700;
+      box-shadow: var(--shadow-sm);
+    }
+    .keyword-tab.active {
+      background: var(--sale);
+      border-color: transparent;
+      color: #fff;
+      box-shadow: 0 10px 24px rgba(255,107,87,0.25);
+    }
+
+    .ranking-list {
+      margin-top: 18px;
+      display: grid;
+      gap: 12px;
+    }
+    .ranking-item {
+      border-radius: 24px;
+      background: rgba(255,255,255,0.9);
+      border: 1px solid rgba(61,88,56,0.08);
+      box-shadow: var(--shadow-sm);
+      overflow: hidden;
+    }
+    .ranking-item.collapsed {
+      border-radius: 0;
+      background: transparent;
+      box-shadow: none;
+      border: 0;
+      border-bottom: 1px solid rgba(61,88,56,0.10);
+    }
+    .ranking-head {
+      width: 100%;
+      padding: 16px 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-align: left;
+    }
+    .ranking-item.collapsed .ranking-head { padding: 14px 0; }
+    .rank-no {
+      min-width: 28px;
+      font-size: 18px;
+      font-weight: 900;
+      color: #000;
+      letter-spacing: -0.03em;
+      text-align: center;
+    }
+    .rank-trend {
+      min-width: 18px;
+      font-size: 11px;
+      font-weight: 900;
+      line-height: 1.1;
+      text-align: center;
+    }
+    .rank-trend.up { color: var(--sale); }
+    .rank-trend.down { color: #2e92ff; }
+    .rank-trend.same { color: #a3aea2; font-size: 14px; }
+    .rank-main {
+      min-width: 0;
+      flex: 1;
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .rank-keyword {
+      font-size: 16px;
+      font-weight: 900;
+      color: #000;
+      line-height: 1.35;
+      letter-spacing: -0.04em;
+    }
+    .rank-category {
+      font-size: 12px;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+    .rank-arrow {
+      flex-shrink: 0;
+      font-size: 20px;
+      color: #111;
+      transition: transform .2s ease;
+    }
+    .ranking-item.expanded .rank-arrow { transform: rotate(180deg); }
+    .ranking-body {
+      display: none;
+      padding: 0 14px 14px;
+    }
+    .ranking-item.expanded .ranking-body { display: block; }
+
+    .product-strip {
+      display: flex;
+      gap: 12px;
+      overflow-x: auto;
+      padding: 4px 2px 0;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+    .product-strip::-webkit-scrollbar { display: none; }
+    .product-card {
+      flex: 0 0 102px;
+      background: rgba(255,255,255,0.92);
+      border: 1px solid rgba(61,88,56,0.08);
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+    }
+    .product-image {
+      position: relative;
+      height: 96px;
+      background: linear-gradient(135deg, #f2f4ef, #ece8dd);
+      border-bottom: 1px solid rgba(61,88,56,0.06);
+      display: grid;
+      place-items: center;
+      color: #b4b7ae;
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      font-weight: 800;
+    }
+    .product-info { padding: 10px 10px 12px; }
+    .product-name {
+      font-size: 12px;
+      font-weight: 800;
+      line-height: 1.35;
+      color: var(--text-strong);
+      min-height: 34px;
+      margin-bottom: 6px;
+      letter-spacing: -0.03em;
+      word-break: keep-all;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .product-price {
+      font-size: 11px;
+      color: #98a39a;
+      text-decoration: line-through;
+      font-weight: 700;
+      min-height: 16px;
+    }
+    .product-sale {
+      font-size: 15px;
+      color: var(--text-strong);
+      font-weight: 900;
+      letter-spacing: -0.03em;
+      margin-top: 1px;
+    }
+    .product-delivery {
+      display: inline-flex;
+      margin-top: 8px;
+      padding: 4px 7px;
+      border-radius: 999px;
+      background: var(--primary-soft);
+      color: var(--primary-strong);
+      font-size: 10px;
+      font-weight: 800;
+    }
+    .more-link {
+      margin-top: 14px;
+      padding-top: 14px;
+      border-top: 1px solid rgba(61,88,56,0.08);
+      text-align: center;
+    }
+    .more-link a {
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--text-strong);
+    }
+
+    .bottom-nav {
+      position: fixed;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      max-width: var(--max-width);
+      bottom: 0;
+      z-index: 120;
+      padding: 10px 12px calc(10px + env(safe-area-inset-bottom));
+      background: transparent;
+    }
+    .bottom-nav::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(246,248,243,0), rgba(246,248,243,0.94) 42%, rgba(246,248,243,0.98));
+      z-index: -2;
+    }
+    .bottom-nav-inner {
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-around;
+      padding: 10px 8px;
+      border-radius: 24px;
+      background: rgba(255,255,255,0.9);
+      border: 1px solid rgba(61,88,56,0.08);
+      backdrop-filter: blur(18px);
+      box-shadow: 0 16px 36px rgba(29,42,31,0.12);
+    }
+    .nav-link {
+      min-width: 58px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 6px;
+      color: var(--text-muted);
+      font-size: 10px;
+      font-weight: 700;
+    }
+    .nav-link.active { color: var(--primary-strong); }
+    .nav-link .icon { font-size: 19px; }
+  </style>
 </head>
 <body>
-    <!-- Header -->
-    <header class="header">
-        <span class="header-back" onclick="history.back()">←</span>
-        <h1 class="header-title">베스트 상품</h1>
-        <div class="header-actions">
-            <span class="header-icon" onclick="location.href='../home/index.html'">🏠</span>
-        </div>
-    </header>
+  <div class="top-banner">
+    <span>🤝 매출 1%는 보육원 아이들의 과일 간식이 됩니다</span>
+    <button class="close-btn" onclick="this.parentElement.style.display='none'">×</button>
+  </div>
 
-    <!-- Hero Banner -->
-    <section class="hero-banner">
-        <div class="hero-bg">🏆</div>
-        <div class="hero-content">
-            <div class="best-chip">
-                <span>⭐</span>
-                <span>BEST SELLERS</span>
-            </div>
-            <h2 class="hero-title">지금 가장 핫한 상품</h2>
-            <p class="hero-subtitle">실시간 판매 베스트 TOP 10</p>
-            <div class="hero-stats">
-                <div class="hero-stat">
-                    <div class="hero-stat-value" id="totalSales">1,247</div>
-                    <div class="hero-stat-label">오늘 판매</div>
-                </div>
-                <div class="hero-stat">
-                    <div class="hero-stat-value">10</div>
-                    <div class="hero-stat-label">베스트 상품</div>
-                </div>
-                <div class="hero-stat">
-                    <div class="hero-stat-value">98%</div>
-                    <div class="hero-stat-label">만족도</div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Real-time Counter -->
-    <div class="realtime-counter">
-        <div class="counter-icon">🔥</div>
-        <div class="counter-content">
-            <div class="counter-label">실시간 구매중</div>
-            <div class="counter-value">
-                <span id="realtimeCount">342</span>명
-            </div>
-        </div>
-        <div class="counter-live">
-            <span class="live-dot"></span>
-            <span>LIVE</span>
-        </div>
+  <header class="header">
+    <div class="header-mobile">
+      <div class="header-title">베스트 키워드</div>
+      <div class="header-actions">
+        <span class="header-icon" onclick="history.back()">←</span>
+        <span class="header-icon" onclick="location.href='../home/index.html'">🏠</span>
+      </div>
     </div>
-
-    <!-- Filter Section -->
-    <section class="filter-section">
-        <div class="filter-title">카테고리 필터</div>
-        <div class="filter-chips">
-            <div class="filter-chip active" data-category="all">전체</div>
-            <div class="filter-chip" data-category="citrus">감귤류</div>
-            <div class="filter-chip" data-category="berry">베리류</div>
-            <div class="filter-chip" data-category="tropical">열대과일</div>
-            <div class="filter-chip" data-category="apple">사과/배</div>
-            <div class="filter-chip" data-category="grape">포도류</div>
+    <div class="social-impact-badge">
+      <div class="impact-main">
+        <div class="impact-info">
+          <span>💚</span>
+          <span>12월 목표: <span class="impact-count">347명</span> / 500명</span>
         </div>
+        <a href="#" class="impact-link">자세히 →</a>
+      </div>
+      <div class="progress-bar-mini"><div class="progress-fill-mini"></div></div>
+    </div>
+  </header>
+
+  <main class="main-content">
+    <section class="keyword-hero">
+      <div class="keyword-topline">
+        <button class="keyword-select">모두가 좋아하는 <span>⌄</span></button>
+        <div class="keyword-rank-info">랭킹기준ⓘ</div>
+      </div>
+      <h1 class="keyword-title">BEST KEYWORD</h1>
+      <div class="keyword-tabs">
+        <button class="keyword-tab active">신규키워드</button>
+        <button class="keyword-tab">이슈키워드</button>
+        <button class="keyword-tab">인기키워드</button>
+      </div>
     </section>
 
-    <!-- Top 3 Podium -->
-    <section class="podium-section">
-        <h3 class="podium-title">
-            <span>🥇</span>
-            <span>TOP 3 시상대</span>
-        </h3>
-        <div class="podium-container">
-            <!-- 2nd Place -->
-            <div class="podium-item" data-rank="2">
-                <div class="podium-product">
-                    <div class="podium-rank">2</div>
-                    <div class="podium-image">🍊</div>
-                    <div class="podium-name">제주 천혜향</div>
-                    <div class="podium-price">28,000원</div>
-                </div>
-                <div class="podium-base">2위</div>
+    <section class="ranking-list">
+      <article class="ranking-item expanded">
+        <button class="ranking-head" type="button">
+          <div class="rank-no">1</div>
+          <div class="rank-trend same">–</div>
+          <div class="rank-main">
+            <div class="rank-keyword">두바이찰떡파이</div>
+            <div class="rank-category">과자/베이커리</div>
+          </div>
+          <div class="rank-arrow">⌃</div>
+        </button>
+        <div class="ranking-body">
+          <div class="product-strip">
+            <div class="product-card">
+              <div class="product-image">NO IMAGE</div>
+              <div class="product-info">
+                <div class="product-name">두준쿠 두바이 찰떡파이 외 7종</div>
+                <div class="product-sale">13,100원</div>
+                <div class="product-price">￦ 3,500원</div>
+              </div>
             </div>
-
-            <!-- 1st Place -->
-            <div class="podium-item" data-rank="1">
-                <div class="podium-product">
-                    <div class="podium-rank">1</div>
-                    <div class="podium-image">🍇</div>
-                    <div class="podium-name">샤인머스켓</div>
-                    <div class="podium-price">35,000원</div>
-                </div>
-                <div class="podium-base">1위</div>
+            <div class="product-card">
+              <div class="product-image">NO IMAGE</div>
+              <div class="product-info">
+                <div class="product-name">두바이 찰떡파이 두쫀볼 두바이</div>
+                <div class="product-sale">1,800원</div>
+                <div class="product-price">￦ 3,000원</div>
+              </div>
             </div>
-
-            <!-- 3rd Place -->
-            <div class="podium-item" data-rank="3">
-                <div class="podium-product">
-                    <div class="podium-rank">3</div>
-                    <div class="podium-image">🍓</div>
-                    <div class="podium-name">설향 딸기</div>
-                    <div class="podium-price">24,000원</div>
-                </div>
-                <div class="podium-base">3위</div>
+            <div class="product-card">
+              <div class="product-image">NO IMAGE</div>
+              <div class="product-info">
+                <div class="product-name">롯데 명가 찰떡파이 35봉 초코</div>
+                <div class="product-sale">18,470원</div>
+                <div class="product-delivery">로켓배송</div>
+              </div>
             </div>
+            <div class="product-card">
+              <div class="product-image">NO IMAGE</div>
+              <div class="product-info">
+                <div class="product-name">[핫소스] 바삭한 파이 간식</div>
+                <div class="product-sale">12,900원</div>
+                <div class="product-price">￦ 3,700원</div>
+              </div>
+            </div>
+          </div>
+          <div class="more-link"><a href="#">상품 더보기</a></div>
         </div>
+      </article>
+
+      <article class="ranking-item collapsed">
+        <button class="ranking-head" type="button">
+          <div class="rank-no">2</div>
+          <div class="rank-trend same">–</div>
+          <div class="rank-main">
+            <div class="rank-keyword">멜라케어필크림</div>
+            <div class="rank-category">마스크/팩</div>
+          </div>
+          <div class="rank-arrow">⌄</div>
+        </button>
+      </article>
+
+      <article class="ranking-item collapsed">
+        <button class="ranking-head" type="button">
+          <div class="rank-no">3</div>
+          <div class="rank-trend same">–</div>
+          <div class="rank-main">
+            <div class="rank-keyword">해피멜짱구</div>
+            <div class="rank-category">수집품</div>
+          </div>
+          <div class="rank-arrow">⌄</div>
+        </button>
+      </article>
+
+      <article class="ranking-item collapsed">
+        <button class="ranking-head" type="button">
+          <div class="rank-no">4</div>
+          <div class="rank-trend up">▲<br>급등</div>
+          <div class="rank-main">
+            <div class="rank-keyword">글로보섭</div>
+            <div class="rank-category">원예/식물</div>
+          </div>
+          <div class="rank-arrow">⌄</div>
+        </button>
+      </article>
+
+      <article class="ranking-item collapsed">
+        <button class="ranking-head" type="button">
+          <div class="rank-no">5</div>
+          <div class="rank-trend down">▼</div>
+          <div class="rank-main">
+            <div class="rank-keyword">알파4500</div>
+            <div class="rank-category">다이어트식품</div>
+          </div>
+          <div class="rank-arrow">⌄</div>
+        </button>
+      </article>
     </section>
+  </main>
 
-    <!-- Products Grid -->
-    <section class="products-section">
-        <div class="products-header">
-            <h3 class="products-title">베스트 4위 ~ 10위</h3>
-            <span class="products-count">7개 상품</span>
-        </div>
+  <nav class="bottom-nav">
+    <div class="bottom-nav-inner">
+      <a href="../home/index.html" class="nav-link"><span class="icon">🏠</span><span class="label">홈</span></a>
+      <a href="./index.html" class="nav-link active"><span class="icon">🍎</span><span class="label">상품</span></a>
+      <a href="../mypage/index.html" class="nav-link"><span class="icon">👤</span><span class="label">마이</span></a>
+      <a href="../support/index.html" class="nav-link"><span class="icon">💬</span><span class="label">고객지원</span></a>
+    </div>
+  </nav>
 
-        <div class="products-grid">
-            <!-- Product 4 -->
-            <div class="product-card" data-category="apple">
-                <div class="ranking-chip">4</div>
-                <div class="hot-indicator">
-                    <span>🔥</span>
-                    <span>HOT</span>
-                </div>
-                <div class="product-image">🍎</div>
-                <div class="product-content">
-                    <h4 class="product-name">청송 사과</h4>
-                    <p class="product-desc">달콤한 꿀사과</p>
-                    <div class="product-info">
-                        <span class="brix-chip">당도 14.5°</span>
-                        <span class="product-sales">일 523개 판매</span>
-                    </div>
-                    <div class="product-trend">
-                        <div class="trend-graph">
-                            <div class="trend-bar" style="width: 85%"></div>
-                        </div>
-                        <span class="trend-percent">↑ 85%</span>
-                    </div>
-                    <div class="product-footer">
-                        <span class="product-price">25,000원</span>
-                        <button class="cart-btn">🛒</button>
-                    </div>
-                    <div class="product-review">
-                        <div class="review-text">"⭐⭐⭐⭐⭐ 정말 달고 맛있어요!"</div>
-                        <div class="review-author">김** 고객님</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Product 5 -->
-            <div class="product-card" data-category="berry">
-                <div class="ranking-chip">5</div>
-                <div class="rising-indicator">
-                    <span>📈</span>
-                    <span>상승</span>
-                </div>
-                <div class="product-image">🫐</div>
-                <div class="product-content">
-                    <h4 class="product-name">국산 블루베리</h4>
-                    <p class="product-desc">신선한 생과</p>
-                    <div class="product-info">
-                        <span class="brix-chip">당도 12.0°</span>
-                        <span class="product-sales">일 487개 판매</span>
-                    </div>
-                    <div class="product-trend">
-                        <div class="trend-graph">
-                            <div class="trend-bar" style="width: 78%"></div>
-                        </div>
-                        <span class="trend-percent">↑ 78%</span>
-                    </div>
-                    <div class="product-footer">
-                        <span class="product-price">18,000원</span>
-                        <button class="cart-btn">🛒</button>
-                    </div>
-                    <div class="product-review">
-                        <div class="review-text">"⭐⭐⭐⭐⭐ 싱싱하고 알이 굵어요"</div>
-                        <div class="review-author">이** 고객님</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Product 6 -->
-            <div class="product-card" data-category="citrus">
-                <div class="ranking-chip">6</div>
-                <div class="product-image">🍋</div>
-                <div class="product-content">
-                    <h4 class="product-name">레드향</h4>
-                    <p class="product-desc">제주 특산품</p>
-                    <div class="product-info">
-                        <span class="brix-chip">당도 13.0°</span>
-                        <span class="product-sales">일 421개 판매</span>
-                    </div>
-                    <div class="product-trend">
-                        <div class="trend-graph">
-                            <div class="trend-bar" style="width: 72%"></div>
-                        </div>
-                        <span class="trend-percent">↑ 72%</span>
-                    </div>
-                    <div class="product-footer">
-                        <span class="product-price">32,000원</span>
-                        <button class="cart-btn">🛒</button>
-                    </div>
-                    <div class="product-review">
-                        <div class="review-text">"⭐⭐⭐⭐ 새콤달콤 향이 좋아요"</div>
-                        <div class="review-author">박** 고객님</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Product 7 -->
-            <div class="product-card" data-category="apple">
-                <div class="ranking-chip">7</div>
-                <div class="hot-indicator">
-                    <span>🔥</span>
-                    <span>HOT</span>
-                </div>
-                <div class="product-image">🍐</div>
-                <div class="product-content">
-                    <h4 class="product-name">나주 배</h4>
-                    <p class="product-desc">아삭한 나주배</p>
-                    <div class="product-info">
-                        <span class="brix-chip">당도 12.5°</span>
-                        <span class="product-sales">일 398개 판매</span>
-                    </div>
-                    <div class="product-trend">
-                        <div class="trend-graph">
-                            <div class="trend-bar" style="width: 68%"></div>
-                        </div>
-                        <span class="trend-percent">↑ 68%</span>
-                    </div>
-                    <div class="product-footer">
-                        <span class="product-price">28,000원</span>
-                        <button class="cart-btn">🛒</button>
-                    </div>
-                    <div class="product-review">
-                        <div class="review-text">"⭐⭐⭐⭐⭐ 시원하고 아삭해요"</div>
-                        <div class="review-author">최** 고객님</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Product 8 -->
-            <div class="product-card" data-category="tropical">
-                <div class="ranking-chip">8</div>
-                <div class="rising-indicator">
-                    <span>📈</span>
-                    <span>상승</span>
-                </div>
-                <div class="product-image">🥭</div>
-                <div class="product-content">
-                    <h4 class="product-name">애플망고</h4>
-                    <p class="product-desc">달콤한 열대과일</p>
-                    <div class="product-info">
-                        <span class="brix-chip">당도 15.0°</span>
-                        <span class="product-sales">일 356개 판매</span>
-                    </div>
-                    <div class="product-trend">
-                        <div class="trend-graph">
-                            <div class="trend-bar" style="width: 64%"></div>
-                        </div>
-                        <span class="trend-percent">↑ 64%</span>
-                    </div>
-                    <div class="product-footer">
-                        <span class="product-price">42,000원</span>
-                        <button class="cart-btn">🛒</button>
-                    </div>
-                    <div class="product-review">
-                        <div class="review-text">"⭐⭐⭐⭐⭐ 향이 정말 좋아요"</div>
-                        <div class="review-author">정** 고객님</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Product 9 -->
-            <div class="product-card" data-category="berry">
-                <div class="ranking-chip">9</div>
-                <div class="product-image">🍒</div>
-                <div class="product-content">
-                    <h4 class="product-name">체리</h4>
-                    <p class="product-desc">프리미엄 체리</p>
-                    <div class="product-info">
-                        <span class="brix-chip">당도 16.0°</span>
-                        <span class="product-sales">일 334개 판매</span>
-                    </div>
-                    <div class="product-trend">
-                        <div class="trend-graph">
-                            <div class="trend-bar" style="width: 58%"></div>
-                        </div>
-                        <span class="trend-percent">↑ 58%</span>
-                    </div>
-                    <div class="product-footer">
-                        <span class="product-price">52,000원</span>
-                        <button class="cart-btn">🛒</button>
-                    </div>
-                    <div class="product-review">
-                        <div class="review-text">"⭐⭐⭐⭐ 달고 아삭해요"</div>
-                        <div class="review-author">강** 고객님</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Product 10 -->
-            <div class="product-card" data-category="tropical">
-                <div class="ranking-chip">10</div>
-                <div class="product-image">🍌</div>
-                <div class="product-content">
-                    <h4 class="product-name">바나나</h4>
-                    <p class="product-desc">필리핀산 바나나</p>
-                    <div class="product-info">
-                        <span class="brix-chip">당도 11.0°</span>
-                        <span class="product-sales">일 312개 판매</span>
-                    </div>
-                    <div class="product-trend">
-                        <div class="trend-graph">
-                            <div class="trend-bar" style="width: 52%"></div>
-                        </div>
-                        <span class="trend-percent">↑ 52%</span>
-                    </div>
-                    <div class="product-footer">
-                        <span class="product-price">6,500원</span>
-                        <button class="cart-btn">🛒</button>
-                    </div>
-                    <div class="product-review">
-                        <div class="review-text">"⭐⭐⭐⭐⭐ 가성비 최고예요"</div>
-                        <div class="review-author">윤** 고객님</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Bottom Navigation -->
-    <nav class="bottom-nav">
-        <a href="../home/index.html" class="nav-link">
-            <span class="icon">🏠</span>
-            <span class="label">홈</span>
-        </a>
-        <a href="./index.html" class="nav-link active">
-            <span class="icon">🍎</span>
-            <span class="label">상품</span>
-        </a>
-        <a href="../mypage/index.html" class="nav-link">
-            <span class="icon">👤</span>
-            <span class="label">마이</span>
-        </a>
-        <a href="../support/index.html" class="nav-link">
-            <span class="icon">💬</span>
-            <span class="label">고객지원</span>
-        </a>
-    </nav>
-
-    <script>
-        // Real-time counter animation
-        function animateCounter() {
-            const counter = document.getElementById('realtimeCount');
-            const totalSales = document.getElementById('totalSales');
-
-            setInterval(() => {
-                const currentCount = parseInt(counter.textContent);
-                const newCount = currentCount + Math.floor(Math.random() * 3);
-                counter.textContent = newCount;
-
-                // Update total sales occasionally
-                if (Math.random() > 0.7) {
-                    const currentSales = parseInt(totalSales.textContent.replace(',', ''));
-                    const newSales = currentSales + 1;
-                    totalSales.textContent = newSales.toLocaleString();
-                }
-            }, 3000);
-        }
-
-        // Filter functionality
-        function initFilters() {
-            const filterChips = document.querySelectorAll('.filter-chip');
-            const productCards = document.querySelectorAll('.product-card');
-
-            filterChips.forEach(chip => {
-                chip.addEventListener('click', () => {
-                    // Update active state
-                    filterChips.forEach(c => c.classList.remove('active'));
-                    chip.classList.add('active');
-
-                    const category = chip.dataset.category;
-
-                    // Filter products
-                    productCards.forEach(card => {
-                        if (category === 'all' || card.dataset.category === category) {
-                            card.style.display = 'block';
-                            setTimeout(() => {
-                                card.style.opacity = '1';
-                                card.style.transform = 'scale(1)';
-                            }, 10);
-                        } else {
-                            card.style.opacity = '0';
-                            card.style.transform = 'scale(0.9)';
-                            setTimeout(() => {
-                                card.style.display = 'none';
-                            }, 300);
-                        }
-                    });
-                });
-            });
-        }
-
-        // Cart button animation
-        function initCartButtons() {
-            const cartButtons = document.querySelectorAll('.cart-btn');
-
-            cartButtons.forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    e.stopPropagation();
-
-                    // Add animation
-                    btn.style.transform = 'scale(1.2)';
-                    setTimeout(() => {
-                        btn.style.transform = 'scale(1)';
-                    }, 200);
-
-                    // Show feedback
-                    const originalContent = btn.innerHTML;
-                    btn.innerHTML = '✓';
-                    btn.style.background = '#20c997';
-
-                    setTimeout(() => {
-                        btn.innerHTML = originalContent;
-                        btn.style.background = '';
-                    }, 1000);
-                });
-            });
-        }
-
-        // Podium click handler
-        function initPodium() {
-            const podiumItems = document.querySelectorAll('.podium-item');
-
-            podiumItems.forEach(item => {
-                item.addEventListener('click', () => {
-                    const rank = item.dataset.rank;
-                    console.log(`Clicked podium rank: ${rank}`);
-                    // Navigate to product detail page
-                });
-            });
-        }
-
-        // Product card click handler
-        function initProductCards() {
-            const productCards = document.querySelectorAll('.product-card');
-
-            productCards.forEach(card => {
-                card.addEventListener('click', (e) => {
-                    // Don't trigger if clicking cart button
-                    if (e.target.classList.contains('cart-btn')) return;
-
-                    console.log('Navigate to product detail');
-                    // Navigate to product detail page
-                });
-            });
-        }
-
-        // Scroll animations
-        function initScrollAnimations() {
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.style.opacity = '1';
-                        entry.target.style.transform = 'translateY(0)';
-                    }
-                });
-            }, { threshold: 0.1 });
-
-            document.querySelectorAll('.product-card').forEach(card => {
-                card.style.opacity = '0';
-                card.style.transform = 'translateY(20px)';
-                card.style.transition = 'all 0.5s ease-out';
-                observer.observe(card);
-            });
-        }
-
-        // Initialize all features
-        document.addEventListener('DOMContentLoaded', () => {
-            animateCounter();
-            initFilters();
-            initCartButtons();
-            initPodium();
-            initProductCards();
-            initScrollAnimations();
+  <script>
+    const items = document.querySelectorAll('.ranking-item');
+    items.forEach((item) => {
+      const button = item.querySelector('.ranking-head');
+      button.addEventListener('click', () => {
+        const expanded = item.classList.contains('expanded');
+        items.forEach((target) => {
+          target.classList.remove('expanded');
+          target.classList.add('collapsed');
+          const arrow = target.querySelector('.rank-arrow');
+          if (arrow) arrow.textContent = '⌄';
         });
-    </script>
+        if (!expanded) {
+          item.classList.remove('collapsed');
+          item.classList.add('expanded');
+          const arrow = item.querySelector('.rank-arrow');
+          if (arrow) arrow.textContent = '⌃';
+        }
+      });
+    });
+
+    const tabs = document.querySelectorAll('.keyword-tab');
+    tabs.forEach((tab) => {
+      tab.addEventListener('click', () => {
+        tabs.forEach((t) => t.classList.remove('active'));
+        tab.classList.add('active');
+      });
+    });
+  </script>
 </body>
 </html>
+"""
+out.write_text(html, encoding='utf-8')
+print(out.as_posix())
